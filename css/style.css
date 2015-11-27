@@ -214,7 +214,8 @@ h3 {
 
 #title h1 {
   font-size: 3em;
-  color:#46A7A2;
+  /*color:#46A7A2;*/
+  color:#f6546a;
   white-space: nowrap;
 }
 
