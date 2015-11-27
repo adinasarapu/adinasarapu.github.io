@@ -400,7 +400,8 @@ ul a, ul a:active, ul a:visited {
 }
 
 ul a:hover {
-  color: #46A7A2;
+  /*color: #46A7A2;*/
+  color: #607890;
 }
 
 /* Layout */
