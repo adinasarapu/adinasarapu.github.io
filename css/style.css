@@ -241,7 +241,8 @@ a.fa {
 }
 
 a.fa:hover {
-  color: #46A7A2;
+  /*color: #46A7A2;*/
+  color: #607890;
 }
 
 #title h1 span:nth-child(1) {
