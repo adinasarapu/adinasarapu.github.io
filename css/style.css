@@ -194,7 +194,8 @@ a, a:active, a:visited {
 }
 
 a:hover {
-  color: #607890;
+  /*color: #607890;*/
+  color: #FF4444;
 }
 
 #main {	
@@ -242,7 +243,7 @@ a.fa {
 
 a.fa:hover {
   /*color: #46A7A2;*/
-  color: #607890;
+  color: #FF4444;
 }
 
 #title h1 span:nth-child(1) {
