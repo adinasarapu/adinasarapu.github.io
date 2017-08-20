@@ -19,7 +19,7 @@
 
 
 
-<title>Chromosomal distributuin of copy number variations - Ashok R. Dinasarapu</title>
+<title>Bioinformatic processing of microbiome (16s rRNA gene) sequencing data - QIIME 1.8.0 - Ashok R. Dinasarapu</title>
 
 
 
@@ -29,15 +29,15 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu">
-<meta property="og:title" content="Chromosomal distributuin of copy number variations">
+<meta property="og:title" content="Bioinformatic processing of microbiome (16s rRNA gene) sequencing data - QIIME 1.8.0">
 
 
-  <link rel="canonical" href="http://localhost:4000/portfolio/portfolio-cnv-distribution/">
-  <meta property="og:url" content="http://localhost:4000/portfolio/portfolio-cnv-distribution/">
+  <link rel="canonical" href="http://localhost:4000/posts/2017/09/blog-post-qiime1/">
+  <meta property="og:url" content="http://localhost:4000/posts/2017/09/blog-post-qiime1/">
 
 
 
-  <meta property="og:description" content="Copy number variation (CNV), generated through duplication or deletion events that affect one or more loci, is widespread in the human genomes and is often associated with functional consequences that may include changes in gene expression levels or fusion of genes.">
+  <meta property="og:description" content="The first step in this pipeline is to join forward and reverse reads using PANDAseq. Then format the joined sequence files through by adding QIIME headers with the respective sample ID to each sequence before concatenating into one file for input into QIIME 1.8.0. Operational taxonomic units (OTUs) will be picked using the QIIME pick_closed_reference_otus.py script with a threshold of 97% identity to the Greengenes database. The Shannon alpha diversity will be calculated on the unfiltered biom table using the alpha_diversity.py script, and weighted UniFrac distances are calculated with the beta_diversity.py script.| QIIME1 |">
 
 
 
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2017-08-20T07:28:21-07:00">
+  <meta property="article:published_time" content="2017-08-20T00:00:00-07:00">
 
 
 
@@ -245,21 +245,29 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Chromosomal distributuin of copy number variations">
-    <meta itemprop="description" content="Copy number variation (CNV), generated through duplication or deletion events that affect one or more loci, is widespread in the human genomes and is often associated with functional consequences that may include changes in gene expression levels or fusion of genes.">
+    <meta itemprop="headline" content="Bioinformatic processing of microbiome (16s rRNA gene) sequencing data - QIIME 1.8.0">
+    <meta itemprop="description" content="The first step in this pipeline is to join forward and reverse reads using PANDAseq. Then format the joined sequence files through by adding QIIME headers with the respective sample ID to each sequence before concatenating into one file for input into QIIME 1.8.0. Operational taxonomic units (OTUs) will be picked using the QIIME pick_closed_reference_otus.py script with a threshold of 97% identity to the Greengenes database. The Shannon alpha diversity will be calculated on the unfiltered biom table using the alpha_diversity.py script, and weighted UniFrac distances are calculated with the beta_diversity.py script.| QIIME1 |">
     <meta itemprop="datePublished" content="August 20, 2017">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Chromosomal distributuin of copy number variations
+          <h1 class="page__title" itemprop="headline">Bioinformatic processing of microbiome (16s rRNA gene) sequencing data - QIIME 1.8.0
 </h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  less than 1 minute read
+	
+</p>
           
         
         
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2017-08-20T07:28:21-07:00">August 20, 2017</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2017-08-20T00:00:00-07:00">August 20, 2017</time></p>
         
         
              
@@ -269,7 +277,8 @@
       
 
       <section class="page__content" itemprop="text">
-        <p>Copy number variation (CNV), generated through duplication or deletion events that affect one or more loci, is widespread in the human genomes and is often associated with functional consequences that may include changes in gene expression levels or fusion of genes.</p>
+        <p>The first step in this pipeline is to join forward and reverse reads using PANDAseq. Then format the joined sequence files through by adding QIIME headers with the respective sample ID to each sequence before concatenating into one file for input into QIIME 1.8.0. Operational taxonomic units (OTUs) will be picked using the QIIME pick_closed_reference_otus.py script with a threshold of 97% identity to the Greengenes database. The Shannon alpha diversity will be calculated on the unfiltered biom table using the alpha_diversity.py script, and weighted UniFrac distances are calculated with the beta_diversity.py script.
+| <a href="https://bitbucket.org/adinasarapu/clustercomputing/src/6e3396384fc31cdb4703534a4ca42d7f6a979954/qiime1.py">QIIME1</a> |</p>
 
         
       </section>
@@ -277,6 +286,35 @@
       <footer class="page__meta">
         
         
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#computing" class="page__taxonomy-item" rel="tag">computing</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#microbiome" class="page__taxonomy-item" rel="tag">microbiome</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#qiime1" class="page__taxonomy-item" rel="tag">qiime1</a>
+    
+    </span>
+  </p>
 
 
 
@@ -290,17 +328,27 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/portfolio/portfolio-cnv-distribution/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2017/09/blog-post-qiime1/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/portfolio/portfolio-cnv-distribution/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2017/09/blog-post-qiime1/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://plus.google.com/share?url=http://localhost:4000/portfolio/portfolio-cnv-distribution/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+  <a href="https://plus.google.com/share?url=http://localhost:4000/posts/2017/09/blog-post-qiime1/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/portfolio/portfolio-cnv-distribution/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2017/09/blog-post-qiime1/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
 
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2017/09/blog-post-trio/" class="pagination--pager" title="NGS based detection of copy number variations (CNVs).
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
 
     </div>
 
