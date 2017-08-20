@@ -4,7 +4,7 @@ collection: publications
 permalink: /publication/2013-lipid-res
 excerpt: ''
 date: 2013-09-01
-venue: 'Bioinformatics'
+venue: 'Journal of Lipid Research'
 paperurl: 'http://adinasarapu.github.io/files/jlr2013.pdf'
 citation: 'Maurya MR, Gupta S, Li X, Fahy E, Dinasarapu AR, Sud M, Brown HA, Glass CK, Murphy RC, Russell DW, Dennis EA, Subramaniam S. (2013). &quot;Analysis of inflammatory and lipid metabolic networks across RAW264.7 and thioglycolate-elicited macrophages.&quot; <i>J Lipid Res</i>. 54(9):2525-42.'
 ---
