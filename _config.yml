@@ -7,7 +7,7 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Ashok R. Dinasarapu / Emory University"
+title                    : "Ashok R. Dinasarapu"
 title_separator          : "-"
 name                     : &name "Ashok Dinasarapu"
 description              : &description "personal description"
@@ -80,7 +80,7 @@ analytics:
 author:
   name             : "Bioinformatics Analyst, Sr"
   avatar           : "profile.png"
-  bio              : "Genomics & Computing"
+  bio              : "Emory University"
   location         : "Atlanta, GA"
   employer         :
   googlescholar    : "http://scholar.google.com/citations?user=b6GBykAAAAAJ&hl=en"
