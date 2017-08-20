@@ -15,5 +15,5 @@ Previously, at [Human Immunology Project Consortium](https://www.immuneprofiling
 
 For more info
 ------
-[Emory Human Genetics](https://genetics.emory.edu); 
- [Emory Integrated Computational Core](http://www.cores.emory.edu/eicc/)
+[Human Genetics](https://genetics.emory.edu) | 
+[Emory Integrated Computational Core](http://www.cores.emory.edu/eicc/)
