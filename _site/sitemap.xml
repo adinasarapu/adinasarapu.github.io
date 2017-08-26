@@ -2,7 +2,7 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://localhost:4000/portfolio/portfolio-cnv-distribution/</loc>
-<lastmod>2017-08-20T07:35:37-07:00</lastmod>
+<lastmod>2017-08-25T18:35:48-07:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/posts/2017/09/blog-post-trio/</loc>
@@ -109,6 +109,18 @@
 </url>
 <url>
 <loc>http://localhost:4000/markdown_generator/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/files/Cluster_Computing.pdf</loc>
+<lastmod>2017-02-16T12:15:36-08:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/files/Linux_Shell_Class_I.pdf</loc>
+<lastmod>2017-02-13T07:02:18-08:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/files/Linux_Shell_Class_II.pdf</loc>
+<lastmod>2017-02-21T17:55:50-08:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/files/btr190.pdf</loc>

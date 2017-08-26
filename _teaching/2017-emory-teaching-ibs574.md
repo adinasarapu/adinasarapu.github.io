@@ -10,11 +10,6 @@ location: "Atlanta, USA"
 
 Graduate Division of Biological and Biomedical Sciences (GDBBS).
 
-Linux shell & shell scripting - I
-=================================
-
-Linux shell & shell scripting - II
-==================================
-
-Running batch jobs using sun grid engine (SGE)
-==============================================
+Linux shell & shell scripting - I [(PDF)](http://adinasarapu.github.io/files/Linux_Shell_Class_I.pdf)
+ and II [(PDF)](http://adinasarapu.github.io/files/Linux_Shell_Class_II.pdf) | 
+Running batch jobs [(PDF)](http://adinasarapu.github.io/files/Cluster_Computing.pdf)
