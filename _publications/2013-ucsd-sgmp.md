@@ -1,5 +1,5 @@
 ---
-title: "UCSD Signaling gateway molecule pages"
+title: "A comprehensive map of the human complement system from signaling gateway molecule pages"
 collection: publications
 permalink: /publication/2013-ucsd-sgmp
 excerpt: ''
