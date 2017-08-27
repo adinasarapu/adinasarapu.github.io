@@ -5,6 +5,6 @@ type: "Invited talk"
 permalink: /talks/2007-ut-arlington
 venue: "Department of Biology"
 date: 2007-05-15
-location: "University of Texas Arlington, TX, USA"
+location: "Arlington TX, USA"
 ---
 

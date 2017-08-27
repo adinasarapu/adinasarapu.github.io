@@ -5,6 +5,6 @@ type: "Invited talk"
 permalink: /talks/2015-emory-atlanta
 venue: "Systems biology and Bioinformatics interest group"
 date: 2015-11-04
-location: "Emory University, Atlanta, USA"
+location: "Atlanta GA, USA"
 ---
 
