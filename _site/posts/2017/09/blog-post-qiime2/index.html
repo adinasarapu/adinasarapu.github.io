@@ -260,7 +260,7 @@
 
 
   
-	  2 minute read
+	  1 minute read
 	
 </p>
           
@@ -297,10 +297,6 @@ zcat <span class="k">${</span><span class="nv">FASTQ_FILE</span><span class="k">
 </div>
 <p>To import FASTQ files as QIIME 2 artifact and plot sequence positional quality scores, download the <a href="https://bitbucket.org/adinasarapu/clustercomputing/src/6e3396384fc31cdb4703534a4ca42d7f6a979954/qiime2.2017.7_step1.sh">script</a> from BitBucket and execute at SGE cluster as</p>
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code>qsub qiime2.2017.7_step1.sh
-</code></pre>
-</div>
-<p>If you see, plugin error from demux as “Invalid DISPLAY variable” run the following command</p>
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"backend : agg"</span> &gt; ~/.config/matplotlib/matplotlibrc
 </code></pre>
 </div>
 <p>To denoise-paired sequence data and filter chimeras, QIIME 2 uses DADA2, which is an open-source software package that denoises and removes sequencing errors from Illumina amplicon sequence data, download the <a href="https://bitbucket.org/adinasarapu/clustercomputing/src/6e3396384fc31cdb4703534a4ca42d7f6a979954/qiime2.2017.7_step2.sh">script</a> from BitBucket.</p>
