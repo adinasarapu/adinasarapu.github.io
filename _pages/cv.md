@@ -13,7 +13,7 @@ Education
 ======
 * B.S. Chemistry & Biology, Andhra Loyola College, India 1997
 * M.Sc. Biochemistry, University of Hyderabad, India 2000
-* M.Tech. Biotechnology, Anna University, India 2001
+* M.Tech. Biotechnology, Anna University, India 2002
 * Ph.D. Biochemistry/Bioinformatics, University of Hyderabad, India 2007
 
 Work experience
@@ -21,17 +21,17 @@ Work experience
 * 2015-till: Bioinformatics Analyst, Sr
   * Emory University, Atlanta
   * Duties included: Genomic data analysis
-  * Supervisor: Mike Zwick Ph.D
+  * Supervisor: [Mike Zwick](http://genetics.emory.edu/faculty/primary/zwick-michael.html) Ph.D
 
 * 2013-2015: Postdoctoral Associate
   * University of Florida, Gainesville
   * Duties included: Microarray data analysis
-  * Supervisor: Maureen Goodenow Ph.D
+  * Supervisor: [Maureen Goodenow](https://www.oar.nih.gov/about_oar/director.asp) Ph.D
   
 * 2008-2013: Postdoctoral Fellow
   * University of California San Diego
   * Duties included: Microarray and Lipidomic data analysis
-  * Supervisor: Shankar Subramaniam Ph.D
+  * Supervisor: [Shankar Subramaniam](http://genome.ucsd.edu) Ph.D
 
 Skills
 ======
