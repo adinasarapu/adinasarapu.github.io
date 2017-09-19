@@ -4,7 +4,7 @@ collection: publications
 permalink: /publication/2014-genetics-muscle
 excerpt: ''
 date: 2014-06-15
-venue: 'Hum Mol Genet.'
+venue: 'Human Molecular Genetics'
 paperurl: 'http://adinasarapu.github.io/files/ddu090.pdf'
 citation: 'Gupta S, Kim SM, Wang Y, Dinasarapu AR, Subramaniam S. (2014). &quot;Statistical insights into major human muscular diseases.&quot; <i>Hum Mol Genet</i>. 23(14):3772-8.'
 ---
