@@ -20,7 +20,7 @@ Previously, at _Emory Vaccine Center_, I worked in [Human Immunology Project Con
 
 Biography
 ======
-Prior to joining UCSD, I obtained my M.Sc (2000, _University of Hyderabad_, India), M.Tech (2002, _Anna University_, India) and Ph.D (2007, _University of Hyderabad_). I received my B.Sc. (1997, Chemistry and Biology) from _Andhra Loyola College_, Vijayawada, India.
+I obtained my M.Sc (2000, _University of Hyderabad_, India), M.Tech (2002, _Anna University_, India) and Ph.D (2007, _University of Hyderabad_). I received my B.Sc. (1997, Chemistry and Biology) from _Andhra Loyola College_, Vijayawada, India.
 
 ------
 <address>Woodruff Memorial Research Building 7th Floor – Room 7107<br />101 Woodruff Circle, Atlanta, GA  30322</address>
