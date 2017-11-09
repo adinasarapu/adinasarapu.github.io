@@ -11,10 +11,10 @@ redirect_from:
 
 Education
 ======
-* B.S. Chemistry & Biology, Andhra Loyola College, India 1997
-* M.Sc. Biochemistry, University of Hyderabad, India 2000
-* M.Tech. Biotechnology, Anna University, India 2002
 * Ph.D. Biochemistry/Bioinformatics, University of Hyderabad, India 2007
+* M.Tech. Biotechnology, Anna University, India 2002
+* M.Sc. Biochemistry, University of Hyderabad, India 2000
+* B.S. Chemistry & Biology, Andhra Loyola College, India 1997
 
 Work experience
 ======
@@ -40,7 +40,7 @@ Work experience
 
 Skills
 ======
-* NGS data analysis
+* NGS, Proteomic and Metabolomic data analysis
 * Cluster and Cloud computing
 * Linux shell
 * R
