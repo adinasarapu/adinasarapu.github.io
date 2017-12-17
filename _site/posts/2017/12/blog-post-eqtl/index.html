@@ -19,7 +19,7 @@
 
 
 
-<title>Chromosomal distributuin of copy number variations - Ashok R. Dinasarapu</title>
+<title>eQTL analysis of RNA-Seq data - Ashok R. Dinasarapu</title>
 
 
 
@@ -29,15 +29,15 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu">
-<meta property="og:title" content="Chromosomal distributuin of copy number variations">
+<meta property="og:title" content="eQTL analysis of RNA-Seq data">
 
 
-  <link rel="canonical" href="http://localhost:4000/portfolio/portfolio-cnv-distribution/">
-  <meta property="og:url" content="http://localhost:4000/portfolio/portfolio-cnv-distribution/">
+  <link rel="canonical" href="http://localhost:4000/posts/2017/12/blog-post-eqtl/">
+  <meta property="og:url" content="http://localhost:4000/posts/2017/12/blog-post-eqtl/">
 
 
 
-  <meta property="og:description" content="Copy number variation (CNV), generated through duplication or deletion events that affect one or more loci, is widespread in the human genomes and is often associated with functional consequences that may include changes in gene expression levels or fusion of genes.">
+  <meta property="og:description" content="Genetic locus that affect gene expression are often referred to as expression quantitative trait loci (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels.">
 
 
 
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2017-12-17T09:41:27-08:00">
+  <meta property="article:published_time" content="2017-12-17T00:00:00-08:00">
 
 
 
@@ -245,21 +245,29 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Chromosomal distributuin of copy number variations">
-    <meta itemprop="description" content="Copy number variation (CNV), generated through duplication or deletion events that affect one or more loci, is widespread in the human genomes and is often associated with functional consequences that may include changes in gene expression levels or fusion of genes.">
+    <meta itemprop="headline" content="eQTL analysis of RNA-Seq data">
+    <meta itemprop="description" content="Genetic locus that affect gene expression are often referred to as expression quantitative trait loci (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels.">
     <meta itemprop="datePublished" content="December 17, 2017">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Chromosomal distributuin of copy number variations
+          <h1 class="page__title" itemprop="headline">eQTL analysis of RNA-Seq data
 </h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  less than 1 minute read
+	
+</p>
           
         
         
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2017-12-17T09:41:27-08:00">December 17, 2017</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2017-12-17T00:00:00-08:00">December 17, 2017</time></p>
         
         
              
@@ -269,7 +277,23 @@
       
 
       <section class="page__content" itemprop="text">
-        <p>Copy number variation (CNV), generated through duplication or deletion events that affect one or more loci, is widespread in the human genomes and is often associated with functional consequences that may include changes in gene expression levels or fusion of genes.</p>
+        <p>Genetic locus that affect gene expression are often referred to as expression quantitative trait loci (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels.</p>
+
+<p><img src="/images/DEG.tiff" alt="Data analysis pipeline for analysis of RNA-Seq data." /></p>
+
+<p>Data analysis pipeline for RNA-Seq based eQTL mapping:</p>
+<ol>
+  <li><a href="https://bitbucket.org/adinasarapu/clustercomputing/src/6bad66b2e4ce1f98d3392cb4af7cbf37bb08f73f/job_fastqc.sh">Quality control</a></li>
+  <li><a href="https://bitbucket.org/adinasarapu/clustercomputing/src/6bad66b2e4ce1f98d3392cb4af7cbf37bb08f73f/job_star_mapping.sh">Read mapping</a></li>
+  <li><a href="https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/job_post_mapping_qc.sh">Post mapping QC</a></li>
+  <li><a href="https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/job_htseq_count.sh">HTSeq-count</a></li>
+  <li><a href="https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/HTseqCountToANOVA.R">Normalization, Differential exression</a></li>
+  <li><a href="https://bitbucket.org/adinasarapu/clustercomputing/src/061fe9d9a0d15e9cf567dd8ae659297b09c236f0/job_star_mpileup.sh">Call SNPs using samtools</a></li>
+  <li><a href="https://bitbucket.org/adinasarapu/clustercomputing/src/5bf09a99aae62655119ce52025dac598232c9c96/job_annot.sh">Variant annotation - ANNOVAR</a></li>
+  <li><a href="https://bitbucket.org/adinasarapu/clustercomputing/src/8a3ba3ef7eaa3937b04b101a843e2a5fed88e52b/ExtractMultiSampleGenotype.R">Create SNP Matrix</a></li>
+  <li><a href="https://bitbucket.org/adinasarapu/clustercomputing/src/a1e0bf858af1619edae4816b03735aea9ab215aa/MatrixEQTL_CisTrans.R">Matrix eQTL</a></li>
+  <li><a href="https://bitbucket.org/adinasarapu/clustercomputing/src/dd0755abdece34f8e1f8f46329f2bd570bfd0318/ManhattanPlot_GWAS.R">Manhattan plot</a></li>
+</ol>
 
         
       </section>
@@ -277,6 +301,43 @@
       <footer class="page__meta">
         
         
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#edger" class="page__taxonomy-item" rel="tag">edgeR</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#eqtl" class="page__taxonomy-item" rel="tag">eQTL</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#htseq" class="page__taxonomy-item" rel="tag">htseq</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#matrixeqtl" class="page__taxonomy-item" rel="tag">MatrixEqtl</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#rna-seq" class="page__taxonomy-item" rel="tag">RNA-Seq</a>
+    
+    </span>
+  </p>
 
 
 
@@ -290,17 +351,27 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/portfolio/portfolio-cnv-distribution/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2017/12/blog-post-eqtl/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/portfolio/portfolio-cnv-distribution/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2017/12/blog-post-eqtl/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://plus.google.com/share?url=http://localhost:4000/portfolio/portfolio-cnv-distribution/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+  <a href="https://plus.google.com/share?url=http://localhost:4000/posts/2017/12/blog-post-eqtl/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/portfolio/portfolio-cnv-distribution/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2017/12/blog-post-eqtl/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
 
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2017/12/blog-post-plink/" class="pagination--pager" title="Quality control for GWAS studies
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
 
     </div>
 
