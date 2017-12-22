@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-12-17T17:11:50-08:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">eQTL analysis of RNA-Seq data</title><link href="http://localhost:4000/posts/2017/12/blog-post-eqtl/" rel="alternate" type="text/html" title="eQTL analysis of RNA-Seq data" /><published>2017-12-17T00:00:00-08:00</published><updated>2017-12-17T00:00:00-08:00</updated><id>http://localhost:4000/posts/2017/12/blog-eqtl</id><content type="html" xml:base="http://localhost:4000/posts/2017/12/blog-post-eqtl/">&lt;p&gt;Genetic locus that affects gene expression is often referred to as expression quantitative trait locus (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-12-22T09:49:27-08:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">eQTL analysis of RNA-Seq data</title><link href="http://localhost:4000/posts/2017/12/blog-post-eqtl/" rel="alternate" type="text/html" title="eQTL analysis of RNA-Seq data" /><published>2017-12-17T00:00:00-08:00</published><updated>2017-12-17T00:00:00-08:00</updated><id>http://localhost:4000/posts/2017/12/blog-eqtl</id><content type="html" xml:base="http://localhost:4000/posts/2017/12/blog-post-eqtl/">&lt;p&gt;Genetic locus that affects gene expression is often referred to as expression quantitative trait locus (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels.&lt;/p&gt;
 
 &lt;p&gt;Based on the hg38 reference genome, paired-end reads were mapped by &lt;a href=&quot;https://academic.oup.com/bioinformatics/article/29/1/15/272537&quot;&gt;STAR&lt;/a&gt; aligner. The mapped reads were used for expression quantification without assembling transcripts (by counting the number of reads that map to an exon) by &lt;a href=&quot;https://htseq.readthedocs.io/en/release_0.9.1/&quot;&gt;HTSeq&lt;/a&gt; that uses Refseq gene annotations. Then, to correct for systematic variability (such as library fragment size, sequence composition bias, and read depth) the raw counts were normalized as trimmed mean of M-values (TMM) through &lt;a href=&quot;https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2796818/&quot;&gt;edgeR&lt;/a&gt;.&lt;/p&gt;
 
@@ -12,7 +12,7 @@
   &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6bad66b2e4ce1f98d3392cb4af7cbf37bb08f73f/job_star_mapping.sh&quot;&gt;Read mapping&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/job_post_mapping_qc.sh&quot;&gt;Post mapping QC&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/job_htseq_count.sh&quot;&gt;HTSeq-count&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/HTseqCountToANOVA.R&quot;&gt;Normalization, Differential exression&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/HTseqCountToANOVA.R&quot;&gt;Normalization, Differential expression&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/061fe9d9a0d15e9cf567dd8ae659297b09c236f0/job_star_mpileup.sh&quot;&gt;Call SNPs using samtools&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/5bf09a99aae62655119ce52025dac598232c9c96/job_annot.sh&quot;&gt;Variant annotation - ANNOVAR&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/8a3ba3ef7eaa3937b04b101a843e2a5fed88e52b/ExtractMultiSampleGenotype.R&quot;&gt;Create SNP Matrix&lt;/a&gt;&lt;/li&gt;
@@ -22,7 +22,41 @@
 
 &lt;p&gt;Checking for gender (individuals whose genetic sex is discordant to their phenotypic gender), genotyping rate (call rate), minor allele frequency (MAF), Hardy-Weinberg equilibrium deviation (HWE), heterozygosity rate and identical by descent (IBD) allele sharing are useful QC steps. Standard tools like plink and king are called by the scripts.&lt;/p&gt;
 
-&lt;p&gt;This script can be found &lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6bad66b2e4ce1f98d3392cb4af7cbf37bb08f73f/job_post_variant_qc.sh?at=master&quot;&gt;here&lt;/a&gt;.
+&lt;p&gt;The first step is to load VCF or BCF file into PLINK.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PLINK --bcf file.bcf.gz &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--allow-no-sex &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--keep-allele-order &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--vcf-idspace-to _ &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--make-bed &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--out plink.load
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Then remove SNPs with more than 10 percent missing genotype calls.&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PLINK --bfile plink.load &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+         --allow-no-sex &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+         --keep-allele-order &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+         --geno &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+         --make-bed &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+         --out plink.geno10pc
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;The command check-sex compares the sex reported in the .fam file and the sex imputed from the X chromosome inbreeding coefficients.&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PLINK --bfile plink.geno10pc &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--allow-no-sex &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--keep-allele-order &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--split-x hg38 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--make-bed &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--out plink.geno10pc.split
+
+PLINK --bfile plink.geno10pc.split &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--allow-no-sex &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--check-sex &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+	--out plink.geno10pc.sexcheck
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Complete pipeline can be found &lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6bad66b2e4ce1f98d3392cb4af7cbf37bb08f73f/job_post_variant_qc.sh&quot;&gt;here&lt;/a&gt;.
 Now, you need to go into your SGE computer (our’s is called HGCC), and run:&lt;/p&gt;
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qsub job_post_variant_qc.sh
 &lt;/code&gt;&lt;/pre&gt;

@@ -10,7 +10,7 @@ redirect_from:
 I am currently a Bioinformatics Scientist with Mike Zwick ([Department of Human Genetics](https://genetics.emory.edu)) at Emory University. 
 
 {::comment}
-I am holding collaboratory support from [National Institute of Allergy and Infectious Diseases](https://www.niaid.nih.gov/) (NIAID/NIH).
+Since 2018, I split my time between Human Genetics (50%) of Emory University and the NIAID (50%) of [National Institutes of Health](https://www.niaid.nih.gov/).
 {:/comment}
 
 My research is focused on genomics and computing, with emphasis on rare disease genotyping and gene expression studies using NGS (Whole Genome, Exome and RNASeq) data.
