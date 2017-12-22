@@ -47,7 +47,7 @@ PLINK --bfile plink.geno10pc.split \
 	--out plink.geno10pc.sexcheck
 
 ```
-Complete pipeline can be found [here](https://bitbucket.org/adinasarapu/clustercomputing/src/6bad66b2e4ce1f98d3392cb4af7cbf37bb08f73f/job_post_variant_qc.sh).
+Complete pipeline can be found [here](https://bitbucket.org/adinasarapu/clustercomputing/src/80fe2e327b605d134454fe99c9cf272d7271b0aa/job_post_variant_qc.sh).
 Now, you need to go into your SGE computer (our's is called HGCC), and run:
 ```bash 
 qsub job_post_variant_qc.sh
