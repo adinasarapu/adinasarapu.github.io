@@ -14,7 +14,6 @@ An important step in the analysis of genome-wide association studies (GWAS) is t
 Checking for gender (individuals whose genetic sex is discordant to their phenotypic gender), genotyping rate (call rate), minor allele frequency (MAF), Hardy-Weinberg equilibrium deviation (HWE), heterozygosity rate and identical by descent (IBD) allele sharing are useful QC steps. Standard tools like plink and king are called by the scripts.
 
 The first step is to load VCF or BCF file into PLINK.
-
 ```bash
 PLINK --bcf file.bcf.gz \
 	--allow-no-sex \
@@ -49,6 +48,6 @@ PLINK --bfile plink.geno10pc.split \
 ```
 Complete pipeline can be found [here](https://bitbucket.org/adinasarapu/clustercomputing/src/80fe2e327b605d134454fe99c9cf272d7271b0aa/job_post_variant_qc.sh).
 Now, you need to go into your SGE computer (our's is called HGCC), and run:
-```bash 
+```
 qsub job_post_variant_qc.sh
 ```

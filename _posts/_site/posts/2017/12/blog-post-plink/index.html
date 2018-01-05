@@ -1,0 +1,48 @@
+<p>An important step in the analysis of genome-wide association studies (GWAS) is to identify problematic subjects and markers. Quality control  (QC) in GWAS removes markers and individuals, and greatly increases the accuracy of findings.</p>
+
+<p>Checking for gender (individuals whose genetic sex is discordant to their phenotypic gender), genotyping rate (call rate), minor allele frequency (MAF), Hardy-Weinberg equilibrium deviation (HWE), heterozygosity rate and identical by descent (IBD) allele sharing are useful QC steps. Standard tools like plink and king are called by the scripts.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">par</span><span class="p">(</span><span class="n">mar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">.1</span><span class="p">,</span><span class="m">.1</span><span class="p">))</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">cars</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="o">=</span><span class="m">19</span><span class="p">,</span><span class="n">col</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p><img src="/figure/./2017-12-16-blog-plink/setup-1.png" alt="plot of chunk setup" />
+The first step is to load VCF or BCF file into PLINK.</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>PLINK --bcf file.bcf.gz <span class="se">\</span>
+	--allow-no-sex <span class="se">\</span>
+	--keep-allele-order <span class="se">\</span>
+	--vcf-idspace-to _ <span class="se">\</span>
+	--make-bed <span class="se">\</span>
+	--out plink.load
+</code></pre>
+</div>
+<p>Then remove SNPs with more than 10 percent missing genotype calls.</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>PLINK --bfile plink.load <span class="se">\</span>
+         --allow-no-sex <span class="se">\</span>
+         --keep-allele-order <span class="se">\</span>
+         --geno <span class="se">\</span>
+         --make-bed <span class="se">\</span>
+         --out plink.geno10pc
+</code></pre>
+</div>
+<p>The command check-sex compares the sex reported in the .fam file and the sex imputed from the X chromosome inbreeding coefficients.</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>PLINK --bfile plink.geno10pc <span class="se">\</span>
+	--allow-no-sex <span class="se">\</span>
+	--keep-allele-order <span class="se">\</span>
+	--split-x hg38 <span class="se">\</span>
+	--make-bed <span class="se">\</span>
+	--out plink.geno10pc.split
+
+PLINK --bfile plink.geno10pc.split <span class="se">\</span>
+	--allow-no-sex <span class="se">\</span>
+	--check-sex <span class="se">\</span>
+	--out plink.geno10pc.sexcheck
+
+</code></pre>
+</div>
+<p>Complete pipeline can be found <a href="https://bitbucket.org/adinasarapu/clustercomputing/src/80fe2e327b605d134454fe99c9cf272d7271b0aa/job_post_variant_qc.sh">here</a>.
+Now, you need to go into your SGE computer (our’s is called HGCC), and run:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>qsub job_post_variant_qc.sh
+</code></pre>
+</div>

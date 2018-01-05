@@ -4,7 +4,7 @@ collection: publications
 permalink: /publication/2006-comp-chem
 excerpt: ''
 date: 2006-02-01
-venue: 'Computational Biology & Chemistry'
+venue: 'Computational Biology &amp; Chemistry'
 paperurl: 'http://adinasarapu.github.io/files/comp2006.pdf'
 citation: 'Ashok Reddy D, Prasad B V L S and Mitra C K. (2006). &quot;Comparative analysis of core promoter region: Information content from mono and dinucleotide substitution matrices.&quot; <i>Comput Biol Chem</i>. 30, 58-62.'
 ---
