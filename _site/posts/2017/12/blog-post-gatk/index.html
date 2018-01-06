@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of mutations and germline variation for hundreds to thousands of expressed genetic variants.">
+  <meta property="og:description" content="RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.">
 
 
 
@@ -246,7 +246,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Genomic Variants from RNA-Seq Data">
-    <meta itemprop="description" content="RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of mutations and germline variation for hundreds to thousands of expressed genetic variants.">
+    <meta itemprop="description" content="RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.">
     <meta itemprop="datePublished" content="January 05, 2018">
     
 
@@ -260,7 +260,7 @@
 
 
   
-	  less than 1 minute read
+	  1 minute read
 	
 </p>
           
@@ -277,15 +277,15 @@
       
 
       <section class="page__content" itemprop="text">
-        <p>RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of mutations and germline variation for hundreds to thousands of expressed genetic variants.</p>
+        <p>RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.</p>
 
 <p>Currently few workflows exist for detecting SNPs in RNA-seq data, including <a href="http://bioinformaticstools.mayo.edu/research/esnv-detect/">eSNV-detect</a>, <a href="https://github.com/rpiskol/SNPiR">SNPiR</a> and <a href="https://github.com/pysam-developers/pysam">Opossum</a>. Here, I have employed <a href="https://software.broadinstitute.org/gatk/documentation/article.php?id=3891">GATK workflow for SNP and indel calling on RNAseq data</a>, which is based on the following steps:</p>
 <ul>
-  <li>Reference (hg38) based read mapping using STAR aligner. This is a STAR 2-pass approach with the suggested parameters. In this STAR 2-pass approach, splice junctions detected in a first alignment run are used to guide the final alignment.</li>
-  <li>Add read group information, sort, mark the duplicates and index with picard.jar.</li>
-  <li>GATK SplitNCigarReads, split the reads into exon segments (removing Ns but maintaining grouping information) and reassigning mapping qualities.</li>
+  <li>Reference (hg38) based read mapping using <code class="highlighter-rouge">STAR</code> aligner. This is a 2-pass approach with the suggested parameters. In this STAR 2-pass approach, splice junctions detected in a first alignment run are used to guide the final alignment (reads which have been mapped across splice junctions must be split to remove intronic parts).</li>
+  <li>Add read group information, sort, mark the duplicates and index with <code class="highlighter-rouge">picard.jar</code></li>
+  <li>GATK’s <code class="highlighter-rouge">SplitNCigarReads</code> split the reads into exon segments (removing Ns but maintaining grouping information) and reassigning mapping qualities.</li>
   <li>Indel realignment and recalibration of Base qualities and</li>
-  <li>Variant calling with GATK HaplotypeCaller, and finally filtering the variants with GATK VariantFiltration.</li>
+  <li>Variant calling with GATK’s <code class="highlighter-rouge">HaplotypeCaller</code>, and finally filtering the variants with GATK’s <code class="highlighter-rouge">VariantFiltration</code></li>
 </ul>
 
 <p>My qsub-based pipeline is available at <a href="https://bitbucket.org/adinasarapu/clustercomputing/src/b888c564a8d9f0c7f433086f2025b93826a49fe8/job_rnaseq_variant_caller.sh">bitbucket.org</a></p>
