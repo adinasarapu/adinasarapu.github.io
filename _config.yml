@@ -80,12 +80,12 @@ analytics:
 author:
   name             : "Scientist, Bioinformatics"
   avatar           : "profile.png"
-  bio              : 
+  bio              : "Emory University"
   location         : "Atlanta, GA"
-  employer         : "Emory University"
+  employer         : "http://www.emory.edu"
   googlescholar    : "https://scholar.google.com/citations?user=b6GBykAAAAAJ"
   email            : "ashok.reddy.dinasarapu@emory.edu"
-  uri              :
+  uri              : 
   bitbucket        : "adinasarapu"
   codepen          :
   dribbble         :
