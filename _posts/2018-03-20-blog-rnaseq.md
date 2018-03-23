@@ -9,7 +9,8 @@ tags:
   - STAR
   - HTSeq
   - edgeR
+
 ---
 A simple RNA-Seq differential expression analysis using High Performance Computing (HPC).
 
-This pipeline is available at [bitbucket.org](https://bitbucket.org/adinasarapu/ibs_class/src)
+This pipeline is available as [RNA-Seq Exercise](https://bitbucket.org/adinasarapu/ibs_class/src)
