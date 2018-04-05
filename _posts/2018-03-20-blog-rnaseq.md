@@ -13,4 +13,11 @@ tags:
 ---
 A simple RNA-Seq differential expression analysis using High Performance Computing (HPC).
 
+The goal is to analyze RNA-Seq data using HPC. The software which will be used in this session is listed below.
+
+1. [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+2. STAR
+3. HTSeq
+4. EdgeR
+
 This pipeline is available as [RNA-Seq Exercise](https://bitbucket.org/adinasarapu/ibs_class/src)
