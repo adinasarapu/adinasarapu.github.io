@@ -11,7 +11,7 @@ redirect_from:
 I am currently a Bioinformatics Scientist in Zwick Group at Emory University, Atlanta. 
 From 04/2018, I split my time between the Department of Human Genetics, Emory University and the National Institute of Allergy and Infectious Diseases (NIAID).
 {% endcomment %}
-My research is focused on genomics and computing, with emphasis on variant calling, gene expression and proteomics studies. Particularly, I explore the contribution of population-specific low-frequency and rare variants to human traits. 
+My research is focused on genomics and computing, with emphasis on variant and copy number analysis, gene expression and proteomics studies. Particularly, I explore the contribution of population-specific low-frequency and rare variants to human traits. 
 
 I split my time between the Department of Human Genetics, **Emory University** and the **National Institute of Allergy and Infectious Diseases** (NIAID).
 
