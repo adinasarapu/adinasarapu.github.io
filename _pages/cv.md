@@ -21,7 +21,7 @@ Work experience
 * 10/2017-till: Scientist, Bioinformatics
   * Emory University, Atlanta
   * Duties included: Genomic and Proteomic data analysis
-  * Supervisor: [`Mike Zwick`](http://genetics.emory.edu/faculty/primary/zwick-michael.html) Ph.D
+  * Supervisor: Maureen Goodenow Ph.D & [`Mike Zwick`](http://genetics.emory.edu/faculty/primary/zwick-michael.html) Ph.D
 
 * 09/2015-10/2017: Bioinformatics Analyst, Sr
   * Emory University, Atlanta
