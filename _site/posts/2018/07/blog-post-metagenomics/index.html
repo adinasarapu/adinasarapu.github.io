@@ -19,7 +19,7 @@
 
 
 
-<title>Taxonomic and functional profiling of shotgun metagenomics sequencing data  - Ashok R. Dinasarapu</title>
+<title>Taxonomic and functional profiling of the microbiome - whole genome shotgun metagenomics - Ashok R. Dinasarapu</title>
 
 
 
@@ -29,7 +29,7 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu">
-<meta property="og:title" content="Taxonomic and functional profiling of shotgun metagenomics sequencing data">
+<meta property="og:title" content="Taxonomic and functional profiling of the microbiome - whole genome shotgun metagenomics">
 
 
   <link rel="canonical" href="http://localhost:4000/posts/2018/07/blog-post-metagenomics/">
@@ -245,7 +245,7 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Taxonomic and functional profiling of shotgun metagenomics sequencing data">
+    <meta itemprop="headline" content="Taxonomic and functional profiling of the microbiome - whole genome shotgun metagenomics">
     <meta itemprop="description" content="This workflow consists of taxonomic and functional profiling of shotgun metagenomics sequencing (MGS) reads using MetaPhlAn2 and HUMAnN2, respectively. To perform taxonomic (phyla, genera or species level) profiling of the MGS data, the MetaPhlAn2 pipeline was run on a high performance multicore cluster computing environment.">
     <meta itemprop="datePublished" content="July 27, 2018">
     
@@ -253,7 +253,7 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Taxonomic and functional profiling of shotgun metagenomics sequencing data
+          <h1 class="page__title" itemprop="headline">Taxonomic and functional profiling of the microbiome - whole genome shotgun metagenomics
 </h1>
           
             <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
@@ -282,7 +282,11 @@
 <p>MetaPhlAn2 provides microbial (bacterial, archaeal, viral, and eukaryotic) taxonomic profiling allowing the quantification of individual species across metagenomic samples. MetaPhlAn2 relies on ~1M unique clade-specific marker genes identified from ~17,000 reference genomes. Microbial reads, aligned by MetaPhlAn2, belonging to clades with no sequenced genomes available are reported as an “unclassified” subclade of the closest ancestor with available sequence data.
 HUMAnN2 utilizes the MetaCyc database as well as the UniRef gene family catalog to characterize the microbial pathways present in samples. HUMAnN2 relies on programs such as BowTie (for accelerated nucleotide-level searches) and Diamond (for accelerated translated searches) to compute the abundance of gene families and metabolic pathways present. HUMAnN2 generates three outputs: 1) gene families based on UniRef proteins and their abundances reported in reads per kilobase, 2) MetaCyc pathways and their coverage, and 3) MetaCyc pathways and their abundances reported in reads per kilobase.</p>
 
+<hr />
+
 <p>Scripts are available at <a href="https://bitbucket.org/adinasarapu/shotgun_metagenomics/src">shotgun_metagenomics</a></p>
+
+<hr />
 
         
       </section>
