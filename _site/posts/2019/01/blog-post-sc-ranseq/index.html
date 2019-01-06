@@ -19,7 +19,7 @@
 
 
 
-<title>Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data - Ashok R. Dinasarapu</title>
+<title>Chromium single cell 3′ RNA-seq data analysis using Cell Ranger and Seurat on Cluster - Ashok R. Dinasarapu</title>
 
 
 
@@ -29,15 +29,15 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu">
-<meta property="og:title" content="Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data">
+<meta property="og:title" content="Chromium single cell 3′ RNA-seq data analysis using Cell Ranger and Seurat on Cluster">
 
 
-  <link rel="canonical" href="http://localhost:4000/posts/2019/01/blog-post-qiime2/">
-  <meta property="og:url" content="http://localhost:4000/posts/2019/01/blog-post-qiime2/">
+  <link rel="canonical" href="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/">
+  <meta property="og:url" content="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/">
 
 
 
-  <meta property="og:description" content="The 16S ribosomal RNA (rRNA) gene of Bacteria codes for the RNA component of the 30S subunit. Different bacterial species have one to multiple copies of the 16S rRNA gene, and each with 9 hypervariable regions, V1-V9. High-throughput sequencing of 16S rRNA gene (a “marker gene”) amplicons has become a widely used method to study bacterial phylogeny and species classification.">
+  <meta property="og:description" content="Running cellranger at HGCC (Human Genetics Computing Cluster) cluster that uses Sun Grid Engine (SGE) queuing system to run via batch scheduling. This allows highly parallelizable jobs to utilize multiple cores concurrently, dramatically reducing time to solution.">
 
 
 
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2019-01-01T00:00:00-08:00">
+  <meta property="article:published_time" content="2019-01-06T00:00:00-08:00">
 
 
 
@@ -245,15 +245,15 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data">
-    <meta itemprop="description" content="The 16S ribosomal RNA (rRNA) gene of Bacteria codes for the RNA component of the 30S subunit. Different bacterial species have one to multiple copies of the 16S rRNA gene, and each with 9 hypervariable regions, V1-V9. High-throughput sequencing of 16S rRNA gene (a “marker gene”) amplicons has become a widely used method to study bacterial phylogeny and species classification.">
-    <meta itemprop="datePublished" content="January 01, 2019">
+    <meta itemprop="headline" content="Chromium single cell 3′ RNA-seq data analysis using Cell Ranger and Seurat on Cluster">
+    <meta itemprop="description" content="Running cellranger at HGCC (Human Genetics Computing Cluster) cluster that uses Sun Grid Engine (SGE) queuing system to run via batch scheduling. This allows highly parallelizable jobs to utilize multiple cores concurrently, dramatically reducing time to solution.">
+    <meta itemprop="datePublished" content="January 06, 2019">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data
+          <h1 class="page__title" itemprop="headline">Chromium single cell 3′ RNA-seq data analysis using Cell Ranger and Seurat on Cluster
 </h1>
           
             <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
@@ -267,7 +267,7 @@
         
         
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2019-01-01T00:00:00-08:00">January 01, 2019</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2019-01-06T00:00:00-08:00">January 06, 2019</time></p>
         
         
              
@@ -277,25 +277,54 @@
       
 
       <section class="page__content" itemprop="text">
-        <p>The 16S ribosomal RNA (rRNA) gene of Bacteria codes for the RNA component of the 30S subunit. Different bacterial species have one to multiple copies of the 16S rRNA gene, and each with 9 hypervariable regions, V1-V9. High-throughput sequencing of 16S rRNA gene (a “marker gene”) amplicons has become a widely used method to study bacterial phylogeny and species classification.</p>
+        <p>Running <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger">cellranger</a> at HGCC (Human Genetics Computing Cluster) cluster that uses Sun Grid Engine (SGE) queuing system to run via batch scheduling. This allows highly parallelizable jobs to utilize multiple cores concurrently, dramatically reducing time to solution.</p>
 
-<p>Quantitative Insights Into Microbial Ecology “QIIME” 2 (release 2018.11)<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> is a widely used package to identity abundance of microbes using 16s rRNA. Briefly, feature table containing counts of each unique sequence in the samples will be constructed using <code class="highlighter-rouge">qiime dada2 denoise-paired</code> method. A feature is essentially any unit of observation, e.g., an OTU (Operational Taxonomic Unit), a sequence variant, a gene or a metabolite. In QIIME2 (currently), most features will be OTUs or sequence variants (alternatively, for OTUs, use QIIME2 plugin <code class="highlighter-rouge">q2-vsearch</code>).</p>
+<p>There are 4 steps to analyze Chromium Single Cell data.</p>
 
-<p>Data produced by QIIME 2 exist as QIIME 2 artifacts. A QIIME 2 artifact typically has the <code class="highlighter-rouge">.qza</code> file extension when output data stored in a file. Visualizations are another type of data (<code class="highlighter-rouge">.qzv</code> file extension) generated by QIIME 2, which can be viewed using a web interface <a href="https://view.qiime2.org">https://view.qiime2.org</a> (at Firefox web browser) without requiring a QIIME installation. Since QIIME 2 works with artifacts instead of data files (e.g. FASTA files), we must create a QIIME 2 artifact by importing our <code class="highlighter-rouge">fastq.gz</code> data files.</p>
+<p><strong>Step 1</strong>: <code class="highlighter-rouge">cellranger mkfastq</code> demultiplexes raw base call (BCL) files generated by Illumina sequencers into FASTQ files.<br />
+<strong>Step 2</strong>: <code class="highlighter-rouge">cellranger count</code> takes FASTQ files from cellranger mkfastq and performs alignment, filtering, barcode counting, and UMI counting.<br />
+<strong>Step 3</strong>: <code class="highlighter-rouge">cellranger aggr</code> aggregates outputs from multiple runs of cellranger count.<br />
+<strong>Step 4</strong>: Downstream/Secondary analysis using R package <a href="https://satijalab.org/seurat/">Seurat v3.0</a>.</p>
+
+<p>Running pipelines at our HGCC cluster requires the following:</p>
+
+<p><strong>1</strong>. Load Cell Ranger module (<code class="highlighter-rouge">cellranger-3.0.1</code>) or install at <code class="highlighter-rouge">$HOME</code> directory and add PATH in <code class="highlighter-rouge">~/.bashrc</code>.</p>
+
+<p><strong>2</strong>. Update Job config file (<code class="highlighter-rouge">cellranger-3.0.1/martian-cs/v3.1.0/jobmanagers/config.json</code>) threads and memory.</p>
+
+<p><code class="highlighter-rouge">"threads_per_job": 8,</code><br />
+<code class="highlighter-rouge">"memGB_per_job": 64,</code></p>
+
+<p><strong>3</strong>. Update Template file (<code class="highlighter-rouge">cellranger-3.0.1/martian-cs/v3.1.0/jobmanagers/sge.template</code>).</p>
+
+<p><code class="highlighter-rouge"><span class="c">#!/bin/bash</span></code><br />
+<code class="highlighter-rouge">#$ -pe smp __MRO_THREADS__</code><br />
+<code class="highlighter-rouge">#$ -q b.q</code><br />
+<code class="highlighter-rouge">#$ -S /bin/bash</code><br />
+<code class="highlighter-rouge">#$ -m abe</code><br />
+<code class="highlighter-rouge">#$ -M &lt;e-mail&gt;</code></p>
+
+<p><strong>4</strong>. Download single cell gene expression and reference genome datasets from <a href="https://www.10xgenomics.com/resources/datasets/">10XGenomics</a>.</p>
+
+<p><strong>5</strong>. Create <code class="highlighter-rouge">sge.sh</code> file</p>
+
+<p><code class="highlighter-rouge">FASTQS="/sw/hgcc/Data/10XGenomics/pbmc_10k_v3_fastqs"</code><br />
+<code class="highlighter-rouge">TR="/sw/hgcc/Data/10XGenomics/refdata-cellranger-GRCh38-3.0.0"</code></p>
+
+<p><code class="highlighter-rouge">cellranger count --disable-ui \</code><br />
+  <code class="highlighter-rouge">--id=PBMC_10k_v3 \</code><br />
+  <code class="highlighter-rouge">--transcriptome=${TR} \</code><br />
+  <code class="highlighter-rouge">--fastqs=${FASTQS} \</code><br />
+  <code class="highlighter-rouge">--sample=pbmc_10k_v3 \</code><br />
+  <code class="highlighter-rouge">--expect-cells=10000 \</code><br />
+  <code class="highlighter-rouge">--jobmode=sge --mempercore=8</code></p>
+
+<p><strong>6</strong>. Run</p>
+
+<p><code class="highlighter-rouge">bash sge.sh</code></p>
 
 <hr />
 
-<p>Scripts are available for AWS <a href="https://bitbucket.org/adinasarapu/aws_qiime2/src">Cloud</a> and HPC <a href="https://bitbucket.org/adinasarapu/cluster_qiime2/src">Cluster</a>.</p>
-
-<hr />
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:1">
-      <p><a href="https://qiime2.org">https://qiime2.org</a>&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
-    </li>
-  </ol>
-</div>
 
         
       </section>
@@ -320,27 +349,27 @@
     
       
       
-      <a href="http://localhost:4000/tags/#16s-rrna-amplicon" class="page__taxonomy-item" rel="tag">16s rRNA amplicon</a><span class="sep">, </span>
+      <a href="http://localhost:4000/tags/#10xgenomics" class="page__taxonomy-item" rel="tag">10XGenomics</a><span class="sep">, </span>
     
       
       
-      <a href="http://localhost:4000/tags/#computing" class="page__taxonomy-item" rel="tag">computing</a><span class="sep">, </span>
+      <a href="http://localhost:4000/tags/#cell-ranger" class="page__taxonomy-item" rel="tag">Cell Ranger</a><span class="sep">, </span>
     
       
       
-      <a href="http://localhost:4000/tags/#dada2" class="page__taxonomy-item" rel="tag">DADA2</a><span class="sep">, </span>
+      <a href="http://localhost:4000/tags/#cluster-computing" class="page__taxonomy-item" rel="tag">Cluster Computing</a><span class="sep">, </span>
     
       
       
-      <a href="http://localhost:4000/tags/#microbiome" class="page__taxonomy-item" rel="tag">microbiome</a><span class="sep">, </span>
+      <a href="http://localhost:4000/tags/#seurat" class="page__taxonomy-item" rel="tag">Seurat</a><span class="sep">, </span>
     
       
       
-      <a href="http://localhost:4000/tags/#otu" class="page__taxonomy-item" rel="tag">OTU</a><span class="sep">, </span>
+      <a href="http://localhost:4000/tags/#single-cell-rna-sequencing-scrna-seq" class="page__taxonomy-item" rel="tag">Single cell RNA-sequencing (scRNA-seq)</a><span class="sep">, </span>
     
       
       
-      <a href="http://localhost:4000/tags/#qiime2" class="page__taxonomy-item" rel="tag">qiime2</a>
+      <a href="http://localhost:4000/tags/#single-cell" class="page__taxonomy-item" rel="tag">Single Cell</a>
     
     </span>
   </p>
@@ -357,13 +386,13 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2019/01/blog-post-qiime2/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2019/01/blog-post-qiime2/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://plus.google.com/share?url=http://localhost:4000/posts/2019/01/blog-post-qiime2/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+  <a href="https://plus.google.com/share?url=http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2019/01/blog-post-qiime2/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
@@ -371,12 +400,11 @@
 
   <nav class="pagination">
     
-      <a href="http://localhost:4000/posts/2018/07/blog-post-metagenomics/" class="pagination--pager" title="Taxonomic and functional profiling of the microbiome - whole genome shotgun metagenomics
+      <a href="http://localhost:4000/posts/2019/01/blog-post-qiime2/" class="pagination--pager" title="Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data
 ">Previous</a>
     
     
-      <a href="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/" class="pagination--pager" title="Chromium single cell 3′ RNA-seq data analysis using Cell Ranger and Seurat on Cluster
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
