@@ -322,9 +322,17 @@
   <code class="highlighter-rouge">--expect-cells=10000 \</code><br />
   <code class="highlighter-rouge">--jobmode=sge --mempercore=8</code></p>
 
+<p>Use screen command to get in/out of the system while keeping the processes running.</p>
+
+<p><code class="highlighter-rouge">screen -S screen_name</code></p>
+
 <p><strong>6</strong>. Run</p>
 
 <p><code class="highlighter-rouge">bash sge.sh</code></p>
+
+<p>if you want to exit the terminal without killing the running process, simply press <code class="highlighter-rouge">Ctrl+A+D</code>.</p>
+
+<p>To reconnect to the screen: <code class="highlighter-rouge">screen -R screen_name</code></p>
 
 <hr />
 

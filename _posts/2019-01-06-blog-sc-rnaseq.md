@@ -56,9 +56,17 @@ Running pipelines at our HGCC cluster requires the following:
   `--expect-cells=10000 \`  
   `--jobmode=sge --mempercore=8`  
 
-**6**. Run  
+Use screen command to get in/out of the system while keeping the processes running.  
 
-`bash sge.sh`
+`screen -S screen_name`  
+
+**6**. Run
+
+`bash sge.sh`  
+
+if you want to exit the terminal without killing the running process, simply press `Ctrl+A+D`.  
+
+To reconnect to the screen: `screen -R screen_name`  
 
 ---
 
