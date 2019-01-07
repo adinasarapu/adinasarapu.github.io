@@ -38,6 +38,9 @@ Running pipelines at our HGCC cluster requires the following:
 `#$ -m abe`  
 `#$ -M <e-mail>`  
 
+`cd __MRO_JOB_WORKDIR__`  
+`source /home/adinasarapu/cellranger-3.0.1/sourceme.bash`
+
 **4**. Download single cell gene expression and reference genome datasets from [10XGenomics](https://www.10xgenomics.com/resources/datasets/).  
 
 **5**. Create `sge.sh` file  
