@@ -2,7 +2,7 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://localhost:4000/portfolio/portfolio-cnv-distribution/</loc>
-<lastmod>2019-02-26T12:58:21-08:00</lastmod>
+<lastmod>2019-10-07T14:29:24-07:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/posts/2017/09/blog-post-trio/</loc>
@@ -189,6 +189,10 @@
 <url>
 <loc>http://localhost:4000/files/2018_RNA_Seq_Analysis.pdf</loc>
 <lastmod>2018-03-23T11:23:45-07:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/files/201909_resume.pdf</loc>
+<lastmod>2019-09-25T13:26:08-07:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/files/Cluster_Computing.pdf</loc>
