@@ -34,8 +34,8 @@ Running pipelines at our HGCC cluster requires the following:
 **3**. Update Template file (`cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/sge.template`).
 
 `#!/bin/bash`  
-`#$ -pe smp __MRO_THREADS__`
-`##$ -l mem_free=__MRO_MEM_GB__G` (commented this line)
+`#$ -pe smp __MRO_THREADS__`  
+`##$ -l mem_free=__MRO_MEM_GB__G` (comment this line if your cluster do not support it!)  
 `#$ -q b.q`  
 `#$ -S /bin/bash`  
 `#$ -m abe`  
@@ -57,7 +57,9 @@ of threads requested via the __MRO_THREADS__ variable according to how much memo
 **for Single Cell 3′**
 
 Output files will appear in the out/ subdirectory within this pipeline output directory.  
+
 `cd /home/adinasarapu/10xgenomics/out`  
+
 For pipeline output directory, the `--id` argument is used i.e 10XGTX_v3.  
 
 `FASTQS="$HOME/pbmc_10k_v3_fastqs"`  
