@@ -1,6 +1,6 @@
 ---
 title: 'Single cell RNA-seq data analysis using CellRanger and Seurat on Cluster'
-date: 2019-01-06
+date: 2019-11-18
 permalink: /posts/2019/01/blog-post-sc-ranseq/
 tags:
   - 10XGenomics
@@ -24,24 +24,29 @@ There are 4 steps to analyze Chromium Single Cell data[^1].
 
 Running pipelines at our HGCC cluster requires the following:  
 
-**1**. Load Cell Ranger module (`cellranger-3.0.1`)[^1] or install at `$HOME` directory and add PATH in `~/.bashrc`.  
+**1**. Load Cell Ranger module (`cellranger-3.1.0`)[^1] or install at `$HOME` directory and add PATH in `~/.bashrc`.  
 
-**2**. Update Job config file (`cellranger-3.0.1/martian-cs/v3.1.0/jobmanagers/config.json`) threads and memory.
+**2**. Update Job config file (`cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/config.json`) threads and memory.
 
 `"threads_per_job": 9,`  
 `"memGB_per_job": 72,`
 
-**3**. Update Template file (`cellranger-3.0.1/martian-cs/v3.1.0/jobmanagers/sge.template`).
+**3**. Update Template file (`cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/sge.template`).
 
 `#!/bin/bash`  
-`#$ -pe smp __MRO_THREADS__`  
+`#$ -pe smp __MRO_THREADS__`
+`##$ -l mem_free=__MRO_MEM_GB__G` (commented this line)
 `#$ -q b.q`  
 `#$ -S /bin/bash`  
 `#$ -m abe`  
 `#$ -M <e-mail>`  
 
 `cd __MRO_JOB_WORKDIR__`  
-`source $HOME/cellranger-3.0.1/sourceme.bash`
+`source $HOME/cellranger-3.0.1/sourceme.bash`  
+
+`For clusters whose job managers do not support memory requests, it is possible to request memory 
+in the form of cores via the --mempercore command-line option. This option scales up the number 
+of threads requested via the __MRO_THREADS__ variable according to how much memory a stage requires.`  
 
 **4**. Download single cell gene expression and reference genome datasets from [10XGenomics](https://www.10xgenomics.com/resources/datasets/).  
 
@@ -51,10 +56,14 @@ Running pipelines at our HGCC cluster requires the following:
 
 **for Single Cell 3′**
 
+Output files will appear in the out/ subdirectory within this pipeline output directory.  
+`cd /home/adinasarapu/10xgenomics/out`  
+For pipeline output directory, the `--id` argument is used i.e 10XGTX_v3.  
+
 `FASTQS="$HOME/pbmc_10k_v3_fastqs"`  
 
 `cellranger count --disable-ui \`  
-  `--id=PBMC_10k_v3 \`  
+  `--id=10XGTX_v3 \`  
   `--transcriptome=${TR} \`  
   `--fastqs=${FASTQS} \`  
   `--sample=pbmc_10k_v3 \`  
@@ -110,8 +119,7 @@ Then access the UI using the following URL in your web browser
 
 Seurat is an R package designed for QC, analysis, and exploration of single cell RNA-seq data. Seurat aims to enable users to identify and interpret sources of heterogeneity from single cell transcriptomic measurements, and to integrate diverse types of single cell data. Seurat starts by reading cellranger data (barcodes.tsv.gz, features.tsv.gz and matrix.mtx.gz)  
 
-`pbmc.data <- Read10X(data.dir = "~/PBMC_5GEX/outs/filtered_feature_bc_matrix/")`
-
+`pbmc.data <- Read10X(data.dir = "~/PBMC_5GEX/outs/filtered_feature_bc_matrix/")`  
  
 ---
 
