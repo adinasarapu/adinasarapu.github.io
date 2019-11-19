@@ -40,9 +40,8 @@ Running pipelines at our HGCC cluster requires the following:
 `#$ -S /bin/bash`  
 `#$ -m abe`  
 `#$ -M <e-mail>`  
-
 `cd __MRO_JOB_WORKDIR__`  
-`source $HOME/cellranger-3.0.1/sourceme.bash`  
+`source $HOME/cellranger-3.1.0/sourceme.bash`  
 
 `For clusters whose job managers do not support memory requests, it is possible to request memory 
 in the form of cores via the --mempercore command-line option. This option scales up the number 
@@ -58,7 +57,7 @@ of threads requested via the __MRO_THREADS__ variable according to how much memo
 
 Output files will appear in the out/ subdirectory within this pipeline output directory.  
 
-`cd /home/adinasarapu/10xgenomics/out`  
+`cd $HOME/10xgenomics/out`  
 
 For pipeline output directory, the `--id` argument is used i.e 10XGTX_v3.  
 
