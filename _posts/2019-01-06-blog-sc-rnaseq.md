@@ -13,7 +13,7 @@ tags:
   - Feature Barcoding
 
 ---
-Running [cellranger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) at HGCC (Human Genetics Computing Cluster) cluster that uses Sun Grid Engine (SGE) queuing system to run via batch scheduling. This allows highly parallelizable jobs to utilize multiple cores concurrently, dramatically reducing time to solution.
+Running [cellranger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.
 
 There are 4 steps to analyze Chromium Single Cell data[^1].
 
@@ -22,16 +22,16 @@ There are 4 steps to analyze Chromium Single Cell data[^1].
 **Step 3**: `cellranger aggr` aggregates outputs from multiple runs of cellranger count.  
 **Step 4**: Downstream/Secondary analysis using R package [Seurat v3.0](https://satijalab.org/seurat/)[^2].
 
-Running pipelines at our HGCC cluster requires the following:  
+Running pipelines on cluster requires the following:  
 
-**1**. Load Cell Ranger module (`cellranger-3.1.0`)[^1] or install at `$HOME` directory and add PATH in `~/.bashrc`.  
+**1**. Load Cell Ranger module (`cellranger-3.1.0`)[^1] or, download and uncompress cellranger at your `$HOME` directory and add PATH in `~/.bashrc`.  
 
-**2**. Update Job config file (`cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/config.json`) threads and memory.
+**2**. Update job config file (`cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/config.json`) for threads and memory. For example  
 
 `"threads_per_job": 9,`  
 `"memGB_per_job": 72,`
 
-**3**. Update Template file (`cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/sge.template`).
+**3**. Update template file (`cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/sge.template`).
 
 `#!/bin/bash`  
 `#$ -pe smp __MRO_THREADS__`  
@@ -43,9 +43,10 @@ Running pipelines at our HGCC cluster requires the following:
 `cd __MRO_JOB_WORKDIR__`  
 `source $HOME/cellranger-3.1.0/sourceme.bash`  
 
-`For clusters whose job managers do not support memory requests, it is possible to request memory 
-in the form of cores via the --mempercore command-line option. This option scales up the number 
-of threads requested via the __MRO_THREADS__ variable according to how much memory a stage requires.`  
+For clusters whose job managers do not support memory requests, it is possible to request memory 
+in the form of cores via the `--mempercore` command-line option. This option scales up the number 
+of threads requested via the `__MRO_THREADS__` variable according to how much memory a stage requires. 
+see more at [Cluster Mode](ihttps://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/advanced/cluster-mode)  
 
 **4**. Download single cell gene expression and reference genome datasets from [10XGenomics](https://www.10xgenomics.com/resources/datasets/).  
 
