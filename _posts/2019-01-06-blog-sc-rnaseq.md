@@ -54,7 +54,7 @@ see more at [Cluster Mode](https://support.10xgenomics.com/single-cell-gene-expr
 
 `TR="$HOME/refdata-cellranger-GRCh38-3.0.0"`
 
-**for Single Cell 3′**
+**for Single Cell 3′ Gene expression**
 
 Output files will appear in the out/ subdirectory within this pipeline output directory.  
 
@@ -73,9 +73,26 @@ For pipeline output directory, the `--id` argument is used i.e 10XGTX_v3.
   `--jobmode=sge \`  
   `--mempercore=8 \`  
   `--jobinterval=5000 \`  
-  `--maxjobs=5`    
+  `--maxjobs=5`  
 
-**for Single Cell 5′ (Feature Barcoding/Antibody Capture Assay) data analysis**
+**for Single Cell 5′ gene expression**
+
+`FASTQS="$HOME/vdj_v1_hs_nsclc_5gex_fastqs"`
+
+## use either --force-cells or --expect-cells
+
+`cellranger count \`
+  `--id=10XGTX_v5 \`
+  `--fastqs=${FASTQS} \`
+  `--transcriptome=${TR} \`
+  `--sample=vdj_v1_hs_nsclc_5gex \`
+  `--force-cells=7802 \`
+  `--jobmode=sge \`
+  `--mempercore=8 \`
+  `--maxjobs=5 \`
+  `--jobinterval=2000`
+
+**for Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay)**
 
 `LIBRARY=$HOME/vdj_v1_hs_pbmc2_5gex_protein_fastqs/vdj_v1_hs_pbmc2_5gex_protein_library.csv`  
 `FEATURE_REF=$HOME/vdj_v1_hs_pbmc2_5gex_protein_fastqs/vdj_v1_hs_pbmc2_5gex_protein_feature_ref.csv`   
