@@ -28,8 +28,8 @@ Running pipelines on cluster requires the following:
 
 **2**. Update job config file (`cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/config.json`) for threads and memory. For example  
 
-`"threads_per_job": 9,`  
-`"memGB_per_job": 72,`
+`"threads_per_job": 20,`  
+`"memGB_per_job": 150,`
 
 **3**. Update template file (`cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/sge.template`).
 
@@ -73,7 +73,7 @@ For pipeline output directory, the `--id` argument is used i.e 10XGTX_v3.
   `--jobmode=sge \`  
   `--mempercore=8 \`  
   `--jobinterval=5000 \`  
-  `--maxjobs=5`  
+  `--maxjobs=3`  
 
 **for Single Cell 5′ gene expression**
 
@@ -89,7 +89,7 @@ For pipeline output directory, the `--id` argument is used i.e 10XGTX_v3.
   `--force-cells=7802 \`  
   `--jobmode=sge \`  
   `--mempercore=8 \`  
-  `--maxjobs=5 \`  
+  `--maxjobs=3 \`  
   `--jobinterval=2000`  
 
 **for Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay)**
@@ -105,7 +105,7 @@ For pipeline output directory, the `--id` argument is used i.e 10XGTX_v3.
  `--expect-cells=9000 \`  
  `--jobmode=sge \`  
  `--mempercore=8 \`  
- `--maxjobs=5 \`  
+ `--maxjobs=3 \`  
  `--jobinterval=5000`  
 
 
