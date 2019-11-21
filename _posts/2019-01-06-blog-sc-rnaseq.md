@@ -46,7 +46,7 @@ Running pipelines on cluster requires the following:
 For clusters whose job managers do not support memory requests, it is possible to request memory 
 in the form of cores via the `--mempercore` command-line option. This option scales up the number 
 of threads requested via the `__MRO_THREADS__` variable according to how much memory a stage requires. 
-see more at [Cluster Mode](ihttps://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/advanced/cluster-mode)  
+see more at [Cluster Mode](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/advanced/cluster-mode)  
 
 **4**. Download single cell gene expression and reference genome datasets from [10XGenomics](https://www.10xgenomics.com/resources/datasets/).  
 
