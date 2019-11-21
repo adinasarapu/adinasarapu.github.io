@@ -81,16 +81,16 @@ For pipeline output directory, the `--id` argument is used i.e 10XGTX_v3.
 
 ## use either --force-cells or --expect-cells
 
-`cellranger count \`
-  `--id=10XGTX_v5 \`
-  `--fastqs=${FASTQS} \`
-  `--transcriptome=${TR} \`
-  `--sample=vdj_v1_hs_nsclc_5gex \`
-  `--force-cells=7802 \`
-  `--jobmode=sge \`
-  `--mempercore=8 \`
-  `--maxjobs=5 \`
-  `--jobinterval=2000`
+`cellranger count \`  
+  `--id=10XGTX_v5 \`  
+  `--fastqs=${FASTQS} \`  
+  `--transcriptome=${TR} \`  
+  `--sample=vdj_v1_hs_nsclc_5gex \`  
+  `--force-cells=7802 \`  
+  `--jobmode=sge \`  
+  `--mempercore=8 \`  
+  `--maxjobs=5 \`  
+  `--jobinterval=2000`  
 
 **for Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay)**
 
