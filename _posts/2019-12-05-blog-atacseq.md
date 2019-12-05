@@ -18,16 +18,15 @@ errors often lead to low mapping rate.
 **Filtering and shifting of the mapped reads** - shift the read position +4 and -5 bp in the BAM file before peak calling [adjust the reads alignment](https://yiweiniu.github.io/blog/2019/03/ATAC-seq-data-analysis-from-FASTQ-to-peaks/). When the Tn5 transposase cuts open chromatin regions, it introduces two cuts that are separated by 9 bp. Therefore, ATAC-seq reads aligning to the positive and negative strands need to be adjusted by +4 bp and -5 bp respectively to represent the center of the transposase binding site. Picard CollectInsertSizeMetrics will be used to compute the fragment sizes on alignment shifted BAM files.  
 
 
-**Identification and visualization of the ATAC-seq peaks** – use MACS2 for peak calling with the parameters nomodel or BAMPE [^4] and identify the differentially enriched peaks using the MACS2 `bdgdiff` module. Individual peaks separated by <100 bp will be join together. For peak annotation and functional analysis use the R package ChIPpeakAnno or HOMER [^5], [^6]. First, ATAC-seq peaks will be categorized into different groups based on the nearest RefSeq gene i.e. promoter, untranslated regions (UTRs), intron and exon. Second, peaks that are within 5 kb upstream and 3 kb downstream of the Transcription Start Site (TSS) are associated to the nearest genes. Finally, these genes are then analyzed for over-represented gene ontology (GO) terms and KEGG pathways using ChIPpeakAnno. Visualize all sequencing tracks using the Integrated Genomic Viewer (IGV) [^7].  
+**Identification and visualization of the ATAC-seq peaks** – use MACS2 for peak calling with the parameters nomodel or BAMPE [^4] and identify the differentially enriched peaks using the MACS2 `bdgdiff` module. Individual peaks separated by <100 bp will be join together. For peak annotation and functional analysis use the R package ChIPpeakAnno or HOMER [^5],[^6]. First, ATAC-seq peaks will be categorized into different groups based on the nearest RefSeq gene i.e. promoter, untranslated regions (UTRs), intron and exon. Second, peaks that are within 5 kb upstream and 3 kb downstream of the Transcription Start Site (TSS) are associated to the nearest genes. Finally, these genes are then analyzed for over-represented gene ontology (GO) terms and KEGG pathways using ChIPpeakAnno. Visualize all sequencing tracks using the Integrated Genomic Viewer (IGV) [^7].  
 
-Scripts are available for HPC [Cluster](https://bitbucket.org/adinasarapu/atac_seq-data-analysis/src/master/).
+Scripts are available for HPC [Cluster](https://bitbucket.org/adinasarapu/atac_seq-data-analysis/src/master/).  
 
----
-[^1]: [ATAC-seq](https://www.ncbi.nlm.nih.gov/pubmed/24097267) - Buenrostro JD, Giresi PG, Zaba LC, Chang HY, Greenleaf WJ. Transposition of native chromatin for fast and sensitive epigenomic profiling of open chromatin, DNA-binding proteins and nucleosome position. Nature Methods. 2013; 10:1213–1218.  
+---  
+[^1]: [ATAC-seq](https://www.ncbi.nlm.nih.gov/pubmed/24097267) - Nature Methods. 2013; 10:1213–1218.  
 [^2]: [PICARD](https://broadinstitute.github.io/picard/)  
 [^3]: [HTSLIB](http://www.htslib.org)  
 [^4]: [MACS](https://github.com/taoliu/MACS)  
-[^5]: [ChIPpeakAnno](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-237) - Zhu L, Gazin C, Lawson N, Pagès H, Lin S, Lapointe D, Green M (2010). ChIPpeakAnno: a Bioconductor package to annotate ChIP-seq and ChIP-chip data. BMC
-Bioinformatics, 11(1), 237. ISSN 1471-2105.  
+[^5]: [ChIPpeakAnno](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-237)  
 [^6]: [HOMER](http://homer.ucsd.edu/homer/ngs/)  
 [^7]: [IGV](http://software.broadinstitute.org/software/igv/home)
