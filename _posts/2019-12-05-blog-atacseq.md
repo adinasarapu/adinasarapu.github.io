@@ -6,8 +6,6 @@ tags:
   - ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing)
 
 ---
-**Overview**  
-
 **ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing)** is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility. ATAC-seq achieves this by simultaneously fragmenting and tagging genomic DNA with sequencing adapters using the hyperactive Tn5 transposase enzyme [^1]. Other global chromatin accessibility methods include FAIRE-seq and DNase-seq. This document aims to provide accessibility. 
 
 **Pre-processing of raw sequencing reads** – before mapping the raw reads to the genome, trim the adapter sequences. Poor read quality or sequencing
