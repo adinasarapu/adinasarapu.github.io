@@ -18,4 +18,4 @@ I split my time between the Department of Human Genetics, **Emory University** a
 Previously, at Emory Vaccine Center, I worked in [Human Immunology Project Consortium](https://www.immuneprofiling.org/) projects with emphasis in understanding the effects of adjuvanted seasonal flu vaccination in healthy as well as in HIV-infected individuals. At University of Florida, I applied systems biology approaches to study the effects of recreational marijuana and/or tobacco use in HIV-infected young adults. At University of California San Diego, I worked for [LIPID MAPS](http://www.lipidmaps.org) and UCSD [Signaling Gateway consortium](http://www.signalinggateway.org/molecule/) projects.
 
 ------
-<address>Woodruff Memorial Research Building 7th Floor – Room 7106<br />101 Woodruff Circle, Atlanta, GA  30322</address>
+<address>350 Whitehead Biomedical Research Building<br />Emory University, Atlanta, GA  30322</address>
