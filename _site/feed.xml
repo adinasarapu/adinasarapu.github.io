@@ -1,4 +1,336 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-11-14T08:58:16-08:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Single cell RNA-seq data analysis using CellRanger and Seurat on Cluster</title><link href="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/" rel="alternate" type="text/html" title="Single cell RNA-seq data analysis using CellRanger and Seurat on Cluster" /><published>2019-01-06T00:00:00-08:00</published><updated>2019-01-06T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/01/blog-sc-rnaseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/">&lt;p&gt;Running &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger&quot;&gt;cellranger&lt;/a&gt; at HGCC (Human Genetics Computing Cluster) cluster that uses Sun Grid Engine (SGE) queuing system to run via batch scheduling. This allows highly parallelizable jobs to utilize multiple cores concurrently, dramatically reducing time to solution.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-26T16:08:32-08:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipelines (part 1: Apache Kafka)</title><link href="http://localhost:4000/posts/2020/01/blog-post-kafka/" rel="alternate" type="text/html" title="Building a real-time big data pipelines (part 1: Apache Kafka)" /><published>2020-01-26T00:00:00-08:00</published><updated>2020-01-26T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-kafka</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-kafka/">&lt;p&gt;&lt;a href=&quot;https://kafka.apache.org&quot;&gt;Kafka&lt;/a&gt; is used for building real-time data pipelines and streaming apps.&lt;/p&gt;
+
+&lt;p&gt;What is Kafka? &lt;a href=&quot;https://success.docker.com/article/getting-started-with-kafka&quot;&gt;Getting started with kafka&lt;/a&gt; says “Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo ‘data’ » file.dat), and consumers subscribe to a certain file (tail -f file.dat). In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper (simplified: solid, reliable, transactional key/value store) to keep track of the state of producers, topics, and consumers.”&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Kafka for local development of applications&lt;/strong&gt;:&lt;br /&gt;
+There are multiple ways of running Kafka locally for development of apps but the easiest method is by docker-compose. To download Docker Desktop, go to &lt;a href=&quot;https://hub.docker.com/&quot;&gt;Docker Hub&lt;/a&gt; and sign In with your Docker ID.&lt;/p&gt;
+
+&lt;p&gt;Docker compose facilitates installing Kafka and Zookeeper with the help of &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose.yml&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;version: '2'  
+services:  
+  zookeeper:  
+    image: wurstmeister/zookeeper  
+    ports:  
+      - &quot;2181:2181&quot;  
+  kafka:  
+   image: wurstmeister/kafka  
+    ports:  
+      - &quot;9092:9092&quot;  
+    environment:  
+     KAFKA_ADVERTISED_HOST_NAME: localhost  
+     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181  
+     KAFKA_AUTO_CREATE_TOPICS_ENABLE: &quot;true&quot;  
+    volumes:  
+     - /var/run/docker.sock:/var/run/docker.sock
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;1. Start the Kafka service&lt;/strong&gt;&lt;br /&gt;
+Open a terminal, go where you have the docker-compose.yml file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose up -d  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Starting kafka_example_zookeeper_1 ... done  
+Starting kafka_example_kafka_1     ... done  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To list running docker containers, run the following command&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose ps  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Name				Command				State	Ports  
+kafka_example_kafka_1		start-kafka.sh			Up	0.0.0.0:9092-&amp;gt;9092/tcp                              
+kafka_example_zookeeper_1	/bin/sh -c /usr/sbin/sshd  ...	Up	0.0.0.0:2181-&amp;gt;2181/tcp, 22/tcp, 2888/tcp, 3888/tcp  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You can shut down docker-compose by executing the following command in another terminal.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose down  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Stopping kafka_example_zookeeper_1 ... done  
+Stopping kafka_example_kafka_1     ... done  
+Removing kafka_example_zookeeper_1 ... done  
+Removing kafka_example_kafka_1     ... done  
+Removing network kafka_example_default  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Using the following command check the ZooKeeper logs to verify that ZooKeeper is working and healthy.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose logs zookeeper | grep -i binding  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Next, check the Kafka logs to verify that broker is working and healthy.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose logs kafka | grep -i started  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;2. Create a topic&lt;/strong&gt;&lt;br /&gt;
+The Kafka cluster stores streams of records in categories called topics. A topic can have zero, one, or many consumers that subscribe to the data written to it. &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose exec&lt;/code&gt; command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where docker-compose.yml file present, and execute it as&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose exec kafka bash  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;(for zookeeper &lt;code class=&quot;highlighter-rouge&quot;&gt;$docker-compose exec zookeeper bash&lt;/code&gt;)&lt;/p&gt;
+
+&lt;p&gt;Change the directory to /opt/kafka/bin where you find scripts such as &lt;code class=&quot;highlighter-rouge&quot;&gt;kafka-topics.sh&lt;/code&gt;.&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cd /opt/kafka/bin&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Create, list or delete existing topics:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh \  
+ --create \  
+ --topic test1 \  
+ --partitions 1 \  
+ --replication-factor 1 \  
+ --bootstrap-server localhost:9092  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh --list --bootstrap-server localhost:9092  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If necessary, delete a topic using the following command.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh --delete --topic test1 --bootstrap-server localhost:9092  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;3. Producer and Consumer&lt;/strong&gt;&lt;br /&gt;
+A Kafka producer is an object that consists of a pool of buffer space that holds records that haven’t yet been transmitted to the server.&lt;/p&gt;
+
+&lt;p&gt;The following is a producer command line to read data from standard input and write it to a Kafka topic.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic test1  
+&amp;gt;Hello  
+&amp;gt;World  
+^C
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The following is a command line to read data from a Kafka topic and write it to standard output.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test1 --from-beginning  
+Hello  
+World  
+^CProcessed a total of 2 messages  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Another way of reading data from a Kafka topic is by simply using a Spring Boot application&lt;/strong&gt; (Here I call this project as SpringBootKafka).&lt;br /&gt;
+The following demonstrates how to send and receive messages from Spring Kafka. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic. Then in next blog I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.&lt;/p&gt;
+
+&lt;p&gt;The first step to create a simple Spring Boot maven Application is &lt;a href=&quot;https://spring.io/guides/gs/spring-boot/&quot;&gt;Starting with Spring Initializr&lt;/a&gt; and make sure to have spring-kafka dependency to &lt;code class=&quot;highlighter-rouge&quot;&gt;pom.xml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;  
+  &amp;lt;groupId&amp;gt;org.springframework.kafka&amp;lt;/groupId&amp;gt;  
+  &amp;lt;artifactId&amp;gt;spring-kafka&amp;lt;/artifactId&amp;gt;  
+&amp;lt;/dependency&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SpringBootKafkaApplication.java&lt;/code&gt; class (The Spring Initializr creates the following simple application class for you)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@SpringBootApplication  
+public class SpringBootKafkaApplication {  
+	public static void main(String[] args) {  
+		SpringApplication.run(SpringBootApplication.class, args);  
+	}  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In Spring Boot, properties are kept in the &lt;code class=&quot;highlighter-rouge&quot;&gt;application.properties&lt;/code&gt; file under the classpath. The application.properties file is located in the &lt;code class=&quot;highlighter-rouge&quot;&gt;src/main/resources&lt;/code&gt; directory. Change application.properties file to &lt;code class=&quot;highlighter-rouge&quot;&gt;application.yml&lt;/code&gt;, then add the following content.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;spring:  
+  kafka:  
+consumer:  
+  bootstrap-servers: localhost:9092  
+  group-id: simpleconsumer  
+  auto-offset-reset: earliest  
+  key-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+  value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Create a Spring Kafka Consumer class: &lt;code class=&quot;highlighter-rouge&quot;&gt;MessageConsumer.java&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Create a class called MessageConsumer and add a method with the @KakfaListener annotation.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Service  
+public class MessageConsumer {  
+	@KafkaListener(id = &quot;simpleconsumer&quot;, topics = &quot;test1&quot;)  
+	public void consumeMessage(String message) {  
+		System.out.println(&quot;Got message: &quot; + message);  
+	}  
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;How to run Spring Boot web application in Eclipse?&lt;/p&gt;
+
+&lt;p&gt;In eclipse Project Explorer, right click the project name -&amp;gt; select “Run As” -&amp;gt; “Maven Build…”&lt;br /&gt;
+In the goals, enter &lt;code class=&quot;highlighter-rouge&quot;&gt;spring-boot:run&lt;/code&gt;&lt;br /&gt;
+then click Run button.&lt;/p&gt;
+
+&lt;p&gt;If you have Spring Tool Suite (STS) plug-in, you see a “Spring Boot App” option under Run As.&lt;/p&gt;
+
+&lt;p&gt;Start Kafka and Zookeeper: &lt;code class=&quot;highlighter-rouge&quot;&gt;$docker-compose up -d&lt;/code&gt;&lt;br /&gt;
+Produce message using the Kafka console producer: &lt;code class=&quot;highlighter-rouge&quot;&gt;$docker-compose exec kafka bash&lt;/code&gt;&lt;br /&gt;
+Once inside the container &lt;code class=&quot;highlighter-rouge&quot;&gt;cd /opt/kafka/bin&lt;/code&gt;&lt;br /&gt;
+Run the following console producer which will enable you to send messages to Kafka:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic test1  
+&amp;gt;Hello  
+&amp;gt;World  
+^C  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Try sending a few messages like above (Hello, World etc) and watch the application standard output in the Eclipse shell where you are running your Spring Boot application.&lt;/p&gt;
+
+&lt;p&gt;Eclipse Console:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  .   ____          _            __ _ _  
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \  
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \  
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )  
+  '  |____| .__|_| |_|_| |_\__, | / / / /  
+ =========|_|==============|___/=/_/_/_/  
+
+:: Spring Boot ::        (v2.2.4.RELEASE)  
+2020-01-26 14:26:55.205  INFO 11137 --- [           main] c.e.d.SpringBootKafkaConsumerApplication : Starting   
+…  
+…  
+…
+o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupId=simpleconsumer] Setting newly assigned partitions: test1-0  
+2020-01-26 14:26:56.384  INFO 11137 --- [econsumer-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupId=simpleconsumer] Found no committed offset for partition test1-0  
+2020-01-26 14:26:56.408  INFO 11137 --- [econsumer-0-C-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumer-1, groupId=simpleconsumer] Resetting offset for partition test1-0 to offset 2.  
+2020-01-26 14:26:56.477  INFO 11137 --- [econsumer-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : simpleconsumer: partitions assigned: [test1-0]  
+Got message: hello  
+Got message: world  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache kafka" /><category term="real time data pipelines" /><category term="java" /><category term="docker" /><category term="Spring Boot" /><category term="YAML" /><category term="Zookeeper" /><summary type="html">Kafka is used for building real-time data pipelines and streaming apps.</summary></entry><entry><title type="html">Quantitative proteomics: TMT-based quantitation of proteins</title><link href="http://localhost:4000/posts/2020/01/blog-post-tmt/" rel="alternate" type="text/html" title="Quantitative proteomics: TMT-based quantitation of proteins" /><published>2020-01-09T00:00:00-08:00</published><updated>2020-01-09T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-tmt</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-tmt/">&lt;p&gt;Here, I describe the general workflow of relative quantification of proteins using isobaric labeling (tandem mass tag or TMT). The methodology starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT). Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.&lt;/p&gt;
+
+&lt;p&gt;Fractionation prior to LC-MS/MS analysis effectively detects low abundance proteins (&amp;lt;100ng/mL), which is the concentration range of most clinical biomarkers.&lt;/p&gt;
+
+&lt;p&gt;TMT-based approach allows multiplexing of samples. TMT 6-plex reagents produces a series of different reporter ions with nominal masses from 126 to 131 Da at 1 Da intervals. Several TMT reagents are commercially available including TMTzero, TMT duplex, TMT 6-plex, and TMT 10-plex &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. They have the same chemical structure but contain different numbers and combinations of 13C and 15N isotopes in the reporter group. The overall calibrated intensities of reporter ions equal.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Isobaric labeling reagent (TMT) structure&lt;/strong&gt;:&lt;br /&gt;
+a. An amine-specific reactive group – an N-hydroxysuccinimide ester, which reacts with primary amines i.e unblocked N-terminals and lysine side chains.&lt;br /&gt;
+b. A mass reporter group for quantification – the reporter groups are partially fragmented from the peptide during precursor fragmentation in the mass spectrometer.&lt;br /&gt;
+c.A mass normalizer group to link the reactive and reporter groups – mass normalizer group ensures that the peptide complexity in the MS1 spectra does not increase with multiplexing.&lt;/p&gt;
+
+&lt;p&gt;Unless otherwise noted, every analysis utilizes an MS3-based TMT-centric mass spectrometry method. MS2-based TMT yields the highest precision but lowest accuracy due to ratio compression, which MS3-based TMT can partly rescue &lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. To 10 precursors selected for MS2/MS3 analysis.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;What are the correction factors used for TMT?&lt;/strong&gt;&lt;br /&gt;
+TMT reporter ion signals need to be adjusted to account for isotopic impurities in each TMT variant.  For TMT-10plex labeling, different batches of TMT reagents have slightly different isotope impurities that need to be included for database search to correct the reporter ion ratio. The information of isotope impurity can be found in the reagent kit. However, I do not normally correct for isotopic impurities of TMT reagents, as this is typically a «1.2% shift.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Database search for protein identification and quantification&lt;/strong&gt;:&lt;br /&gt;
+The resulting TMT-MS3 data (.raw files) are processed using MaxQuant with an integrated Andromeda search engine (v.1.6.7.0). Tandem mass spectra were searched against the Uniprot database.&lt;/p&gt;
+
+&lt;p&gt;Download and install  &lt;a href=&quot;https://bitbucket.org/adinasarapu/aws_maxquant_persues/src/master/&quot;&gt;MaxQuant&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Specification of Various Parameters in MaxQuant (All the other parameters in MaxQuant are set to the default values for processing orbitrap-type data)&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Raw data&lt;/strong&gt; pane&lt;br /&gt;
+Using Load, select all raw files from all batches. Update Experiment (a unique value for each of the samples) and Fraction (if available) column values using set experiment and set fractions buttons.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Group-specific parameters&lt;/strong&gt; pane&lt;br /&gt;
+Change Type as Reporter ion MS3 and then select “10plex TMT”. Update isobaric impurities values, if available. For Modifications, select Variable modifications as Oxidation (M), Acetyl (Protein N-term); Deamidation (NQ) and Fixed Modifications as Carbamidomethyl© and, TMT labeled N- terminus and lysine residue. Specify Trypsin/P as a cleavage enzyme using Digestion and allow up to 2 missing cleavages. Set Label-free quantification as None.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Global parameters&lt;/strong&gt; pane&lt;br /&gt;
+For Sequences select a reference proteome database Uniprot FASTA file and update Max. peptide mass [Da] as 6000. For Protein quantification select Use only unmodified peptides and a list of modifications such as Oxidation (M), Acetyl (Protein N-term) and Deamidation. Select Match between runs in Identification tab.&lt;/p&gt;
+
+&lt;p&gt;Update the following two parameters for MS/MS analyzer:&lt;br /&gt;
+a. FTMS MS/MS match tolerance: 0.05 Da&lt;br /&gt;
+b.ITMS MS/MS match tolerance: 0.6 Da&lt;/p&gt;
+
+&lt;p&gt;For Folder location select tmp directory (optional).&lt;/p&gt;
+
+&lt;p&gt;Further data processing is performed using Perseus (version 1.6.7.0) &lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. The search results in &lt;code class=&quot;highlighter-rouge&quot;&gt;ProteinGroups.txt&lt;/code&gt; generated by MaxQuant are directly processed by Perseus software. MaxQuant reports the TMT-MS3 quantitative relative abundance metrics in the columns titled “Reporter intensity corrected”.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Further reading&lt;/strong&gt;:&lt;br /&gt;
+Data normalization and analysis in multiple TMT experimental designs &lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;br /&gt;
+Multiplexed Protein Quantification Using the Isobaric TMT … &lt;sup id=&quot;fnref:6&quot;&gt;&lt;a href=&quot;#fn:6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;AWS Windows instance for &lt;a href=&quot;https://bitbucket.org/adinasarapu/aws_maxquant_persues/src&quot;&gt;MaxQuant/Perseus&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;Bąchor, R.; Waliczek, M.; Stefanowicz, P.; Szewczuk, Z. Trends in the Design of New Isobaric Labeling Reagents for Quantitative Proteomics. Molecules 2019, 24, 701.&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;A. Hogrebe, L. von Stechow, D.B. Bekker-Jensen, B.T. Weinert, C.D. Kelstrup, J.V. Olsen Benchmarking common quantification strategies for large-scale phosphoproteomics Nat. Commun., 9 (2018), p. 1045.&amp;nbsp;&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://www.coxdocs.org/doku.php?id=maxquant:start&quot;&gt;MaxQuant&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://www.coxdocs.org/doku.php?id=perseus:start&quot;&gt;Perseus&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://pwilmart.github.io/TMT_analysis_examples/multiple_TMT_MQ.html&quot;&gt;TMT Batch Correction&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:6&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://assets.thermofisher.com/TFS-Assets/CMD/Reference-Materials/PP-TMT-Multiplexed-Protein-Quantification-HUPO2015-EN.pdf&quot;&gt;TMT analysis using Proteome Discoverer&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:6&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="TMT" /><category term="tandem mass tag" /><category term="MS3 spectra" /><category term="MaxQuant" /><category term="isobaric labeling" /><category term="Perseus" /><category term="TMT 10plex" /><category term="10plex" /><summary type="html">Here, I describe the general workflow of relative quantification of proteins using isobaric labeling (tandem mass tag or TMT). The methodology starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT). Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.</summary></entry><entry><title type="html">ATAC-seq peak calling with MACS2</title><link href="http://localhost:4000/posts/2019/12/blog-post-atacseq/" rel="alternate" type="text/html" title="ATAC-seq peak calling with MACS2" /><published>2019-12-05T00:00:00-08:00</published><updated>2019-12-05T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/12/blog-atacseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/12/blog-post-atacseq/">&lt;p&gt;ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility. ATAC-seq achieves this by simultaneously fragmenting and tagging genomic DNA with sequencing adapters using the hyperactive Tn5 transposase enzyme &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Other global chromatin accessibility methods include FAIRE-seq and DNase-seq. This document aims to provide accessibility.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Pre-processing of raw sequencing reads&lt;/strong&gt; – before mapping the raw reads to the genome, trim the adapter sequences. Poor read quality or sequencing
+errors often lead to low mapping rate.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Mapping/alignment of sequencing reads to a reference genome&lt;/strong&gt; – use Burrows-Wheeler Aligner (BWA) for mapping of sequencing reads. The output alignment file will be saved as a sequence alignment/map (SAM) format or binary version of SAM called BAM. Mark the duplicate reads using Picard &lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; and exclude reads mapping to mitochondrial DNA and other chromosomes from analysis together with low quality reads (MAPQ&amp;lt;10 and reads in Encode black list regions) using SAMtools &lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Filtering and shifting of the mapped reads&lt;/strong&gt; - shift the read position +4 and -5 bp in the BAM file before peak calling &lt;a href=&quot;https://yiweiniu.github.io/blog/2019/03/ATAC-seq-data-analysis-from-FASTQ-to-peaks/&quot;&gt;adjust the reads alignment&lt;/a&gt;. When the Tn5 transposase cuts open chromatin regions, it introduces two cuts that are separated by 9 bp. Therefore, ATAC-seq reads aligning to the positive and negative strands need to be adjusted by +4 bp and -5 bp respectively to represent the center of the transposase binding site. Picard CollectInsertSizeMetrics will be used to compute the fragment sizes on alignment shifted BAM files.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Identification and visualization of the ATAC-seq peaks&lt;/strong&gt; – use MACS2 for peak calling with the parameters nomodel or BAMPE &lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; and identify the differentially enriched peaks using the MACS2 &lt;code class=&quot;highlighter-rouge&quot;&gt;bdgdiff&lt;/code&gt; module. Individual peaks separated by &amp;lt;100 bp will be join together. For peak annotation and functional analysis use the R package ChIPpeakAnno or HOMER &lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;,&lt;sup id=&quot;fnref:6&quot;&gt;&lt;a href=&quot;#fn:6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;. First, ATAC-seq peaks will be categorized into different groups based on the nearest RefSeq gene i.e. promoter, untranslated regions (UTRs), intron and exon. Second, peaks that are within 5 kb upstream and 3 kb downstream of the Transcription Start Site (TSS) are associated to the nearest genes. Finally, these genes are then analyzed for over-represented gene ontology (GO) terms and KEGG pathways using ChIPpeakAnno. Visualize all sequencing tracks using the Integrated Genomic Viewer (IGV) &lt;sup id=&quot;fnref:7&quot;&gt;&lt;a href=&quot;#fn:7&quot; class=&quot;footnote&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;Scripts are available for HPC &lt;a href=&quot;https://bitbucket.org/adinasarapu/atac_seq-data-analysis/src/master/&quot;&gt;Cluster&lt;/a&gt;.&lt;br /&gt;
+For further reading: &lt;a href=&quot;https://yiweiniu.github.io/blog/2019/03/ATAC-seq-data-analysis-from-FASTQ-to-peaks/&quot;&gt;ATAC-seq-data-analysis-from-FASTQ-to-peaks&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.ncbi.nlm.nih.gov/pubmed/24097267&quot;&gt;ATAC-seq&lt;/a&gt; - Nature Methods. 2013; 10:1213–1218.&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://broadinstitute.github.io/picard/&quot;&gt;PICARD&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://www.htslib.org&quot;&gt;HTSLIB&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://github.com/taoliu/MACS&quot;&gt;MACS&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-237&quot;&gt;ChIPpeakAnno&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:6&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://homer.ucsd.edu/homer/ngs/&quot;&gt;HOMER&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:6&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:7&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://software.broadinstitute.org/software/igv/home&quot;&gt;IGV&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:7&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing)" /><category term="MACS2" /><category term="BWA" /><category term="HOMER" /><summary type="html">ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility. ATAC-seq achieves this by simultaneously fragmenting and tagging genomic DNA with sequencing adapters using the hyperactive Tn5 transposase enzyme 1. Other global chromatin accessibility methods include FAIRE-seq and DNase-seq. This document aims to provide accessibility. ATAC-seq - Nature Methods. 2013; 10:1213–1218.&amp;nbsp;&amp;#8617;</summary></entry><entry><title type="html">Single cell RNA-seq data analysis using CellRanger and Seurat on Cluster</title><link href="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/" rel="alternate" type="text/html" title="Single cell RNA-seq data analysis using CellRanger and Seurat on Cluster" /><published>2019-11-18T00:00:00-08:00</published><updated>2019-11-18T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/01/blog-sc-rnaseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/">&lt;p&gt;Running &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger&quot;&gt;cellranger&lt;/a&gt; as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.&lt;/p&gt;
 
 &lt;p&gt;There are 4 steps to analyze Chromium Single Cell data&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
@@ -7,26 +339,31 @@
 &lt;strong&gt;Step 3&lt;/strong&gt;: &lt;code class=&quot;highlighter-rouge&quot;&gt;cellranger aggr&lt;/code&gt; aggregates outputs from multiple runs of cellranger count.&lt;br /&gt;
 &lt;strong&gt;Step 4&lt;/strong&gt;: Downstream/Secondary analysis using R package &lt;a href=&quot;https://satijalab.org/seurat/&quot;&gt;Seurat v3.0&lt;/a&gt;&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
-&lt;p&gt;Running pipelines at our HGCC cluster requires the following:&lt;/p&gt;
+&lt;p&gt;Running pipelines on cluster requires the following:&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;1&lt;/strong&gt;. Load Cell Ranger module (&lt;code class=&quot;highlighter-rouge&quot;&gt;cellranger-3.0.1&lt;/code&gt;)&lt;sup id=&quot;fnref:1:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; or install at &lt;code class=&quot;highlighter-rouge&quot;&gt;$HOME&lt;/code&gt; directory and add PATH in &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bashrc&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1&lt;/strong&gt;. Load Cell Ranger module (&lt;code class=&quot;highlighter-rouge&quot;&gt;cellranger-3.1.0&lt;/code&gt;)&lt;sup id=&quot;fnref:1:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; or, download and uncompress cellranger at your &lt;code class=&quot;highlighter-rouge&quot;&gt;$HOME&lt;/code&gt; directory and add PATH in &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bashrc&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;2&lt;/strong&gt;. Update Job config file (&lt;code class=&quot;highlighter-rouge&quot;&gt;cellranger-3.0.1/martian-cs/v3.1.0/jobmanagers/config.json&lt;/code&gt;) threads and memory.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2&lt;/strong&gt;. Update job config file (&lt;code class=&quot;highlighter-rouge&quot;&gt;cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/config.json&lt;/code&gt;) for threads and memory. For example&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;threads_per_job&quot;: 9,&lt;/code&gt;&lt;br /&gt;
-&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;memGB_per_job&quot;: 72,&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;threads_per_job&quot;: 20,&lt;/code&gt;&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;memGB_per_job&quot;: 150,&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;3&lt;/strong&gt;. Update Template file (&lt;code class=&quot;highlighter-rouge&quot;&gt;cellranger-3.0.1/martian-cs/v3.1.0/jobmanagers/sge.template&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3&lt;/strong&gt;. Update template file (&lt;code class=&quot;highlighter-rouge&quot;&gt;cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/sge.template&lt;/code&gt;).&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;&lt;/code&gt;&lt;br /&gt;
 &lt;code class=&quot;highlighter-rouge&quot;&gt;#$ -pe smp __MRO_THREADS__&lt;/code&gt;&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;##$ -l mem_free=__MRO_MEM_GB__G&lt;/code&gt; (comment this line if your cluster do not support it!)&lt;br /&gt;
 &lt;code class=&quot;highlighter-rouge&quot;&gt;#$ -q b.q&lt;/code&gt;&lt;br /&gt;
 &lt;code class=&quot;highlighter-rouge&quot;&gt;#$ -S /bin/bash&lt;/code&gt;&lt;br /&gt;
 &lt;code class=&quot;highlighter-rouge&quot;&gt;#$ -m abe&lt;/code&gt;&lt;br /&gt;
-&lt;code class=&quot;highlighter-rouge&quot;&gt;#$ -M &amp;lt;e-mail&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;#$ -M &amp;lt;e-mail&amp;gt;&lt;/code&gt;&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cd __MRO_JOB_WORKDIR__&lt;/code&gt;&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;source $HOME/cellranger-3.1.0/sourceme.bash&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd __MRO_JOB_WORKDIR__&lt;/code&gt;&lt;br /&gt;
-&lt;code class=&quot;highlighter-rouge&quot;&gt;source $HOME/cellranger-3.0.1/sourceme.bash&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;For clusters whose job managers do not support memory requests, it is possible to request memory 
+in the form of cores via the &lt;code class=&quot;highlighter-rouge&quot;&gt;--mempercore&lt;/code&gt; command-line option. This option scales up the number 
+of threads requested via the &lt;code class=&quot;highlighter-rouge&quot;&gt;__MRO_THREADS__&lt;/code&gt; variable according to how much memory a stage requires. 
+see more at &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/advanced/cluster-mode&quot;&gt;Cluster Mode&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;4&lt;/strong&gt;. Download single cell gene expression and reference genome datasets from &lt;a href=&quot;https://www.10xgenomics.com/resources/datasets/&quot;&gt;10XGenomics&lt;/a&gt;.&lt;/p&gt;
 
@@ -34,12 +371,18 @@
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TR=&quot;$HOME/refdata-cellranger-GRCh38-3.0.0&quot;&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;for Single Cell 3′&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;for Single Cell 3′ Gene expression&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Output files will appear in the out/ subdirectory within this pipeline output directory.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd $HOME/10xgenomics/out&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;For pipeline output directory, the &lt;code class=&quot;highlighter-rouge&quot;&gt;--id&lt;/code&gt; argument is used i.e 10XGTX_v3.&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FASTQS=&quot;$HOME/pbmc_10k_v3_fastqs&quot;&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cellranger count --disable-ui \&lt;/code&gt;&lt;br /&gt;
-  &lt;code class=&quot;highlighter-rouge&quot;&gt;--id=PBMC_10k_v3 \&lt;/code&gt;&lt;br /&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--id=10XGTX_v3 \&lt;/code&gt;&lt;br /&gt;
   &lt;code class=&quot;highlighter-rouge&quot;&gt;--transcriptome=${TR} \&lt;/code&gt;&lt;br /&gt;
   &lt;code class=&quot;highlighter-rouge&quot;&gt;--fastqs=${FASTQS} \&lt;/code&gt;&lt;br /&gt;
   &lt;code class=&quot;highlighter-rouge&quot;&gt;--sample=pbmc_10k_v3 \&lt;/code&gt;&lt;br /&gt;
@@ -47,9 +390,26 @@
   &lt;code class=&quot;highlighter-rouge&quot;&gt;--jobmode=sge \&lt;/code&gt;&lt;br /&gt;
   &lt;code class=&quot;highlighter-rouge&quot;&gt;--mempercore=8 \&lt;/code&gt;&lt;br /&gt;
   &lt;code class=&quot;highlighter-rouge&quot;&gt;--jobinterval=5000 \&lt;/code&gt;&lt;br /&gt;
-  &lt;code class=&quot;highlighter-rouge&quot;&gt;--maxjobs=5&lt;/code&gt;&lt;/p&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--maxjobs=3&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;for Single Cell 5′ (Feature Barcoding/Antibody Capture Assay) data analysis&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;for Single Cell 5′ gene expression&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FASTQS=&quot;$HOME/vdj_v1_hs_nsclc_5gex_fastqs&quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;use-either-force-cells-or-expect-cells&quot;&gt;use either –force-cells or –expect-cells&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cellranger count \&lt;/code&gt;&lt;br /&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--id=10XGTX_v5 \&lt;/code&gt;&lt;br /&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--fastqs=${FASTQS} \&lt;/code&gt;&lt;br /&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--transcriptome=${TR} \&lt;/code&gt;&lt;br /&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--sample=vdj_v1_hs_nsclc_5gex \&lt;/code&gt;&lt;br /&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--force-cells=7802 \&lt;/code&gt;&lt;br /&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--jobmode=sge \&lt;/code&gt;&lt;br /&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--mempercore=8 \&lt;/code&gt;&lt;br /&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--maxjobs=3 \&lt;/code&gt;&lt;br /&gt;
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;--jobinterval=2000&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;for Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay)&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LIBRARY=$HOME/vdj_v1_hs_pbmc2_5gex_protein_fastqs/vdj_v1_hs_pbmc2_5gex_protein_library.csv&lt;/code&gt;&lt;br /&gt;
 &lt;code class=&quot;highlighter-rouge&quot;&gt;FEATURE_REF=$HOME/vdj_v1_hs_pbmc2_5gex_protein_fastqs/vdj_v1_hs_pbmc2_5gex_protein_feature_ref.csv&lt;/code&gt;&lt;/p&gt;
@@ -62,7 +422,7 @@
  &lt;code class=&quot;highlighter-rouge&quot;&gt;--expect-cells=9000 \&lt;/code&gt;&lt;br /&gt;
  &lt;code class=&quot;highlighter-rouge&quot;&gt;--jobmode=sge \&lt;/code&gt;&lt;br /&gt;
  &lt;code class=&quot;highlighter-rouge&quot;&gt;--mempercore=8 \&lt;/code&gt;&lt;br /&gt;
- &lt;code class=&quot;highlighter-rouge&quot;&gt;--maxjobs=5 \&lt;/code&gt;&lt;br /&gt;
+ &lt;code class=&quot;highlighter-rouge&quot;&gt;--maxjobs=3 \&lt;/code&gt;&lt;br /&gt;
  &lt;code class=&quot;highlighter-rouge&quot;&gt;--jobinterval=5000&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;6&lt;/strong&gt;. Execute a command in screen and, detach and reconnect&lt;/p&gt;
@@ -107,7 +467,7 @@
       &lt;p&gt;&lt;a href=&quot;https://satijalab.org/seurat/&quot;&gt;Seurat&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="10XGenomics" /><category term="Chromium Single Cell Gene Expression" /><category term="Single cell RNA-sequencing (scRNA-seq)" /><category term="Single Cell" /><category term="Cell Ranger" /><category term="Seurat" /><category term="Cluster Computing" /><category term="Feature Barcoding" /><summary type="html">Running cellranger at HGCC (Human Genetics Computing Cluster) cluster that uses Sun Grid Engine (SGE) queuing system to run via batch scheduling. This allows highly parallelizable jobs to utilize multiple cores concurrently, dramatically reducing time to solution.</summary></entry><entry><title type="html">Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data</title><link href="http://localhost:4000/posts/2019/01/blog-post-qiime2/" rel="alternate" type="text/html" title="Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data" /><published>2019-01-01T00:00:00-08:00</published><updated>2019-01-01T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/01/blog-qiime2</id><content type="html" xml:base="http://localhost:4000/posts/2019/01/blog-post-qiime2/">&lt;p&gt;The 16S ribosomal RNA (rRNA) gene of Bacteria codes for the RNA component of the 30S subunit. Different bacterial species have one to multiple copies of the 16S rRNA gene, and each with 9 hypervariable regions, V1-V9. High-throughput sequencing of 16S rRNA gene (a “marker gene”) amplicons has become a widely used method to study bacterial phylogeny and species classification.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="10XGenomics" /><category term="Chromium Single Cell Gene Expression" /><category term="Single cell RNA-sequencing (scRNA-seq)" /><category term="Single Cell" /><category term="Cell Ranger" /><category term="Seurat" /><category term="Cluster Computing" /><category term="Feature Barcoding" /><summary type="html">Running cellranger as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.</summary></entry><entry><title type="html">Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data</title><link href="http://localhost:4000/posts/2019/01/blog-post-qiime2/" rel="alternate" type="text/html" title="Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data" /><published>2019-01-01T00:00:00-08:00</published><updated>2019-01-01T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/01/blog-qiime2</id><content type="html" xml:base="http://localhost:4000/posts/2019/01/blog-post-qiime2/">&lt;p&gt;The 16S ribosomal RNA (rRNA) gene of Bacteria codes for the RNA component of the 30S subunit. Different bacterial species have one to multiple copies of the 16S rRNA gene, and each with 9 hypervariable regions, V1-V9. High-throughput sequencing of 16S rRNA gene (a “marker gene”) amplicons has become a widely used method to study bacterial phylogeny and species classification.&lt;/p&gt;
 
 &lt;p&gt;Quantitative Insights Into Microbial Ecology “QIIME” 2 (release 2018.11)&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; is a widely used package to identity abundance of microbes using 16s rRNA. Briefly, feature table containing counts of each unique sequence in the samples will be constructed using &lt;code class=&quot;highlighter-rouge&quot;&gt;qiime dada2 denoise-paired&lt;/code&gt; method. A feature is essentially any unit of observation, e.g., an OTU (Operational Taxonomic Unit), a sequence variant, a gene or a metabolite. In QIIME2 (currently), most features will be OTUs or sequence variants (alternatively, for OTUs, use QIIME2 plugin &lt;code class=&quot;highlighter-rouge&quot;&gt;q2-vsearch&lt;/code&gt;).&lt;/p&gt;
 
@@ -203,56 +563,4 @@ The array data is analyzed using GenomeStudioR or BlueFuse Multi software based 
   &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/8a3ba3ef7eaa3937b04b101a843e2a5fed88e52b/ExtractMultiSampleGenotype.R&quot;&gt;Create SNP Matrix&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a1e0bf858af1619edae4816b03735aea9ab215aa/MatrixEQTL_CisTrans.R&quot;&gt;Matrix eQTL&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/dd0755abdece34f8e1f8f46329f2bd570bfd0318/ManhattanPlot_GWAS.R&quot;&gt;Manhattan plot&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="eQTL" /><category term="RNA-Seq" /><category term="htseq" /><category term="MatrixEqtl" /><category term="edgeR" /><summary type="html">Genetic locus that affects gene expression is often referred to as expression quantitative trait locus (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels. Based on the hg38 reference genome, paired-end reads are mapped by STAR aligner. The mapped reads are used for expression quantification without assembling transcripts by counting the number of reads that map to an exon by HTSeq that uses Refseq gene annotations. Then, to correct for systematic variability such as library fragment size, sequence composition bias, and read depth the raw counts are normalized as trimmed mean of M-values (TMM) through edgeR.</summary></entry><entry><title type="html">Quality control for GWAS studies</title><link href="http://localhost:4000/posts/2017/12/blog-post-plink/" rel="alternate" type="text/html" title="Quality control for GWAS studies" /><published>2017-12-16T00:00:00-08:00</published><updated>2017-12-16T00:00:00-08:00</updated><id>http://localhost:4000/posts/2017/12/blog-plink</id><content type="html" xml:base="http://localhost:4000/posts/2017/12/blog-post-plink/">&lt;p&gt;An important step in the analysis of genome-wide association studies (GWAS) is to identify problematic subjects and markers. Quality control  (QC) in GWAS removes markers and individuals, and greatly increases the accuracy of findings.&lt;/p&gt;
-
-&lt;p&gt;Checking for gender (individuals whose genetic sex is discordant to their phenotypic gender), genotyping rate (call rate), minor allele frequency (MAF), Hardy-Weinberg equilibrium deviation (HWE), heterozygosity rate and identical by descent (IBD) allele sharing are useful QC steps. Standard tools like plink and king are called by the scripts.&lt;/p&gt;
-
-&lt;p&gt;The first step is to load VCF or BCF file into PLINK.&lt;/p&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PLINK --bcf file.bcf.gz &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--allow-no-sex &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--keep-allele-order &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--vcf-idspace-to _ &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--make-bed &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--out plink.load
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Then remove SNPs with more than 10 percent missing genotype calls.&lt;/p&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PLINK --bfile plink.load &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         --allow-no-sex &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         --keep-allele-order &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         --geno &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         --make-bed &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         --out plink.geno10pc
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;The command check-sex compares the sex reported in the .fam file and the sex imputed from the X chromosome inbreeding coefficients.&lt;/p&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PLINK --bfile plink.geno10pc &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--allow-no-sex &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--keep-allele-order &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--split-x hg38 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--make-bed &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--out plink.geno10pc.split
-
-PLINK --bfile plink.geno10pc.split &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--allow-no-sex &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--check-sex &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-	--out plink.geno10pc.sexcheck
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Complete pipeline can be found &lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/80fe2e327b605d134454fe99c9cf272d7271b0aa/job_post_variant_qc.sh&quot;&gt;here&lt;/a&gt;.
-Now, you need to go into your SGE computer (our’s is called HGCC), and run:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qsub job_post_variant_qc.sh
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="plink" /><category term="discordant sex informaion" /><category term="missingness" /><category term="heterozygosity rate" /><category term="runs of homozygosity" /><summary type="html">An important step in the analysis of genome-wide association studies (GWAS) is to identify problematic subjects and markers. Quality control (QC) in GWAS removes markers and individuals, and greatly increases the accuracy of findings.</summary></entry><entry><title type="html">A comprehensive map of the human complement system</title><link href="http://localhost:4000/publication/2013-ucsd-sgmp" rel="alternate" type="text/html" title="A comprehensive map of the human complement system" /><published>2017-08-20T00:00:00-07:00</published><updated>2017-08-20T00:00:00-07:00</updated><id>http://localhost:4000/publication/blog-post</id><content type="html" xml:base="http://localhost:4000/publication/2013-ucsd-sgmp">&lt;p&gt;The human complement activation takes place through one or more of the well-established pathways consisting of plasma and membrane-bound proteins.&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="human complement" /><category term="curation" /><category term="networks" /><summary type="html">The human complement activation takes place through one or more of the well-established pathways consisting of plasma and membrane-bound proteins.</summary></entry><entry><title type="html">Copy number variation discovery workflows using NGS data.</title><link href="http://localhost:4000/posts/2017/09/blog-post-trio/" rel="alternate" type="text/html" title="Copy number variation discovery workflows using NGS  data." /><published>2017-08-19T00:00:00-07:00</published><updated>2017-08-19T00:00:00-07:00</updated><id>http://localhost:4000/posts/2017/09/blog-post</id><content type="html" xml:base="http://localhost:4000/posts/2017/09/blog-post-trio/">&lt;p&gt;Copy number variations (CNVs) represent gain or loss of genomic regions. CNVs transmit from parents to offspring or arise &lt;i&gt;de novo&lt;/i&gt; and play important role in neuro-psychiatric disorders and cancers.&lt;/p&gt;
-
-&lt;p&gt;Traditionally CNVs are identified through array based approaches but recent advances in genomic technologies, whole genome sequencing (WGS) approaches are becaming popular. Existing Next-generation sequencing (NGS)-based approaches, which detect CNVs for individual sample level, usually yield low-detection accuracy, while joint modeling approaches use maximum advantage of Mendelian transmission within the parent-offspring trio improved CNV detection accuracy. NGS data analysis pipelines for CNV discovery are available at Bitbucket
-| &lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6e3396384fc31cdb4703534a4ca42d7f6a979954/job_bwa_mpileup.sh&quot;&gt;BWA MEM&lt;/a&gt; |
-&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6e3396384fc31cdb4703534a4ca42d7f6a979954/job_cnvnator.sh&quot;&gt;CNAVnator&lt;/a&gt; | 
-&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6e3396384fc31cdb4703534a4ca42d7f6a979954/job_pindel.sh&quot;&gt;Pindel&lt;/a&gt; | 
-&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6e3396384fc31cdb4703534a4ca42d7f6a979954/job_svseq2.sh&quot;&gt;SVseq2&lt;/a&gt; | 
-&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6e3396384fc31cdb4703534a4ca42d7f6a979954/job_triocnv.sh&quot;&gt;TrioCNV&lt;/a&gt; |&lt;/p&gt;
-
-&lt;p&gt;&lt;b&gt;Figure&lt;/b&gt;. Distribution of the average read depth (RD) signal difference for neighboring segments on human Chr 12 (Chr12:758001-765000).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/SLx7_chr12_758001_765000.png&quot; alt=&quot;CNVnator&quot; /&gt;&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="genomics" /><category term="computing" /><category term="cnv" /><summary type="html">Copy number variations (CNVs) represent gain or loss of genomic regions. CNVs transmit from parents to offspring or arise de novo and play important role in neuro-psychiatric disorders and cancers.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="eQTL" /><category term="RNA-Seq" /><category term="htseq" /><category term="MatrixEqtl" /><category term="edgeR" /><summary type="html">Genetic locus that affects gene expression is often referred to as expression quantitative trait locus (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels. Based on the hg38 reference genome, paired-end reads are mapped by STAR aligner. The mapped reads are used for expression quantification without assembling transcripts by counting the number of reads that map to an exon by HTSeq that uses Refseq gene annotations. Then, to correct for systematic variability such as library fragment size, sequence composition bias, and read depth the raw counts are normalized as trimmed mean of M-values (TMM) through edgeR.</summary></entry></feed>

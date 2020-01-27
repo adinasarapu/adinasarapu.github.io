@@ -1,0 +1,518 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Quantitative proteomics: TMT-based quantitation of proteins - Ashok R. Dinasarapu</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Ashok R. Dinasarapu">
+<meta property="og:title" content="Quantitative proteomics: TMT-based quantitation of proteins">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2020/01/blog-post-tmt/">
+  <meta property="og:url" content="http://localhost:4000/posts/2020/01/blog-post-tmt/">
+
+
+
+  <meta property="og:description" content="Here, I describe the general workflow of relative quantification of proteins using isobaric labeling (tandem mass tag or TMT). The methodology starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT). Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-01-09T00:00:00-08:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Ashok R. Dinasarapu",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Ashok R. Dinasarapu Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="http://localhost:4000/images/apple-touch-icon-57x57.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="60x60" href="http://localhost:4000/images/apple-touch-icon-60x60.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="76x76" href="http://localhost:4000/images/apple-touch-icon-76x76.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=M44lzPylqQ">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=M44lzPylqQ" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=M44lzPylqQ" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-96x96.png?v=M44lzPylqQ" sizes="96x96">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=M44lzPylqQ" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=M44lzPylqQ">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=M44lzPylqQ">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-144x144.png?v=M44lzPylqQ">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=M44lzPylqQ">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Ashok R. Dinasarapu</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive/">NGS Pipelines</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">Résumé</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/talks/">Talks</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Scientist, Bioinformatics">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Scientist, Bioinformatics</h3>
+    <p class="author__bio">Emory University</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Atlanta, GA</li>
+      
+      
+      
+      
+        <li><a href="mailto:ashok.reddy.dinasarapu@emory.edu"><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+      
+      
+      
+        <li><a href="https://twitter.com/adinasarapu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fa fa-fw fa-linkedin-square" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+      
+      
+        <li><a href="https://bitbucket.org/adinasarapu"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+      
+      
+        <li><a href="https://github.com/adinasarapu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="ai ai-google-scholar-square ai-fw"></i> Google Scholar</a></li>
+      
+      
+        <li><a href="http://orcid.org/0000-0002-1423-1518"><i class="ai ai-orcid-square ai-fw"></i> ORCID</a></li>
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Quantitative proteomics: TMT-based quantitation of proteins">
+    <meta itemprop="description" content="Here, I describe the general workflow of relative quantification of proteins using isobaric labeling (tandem mass tag or TMT). The methodology starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT). Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.">
+    <meta itemprop="datePublished" content="January 09, 2020">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Quantitative proteomics: TMT-based quantitation of proteins
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  4 minute read
+	
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-01-09T00:00:00-08:00">January 09, 2020</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p>Here, I describe the general workflow of relative quantification of proteins using isobaric labeling (tandem mass tag or TMT). The methodology starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT). Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.</p>
+
+<p>Fractionation prior to LC-MS/MS analysis effectively detects low abundance proteins (&lt;100ng/mL), which is the concentration range of most clinical biomarkers.</p>
+
+<p>TMT-based approach allows multiplexing of samples. TMT 6-plex reagents produces a series of different reporter ions with nominal masses from 126 to 131 Da at 1 Da intervals. Several TMT reagents are commercially available including TMTzero, TMT duplex, TMT 6-plex, and TMT 10-plex <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>. They have the same chemical structure but contain different numbers and combinations of 13C and 15N isotopes in the reporter group. The overall calibrated intensities of reporter ions equal.</p>
+
+<p><strong>Isobaric labeling reagent (TMT) structure</strong>:<br />
+a. An amine-specific reactive group – an N-hydroxysuccinimide ester, which reacts with primary amines i.e unblocked N-terminals and lysine side chains.<br />
+b. A mass reporter group for quantification – the reporter groups are partially fragmented from the peptide during precursor fragmentation in the mass spectrometer.<br />
+c.A mass normalizer group to link the reactive and reporter groups – mass normalizer group ensures that the peptide complexity in the MS1 spectra does not increase with multiplexing.</p>
+
+<p>Unless otherwise noted, every analysis utilizes an MS3-based TMT-centric mass spectrometry method. MS2-based TMT yields the highest precision but lowest accuracy due to ratio compression, which MS3-based TMT can partly rescue <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>. To 10 precursors selected for MS2/MS3 analysis.</p>
+
+<p><strong>What are the correction factors used for TMT?</strong><br />
+TMT reporter ion signals need to be adjusted to account for isotopic impurities in each TMT variant.  For TMT-10plex labeling, different batches of TMT reagents have slightly different isotope impurities that need to be included for database search to correct the reporter ion ratio. The information of isotope impurity can be found in the reagent kit. However, I do not normally correct for isotopic impurities of TMT reagents, as this is typically a «1.2% shift.</p>
+
+<p><strong>Database search for protein identification and quantification</strong>:<br />
+The resulting TMT-MS3 data (.raw files) are processed using MaxQuant with an integrated Andromeda search engine (v.1.6.7.0). Tandem mass spectra were searched against the Uniprot database.</p>
+
+<p>Download and install  <a href="https://bitbucket.org/adinasarapu/aws_maxquant_persues/src/master/">MaxQuant</a></p>
+
+<p>Specification of Various Parameters in MaxQuant (All the other parameters in MaxQuant are set to the default values for processing orbitrap-type data)<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>:</p>
+
+<p><strong>Raw data</strong> pane<br />
+Using Load, select all raw files from all batches. Update Experiment (a unique value for each of the samples) and Fraction (if available) column values using set experiment and set fractions buttons.</p>
+
+<p><strong>Group-specific parameters</strong> pane<br />
+Change Type as Reporter ion MS3 and then select “10plex TMT”. Update isobaric impurities values, if available. For Modifications, select Variable modifications as Oxidation (M), Acetyl (Protein N-term); Deamidation (NQ) and Fixed Modifications as Carbamidomethyl© and, TMT labeled N- terminus and lysine residue. Specify Trypsin/P as a cleavage enzyme using Digestion and allow up to 2 missing cleavages. Set Label-free quantification as None.</p>
+
+<p><strong>Global parameters</strong> pane<br />
+For Sequences select a reference proteome database Uniprot FASTA file and update Max. peptide mass [Da] as 6000. For Protein quantification select Use only unmodified peptides and a list of modifications such as Oxidation (M), Acetyl (Protein N-term) and Deamidation. Select Match between runs in Identification tab.</p>
+
+<p>Update the following two parameters for MS/MS analyzer:<br />
+a. FTMS MS/MS match tolerance: 0.05 Da<br />
+b.ITMS MS/MS match tolerance: 0.6 Da</p>
+
+<p>For Folder location select tmp directory (optional).</p>
+
+<p>Further data processing is performed using Perseus (version 1.6.7.0) <sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>. The search results in <code class="highlighter-rouge">ProteinGroups.txt</code> generated by MaxQuant are directly processed by Perseus software. MaxQuant reports the TMT-MS3 quantitative relative abundance metrics in the columns titled “Reporter intensity corrected”.</p>
+
+<p><strong>Further reading</strong>:<br />
+Data normalization and analysis in multiple TMT experimental designs <sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup><br />
+Multiplexed Protein Quantification Using the Isobaric TMT … <sup id="fnref:6"><a href="#fn:6" class="footnote">6</a></sup></p>
+
+<hr />
+
+<p>AWS Windows instance for <a href="https://bitbucket.org/adinasarapu/aws_maxquant_persues/src">MaxQuant/Perseus</a></p>
+
+<hr />
+
+<h2 id="references">References</h2>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Bąchor, R.; Waliczek, M.; Stefanowicz, P.; Szewczuk, Z. Trends in the Design of New Isobaric Labeling Reagents for Quantitative Proteomics. Molecules 2019, 24, 701.&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>A. Hogrebe, L. von Stechow, D.B. Bekker-Jensen, B.T. Weinert, C.D. Kelstrup, J.V. Olsen Benchmarking common quantification strategies for large-scale phosphoproteomics Nat. Commun., 9 (2018), p. 1045.&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p><a href="http://www.coxdocs.org/doku.php?id=maxquant:start">MaxQuant</a>&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p><a href="http://www.coxdocs.org/doku.php?id=perseus:start">Perseus</a>&nbsp;<a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p><a href="https://pwilmart.github.io/TMT_analysis_examples/multiple_TMT_MQ.html">TMT Batch Correction</a>&nbsp;<a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:6">
+      <p><a href="https://assets.thermofisher.com/TFS-Assets/CMD/Reference-Materials/PP-TMT-Multiplexed-Protein-Quantification-HUPO2015-EN.pdf">TMT analysis using Proteome Discoverer</a>&nbsp;<a href="#fnref:6" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#10plex" class="page__taxonomy-item" rel="tag">10plex</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#isobaric-labeling" class="page__taxonomy-item" rel="tag">isobaric labeling</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#maxquant" class="page__taxonomy-item" rel="tag">MaxQuant</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#ms3-spectra" class="page__taxonomy-item" rel="tag">MS3 spectra</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#perseus" class="page__taxonomy-item" rel="tag">Perseus</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#proteomics" class="page__taxonomy-item" rel="tag">Proteomics</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#tandem-mass-tag" class="page__taxonomy-item" rel="tag">tandem mass tag</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#tmt-10plex" class="page__taxonomy-item" rel="tag">TMT 10plex</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#tmt" class="page__taxonomy-item" rel="tag">TMT</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/01/blog-post-tmt/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/01/blog-post-tmt/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http://localhost:4000/posts/2020/01/blog-post-tmt/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/01/blog-post-tmt/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2019/12/blog-post-atacseq/" class="pagination--pager" title="ATAC-seq peak calling with MACS2
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2020/01/blog-post-kafka/" class="pagination--pager" title="Building a real-time big data pipelines (part 1: Apache Kafka)
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    </script>
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<!--<a href="/sitemap/">Sitemap</a> -->
+<!-- end custom footer snippets -->
+
+        
+
+<!--
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/adinasarapu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+      <li><a href="http://bitbucket.org/adinasarapu"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 Ashok R. Dinasarapu  | <a href="http://adinasarapu.github.io/terms/" rel="nofollow">Privacy Policy</a>
+
+<!-- Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.--> 
+</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-68614074-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
