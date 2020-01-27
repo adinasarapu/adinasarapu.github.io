@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-26T16:19:22-08:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 1: Apache Kafka)</title><link href="http://localhost:4000/posts/2020/01/blog-post-kafka/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 1: Apache Kafka)" /><published>2020-01-26T00:00:00-08:00</published><updated>2020-01-26T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-kafka</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-kafka/">&lt;p&gt;&lt;a href=&quot;https://kafka.apache.org&quot;&gt;Kafka&lt;/a&gt; is used for building real-time data pipelines and streaming apps.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-27T11:01:49-08:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 1: Apache Kafka)</title><link href="http://localhost:4000/posts/2020/01/blog-post-kafka/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 1: Apache Kafka)" /><published>2020-01-26T00:00:00-08:00</published><updated>2020-01-26T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-kafka</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-kafka/">&lt;p&gt;&lt;a href=&quot;https://kafka.apache.org&quot;&gt;Kafka&lt;/a&gt; is used for building real-time data pipelines and streaming apps.&lt;/p&gt;
 
 &lt;p&gt;What is Kafka? &lt;a href=&quot;https://success.docker.com/article/getting-started-with-kafka&quot;&gt;Getting started with kafka&lt;/a&gt; says “Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo ‘data’ » file.dat), and consumers subscribe to a certain file (tail -f file.dat). In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper (simplified: solid, reliable, transactional key/value store) to keep track of the state of producers, topics, and consumers.”&lt;/p&gt;
 
@@ -97,13 +97,18 @@ The Kafka cluster stores streams of records in categories called topics. A topic
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh --list --bootstrap-server localhost:9092  
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh \
+ --list \
+ --bootstrap-server localhost:9092  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;p&gt;If necessary, delete a topic using the following command.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh --delete --topic test1 --bootstrap-server localhost:9092  
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh \
+ --delete \
+ --topic test1 \
+ --bootstrap-server localhost:9092  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -127,8 +132,9 @@ World
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;Another way of reading data from a Kafka topic is by simply using a Spring Boot application&lt;/strong&gt; (Here I call this project as SpringBootKafka).&lt;br /&gt;
-The following demonstrates how to send and receive messages from Spring Kafka. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic. Then in next blog I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Another way of reading data from a Kafka topic is by simply using a Spring Boot application&lt;/strong&gt; (Here I call this project as SpringBootKafka).&lt;/p&gt;
+
+&lt;p&gt;The following demonstrates how to receive messages from Kafka topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic. Then in next blog I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.&lt;/p&gt;
 
 &lt;p&gt;The first step to create a simple Spring Boot maven Application is &lt;a href=&quot;https://spring.io/guides/gs/spring-boot/&quot;&gt;Starting with Spring Initializr&lt;/a&gt; and make sure to have spring-kafka dependency to &lt;code class=&quot;highlighter-rouge&quot;&gt;pom.xml&lt;/code&gt;.&lt;/p&gt;
 
@@ -156,22 +162,22 @@ public class SpringBootKafkaApplication {
   kafka:  
 consumer:  
   bootstrap-servers: localhost:9092  
-  group-id: simpleconsumer  
+  group-id: group_test1  
   auto-offset-reset: earliest  
   key-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
   value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Create a Spring Kafka Consumer class: &lt;code class=&quot;highlighter-rouge&quot;&gt;MessageConsumer.java&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Create a Spring Kafka Consumer class:&lt;/p&gt;
 
-&lt;p&gt;Create a class called MessageConsumer and add a method with the @KakfaListener annotation.&lt;/p&gt;
+&lt;p&gt;Create a class called &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaConsumer.java&lt;/code&gt; and add a method with the @KakfaListener annotation.&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Service  
-public class MessageConsumer {  
-	@KafkaListener(id = &quot;simpleconsumer&quot;, topics = &quot;test1&quot;)  
+public class KafkaConsumer {  
+	@KafkaListener(id = &quot;group_test1&quot;, topics = &quot;test1&quot;)  
 	public void consumeMessage(String message) {  
-		System.out.println(&quot;Got message: &quot; + message);  
+		System.out.println(&quot;Consumed message: &quot; + message);  
 	}  
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -218,6 +224,94 @@ o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupI
 2020-01-26 14:26:56.477  INFO 11137 --- [econsumer-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : simpleconsumer: partitions assigned: [test1-0]  
 Got message: hello  
 Got message: world  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The following code demonstrates how to send and receive messages from Kafka topic. The above &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaConsumer.java&lt;/code&gt; receives messages that were sent to a Kafka topic. The followng &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaProducer.java&lt;/code&gt; send messages to a Kafka topic.&lt;/p&gt;
+
+&lt;p&gt;Make sure to have spring-web dependency to &lt;code class=&quot;highlighter-rouge&quot;&gt;pom.xml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;  
+  &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;  
+  &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt;  
+&amp;lt;/dependency&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Add two new java classes &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaController.java&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaProducer.java&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@RestController  
+@RequestMapping(value=&quot;/kafka&quot;)  
+public class KafkaController {  
+	private final KafkaProducer producer;  
+
+	@Autowired  
+	KafkaController(KafkaProducer producer){  
+		this.producer = producer;  
+	}  
+
+	@PostMapping(value=&quot;/publish&quot;)  
+	public void messagePrint(@RequestParam(value=&quot;message&quot;, required = false) String message) {  
+		this.producer.sendMessage(message);  
+	}  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Service  
+public class KafkaProducer {  
+	private static final String TOPIC = &quot;test1&quot;;  
+
+	@Autowired  
+	private KafkaTemplate&amp;lt;String, String&amp;gt; kafkaTemplate;  
+	
+	public void sendMessage(String message) {  
+		kafkaTemplate.send(TOPIC, message);  
+		System.out.println(&quot;Produced message: &quot; + message);  
+	}  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Update &lt;code class=&quot;highlighter-rouge&quot;&gt;application.yml&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;server:
+  port: 8080
+spring:
+  kafka:
+   consumer:
+    bootstrap-servers: localhost:9092
+    group-id: group_test1
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+   producer:  
+    bootstrap-servers: localhost:9092  
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer  
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Run Spring Boot web application (see How to run Spring Boot web application in Eclipse?)&lt;/p&gt;
+
+&lt;p&gt;Make POST request using &lt;a href=&quot;https://www.getpostman.com&quot;&gt;Postman&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Select &lt;code class=&quot;highlighter-rouge&quot;&gt;POST&lt;/code&gt; and use the API &lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8080/kafka/publish&lt;/code&gt;&lt;br /&gt;
+&lt;strong&gt;Body&lt;/strong&gt;: form-data  &lt;strong&gt;KEY&lt;/strong&gt;: message  &lt;strong&gt;VALUE&lt;/strong&gt;: hello&lt;/p&gt;
+
+&lt;p&gt;Finally click &lt;strong&gt;send&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;See Eclipse Console for messages:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;...  
+...  
+...  
+2020-01-27 13:12:06.911  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.3.1  
+2020-01-27 13:12:06.912  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 18a913733fb71c01  
+2020-01-27 13:12:06.912  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1580148726911  
+2020-01-27 13:12:06.947  INFO 31822 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: 6R8O95IPSfGoifR4zzwM6g  
+Produced message: hello  
+Consumed message: hello
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache kafka" /><category term="real time data pipelines" /><category term="java" /><category term="docker" /><category term="Spring Boot" /><category term="YAML" /><category term="Zookeeper" /><summary type="html">Kafka is used for building real-time data pipelines and streaming apps.</summary></entry><entry><title type="html">Quantitative proteomics: TMT-based quantitation of proteins</title><link href="http://localhost:4000/posts/2020/01/blog-post-tmt/" rel="alternate" type="text/html" title="Quantitative proteomics: TMT-based quantitation of proteins" /><published>2020-01-09T00:00:00-08:00</published><updated>2020-01-09T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-tmt</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-tmt/">&lt;p&gt;Here, I describe the general workflow of relative quantification of proteins using isobaric labeling (tandem mass tag or TMT). The methodology starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT). Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.&lt;/p&gt;
 

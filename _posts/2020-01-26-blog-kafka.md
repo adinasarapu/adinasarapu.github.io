@@ -113,13 +113,18 @@ bash-4.4# ./kafka-topics.sh \
 ```  
 
 ```
-bash-4.4# ./kafka-topics.sh --list --bootstrap-server localhost:9092  
+bash-4.4# ./kafka-topics.sh \
+ --list \
+ --bootstrap-server localhost:9092  
 ```
 
 If necessary, delete a topic using the following command.  
 
 ```
-bash-4.4# ./kafka-topics.sh --delete --topic test1 --bootstrap-server localhost:9092  
+bash-4.4# ./kafka-topics.sh \
+ --delete \
+ --topic test1 \
+ --bootstrap-server localhost:9092  
 ```  
 
 **3. Producer and Consumer**  
@@ -143,7 +148,8 @@ World
 ```  
 
 **Another way of reading data from a Kafka topic is by simply using a Spring Boot application** (Here I call this project as SpringBootKafka).  
-The following demonstrates how to send and receive messages from Spring Kafka. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic. Then in next blog I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.  
+
+The following demonstrates how to receive messages from Kafka topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic. Then in next blog I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.  
 
 The first step to create a simple Spring Boot maven Application is [Starting with Spring Initializr](https://spring.io/guides/gs/spring-boot/) and make sure to have spring-kafka dependency to `pom.xml`.  
 
@@ -172,22 +178,22 @@ spring:
   kafka:  
 consumer:  
   bootstrap-servers: localhost:9092  
-  group-id: simpleconsumer  
+  group-id: group_test1  
   auto-offset-reset: earliest  
   key-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
   value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
 ```  
 
-Create a Spring Kafka Consumer class: `MessageConsumer.java`  
+Create a Spring Kafka Consumer class:  
 
-Create a class called MessageConsumer and add a method with the @KakfaListener annotation.  
+Create a class called `KafkaConsumer.java` and add a method with the @KakfaListener annotation.  
 
 ```  
 @Service  
-public class MessageConsumer {  
-	@KafkaListener(id = "simpleconsumer", topics = "test1")  
+public class KafkaConsumer {  
+	@KafkaListener(id = "group_test1", topics = "test1")  
 	public void consumeMessage(String message) {  
-		System.out.println("Got message: " + message);  
+		System.out.println("Consumed message: " + message);  
 	}  
 }
 ```  
@@ -234,4 +240,94 @@ o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupI
 2020-01-26 14:26:56.477  INFO 11137 --- [econsumer-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : simpleconsumer: partitions assigned: [test1-0]  
 Got message: hello  
 Got message: world  
+```  
+
+The following code demonstrates how to send and receive messages from Kafka topic. The above `KafkaConsumer.java` receives messages that were sent to a Kafka topic. The followng `KafkaProducer.java` send messages to a Kafka topic.          
+
+Make sure to have spring-web dependency to `pom.xml`.
+
+```  
+<dependency>  
+  <groupId>org.springframework.boot</groupId>  
+  <artifactId>spring-boot-starter-web</artifactId>  
+</dependency>  
+```  
+
+Add two new java classes `KafkaController.java` and `KafkaProducer.java`  
+
 ```
+@RestController  
+@RequestMapping(value="/kafka")  
+public class KafkaController {  
+	private final KafkaProducer producer;  
+
+	@Autowired  
+	KafkaController(KafkaProducer producer){  
+		this.producer = producer;  
+	}  
+
+	@PostMapping(value="/publish")  
+	public void messagePrint(@RequestParam(value="message", required = false) String message) {  
+		this.producer.sendMessage(message);  
+	}  
+}  
+```  
+
+```  
+@Service  
+public class KafkaProducer {  
+	private static final String TOPIC = "test1";  
+
+	@Autowired  
+	private KafkaTemplate<String, String> kafkaTemplate;  
+	
+	public void sendMessage(String message) {  
+		kafkaTemplate.send(TOPIC, message);  
+		System.out.println("Produced message: " + message);  
+	}  
+}  
+```  
+
+Update `application.yml` file.  
+
+```
+server:
+  port: 8080
+spring:
+  kafka:
+   consumer:
+    bootstrap-servers: localhost:9092
+    group-id: group_test1
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+   producer:  
+    bootstrap-servers: localhost:9092  
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer  
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer  
+```
+
+Run Spring Boot web application (see How to run Spring Boot web application in Eclipse?)
+
+
+Make POST request using [Postman](https://www.getpostman.com).  
+
+Select `POST` and use the API `http://localhost:8080/kafka/publish`  
+**Body**: form-data  **KEY**: message  **VALUE**: hello
+ 
+Finally click **send**.  
+
+
+See Eclipse Console for messages:  
+
+```
+...  
+...  
+...  
+2020-01-27 13:12:06.911  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.3.1  
+2020-01-27 13:12:06.912  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 18a913733fb71c01  
+2020-01-27 13:12:06.912  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1580148726911  
+2020-01-27 13:12:06.947  INFO 31822 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: 6R8O95IPSfGoifR4zzwM6g  
+Produced message: hello  
+Consumed message: hello
+```  
