@@ -1,5 +1,5 @@
 ---
-title: 'Building a real-time big data pipelines (part 1: Apache Kafka)'
+title: 'Building a real-time big data pipeline (part 1: Apache Kafka)'
 date: 2020-01-26
 permalink: /posts/2020/01/blog-post-kafka/
 tags:
