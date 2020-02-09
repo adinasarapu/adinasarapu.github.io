@@ -1,4 +1,306 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-27T11:01:49-08:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 1: Apache Kafka)</title><link href="http://localhost:4000/posts/2020/01/blog-post-kafka/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 1: Apache Kafka)" /><published>2020-01-26T00:00:00-08:00</published><updated>2020-01-26T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-kafka</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-kafka/">&lt;p&gt;&lt;a href=&quot;https://kafka.apache.org&quot;&gt;Kafka&lt;/a&gt; is used for building real-time data pipelines and streaming apps.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-02-09T15:06:02-08:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 2: Spark, Hadoop)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)" /><published>2020-02-09T00:00:00-08:00</published><updated>2020-02-09T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark/">&lt;p&gt;Apache Spark&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; is a unified analytics engine for large-scale data processing.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;What exactly is Apache Spark?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A Cluster computing engine and a set of libraries, application programming interfaces (APIs) together make apache spark. The spark core itself has two parts. 1. Computing engine and 2. Spark Core APIs (Scala, Java, Python and R).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Apache Spark Ecosystem&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------+-----------+-------+----------+
+| SQL	 | Streaming | MLlib |	GraphX 	|
+|---------------------------------------|
+|	Spark Core API			|	
+|---------------------------------------|
+| Scala	| Python    |	Java |	R	|
+|---------------------------------------|	
+|	Compute Engine			|
++---------------------------------------+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Computing Engine&lt;/strong&gt;&lt;br /&gt;
+Apache Hadoop&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; offers distributed storage (HDFS), resource manager (YARN)  and computing framework (Map Reduce). Apache Spark is a distributed processing engine but it doesn’t come with inbuilt cluster resource manager and distributed storage system. We have to plugin a cluster manager and a storage system of our choice. We can use YARN, Mesos, and Kubernetes as a cluster manager for Apache Spark. Similarly, for the storage system we can use HDFS, Amazon S3, Google cloud storage or Cassandra File System (CFS) and more. The compute engine provides some basic functionality like memory management, task scheduling, fault recovery and most importantly interacting with the cluster manager and storage system.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Core APIs&lt;/strong&gt;
+Spark core consists of structured API and unstructured API. Structured API consists of Data Frames and Data Sets. Unstructured APIs consists of RDDs, accumulators and broadcast variables&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. These core APIs are available as Scala, Java, Python and R.  &lt;br /&gt;
+Outside of Spark Core we have 4 sets of libraries and packages, Spark SQL, Spark Streaming, MLlib and Graphx. They directly depend on Spark Core APIs to achieve distributed processing.&lt;/p&gt;
+
+&lt;p&gt;Typical Spark Application Process Flow: Apache Spark reads some data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. Latest Spark release recommended to use Data Frame and Data Set. Both of them are compiled down in RDD.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;RDD: Resilient Distributed Data Set&lt;/strong&gt; &lt;sup id=&quot;fnref:3:1&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; Spark RDD is a resilient, partitioned, distributed and immutable collection of data.&lt;br /&gt;
+&lt;strong&gt;Resilient&lt;/strong&gt; – RDDs are fault tolerant.&lt;br /&gt;
+&lt;strong&gt;Partitioned&lt;/strong&gt; – Spark breaks the RDD into smaller chunks of data. These pieces are called partitions.&lt;br /&gt;
+&lt;strong&gt;Distributed&lt;/strong&gt; – Instead of keeping these partitions on a single machine, Spark spreads them across the cluster.&lt;br /&gt;
+&lt;strong&gt;Immutable&lt;/strong&gt; – Once defined, you can’t change them. So Spark RDD is a read-only data structure.&lt;/p&gt;
+
+&lt;p&gt;For RDDs vs DataFrames and Datasets - When to use them and why. Read &lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;We can create RDD using two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Step 1&lt;/strong&gt;: Hadoop installation&lt;/p&gt;
+
+&lt;p&gt;See tutorial on &lt;a href=&quot;https://www.quickprogrammingtips.com/big-data/how-to-install-hadoop-on-mac-os-x-el-capitan.html&quot;&gt;How to Install and Configure Hadoop on Mac&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Update your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_profile&lt;/code&gt; file, which is a configuration file for configuring user environments.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$vi ~/.bash_profile  
+export HADOOP_HOME=/Users/adinasarapu/Documents/hadoop-3.1.3  
+export PATH=$PATH:$HADOOP_HOME/bin  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Start Hadoop&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$bash sbin/start-dfs.sh 
+Starting namenodes on [localhost]
+Starting datanodes
+Starting secondary namenodes [Ashoks-MacBook-Pro.local]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Verify Hadoop installation&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ jps
+61073 ResourceManager
+82025 SecondaryNameNode
+61177 NodeManager
+81882 DataNode
+82303 Jps
+81774 NameNode
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Create user&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$hadoop fs -mkdir -p /user/adinasarapu&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Move file to HDFS&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$hadoop fs -copyFromLocal samples.csv /user/adinasarapu&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now the data file is at real distributed storage. The file location at HDFS is &lt;code class=&quot;highlighter-rouge&quot;&gt;hdfs://localhost:9000/user/adinasarapu/ samples.csv&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;List files moved&lt;/strong&gt;&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;$ hadoop fs -ls /user/adinasarapu&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Found 3 items
+-rw-r--r--   1 adinasarapu supergroup  110252495 2020-02-08 17:04 /user/adinasarapu/flist.txt
+-rw-r--r--   1 adinasarapu supergroup       1318 2020-02-09 14:47 /user/adinasarapu/samples.csv
+-rw-r--r--   1 adinasarapu supergroup     303684 2020-02-09 08:21 /user/adinasarapu/survey.csv
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Apache Spark installation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;See tutorial on &lt;a href=&quot;https://medium.com/luckspark/installing-spark-2-3-0-on-macos-high-sierra-276a127b8b85&quot;&gt;Installing Apache Spark … on macOS&lt;/a&gt;&lt;br /&gt;
+Update your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_profile&lt;/code&gt; file, which is a configuration file for configuring user environments.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$vi ~/.bash_profile  
+export SPARK_HOME=/Users/adinasarapu/Documents/spark-3.0.0-preview2-bin-hadoop3.2  
+export PATH=$PATH:$SPARK_HOME/bin  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Start Spark shell&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$spark-shell  
+20/02/09 15:03:23 ..  
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties  
+Setting default log level to &quot;WARN&quot;.  
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).  
+Spark context Web UI available at http://192.168.0.5:4040  
+Spark context available as 'sc' (master = local[*], app id = local-1581278612106).  
+Spark session available as 'spark'.  
+Welcome to  
+      ____              __  
+     / __/__  ___ _____/ /__  
+    _\ \/ _ \/ _ `/ __/  '_/  
+   /___/ .__/\_,_/_/ /_/\_\   version 3.0.0-preview2  
+      /_/  
+           
+Using Scala version 2.12.10 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_102)  
+Type in expressions to have them evaluated.  
+Type :help for more information.  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Read CSV data&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df = spark.read.options(Map(  
+	&quot;header&quot; -&amp;gt; &quot;true&quot;,  
+	&quot;inferSchema&quot;-&amp;gt;&quot;true&quot;,  
+	&quot;nullValue&quot;-&amp;gt;&quot;NA&quot;,  
+	&quot;timestampFormat&quot;-&amp;gt;&quot;MM-dd-yyyy&quot;,  
+	&quot;mode&quot;-&amp;gt;&quot;failfast&quot;)).csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples.csv&quot;)  
+
+df: org.apache.spark.sql.DataFrame = [Sample: string, p16: string ... 7 more fields]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Check the number of partitions&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.rdd.getNumPartitions  
+res4: Int = 1  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Set/increase Number of partitions to 3&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df2 = df.repartition(3).toDF  
+df2: org.apache.spark.sql.DataFrame = [Sample: string, p16: string ... 7 more fields]  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Recheck the number of partitions&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df2.rdd.getNumPartitions  
+res5: Int = 3  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;SQL like operation&lt;/strong&gt; &lt;br /&gt;
+Data Frame follows row and column structure like a database table. Data Frame compiles down to RDDs. RDDs are immutable and once loaded you can’t modify it. However, you can perform the following operations a) Transformation and b) Actions. Spark Data Frames carries the same legacy from RDDs. Like RDDs, Spark Data Frames are immutable. You can perform transformation and actions on Data Frames.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.select(&quot;Sample&quot;,&quot;Age&quot;,&quot;Sex&quot;,&quot;Anatomy&quot;).filter(&quot;Age &amp;lt; 55&quot;).show  
+  
++------+---+------+-------+  
+|Sample|Age|   Sex|Anatomy|  
++------+---+------+-------+  
+|GHN-57| 50|female|    BOT|  
+|GHN-39| 51|  male|    BOT|  
+|GHN-60| 41|  male|    BOT|  
+|GHN-64| 49|  male|    BOT|  
+|GHN-77| 53|  male|    BOT|  
+|GHN-66| 52|  male| Tonsil|  
+|GHN-67| 54|  male| Tonsil|  
+|GHN-68| 51|  male| Tonsil|  
+|GHN-80| 54|  male| Tonsil|  
+|GHN-83| 54|  male| Tonsil|  
++------+---+------+-------+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df1 = df.select($&quot;Sex&quot;,$&quot;Radiation&quot;)  
+df1: org.apache.spark.sql.DataFrame = [Sex: string, Radiation: string]  
+
+scala&amp;gt; df1.show  
++------+---------+  
+|   Sex|Radiation|  
++------+---------+  
+|female|        Y|  
+|female|        Y|  
+|  male|        Y|  
+|  male|        N|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        N|  
+|  male|        N|  
+|  male|  Unknown|  
+|  male|        Y|  
+|female|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        N|  
++------+---------+  
+only showing top 20 rows  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df2 = df1.select($&quot;Sex&quot;,   
+		(when($&quot;Radiation&quot; === &quot;Y&quot;,1).otherwise(0)).alias(&quot;All-Yes&quot;),  
+		(when($&quot;Radiation&quot; === &quot;N&quot;,1).otherwise(0)).alias(&quot;All-Nos&quot;),  
+		(when($&quot;Radiation&quot; === &quot;Unknown&quot;,1).otherwise(0)).alias(&quot;All-Unknown&quot;))  
+df2: org.apache.spark.sql.DataFrame = [Sex: string, All-Yes: int ... 2 more fields]  
+
+scala&amp;gt; df2.show  
++------+-------+-------+-----------+  
+|   Sex|All-Yes|All-Nos|All-Unknown|  
++------+-------+-------+-----------+  
+|female|      1|      0|          0|  
+|female|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      0|      1|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      0|      1|          0|  
+|  male|      0|      1|          0|  
+|  male|      0|      0|          1|  
+|  male|      1|      0|          0|  
+|female|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      0|      1|          0|  
++------+-------+-------+-----------+  
+only showing top 20 rows  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Scala user-defined function (UDF)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def parseSex(g: String) = {  
+ 	g.toLowerCase match {   
+			case &quot;male&quot;  =&amp;gt; “Male”  
+			case &quot;female&quot; =&amp;gt; “Female”   
+			case _ =&amp;gt; “Other”  
+	}  
+}   
+
+scala&amp;gt; val parseSexUDF = udf(parseSex _)  
+
+parseGenderUDF: org.apache.spark.sql.expressions.UserDefinedFunction = SparkUserDefinedFunction($Lambda$3628/1633612848@4ee80d4c,StringType,List(Some(Schema(StringType,true))),None,true,true)  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df3 = df2.select((parseSexUDF($&quot;Sex&quot;)).alias(&quot;Sex&quot;),$&quot;All-Yes&quot;,$&quot;All-Nos&quot;,$&quot;All-Unknown&quot;)  
+df3: org.apache.spark.sql.DataFrame = [Sex: string, All-Yes: int ... 2 more fields]  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df4 = df3.groupBy(&quot;Sex&quot;).agg(sum($&quot;All-Yes&quot;), sum($&quot;All-Nos&quot;), sum($&quot;All-Unknown&quot;))  
+df4: org.apache.spark.sql.DataFrame = [Sex: string, sum(All-Yes): bigint ... 2 more fields]  
+
+scala&amp;gt; df4.show  
++------+------------+------------+----------------+  
+|   Sex|sum(All-Yes)|sum(All-Nos)|sum(All-Unknown)|  
++------+------------+------------+----------------+  
+|Female|           3|           0|               0|  
+|  Male|          18|           5|               1|  
++------+------------+------------+----------------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df5 = df4.filter($&quot;Sex&quot; =!= &quot;Unknown&quot;)  
+df5: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [Sex: string, sum(All-Yes): bigint ... 2 more fields]  
+  
+scala&amp;gt; df5.collect()  
+res22: Array[org.apache.spark.sql.Row] = Array([Male,18,5,1])  
+
+scala&amp;gt; df5.show  
++----+------------+------------+----------------+  
+| Sex|sum(All-Yes)|sum(All-Nos)|sum(All-Unknown)|  
++----+------------+------------+----------------+  
+|Male|          18|           5|               1|  
++----+------------+------------+----------------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://spark.apache.org&quot;&gt;Apache Spark&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://hadoop.apache.org&quot;&gt;Apache Hadoop&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.learningjournal.guru/courses/spark/spark-foundation-training/&quot;&gt;Learning Journal&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html&quot;&gt;RDDs vs Data Frames and Data Sets&lt;/a&gt; A Tale of Three Apache Spark APIs: RDDs vs DataFrames and Datasets - When to use them and why&amp;nbsp;&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache spark" /><category term="real time data pipelines" /><category term="scala" /><category term="hadoop" /><summary type="html">Apache Spark1 is a unified analytics engine for large-scale data processing. Apache Spark&amp;nbsp;&amp;#8617;</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 1: Apache Kafka)</title><link href="http://localhost:4000/posts/2020/01/blog-post-kafka/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 1: Apache Kafka)" /><published>2020-01-26T00:00:00-08:00</published><updated>2020-01-26T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-kafka</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-kafka/">&lt;p&gt;&lt;a href=&quot;https://kafka.apache.org&quot;&gt;Kafka&lt;/a&gt; is used for building real-time data pipelines and streaming apps.&lt;/p&gt;
 
 &lt;p&gt;What is Kafka? &lt;a href=&quot;https://success.docker.com/article/getting-started-with-kafka&quot;&gt;Getting started with kafka&lt;/a&gt; says “Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo ‘data’ » file.dat), and consumers subscribe to a certain file (tail -f file.dat). In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper (simplified: solid, reliable, transactional key/value store) to keep track of the state of producers, topics, and consumers.”&lt;/p&gt;
 
@@ -638,23 +940,4 @@ HUMAnN2 utilizes the MetaCyc database as well as the UniRef gene family catalog 
   &lt;li&gt;Variant calling with GATK’s &lt;code class=&quot;highlighter-rouge&quot;&gt;HaplotypeCaller&lt;/code&gt;, and finally filtering the variants with GATK’s &lt;code class=&quot;highlighter-rouge&quot;&gt;VariantFiltration&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;My qsub-based pipeline is available at &lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/3e9a2b3881ea0e2afbe58df325ca693ecfac4fbc/job_rnaseq_variant_caller.sh&quot;&gt;bitbucket.org&lt;/a&gt;&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="GATK" /><category term="RNA-Seq" /><category term="STAR" /><category term="SNP" /><category term="Indel" /><summary type="html">RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.</summary></entry><entry><title type="html">eQTL analysis of RNA-Seq data</title><link href="http://localhost:4000/posts/2017/12/blog-post-eqtl/" rel="alternate" type="text/html" title="eQTL analysis of RNA-Seq data" /><published>2017-12-17T00:00:00-08:00</published><updated>2017-12-17T00:00:00-08:00</updated><id>http://localhost:4000/posts/2017/12/blog-eqtl</id><content type="html" xml:base="http://localhost:4000/posts/2017/12/blog-post-eqtl/">&lt;p&gt;Genetic locus that affects gene expression is often referred to as expression quantitative trait locus (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels.&lt;br /&gt;
-Based on the hg38 reference genome, paired-end reads are mapped by &lt;a href=&quot;https://academic.oup.com/bioinformatics/article/29/1/15/272537&quot;&gt;STAR&lt;/a&gt; aligner. The mapped reads are used for expression quantification without assembling transcripts by counting the number of reads that map to an exon by &lt;a href=&quot;https://htseq.readthedocs.io/en/release_0.9.1/&quot;&gt;HTSeq&lt;/a&gt; that uses Refseq gene annotations. Then, to correct for systematic variability such as library fragment size, sequence composition bias, and read depth the raw counts are normalized as trimmed mean of M-values (TMM) through &lt;a href=&quot;https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2796818/&quot;&gt;edgeR&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Beyond quantifying gene expression, the data generated by RNA-Seq facilitate the integration of expression data with genotyping data also known as expression quantitative trait loci (eQTLs) analysis. Infinium CytoSNP-850K v1.2 arrays are used to identify genetic and structural variations. 
-The array data is analyzed using GenomeStudioR or BlueFuse Multi software based on the reference human genome (hg38/GRCh38). After loading the raw array data, the SNP manifest file (&lt;em&gt;.bpm), and standard cluster file (&lt;/em&gt;.egt) are imported into GenomeStudio and clustering of intensities for SNPs are performed. Genotyping calls for a specific DNA made by the calling algorithm (GenCall) which relies on information provided by the GenTrain clustering algorithm.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.bios.unc.edu/research/genomic_software/Matrix_eQTL/&quot;&gt;Matrix eQTL&lt;/a&gt; was used to efficiently test the associations by modeling the effect of genotype as additive linear.&lt;br /&gt;
-&lt;img src=&quot;/images/DEG.png&quot; alt=&quot;eqtl_figure&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Data analysis pipeline for RNA-Seq based eQTL mapping:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6bad66b2e4ce1f98d3392cb4af7cbf37bb08f73f/job_fastqc.sh&quot;&gt;Quality control&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6bad66b2e4ce1f98d3392cb4af7cbf37bb08f73f/job_star_mapping.sh&quot;&gt;Read mapping&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/job_post_mapping_qc.sh&quot;&gt;Post mapping QC&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/job_htseq_count.sh&quot;&gt;HTSeq-count&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/HTseqCountToANOVA.R&quot;&gt;Normalization, Differential expression&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/8a3ba3ef7eaa3937b04b101a843e2a5fed88e52b/ExtractMultiSampleGenotype.R&quot;&gt;Create SNP Matrix&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a1e0bf858af1619edae4816b03735aea9ab215aa/MatrixEQTL_CisTrans.R&quot;&gt;Matrix eQTL&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/dd0755abdece34f8e1f8f46329f2bd570bfd0318/ManhattanPlot_GWAS.R&quot;&gt;Manhattan plot&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="eQTL" /><category term="RNA-Seq" /><category term="htseq" /><category term="MatrixEqtl" /><category term="edgeR" /><summary type="html">Genetic locus that affects gene expression is often referred to as expression quantitative trait locus (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels. Based on the hg38 reference genome, paired-end reads are mapped by STAR aligner. The mapped reads are used for expression quantification without assembling transcripts by counting the number of reads that map to an exon by HTSeq that uses Refseq gene annotations. Then, to correct for systematic variability such as library fragment size, sequence composition bias, and read depth the raw counts are normalized as trimmed mean of M-values (TMM) through edgeR.</summary></entry></feed>
+&lt;p&gt;My qsub-based pipeline is available at &lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/3e9a2b3881ea0e2afbe58df325ca693ecfac4fbc/job_rnaseq_variant_caller.sh&quot;&gt;bitbucket.org&lt;/a&gt;&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="GATK" /><category term="RNA-Seq" /><category term="STAR" /><category term="SNP" /><category term="Indel" /><summary type="html">RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.</summary></entry></feed>
