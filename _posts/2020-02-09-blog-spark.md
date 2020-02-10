@@ -8,13 +8,13 @@ tags:
   - real time data pipelines 
   - scala
   - hadoop   
+  - YARN
+  - bioinformatics
 
 ---  
-Apache Spark[^1] is a unified analytics engine for large-scale data processing.
+Apache Spark is a fast, general-purpose, in-memory, cluster computing framework for large scale data processing[^1]. Apache Spark provides APIs in Java, Scala, Python, and R. It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. 
 
-**What exactly is Apache Spark?**  
-
-A Cluster computing engine and a set of libraries, application programming interfaces (APIs) together make apache spark. The spark core itself has two parts. 1. Computing engine and 2. Spark Core APIs (Scala, Java, Python and R).  
+The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Scala, Java, Python and R).  
 
 **Apache Spark Ecosystem**  
 ```
@@ -29,21 +29,22 @@ A Cluster computing engine and a set of libraries, application programming inter
 +---------------------------------------+
 ```  
 **Computing Engine**  
-Apache Hadoop[^2] offers distributed storage (HDFS), resource manager (YARN)  and computing framework (Map Reduce). Apache Spark is a distributed processing engine but it doesn’t come with inbuilt cluster resource manager and distributed storage system. We have to plugin a cluster manager and a storage system of our choice. We can use YARN, Mesos, and Kubernetes as a cluster manager for Apache Spark. Similarly, for the storage system we can use HDFS, Amazon S3, Google cloud storage or Cassandra File System (CFS) and more. The compute engine provides some basic functionality like memory management, task scheduling, fault recovery and most importantly interacting with the cluster manager and storage system.  
+Apache Hadoop[^2] offers distributed storage (HDFS), resource manager (YARN)  and computing framework (Map Reduce). Apache Spark is a distributed processing engine comes with it's own standalone cluster manager. However, we can also plugin a cluster manager of our choice such as Hadoop YARN, Apache Mesos, or Kubernetes. When Spark applications run on Hadoop YARN, resource management, scheduling, and security are controlled by YARN. Similarly, for the storage system we can use HDFS, Amazon S3, Google cloud storage or Cassandra File System (CFS). The compute engine provides some basic functionality like memory management, task scheduling, fault recovery and most importantly interacting with the cluster manager and storage system.  In terms of performance, Spark can be up to 100 times faster in terms of memory access and 10 times faster in terms of disk access than Hadoop[^3].  
 
 **Core APIs**
-Spark core consists of structured API and unstructured API. Structured API consists of Data Frames and Data Sets. Unstructured APIs consists of RDDs, accumulators and broadcast variables[^3]. These core APIs are available as Scala, Java, Python and R.    
+Spark core consists of structured API and unstructured API. Structured API consists of Data Frames and Data Sets. Unstructured APIs consists of RDDs, accumulators and broadcast variables[^4]. These core APIs are available as Scala, Java, Python and R.  
+
 Outside of Spark Core we have 4 sets of libraries and packages, Spark SQL, Spark Streaming, MLlib and Graphx. They directly depend on Spark Core APIs to achieve distributed processing.  
 
 Typical Spark Application Process Flow: Apache Spark reads some data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. Latest Spark release recommended to use Data Frame and Data Set. Both of them are compiled down in RDD.  
  
-**RDD: Resilient Distributed Data Set** [^3] Spark RDD is a resilient, partitioned, distributed and immutable collection of data.  
+**RDD: Resilient Distributed Data Set** Spark RDD is a resilient, partitioned, distributed and immutable collection of data[^3].  
 **Resilient** – RDDs are fault tolerant.  
 **Partitioned** – Spark breaks the RDD into smaller chunks of data. These pieces are called partitions.  
 **Distributed** – Instead of keeping these partitions on a single machine, Spark spreads them across the cluster.  
 **Immutable** – Once defined, you can’t change them. So Spark RDD is a read-only data structure.  
 
-For RDDs vs DataFrames and Datasets - When to use them and why. Read [^4].  
+For RDDs vs DataFrames and Datasets - When to use them and why. Read [^5].  
 
 We can create RDD using two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD  
 
@@ -296,8 +297,9 @@ scala> df5.show
 +----+------------+------------+----------------+  
 ```
 
-[^1]: [Apache Spark](https://spark.apache.org)
-[^2]: [Apache Hadoop](https://hadoop.apache.org)
-[^3]: [Learning Journal](https://www.learningjournal.guru/courses/spark/spark-foundation-training/)
-[^4]: [RDDs vs Data Frames and Data Sets](https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html) A Tale of Three Apache Spark APIs: RDDs vs DataFrames and Datasets - When to use them and why
+[^1]: [Apache Spark](https://spark.apache.org)  
+[^2]: [Apache Hadoop](https://hadoop.apache.org)  
+[^3]: [Bioinformatics applications on Apache Spark](https://dx.doi.org/10.1093%2Fgigascience%2Fgiy098)  
+[^4]: [Learning Journal](https://www.learningjournal.guru/courses/spark/spark-foundation-training/)  
+[^5]: [RDDs vs Data Frames and Data Sets](https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html) A Tale of Three Apache Spark APIs: RDDs vs DataFrames and Datasets - When to use them and why
 ## References
