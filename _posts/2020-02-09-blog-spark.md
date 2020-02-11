@@ -44,16 +44,15 @@ Spark core consists of structured API and unstructured API. Structured API consi
 <b>Figure</b>. Spark is fully compatible with the Hadoop eco-system and works smoothly with HDFS [https://towardsdatascience.com](https://towardsdatascience.com)  
 
 ![Spark](/images/hadoop.png)  
+  
+Apache Spark reads data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. We can create RDDs using one of the two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD.  
 
-Typical Spark Application Process Flow:  
-Apache Spark reads some data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. We can create RDDs using one of the two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD.  
-
-**RDD: Resilient Distributed Data Set**  
-Spark RDD is a resilient, partitioned, distributed and immutable collection of data[^3].  
+**RDD: Resilient Distributed Dataset**  
+Spark RDD is a resilient, partitioned, distributed and immutable collection of data[^3]. Basically, it is read-only partition collection of records. This set of data is spread across multiple machines over cluster.    
 **Resilient** – RDDs are fault tolerant. If any bug or loss found, RDD has the capability to recover the loss.   
 **Partitioned** – Spark breaks the RDD into smaller chunks of data. These pieces are called partitions.  
 **Distributed** – Instead of keeping these partitions on a single machine, Spark spreads them across the cluster.  
-**Immutable** – Once defined, you can’t change them. So Spark RDD is a read-only data structure.  
+**Immutable** – Once defined, you can’t change them i.e Spark RDD is a read-only data structure.  
 
 For "RDDs vs DataFrames and Datasets - When to use them and why", see reference [^5].  
 
