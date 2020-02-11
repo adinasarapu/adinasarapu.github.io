@@ -38,9 +38,8 @@ Spark core consists of structured API and unstructured API. Structured API consi
 
 **Spark libraries** such as Spark SQL, Spark Streaming, MLlib and Graphx directly depend on Spark Core APIs to achieve distributed processing.  
 
-Spark is fully compatible with the Hadoop eco-system and works smoothly with Hadoop Distributed File System (HDFS).  
-[https://towardsdatascience.com](https://towardsdatascience.com)  
-![Spark](hadoop.png)  
+<b>Figure</b>. Spark is fully compatible with the Hadoop eco-system and works smoothly with HDFS [https://towardsdatascience.com](https://towardsdatascience.com)  
+![Spark](/images/hadoop.png)  
 
 Typical Spark Application Process Flow:  
 Apache Spark reads some data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. Latest Spark release recommended to use Data Frame and Data Set. Both of them are compiled down in RDD.  
