@@ -12,7 +12,9 @@ tags:
   - bioinformatics
 
 ---  
-Apache Spark is a general-purpose, in-memory cluster computing framework for large scale data processing[^1]. Apache Spark provides APIs in Java, Scala, Python, and R. It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. 
+Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing[^1].  
+
+Apache Spark provides APIs in Java, Scala, Python, and R. It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. 
 
 The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Scala, Java, Python and R).  
 
@@ -44,7 +46,7 @@ Spark core consists of structured API and unstructured API. Structured API consi
 ![Spark](/images/hadoop.png)  
 
 Typical Spark Application Process Flow:  
-Apache Spark reads some data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. We can create RDD using two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD.  
+Apache Spark reads some data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. We can create RDDs using one of the two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD.  
 
 **RDD: Resilient Distributed Data Set**  
 Spark RDD is a resilient, partitioned, distributed and immutable collection of data[^3].  
@@ -53,7 +55,7 @@ Spark RDD is a resilient, partitioned, distributed and immutable collection of d
 **Distributed** – Instead of keeping these partitions on a single machine, Spark spreads them across the cluster.  
 **Immutable** – Once defined, you can’t change them. So Spark RDD is a read-only data structure.  
 
-For "RDDs vs DataFrames and Datasets - When to use them and why" see reference [^5].  
+For "RDDs vs DataFrames and Datasets - When to use them and why", see reference [^5].  
 
 **Step 1**: Hadoop installation  
 
@@ -95,7 +97,7 @@ $ jps
 
 `$hadoop fs -copyFromLocal samples.csv /user/adinasarapu`  
 
-Now the data file is at real distributed storage. The file location at HDFS is `hdfs://localhost:9000/user/adinasarapu/ samples.csv`  
+Now the data file is at HDFS distributed storage. The file location at HDFS is `hdfs://localhost:9000/user/adinasarapu/samples.csv`  
 
 **List files moved**  
 `$ hadoop fs -ls /user/adinasarapu`    
@@ -106,7 +108,7 @@ Found 3 items
 -rw-r--r--   1 adinasarapu supergroup     303684 2020-02-09 08:21 /user/adinasarapu/survey.csv
 ```
 
-**Apache Spark installation**  
+**Step 2**: Apache Spark installation  
 
 See tutorial on [Installing Apache Spark ... on macOS](https://medium.com/luckspark/installing-spark-2-3-0-on-macos-high-sierra-276a127b8b85)  
 Update your `~/.bash_profile` file, which is a configuration file for configuring user environments.  
@@ -139,7 +141,7 @@ Type in expressions to have them evaluated.
 Type :help for more information.  
 ```  
 
-**Read CSV data**  
+**Read data from distributed storage (HDFS)**: csv file  
 ``` 
 scala> val df = spark.read.options(Map(  
 	"header" -> "true",  
@@ -147,8 +149,6 @@ scala> val df = spark.read.options(Map(
 	"nullValue"->"NA",  
 	"timestampFormat"->"MM-dd-yyyy",  
 	"mode"->"failfast")).csv("hdfs://localhost:9000/user/adinasarapu/samples.csv")  
-
-df: org.apache.spark.sql.DataFrame = [Sample: string, p16: string ... 7 more fields]
 ```  
 
 **Check the number of partitions**  
@@ -157,10 +157,9 @@ scala> df.rdd.getNumPartitions
 res4: Int = 1  
 ```
 
-**Set/increase Number of partitions to 3**  
+**Set/increase the number of partitions to 3**  
 ```  
-scala> val df2 = df.repartition(3).toDF  
-df2: org.apache.spark.sql.DataFrame = [Sample: string, p16: string ... 7 more fields]  
+scala> val df2 = df.repartition(3).toDF    
 ```
 **Recheck the number of partitions**  
 ```
@@ -169,7 +168,7 @@ res5: Int = 3
 ```  
 
 **SQL like operation**   
-Data Frame follows row and column structure like a database table. Data Frame compiles down to RDDs. RDDs are immutable and once loaded you can’t modify it. However, you can perform the following operations a) Transformation and b) Actions. Spark Data Frames carries the same legacy from RDDs. Like RDDs, Spark Data Frames are immutable. You can perform transformation and actions on Data Frames.  
+Data Frame follows row and column structure like a database table. Data Frame compiles down to RDDs. RDDs are immutable; once loaded you can’t modify it. However, you can perform Transformations and and Actions. Spark Data Frames carries the same legacy from RDDs. Like RDDs, Spark Data Frames are immutable. You can perform transformation and actions on Data Frames.  
 
 ```
 scala> df.select("Sample","Age","Sex","Anatomy").filter("Age < 55").show  
@@ -190,8 +189,7 @@ scala> df.select("Sample","Age","Sex","Anatomy").filter("Age < 55").show
 +------+---+------+-------+
 ```  
 ```  
-scala> val df1 = df.select($"Sex",$"Radiation")  
-df1: org.apache.spark.sql.DataFrame = [Sex: string, Radiation: string]  
+scala> val df1 = df.select($"Sex",$"Radiation")    
 
 scala> df1.show  
 +------+---------+  
@@ -223,14 +221,13 @@ only showing top 20 rows
 
 ```  
 scala> val df2 = df1.select($"Sex",   
-		(when($"Radiation" === "Y",1).otherwise(0)).alias("All-Yes"),  
-		(when($"Radiation" === "N",1).otherwise(0)).alias("All-Nos"),  
-		(when($"Radiation" === "Unknown",1).otherwise(0)).alias("All-Unknown"))  
-df2: org.apache.spark.sql.DataFrame = [Sex: string, All-Yes: int ... 2 more fields]  
+		(when($"Radiation" === "Y",1).otherwise(0)).alias("Yes"),  
+		(when($"Radiation" === "N",1).otherwise(0)).alias("No"),  
+		(when($"Radiation" === "Unknown",1).otherwise(0)).alias("Unknown"))    
 
 scala> df2.show  
 +------+-------+-------+-----------+  
-|   Sex|All-Yes|All-Nos|All-Unknown|  
+|   Sex|    Yes|     No|    Unknown|  
 +------+-------+-------+-----------+  
 |female|      1|      0|          0|  
 |female|      1|      0|          0|  
@@ -269,20 +266,18 @@ def parseSex(g: String) = {
 
 scala> val parseSexUDF = udf(parseSex _)  
 
-parseGenderUDF: org.apache.spark.sql.expressions.UserDefinedFunction = SparkUserDefinedFunction($Lambda$3628/1633612848@4ee80d4c,StringType,List(Some(Schema(StringType,true))),None,true,true)  
 ```  
+
 ```  
-scala> val df3 = df2.select((parseSexUDF($"Sex")).alias("Sex"),$"All-Yes",$"All-Nos",$"All-Unknown")  
-df3: org.apache.spark.sql.DataFrame = [Sex: string, All-Yes: int ... 2 more fields]  
+scala> val df3 = df2.select((parseSexUDF($"Sex")).alias("Sex"),$"Yes",$"No",$"Unknown")  
 ```
 
 ```  
-scala> val df4 = df3.groupBy("Sex").agg(sum($"All-Yes"), sum($"All-Nos"), sum($"All-Unknown"))  
-df4: org.apache.spark.sql.DataFrame = [Sex: string, sum(All-Yes): bigint ... 2 more fields]  
+scala> val df4 = df3.groupBy("Sex").agg(sum($"Yes"), sum($"No"), sum($"Unknown"))    
 
 scala> df4.show  
 +------+------------+------------+----------------+  
-|   Sex|sum(All-Yes)|sum(All-Nos)|sum(All-Unknown)|  
+|   Sex|    sum(Yes)|     sum(No)|    sum(Unknown)|     
 +------+------------+------------+----------------+  
 |Female|           3|           0|               0|  
 |  Male|          18|           5|               1|  
@@ -291,14 +286,11 @@ scala> df4.show
 
 ```  
 scala> val df5 = df4.filter($"Sex" =!= "Unknown")  
-df5: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [Sex: string, sum(All-Yes): bigint ... 2 more fields]  
-  
-scala> df5.collect()  
-res22: Array[org.apache.spark.sql.Row] = Array([Male,18,5,1])  
 
+scala> df5.collect()  
 scala> df5.show  
 +----+------------+------------+----------------+  
-| Sex|sum(All-Yes)|sum(All-Nos)|sum(All-Unknown)|  
+| Sex|    sum(Yes)|     sum(No)|    sum(Unknown)|  
 +----+------------+------------+----------------+  
 |Male|          18|           5|               1|  
 +----+------------+------------+----------------+  

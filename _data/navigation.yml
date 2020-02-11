@@ -6,7 +6,7 @@ main:
   - title: "Teaching"
     url: /teaching/    
 
-  - title: "NGS Pipelines"
+  - title: "NGS & BigData"
     url: /year-archive/
        
   - title: "Résumé"
@@ -15,8 +15,8 @@ main:
  # - title: "Portfolio"
  #   url: /portfolio/
         
-  - title: "Talks"
-    url: /talks/    
+ #- title: "Talks"
+ #   url: /talks/    
 
  # - title: "Guide"
  # url: /markdown/
