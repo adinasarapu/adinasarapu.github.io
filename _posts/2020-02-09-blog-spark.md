@@ -29,6 +29,7 @@ The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Sc
 +---------------------------------------+
 ```  
 **Spark Computing Engine**: Hadoop MapReduce vs Spark  
+
 Apache Hadoop[^2] offers distributed storage (HDFS), resource manager (YARN) and computing framework (MapReduce).  
 
 Apache Spark is a distributed processing engine comes with it's own Spark Standalone cluster manager. However, we can also plugin a cluster manager of our choice such as Apache Hadoop YARN (the resource manager in Hadoop 2), Apache Mesos, or Kubernetes. When Spark applications run on YARN, resource management, scheduling, and security are controlled by YARN. Similarly, for the storage system we can use Hadoop's HDFS, Amazon S3, Google cloud storage or Apache Cassandra. The compute engine provides some basic functionality like memory management, task scheduling, fault recovery and most importantly interacting with the cluster manager and storage system. Spark also has a local mode, where the driver and executors run as threads on your computer instead of a cluster, which is useful for developing your applications from a personal computer. In terms of performance, Spark can be up to 100 times faster in terms of memory access and 10 times faster in terms of disk access than Hadoop[^3].  
@@ -39,20 +40,20 @@ Spark core consists of structured API and unstructured API. Structured API consi
 **Spark libraries** such as Spark SQL, Spark Streaming, MLlib and Graphx directly depend on Spark Core APIs to achieve distributed processing.  
 
 <b>Figure</b>. Spark is fully compatible with the Hadoop eco-system and works smoothly with HDFS [https://towardsdatascience.com](https://towardsdatascience.com)  
+
 ![Spark](/images/hadoop.png)  
 
 Typical Spark Application Process Flow:  
-Apache Spark reads some data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. Latest Spark release recommended to use Data Frame and Data Set. Both of them are compiled down in RDD.  
- 
-**RDD: Resilient Distributed Data Set** Spark RDD is a resilient, partitioned, distributed and immutable collection of data[^3].  
-**Resilient** – RDDs are fault tolerant.  
+Apache Spark reads some data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. We can create RDD using two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD.  
+
+**RDD: Resilient Distributed Data Set**  
+Spark RDD is a resilient, partitioned, distributed and immutable collection of data[^3].  
+**Resilient** – RDDs are fault tolerant. If any bug or loss found, RDD has the capability to recover the loss.   
 **Partitioned** – Spark breaks the RDD into smaller chunks of data. These pieces are called partitions.  
 **Distributed** – Instead of keeping these partitions on a single machine, Spark spreads them across the cluster.  
 **Immutable** – Once defined, you can’t change them. So Spark RDD is a read-only data structure.  
 
-For RDDs vs DataFrames and Datasets - When to use them and why. Read [^5].  
-
-We can create RDD using two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD  
+For "RDDs vs DataFrames and Datasets - When to use them and why" see reference [^5].  
 
 **Step 1**: Hadoop installation  
 
