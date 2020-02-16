@@ -1,0 +1,796 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Building a real-time big data pipeline (part 3: Spark, SQL) - Ashok R. Dinasarapu</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Ashok R. Dinasarapu">
+<meta property="og:title" content="Building a real-time big data pipeline (part 3: Spark, SQL)">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/">
+  <meta property="og:url" content="http://localhost:4000/posts/2020/02/blog-post-spark-sql/">
+
+
+
+  <meta property="og:description" content="Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.1 Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs.Spark SQL is Spark’s package for working with structured data.            Apache Spark&nbsp;&#8617;      ">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-02-15T00:00:00-08:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Ashok R. Dinasarapu",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Ashok R. Dinasarapu Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="http://localhost:4000/images/apple-touch-icon-57x57.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="60x60" href="http://localhost:4000/images/apple-touch-icon-60x60.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="76x76" href="http://localhost:4000/images/apple-touch-icon-76x76.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=M44lzPylqQ">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=M44lzPylqQ" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=M44lzPylqQ" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-96x96.png?v=M44lzPylqQ" sizes="96x96">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=M44lzPylqQ" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=M44lzPylqQ">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=M44lzPylqQ">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-144x144.png?v=M44lzPylqQ">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=M44lzPylqQ">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Ashok R. Dinasarapu</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive/">NGS & BigData</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">Résumé</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Scientist, Bioinformatics">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Scientist, Bioinformatics</h3>
+    <p class="author__bio">Emory University</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Atlanta, GA</li>
+      
+      
+      
+      
+        <li><a href="mailto:ashok.reddy.dinasarapu@emory.edu"><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+      
+      
+      
+        <li><a href="https://twitter.com/adinasarapu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fa fa-fw fa-linkedin-square" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+      
+      
+        <li><a href="https://bitbucket.org/adinasarapu"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+      
+      
+        <li><a href="https://github.com/adinasarapu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="ai ai-google-scholar-square ai-fw"></i> Google Scholar</a></li>
+      
+      
+        <li><a href="http://orcid.org/0000-0002-1423-1518"><i class="ai ai-orcid-square ai-fw"></i> ORCID</a></li>
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (part 3: Spark, SQL)">
+    <meta itemprop="description" content="Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.1 Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs.Spark SQL is Spark’s package for working with structured data.            Apache Spark&nbsp;&#8617;      ">
+    <meta itemprop="datePublished" content="February 15, 2020">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 3: Spark, SQL)
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  9 minute read
+	
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-02-15T00:00:00-08:00">February 15, 2020</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p>Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs.</p>
+
+<p>Spark SQL is Spark’s package for working with structured data.</p>
+
+<h2 id="1-start-hadoop-copy-a-csv-file-to-hdfs">1. Start Hadoop, Copy a <code class="highlighter-rouge">csv</code> file to HDFS</h2>
+
+<p><em>The Hadoop Distributed File System (HDFS) is the primary data storage system used by Hadoop applications. It employs a <code class="highlighter-rouge">NameNode</code> and <code class="highlighter-rouge">DataNode</code> architecture to implement a distributed file system that provides high-performance access to data across highly scalable Hadoop clusters</em>.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd hadoop-3.1.3/
+$bash sbin/start-dfs.sh
+$hadoop fs -mkdir -p /user/adinasarapu
+</code></pre>
+</div>
+
+<p>Use <code class="highlighter-rouge">-copyFromLocal</code> command to move one or more files from local location to HDFS.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$hadoop fs -copyFromLocal *.csv /user/adinasarapu  
+
+$hadoop fs -ls /user/adinasarapu  
+-rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 /user/adinasarapu/samples.csv  
+-rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 /user/adinasarapu/survey.csv  
+</code></pre>
+</div>
+
+<h2 id="2--read-a-csv-file-into-spark-data-frame">2.  Read a <code class="highlighter-rouge">csv</code> file into Spark Data Frame</h2>
+
+<p>A Spark Data Frame can be constructed from an array of data different sources such as Hive tables, Structured Data files (ex.csv), external databases (eg. MySQL), or existing RDDs.</p>
+
+<p><strong>Start the Spark</strong></p>
+
+<p><code class="highlighter-rouge">$spark-shell</code></p>
+
+<p>Options used while reading csv file into a Spark DataFrame:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df = spark.read.format("csv")
+	.option("header", "true")
+	.option("inferSchema","true")
+	.option("nullValue","NA")
+	.option("mode","failfast")
+	.load("hdfs://localhost:9000/user/adinasarapu/samples.csv")  
+</code></pre>
+</div>
+
+<p>For more details visit <a href="https://sparkbyexamples.com/spark/spark-read-csv-file-into-dataframe/">Spark Read CSV file into DataFrame</a></p>
+
+<p><strong>Select &amp; Filter the Spark DataFrame</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val sel = df.select("Sample","p16","Age","Race").filter($"Anatomy".like("BOT"))  
+
+scala&gt; sel.show  
++------+--------+---+-----+  
+|Sample|     p16|Age| Race|  
++------+--------+---+-----+  
+|GHN-48|Negative| 68|white|  
+|GHN-57|Negative| 50|white|  
+|GHN-62|Negative| 71|white|  
+|GHN-39|Positive| 51|white|  
+|GHN-60|Positive| 41|white|  
+|GHN-64|Positive| 49|white|  
+|GHN-65|Positive| 63|white|  
+|GHN-69|Positive| 56|white|  
+|GHN-70|Positive| 68|white|  
+|GHN-71|Positive| 59|white|  
+|GHN-77|Positive| 53|   AA|  
+|GHN-82|Positive| 67|white|  
+|GHN-43|Positive| 65|white|  
++-------------------------+  
+</code></pre>
+</div>
+
+<p><strong>Spark Data Frame Schema</strong>:<br />
+Schema is definition for the column name and it’s data type. In Spark, the data source defines the schema, and we infer it from the source. Spark Data Frame always uses Spark types (<code class="highlighter-rouge">org.apache.spark.sql.types</code>)</p>
+
+<p>To check the Schema of Spark Data Frame use the following command.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; println(df.schema)  
+</code></pre>
+</div>
+
+<p>Alternatively, a user can define the schema explicitly  and read the data using user defined schema definition (when data source is csv or json files).</p>
+
+<p>If you know the schema of the file ahead and do not want to use the inferSchema option for column names and types, use user-defined custom column names and type using schema option.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; import org.apache.spark.sql.types._
+
+scala&gt; val sampleSchema = new StructType()
+	.add("Sample",StringType,true)
+	.add("p16",StringType,true)
+	.add("Age",IntegerType,true)
+	.add("Race",StringType,true)
+	.add("Sex",StringType,true)
+	.add("Anatomy",StringType,true)
+	.add("Smoking",StringType,true)
+	.add("Radiation",StringType,true)
+	.add("Chemo",StringType,true)  
+
+scala&gt; val df = spark.read.format("csv")
+	.option("header", "true")
+	.option("schema","sampleSchema")
+	.option("nullValue","NA")
+	.option("mode","failfast")
+	.load("hdfs://localhost:9000/user/adinasarapu/samples.csv")  
+
+scala&gt; df.printSchema()  
+root  
+ |-- Sample: string (nullable = true)  
+ |-- p16: string (nullable = true)  
+ |-- Age: string (nullable = true)  
+ |-- Race: string (nullable = true)  
+ |-- Sex: string (nullable = true)  
+ |-- Anatomy: string (nullable = true)  
+ |-- Smoking: string (nullable = true)  
+ |-- Radiation: string (nullable = true)  
+ |-- Chemo: string (nullable = true)  
+
+scala&gt; val df = df.select("sample","Age","Sex","Anatomy")
+	.filter($"Anatomy".contains("BOT") and $"Age" &gt; 55)  
+
+scala&gt; df.show  
++------+---+------+-------+  
+|sample|Age|   Sex|Anatomy|  
++------+---+------+-------+  
+|GHN-48| 68|female|    BOT|  
+|GHN-62| 71|  male|    BOT|  
+|GHN-65| 63|  male|    BOT|  
+|GHN-69| 56|  male|    BOT|  
+|GHN-70| 68|  male|    BOT|  
+|GHN-71| 59|  male|    BOT|  
+|GHN-82| 67|  male|    BOT|  
+|GHN-43| 65|  male|    BOT|  
++------+---+------+-------+  
+</code></pre>
+</div>
+
+<p><strong>Write the resulting Data Frame back to HDFS</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.write.option("header","true")
+	.csv("hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv")
+
+$hadoop fs -ls  
+-rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 samples.csv  
+drwxr-xr-x   - adinasarapu supergroup     0 2020-02-14 10:39 samples_filtered.csv  
+-rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 survey.csv  
+</code></pre>
+</div>
+
+<p><strong>overwrite</strong> – mode is used to overwrite the existing file, alternatively, you can use <code class="highlighter-rouge">SaveMode.Overwrite</code>.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.write.option("header","true")
+	.mode("overwrite")
+	.csv("hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv")  
+
+OR  
+
+scala&gt; import org.apache.spark.sql.SaveMode  
+
+scala&gt; df.write.option("header","true")
+	.mode(SaveMode.Overwrite)
+	.csv("hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv")  
+</code></pre>
+</div>
+
+<h2 id="3-global-temp-views">3. Global Temp Views</h2>
+
+<p>Convert Spark Data Frame into temporary view that is available for only that spark session (Local)  or across spark sessions (Global) within the current application. The session-scoped view serve as a temporary table on which SQL queries can be made.</p>
+
+<p>There are two broad categories of Data Frame methods to create a view:</p>
+
+<ol>
+  <li>
+    <p>Global Temp View: Visible to the current application across the Spark sessions.<br />
+a). createGlobalTempView<br />
+b). createOrReplaceGlobalTempView</p>
+  </li>
+  <li>
+    <p>Local Temp View: Visible to the current Spark session.<br />
+a). createOrReplaceTempView<br />
+b). createTempView</p>
+  </li>
+</ol>
+
+<p><em>“The life of a Spark Application starts and finishes with the Spark Driver. The Driver is the process that clients use to submit applications in Spark. The Driver is also responsible for planning and coordinating the execution of the Spark program and returning status and/or results (data) to the client. The Driver can physically reside on a client or on a node in the cluster. The Spark Driver is responsible for creating the SparkSession.”</em> - Data Analytics with Spark Using Python</p>
+
+<p><em>“Spark <strong>Application</strong> and Spark <strong>Session</strong> are two different things. You can have multiple sessions in a single Spark Application. Spark session internally creates a Spark <strong>Context</strong>. Spark Context represents connection to a Spark <strong>Cluster</strong>. It also keeps track of all the RDDs, Cached data as well as the configurations. You can’t have more than one Spark Context in a single JVM. That means, one instance of an Application can have only one connection to the Cluster and hence a single Spark Context. In standard applications you may not have to create multiple sessions. However, if you are developing an application that needs to support multiple interactive users you might want to create one Spark Session for each user session. Ideally we should be able to create multiple connections to Spark Cluster for each user. But creating multiple Contexts is not yet supported by Spark.”</em> - Learning Journal<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup></p>
+
+<p><em>“We can have multiple spark contexts by setting spark.driver.allowMultipleContexts to true. But having multiple spark contexts in the same jvm is not encouraged and is not considered as a good practice as it makes it more unstable and crashing of 1 spark context can affect the other.”</em> -  A tale of Spark Session and Spark Context<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup></p>
+
+<p><strong>Created a local temporary table view</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.createOrReplaceTempView("sample_tbl")  
+
+scala&gt; spark.catalog.listTables.show  
++----------+--------+-----------+---------+-----------+  
+|      name|database|description|tableType|isTemporary|  
++----------+--------+-----------+---------+-----------+  
+|sample_tbl|    null|       null|TEMPORARY|       true|  
++----------+--------+-----------+---------+-----------+  
+
+scala&gt; df.cache()  
+
+scala&gt; val resultsDF = spark.sql("SELECT * FROM sample_tbl WHERE Age &gt; 70")  
+
+scala&gt; resultsDF.show  
++------+--------+---+-----+------+-------+-------+---------+-----+  
+|Sample|     p16|Age| Race|   Sex|Anatomy|Smoking|Radiation|Chemo|  
++------+--------+---+-----+------+-------+-------+---------+-----+  
+|GHN-62|Negative| 71|white|  male|    BOT|  never|        Y|    N|  
+|GHN-73|Positive| 72|white|female| Tonsil|  never|        Y|    Y|  
++------+--------+---+-----+------+-------+-------+---------+-----+  
+</code></pre>
+</div>
+
+<p><strong>Created a global temporary table view</strong></p>
+
+<p><code class="highlighter-rouge">scala&gt; df.createOrReplaceGlobalTempView("sample_gtbl")</code></p>
+
+<p><code class="highlighter-rouge">sample_gtbl</code> belongs to system database called <code class="highlighter-rouge">global_temp</code>. This qualified name should be used to access <code class="highlighter-rouge">GlobalTempView(global_temp.sample_gtbl)</code> or else it throws an error <code class="highlighter-rouge">Table or view not found</code>.  When you run <code class="highlighter-rouge">spark.catalog.listTables.show</code>, if you don’t specify the database for the <code class="highlighter-rouge">listTables()</code> function it will point to default database. Try this instead:</p>
+
+<p><code class="highlighter-rouge">scala&gt; spark.catalog.listTables("global_temp").show</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>+-----------+-----------+-----------+---------+-----------+  
+|       name|   database|description|tableType|isTemporary|  
++-----------+-----------+-----------+---------+-----------+  
+|sample_gtbl|global_temp|       null|TEMPORARY|       true|  
+| sample_tbl|       null|       null|TEMPORARY|       true|  
++-----------+-----------+-----------+---------+-----------+  
+
+scala&gt; val resultsDF = spark.sql("SELECT * FROM global_temp.sample_gtbl WHERE Age &gt; 70")  
+
+scala&gt; resultsDF.show  
++------+---+----+-------+  
+|sample|Age| Sex|Anatomy|  
++------+---+----+-------+  
+|GHN-62| 71|male|    BOT|  
++------+---+----+-------+  
+</code></pre>
+</div>
+
+<h2 id="4-read-a-mysql-table-data-file-into-spark-data-frame">4. Read a MySQL table data file into Spark Data Frame</h2>
+
+<p>At the command line, log in to <code class="highlighter-rouge">MySQL</code> as the root user:<sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup></p>
+
+<p><code class="highlighter-rouge">$mysql -u root -p</code></p>
+
+<p>Type the MySQL root password, and then press Enter.</p>
+
+<p>To create a new MySQL user account, run the following command:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$mysql&gt; CREATE USER 'adinasarapu'@'localhost' IDENTIFIED BY 'xxxxxxx';  
+
+$mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'adinasarapu'@'localhost';  
+
+$mysql -u adinasarapu -p`  
+</code></pre>
+</div>
+<p>Type the MySQL user’s  password, and then press Enter.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$mysql&gt; SHOW DATABASES;
+
+$mysql&gt; CREATE DATABASE meta;  
+
+$mysql&gt; SHOW DATABASES;  
++--------------------+  
+| Database           |  
++--------------------+  
+| information_schema |  
+| meta               |  
+| mysql              |  
+| performance_schema |  
++--------------------+  
+</code></pre>
+</div>
+
+<p>To work with the new database, type the following command.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysql&gt; USE meta;  
+mysql&gt; CREATE TABLE samples (  
+	-&gt;  Sample VARCHAR(20) NOT NULL,  
+	-&gt;  Age INT,  
+	-&gt;  Race VARCHAR(20) NOT NULL,  
+	-&gt;  Sex VARCHAR(20) NOT NULL,  
+	-&gt;  Anatomy VARCHAR(20) NOT NULL,  
+	-&gt;  Smoking VARCHAR(20) NOT NULL,  
+	-&gt;  Radiation VARCHAR(20) NOT NULL,  
+	-&gt;  Chemo VARCHAR(20) NOT NULL,  
+	-&gt;  PRIMARY KEY ( Sample )  
+-&gt; );  
+mysql&gt; LOAD DATA INFILE '/Users/adinasarapu/spark_example/samples.csv'  
+	INTO TABLE samples FIELDS TERMINATED BY ','  
+	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
+</code></pre>
+</div>
+
+<p>If you encounter the following error<br />
+ERROR 1290 (HY000): The MySQL server is running with the <code class="highlighter-rouge">--secure-file-priv</code> option so it cannot execute this statement</p>
+
+<p>Set <code class="highlighter-rouge">local_infile</code> variable as true.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysql&gt; SET GLOBAL local_infile = true;
+
+mysql&gt; SHOW GLOBAL VARIABLES LIKE 'local_infile';  
++---------------+-------+  
+| Variable_name | Value |  
++---------------+-------+  
+| local_infile  | ON    |  
++---------------+-------+  
+
+mysql&gt; USE meta;  
+
+mysql&gt; LOAD DATA LOCAL INFILE '/Users/adinasarapu/spark_example/samples.csv'  
+	INTO TABLE samples FIELDS TERMINATED BY ','  
+	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
+
+mysql&gt; SELECT * FROM samples;  
++--------+------+------+-------+---------+---------+-----------+---------+  
+| Sample | Age  | Race | Sex   | Anatomy | Smoking | Radiation | Chemo   |  
++--------+------+------+-------+---------+---------+-----------+---------+  
+| GHN-39 |    0 | 51   | white | male    | BOT     | never     | Y       |  
+| GHN-40 |    0 | 66   | white | male    | Tonsil  | former    | Y       |  
+| GHN-43 |    0 | 65   | white | male    | BOT     | former    | Y       |  
+| GHN-48 |    0 | 68   | white | female  | BOT     | current   | Y       |  
+| GHN-53 |    0 | 58   | white | male    | Larynx  | current   | Y       |  
+| ...		...		...		...		...	 |  
+| ...		...		...		...		...	 |  
++------------------------------------------------------------------------+  
+</code></pre>
+</div>
+
+<p><strong>Create a new MySQL table from Spark</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; import org.apache.spark.sql.SaveMode  
+scala&gt; df.write.mode(SaveMode.Append).jdbc(url,"newsamples",prop)  
+
+mysql&gt; USE meta;  
+mysql&gt; SHOW tables;  
++----------------+  
+| Tables_in_meta |  
++----------------+  
+| newsamples     |  
+| samples        |  
++----------------+
+</code></pre>
+</div>
+
+<h2 id="references">References</h2>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><a href="https://spark.apache.org">Apache Spark</a>&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p><a href="https://hadoop.apache.org">Apache Hadoop</a>&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p><a href="https://www.learningjournal.guru/courses/spark/spark-foundation-training/">Learning Journal</a>&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p><a href="https://medium.com/@achilleus/spark-session-10d0d66d1d24">A tale of Spark Session and Spark Context</a>&nbsp;<a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p><a href="https://www.a2hosting.com.co/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line">MySQL</a>&nbsp;<a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#apache-spark" class="page__taxonomy-item" rel="tag">apache spark</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#big-data" class="page__taxonomy-item" rel="tag">big data</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">bioinformatics</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#hadoop-distributed-file-system" class="page__taxonomy-item" rel="tag">Hadoop Distributed File System</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#hadoop" class="page__taxonomy-item" rel="tag">hadoop</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#mysql" class="page__taxonomy-item" rel="tag">MySQL</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#real-time-data-pipelines" class="page__taxonomy-item" rel="tag">real time data pipelines</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#scala" class="page__taxonomy-item" rel="tag">scala</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2020/02/blog-post-spark/" class="pagination--pager" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    </script>
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<!--<a href="/sitemap/">Sitemap</a> -->
+<!-- end custom footer snippets -->
+
+        
+
+<!--
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/adinasarapu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+      <li><a href="http://bitbucket.org/adinasarapu"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 Ashok R. Dinasarapu  | <a href="http://adinasarapu.github.io/terms/" rel="nofollow">Privacy Policy</a>
+
+<!-- Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.--> 
+</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-68614074-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+

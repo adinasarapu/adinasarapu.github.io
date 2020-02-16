@@ -10,13 +10,12 @@ tags:
   - hadoop   
   - YARN
   - bioinformatics
+  - Hadoop Distributed File System
 
 ---  
-Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing[^1].  
+Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing[^1]. Apache Spark provides APIs in Java, Scala, Python, and R.  
 
-Apache Spark provides APIs in Java, Scala, Python, and R. It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. 
-
-The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Scala, Java, Python and R).  
+It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Scala, Java, Python and R).  
 
 **Apache Spark Ecosystem**  
 ```
@@ -58,7 +57,9 @@ For "RDDs vs DataFrames and Datasets - When to use them and why", see reference 
 
 **Step 1**: Hadoop installation  
 
-See tutorial on [How to Install and Configure Hadoop on Mac](https://www.quickprogrammingtips.com/big-data/how-to-install-hadoop-on-mac-os-x-el-capitan.html)  
+See tutorials on  
+* [How to Install and Configure Hadoop on Mac](https://www.quickprogrammingtips.com/big-data/how-to-install-hadoop-on-mac-os-x-el-capitan.html)  
+* [Getting Started With Hadoop](https://cwiki.apache.org/confluence/display/HADOOP2/GettingStartedWithHadoop)  
 
 Update your `~/.bash_profile` file, which is a configuration file for configuring user environments.  
 
@@ -69,6 +70,11 @@ export PATH=$PATH:$HADOOP_HOME/bin
 ```  
 
 **Start Hadoop**  
+
+`start-dfs.sh` - Starts the Hadoop DFS daemons, the namenode and datanodes. Use this before start-mapred.sh  
+`stop-dfs.sh` - Stops the Hadoop DFS daemons.  
+`start-mapred.sh` - Starts the Hadoop Map/Reduce daemons, the jobtracker and tasktrackers.  
+`stop-mapred.sh` - Stops the Hadoop Map/Reduce daemons.  
 
 ```
 $bash sbin/start-dfs.sh 
@@ -92,7 +98,7 @@ $ jps
 
 `$hadoop fs -mkdir -p /user/adinasarapu`  
 
-**Move file to HDFS**  
+**Move file to HDFS (Hadoop Distributed File System)**  
 
 `$hadoop fs -copyFromLocal samples.csv /user/adinasarapu`  
 
@@ -109,7 +115,7 @@ Found 3 items
 
 **Step 2**: Apache Spark installation  
 
-See tutorial on [Installing Apache Spark ... on macOS](https://medium.com/luckspark/installing-spark-2-3-0-on-macos-high-sierra-276a127b8b85)  
+For basic configuration see tutorial on [Installing Apache Spark ... on macOS](https://medium.com/luckspark/installing-spark-2-3-0-on-macos-high-sierra-276a127b8b85)  
 Update your `~/.bash_profile` file, which is a configuration file for configuring user environments.  
 
 ```

@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Apache Spark1 is a unified analytics engine for large-scale data processing.            Apache Spark&nbsp;&#8617;      ">
+  <meta property="og:description" content="Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing1. Apache Spark provides APIs in Java, Scala, Python, and R.            Apache Spark&nbsp;&#8617;      ">
 
 
 
@@ -145,13 +145,10 @@
             <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
           
             
-            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive/">NGS Pipelines</a></li>
+            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive/">NGS & BigData</a></li>
           
             
             <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">Résumé</a></li>
-          
-            
-            <li class="masthead__menu-item"><a href="http://localhost:4000/talks/">Talks</a></li>
           
         </ul>
         <ul class="hidden-links hidden"></ul>
@@ -246,7 +243,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (part 2: Spark, Hadoop)">
-    <meta itemprop="description" content="Apache Spark1 is a unified analytics engine for large-scale data processing.            Apache Spark&nbsp;&#8617;      ">
+    <meta itemprop="description" content="Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing1. Apache Spark provides APIs in Java, Scala, Python, and R.            Apache Spark&nbsp;&#8617;      ">
     <meta itemprop="datePublished" content="February 09, 2020">
     
 
@@ -260,7 +257,7 @@
 
 
   
-	  7 minute read
+	  8 minute read
 	
 </p>
           
@@ -277,11 +274,9 @@
       
 
       <section class="page__content" itemprop="text">
-        <p>Apache Spark<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> is a unified analytics engine for large-scale data processing.</p>
+        <p>Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>. Apache Spark provides APIs in Java, Scala, Python, and R.</p>
 
-<p><strong>What exactly is Apache Spark?</strong></p>
-
-<p>A Cluster computing engine and a set of libraries, application programming interfaces (APIs) together make apache spark. The spark core itself has two parts. 1. Computing engine and 2. Spark Core APIs (Scala, Java, Python and R).</p>
+<p>It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Scala, Java, Python and R).</p>
 
 <p><strong>Apache Spark Ecosystem</strong></p>
 <div class="highlighter-rouge"><pre class="highlight"><code>+--------+-----------+-------+----------+
@@ -295,28 +290,39 @@
 +---------------------------------------+
 </code></pre>
 </div>
-<p><strong>Computing Engine</strong><br />
-Apache Hadoop<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> offers distributed storage (HDFS), resource manager (YARN)  and computing framework (Map Reduce). Apache Spark is a distributed processing engine but it doesn’t come with inbuilt cluster resource manager and distributed storage system. We have to plugin a cluster manager and a storage system of our choice. We can use YARN, Mesos, and Kubernetes as a cluster manager for Apache Spark. Similarly, for the storage system we can use HDFS, Amazon S3, Google cloud storage or Cassandra File System (CFS) and more. The compute engine provides some basic functionality like memory management, task scheduling, fault recovery and most importantly interacting with the cluster manager and storage system.</p>
+<p><strong>Spark Computing Engine</strong>: Hadoop MapReduce vs Spark</p>
 
-<p><strong>Core APIs</strong>
-Spark core consists of structured API and unstructured API. Structured API consists of Data Frames and Data Sets. Unstructured APIs consists of RDDs, accumulators and broadcast variables<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>. These core APIs are available as Scala, Java, Python and R.  <br />
-Outside of Spark Core we have 4 sets of libraries and packages, Spark SQL, Spark Streaming, MLlib and Graphx. They directly depend on Spark Core APIs to achieve distributed processing.</p>
+<p>Apache Hadoop<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> offers distributed storage (HDFS), resource manager (YARN) and computing framework (MapReduce). MapReduce reads and writes from disk, which slows down the processing speed and overall efficiency.</p>
 
-<p>Typical Spark Application Process Flow: Apache Spark reads some data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. Latest Spark release recommended to use Data Frame and Data Set. Both of them are compiled down in RDD.</p>
+<p>Apache Spark is a distributed processing engine comes with it’s own Spark Standalone cluster manager. However, we can also plugin a cluster manager of our choice such as Apache Hadoop YARN (the resource manager in Hadoop 2), Apache Mesos, or Kubernetes. When Spark applications run on YARN, resource management, scheduling, and security are controlled by YARN. Similarly, for the storage system we can use Hadoop’s HDFS, Amazon S3, Google cloud storage or Apache Cassandra. The compute engine provides some basic functionality like memory management, task scheduling, fault recovery and most importantly interacting with the cluster manager and storage system. Spark also has a local mode, where the driver and executors run as threads on your computer instead of a cluster, which is useful for developing your applications from a personal computer.  Spark runs applications up to 100 times faster in memory and 10 times faster on disk than Hadoop by reducing the number of read-write operations to disk and storing intermediate data in-memory<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>.</p>
 
-<p><strong>RDD: Resilient Distributed Data Set</strong> <sup id="fnref:3:1"><a href="#fn:3" class="footnote">3</a></sup> Spark RDD is a resilient, partitioned, distributed and immutable collection of data.<br />
-<strong>Resilient</strong> – RDDs are fault tolerant.<br />
+<p><strong>Spark Core APIs</strong>
+Spark core consists of structured API and unstructured API. Structured API consists of Data Frames and Data Sets. Unstructured APIs consists of RDDs<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>. These core APIs (available as Scala, Java, Python and R) facilitate the execution of high-level operators with RDD.</p>
+
+<p><strong>Spark libraries</strong> such as Spark SQL, Spark Streaming, MLlib and Graphx directly depend on Spark Core APIs to achieve distributed processing.</p>
+
+<p><b>Figure</b>. Spark is fully compatible with the Hadoop eco-system and works smoothly with HDFS (<a href="https://towardsdatascience.com">https://towardsdatascience.com</a>)</p>
+
+<p><img src="/images/hadoop.png" alt="Spark" /></p>
+
+<p>Apache Spark reads data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. We can create RDDs using one of the two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD.</p>
+
+<p><strong>RDD: Resilient Distributed Dataset</strong><br />
+Spark RDD is a resilient, partitioned, distributed and immutable collection of data<sup id="fnref:4:1"><a href="#fn:4" class="footnote">4</a></sup>. Basically, it is read-only partition collection of records. This set of data is spread across multiple machines over cluster.  <br />
+<strong>Resilient</strong> – RDDs are fault tolerant. If any bug or loss found, RDD has the capability to recover the loss. <br />
 <strong>Partitioned</strong> – Spark breaks the RDD into smaller chunks of data. These pieces are called partitions.<br />
 <strong>Distributed</strong> – Instead of keeping these partitions on a single machine, Spark spreads them across the cluster.<br />
-<strong>Immutable</strong> – Once defined, you can’t change them. So Spark RDD is a read-only data structure.</p>
+<strong>Immutable</strong> – Once defined, you can’t change them i.e Spark RDD is a read-only data structure.</p>
 
-<p>For RDDs vs DataFrames and Datasets - When to use them and why. Read <sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>.</p>
-
-<p>We can create RDD using two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD</p>
+<p>For “RDDs vs DataFrames and Datasets - When to use them and why”, see reference <sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup>.</p>
 
 <p><strong>Step 1</strong>: Hadoop installation</p>
 
-<p>See tutorial on <a href="https://www.quickprogrammingtips.com/big-data/how-to-install-hadoop-on-mac-os-x-el-capitan.html">How to Install and Configure Hadoop on Mac</a></p>
+<p>See tutorials on</p>
+<ul>
+  <li><a href="https://www.quickprogrammingtips.com/big-data/how-to-install-hadoop-on-mac-os-x-el-capitan.html">How to Install and Configure Hadoop on Mac</a></li>
+  <li><a href="https://cwiki.apache.org/confluence/display/HADOOP2/GettingStartedWithHadoop">Getting Started With Hadoop</a></li>
+</ul>
 
 <p>Update your <code class="highlighter-rouge">~/.bash_profile</code> file, which is a configuration file for configuring user environments.</p>
 
@@ -327,6 +333,11 @@ export PATH=$PATH:$HADOOP_HOME/bin
 </div>
 
 <p><strong>Start Hadoop</strong></p>
+
+<p><code class="highlighter-rouge">start-dfs.sh</code> - Starts the Hadoop DFS daemons, the namenode and datanodes. Use this before start-mapred.sh<br />
+<code class="highlighter-rouge">stop-dfs.sh</code> - Stops the Hadoop DFS daemons.<br />
+<code class="highlighter-rouge">start-mapred.sh</code> - Starts the Hadoop Map/Reduce daemons, the jobtracker and tasktrackers.<br />
+<code class="highlighter-rouge">stop-mapred.sh</code> - Stops the Hadoop Map/Reduce daemons.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$bash sbin/start-dfs.sh 
 Starting namenodes on [localhost]
@@ -350,11 +361,11 @@ Starting secondary namenodes [Ashoks-MacBook-Pro.local]
 
 <p><code class="highlighter-rouge">$hadoop fs -mkdir -p /user/adinasarapu</code></p>
 
-<p><strong>Move file to HDFS</strong></p>
+<p><strong>Move file to HDFS (Hadoop Distributed File System)</strong></p>
 
 <p><code class="highlighter-rouge">$hadoop fs -copyFromLocal samples.csv /user/adinasarapu</code></p>
 
-<p>Now the data file is at real distributed storage. The file location at HDFS is <code class="highlighter-rouge">hdfs://localhost:9000/user/adinasarapu/ samples.csv</code></p>
+<p>Now the data file is at HDFS distributed storage. The file location at HDFS is <code class="highlighter-rouge">hdfs://localhost:9000/user/adinasarapu/samples.csv</code></p>
 
 <p><strong>List files moved</strong><br />
 <code class="highlighter-rouge">$ hadoop fs -ls /user/adinasarapu</code></p>
@@ -365,9 +376,9 @@ Starting secondary namenodes [Ashoks-MacBook-Pro.local]
 </code></pre>
 </div>
 
-<p><strong>Apache Spark installation</strong></p>
+<p><strong>Step 2</strong>: Apache Spark installation</p>
 
-<p>See tutorial on <a href="https://medium.com/luckspark/installing-spark-2-3-0-on-macos-high-sierra-276a127b8b85">Installing Apache Spark … on macOS</a><br />
+<p>For basic configuration see tutorial on <a href="https://medium.com/luckspark/installing-spark-2-3-0-on-macos-high-sierra-276a127b8b85">Installing Apache Spark … on macOS</a><br />
 Update your <code class="highlighter-rouge">~/.bash_profile</code> file, which is a configuration file for configuring user environments.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$vi ~/.bash_profile  
@@ -398,15 +409,13 @@ Type :help for more information.
 </code></pre>
 </div>
 
-<p><strong>Read CSV data</strong></p>
+<p><strong>Read data from distributed storage (HDFS)</strong>: csv file</p>
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df = spark.read.options(Map(  
 	"header" -&gt; "true",  
 	"inferSchema"-&gt;"true",  
 	"nullValue"-&gt;"NA",  
 	"timestampFormat"-&gt;"MM-dd-yyyy",  
 	"mode"-&gt;"failfast")).csv("hdfs://localhost:9000/user/adinasarapu/samples.csv")  
-
-df: org.apache.spark.sql.DataFrame = [Sample: string, p16: string ... 7 more fields]
 </code></pre>
 </div>
 
@@ -416,9 +425,8 @@ res4: Int = 1
 </code></pre>
 </div>
 
-<p><strong>Set/increase Number of partitions to 3</strong></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df2 = df.repartition(3).toDF  
-df2: org.apache.spark.sql.DataFrame = [Sample: string, p16: string ... 7 more fields]  
+<p><strong>Set/increase the number of partitions to 3</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df2 = df.repartition(3).toDF    
 </code></pre>
 </div>
 <p><strong>Recheck the number of partitions</strong></p>
@@ -428,7 +436,7 @@ res5: Int = 3
 </div>
 
 <p><strong>SQL like operation</strong> <br />
-Data Frame follows row and column structure like a database table. Data Frame compiles down to RDDs. RDDs are immutable and once loaded you can’t modify it. However, you can perform the following operations a) Transformation and b) Actions. Spark Data Frames carries the same legacy from RDDs. Like RDDs, Spark Data Frames are immutable. You can perform transformation and actions on Data Frames.</p>
+Data Frame follows row and column structure like a database table. Data Frame compiles down to RDDs. RDDs are immutable; once loaded you can’t modify it. However, you can perform Transformations and and Actions. Spark Data Frames carries the same legacy from RDDs. Like RDDs, Spark Data Frames are immutable. You can perform transformation and actions on Data Frames.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.select("Sample","Age","Sex","Anatomy").filter("Age &lt; 55").show  
   
@@ -448,8 +456,7 @@ Data Frame follows row and column structure like a database table. Data Frame co
 +------+---+------+-------+
 </code></pre>
 </div>
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df1 = df.select($"Sex",$"Radiation")  
-df1: org.apache.spark.sql.DataFrame = [Sex: string, Radiation: string]  
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df1 = df.select($"Sex",$"Radiation")    
 
 scala&gt; df1.show  
 +------+---------+  
@@ -481,14 +488,13 @@ only showing top 20 rows
 </div>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df2 = df1.select($"Sex",   
-		(when($"Radiation" === "Y",1).otherwise(0)).alias("All-Yes"),  
-		(when($"Radiation" === "N",1).otherwise(0)).alias("All-Nos"),  
-		(when($"Radiation" === "Unknown",1).otherwise(0)).alias("All-Unknown"))  
-df2: org.apache.spark.sql.DataFrame = [Sex: string, All-Yes: int ... 2 more fields]  
+		(when($"Radiation" === "Y",1).otherwise(0)).alias("Yes"),  
+		(when($"Radiation" === "N",1).otherwise(0)).alias("No"),  
+		(when($"Radiation" === "Unknown",1).otherwise(0)).alias("Unknown"))    
 
 scala&gt; df2.show  
 +------+-------+-------+-----------+  
-|   Sex|All-Yes|All-Nos|All-Unknown|  
+|   Sex|    Yes|     No|    Unknown|  
 +------+-------+-------+-----------+  
 |female|      1|      0|          0|  
 |female|      1|      0|          0|  
@@ -527,20 +533,18 @@ only showing top 20 rows
 
 scala&gt; val parseSexUDF = udf(parseSex _)  
 
-parseGenderUDF: org.apache.spark.sql.expressions.UserDefinedFunction = SparkUserDefinedFunction($Lambda$3628/1633612848@4ee80d4c,StringType,List(Some(Schema(StringType,true))),None,true,true)  
-</code></pre>
-</div>
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df3 = df2.select((parseSexUDF($"Sex")).alias("Sex"),$"All-Yes",$"All-Nos",$"All-Unknown")  
-df3: org.apache.spark.sql.DataFrame = [Sex: string, All-Yes: int ... 2 more fields]  
 </code></pre>
 </div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df4 = df3.groupBy("Sex").agg(sum($"All-Yes"), sum($"All-Nos"), sum($"All-Unknown"))  
-df4: org.apache.spark.sql.DataFrame = [Sex: string, sum(All-Yes): bigint ... 2 more fields]  
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df3 = df2.select((parseSexUDF($"Sex")).alias("Sex"),$"Yes",$"No",$"Unknown")  
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df4 = df3.groupBy("Sex").agg(sum($"Yes"), sum($"No"), sum($"Unknown"))    
 
 scala&gt; df4.show  
 +------+------------+------------+----------------+  
-|   Sex|sum(All-Yes)|sum(All-Nos)|sum(All-Unknown)|  
+|   Sex|    sum(Yes)|     sum(No)|    sum(Unknown)|     
 +------+------------+------------+----------------+  
 |Female|           3|           0|               0|  
 |  Male|          18|           5|               1|  
@@ -549,14 +553,11 @@ scala&gt; df4.show
 </div>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df5 = df4.filter($"Sex" =!= "Unknown")  
-df5: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [Sex: string, sum(All-Yes): bigint ... 2 more fields]  
-  
-scala&gt; df5.collect()  
-res22: Array[org.apache.spark.sql.Row] = Array([Male,18,5,1])  
 
+scala&gt; df5.collect()  
 scala&gt; df5.show  
 +----+------------+------------+----------------+  
-| Sex|sum(All-Yes)|sum(All-Nos)|sum(All-Unknown)|  
+| Sex|    sum(Yes)|     sum(No)|    sum(Unknown)|  
 +----+------------+------------+----------------+  
 |Male|          18|           5|               1|  
 +----+------------+------------+----------------+  
@@ -573,10 +574,13 @@ scala&gt; df5.show
       <p><a href="https://hadoop.apache.org">Apache Hadoop</a>&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:3">
-      <p><a href="https://www.learningjournal.guru/courses/spark/spark-foundation-training/">Learning Journal</a>&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a>&nbsp;<a href="#fnref:3:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+      <p><a href="https://dx.doi.org/10.1093%2Fgigascience%2Fgiy098">Bioinformatics applications on Apache Spark</a>&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:4">
-      <p><a href="https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html">RDDs vs Data Frames and Data Sets</a> A Tale of Three Apache Spark APIs: RDDs vs DataFrames and Datasets - When to use them and why&nbsp;<a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+      <p><a href="https://www.learningjournal.guru/courses/spark/spark-foundation-training/">Learning Journal</a>&nbsp;<a href="#fnref:4" class="reversefootnote">&#8617;</a>&nbsp;<a href="#fnref:4:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:5">
+      <p><a href="https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html">RDDs vs Data Frames and Data Sets</a> A Tale of Three Apache Spark APIs: RDDs vs DataFrames and Datasets - When to use them and why&nbsp;<a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>
@@ -612,6 +616,14 @@ scala&gt; df5.show
     
       
       
+      <a href="http://localhost:4000/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">bioinformatics</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#hadoop-distributed-file-system" class="page__taxonomy-item" rel="tag">Hadoop Distributed File System</a><span class="sep">, </span>
+    
+      
+      
       <a href="http://localhost:4000/tags/#hadoop" class="page__taxonomy-item" rel="tag">hadoop</a><span class="sep">, </span>
     
       
@@ -620,7 +632,11 @@ scala&gt; df5.show
     
       
       
-      <a href="http://localhost:4000/tags/#scala" class="page__taxonomy-item" rel="tag">scala</a>
+      <a href="http://localhost:4000/tags/#scala" class="page__taxonomy-item" rel="tag">scala</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#yarn" class="page__taxonomy-item" rel="tag">YARN</a>
     
     </span>
   </p>
@@ -655,7 +671,8 @@ scala&gt; df5.show
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="pagination--pager" title="Building a real-time big data pipeline (part 3: Spark, SQL)
+">Next</a>
     
   </nav>
 

@@ -1,8 +1,364 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-02-09T15:11:37-08:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 2: Spark, Hadoop)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)" /><published>2020-02-09T00:00:00-08:00</published><updated>2020-02-09T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark/">&lt;p&gt;Apache Spark&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; is a unified analytics engine for large-scale data processing.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-02-16T04:38:56-08:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 3: Spark, SQL)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 3: Spark, SQL)" /><published>2020-02-15T00:00:00-08:00</published><updated>2020-02-15T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark-sql</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark-sql/">&lt;p&gt;Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;What exactly is Apache Spark?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Spark SQL is Spark’s package for working with structured data.&lt;/p&gt;
 
-&lt;p&gt;A Cluster computing engine and a set of libraries, application programming interfaces (APIs) together make apache spark. The spark core itself has two parts. 1. Computing engine and 2. Spark Core APIs (Scala, Java, Python and R).&lt;/p&gt;
+&lt;h2 id=&quot;1-start-hadoop-copy-a-csv-file-to-hdfs&quot;&gt;1. Start Hadoop, Copy a &lt;code class=&quot;highlighter-rouge&quot;&gt;csv&lt;/code&gt; file to HDFS&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;The Hadoop Distributed File System (HDFS) is the primary data storage system used by Hadoop applications. It employs a &lt;code class=&quot;highlighter-rouge&quot;&gt;NameNode&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;DataNode&lt;/code&gt; architecture to implement a distributed file system that provides high-performance access to data across highly scalable Hadoop clusters&lt;/em&gt;.&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd hadoop-3.1.3/
+$bash sbin/start-dfs.sh
+$hadoop fs -mkdir -p /user/adinasarapu
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;-copyFromLocal&lt;/code&gt; command to move one or more files from local location to HDFS.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$hadoop fs -copyFromLocal *.csv /user/adinasarapu  
+
+$hadoop fs -ls /user/adinasarapu  
+-rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 /user/adinasarapu/samples.csv  
+-rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 /user/adinasarapu/survey.csv  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;2--read-a-csv-file-into-spark-data-frame&quot;&gt;2.  Read a &lt;code class=&quot;highlighter-rouge&quot;&gt;csv&lt;/code&gt; file into Spark Data Frame&lt;/h2&gt;
+
+&lt;p&gt;A Spark Data Frame can be constructed from an array of data different sources such as Hive tables, Structured Data files (ex.csv), external databases (eg. MySQL), or existing RDDs.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Start the Spark&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$spark-shell&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Options used while reading csv file into a Spark DataFrame:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df = spark.read.format(&quot;csv&quot;)
+	.option(&quot;header&quot;, &quot;true&quot;)
+	.option(&quot;inferSchema&quot;,&quot;true&quot;)
+	.option(&quot;nullValue&quot;,&quot;NA&quot;)
+	.option(&quot;mode&quot;,&quot;failfast&quot;)
+	.load(&quot;hdfs://localhost:9000/user/adinasarapu/samples.csv&quot;)  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;For more details visit &lt;a href=&quot;https://sparkbyexamples.com/spark/spark-read-csv-file-into-dataframe/&quot;&gt;Spark Read CSV file into DataFrame&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Select &amp;amp; Filter the Spark DataFrame&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val sel = df.select(&quot;Sample&quot;,&quot;p16&quot;,&quot;Age&quot;,&quot;Race&quot;).filter($&quot;Anatomy&quot;.like(&quot;BOT&quot;))  
+
+scala&amp;gt; sel.show  
++------+--------+---+-----+  
+|Sample|     p16|Age| Race|  
++------+--------+---+-----+  
+|GHN-48|Negative| 68|white|  
+|GHN-57|Negative| 50|white|  
+|GHN-62|Negative| 71|white|  
+|GHN-39|Positive| 51|white|  
+|GHN-60|Positive| 41|white|  
+|GHN-64|Positive| 49|white|  
+|GHN-65|Positive| 63|white|  
+|GHN-69|Positive| 56|white|  
+|GHN-70|Positive| 68|white|  
+|GHN-71|Positive| 59|white|  
+|GHN-77|Positive| 53|   AA|  
+|GHN-82|Positive| 67|white|  
+|GHN-43|Positive| 65|white|  
++-------------------------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Spark Data Frame Schema&lt;/strong&gt;:&lt;br /&gt;
+Schema is definition for the column name and it’s data type. In Spark, the data source defines the schema, and we infer it from the source. Spark Data Frame always uses Spark types (&lt;code class=&quot;highlighter-rouge&quot;&gt;org.apache.spark.sql.types&lt;/code&gt;)&lt;/p&gt;
+
+&lt;p&gt;To check the Schema of Spark Data Frame use the following command.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; println(df.schema)  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Alternatively, a user can define the schema explicitly  and read the data using user defined schema definition (when data source is csv or json files).&lt;/p&gt;
+
+&lt;p&gt;If you know the schema of the file ahead and do not want to use the inferSchema option for column names and types, use user-defined custom column names and type using schema option.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; import org.apache.spark.sql.types._
+
+scala&amp;gt; val sampleSchema = new StructType()
+	.add(&quot;Sample&quot;,StringType,true)
+	.add(&quot;p16&quot;,StringType,true)
+	.add(&quot;Age&quot;,IntegerType,true)
+	.add(&quot;Race&quot;,StringType,true)
+	.add(&quot;Sex&quot;,StringType,true)
+	.add(&quot;Anatomy&quot;,StringType,true)
+	.add(&quot;Smoking&quot;,StringType,true)
+	.add(&quot;Radiation&quot;,StringType,true)
+	.add(&quot;Chemo&quot;,StringType,true)  
+
+scala&amp;gt; val df = spark.read.format(&quot;csv&quot;)
+	.option(&quot;header&quot;, &quot;true&quot;)
+	.option(&quot;schema&quot;,&quot;sampleSchema&quot;)
+	.option(&quot;nullValue&quot;,&quot;NA&quot;)
+	.option(&quot;mode&quot;,&quot;failfast&quot;)
+	.load(&quot;hdfs://localhost:9000/user/adinasarapu/samples.csv&quot;)  
+
+scala&amp;gt; df.printSchema()  
+root  
+ |-- Sample: string (nullable = true)  
+ |-- p16: string (nullable = true)  
+ |-- Age: string (nullable = true)  
+ |-- Race: string (nullable = true)  
+ |-- Sex: string (nullable = true)  
+ |-- Anatomy: string (nullable = true)  
+ |-- Smoking: string (nullable = true)  
+ |-- Radiation: string (nullable = true)  
+ |-- Chemo: string (nullable = true)  
+
+scala&amp;gt; val df = df.select(&quot;sample&quot;,&quot;Age&quot;,&quot;Sex&quot;,&quot;Anatomy&quot;)
+	.filter($&quot;Anatomy&quot;.contains(&quot;BOT&quot;) and $&quot;Age&quot; &amp;gt; 55)  
+
+scala&amp;gt; df.show  
++------+---+------+-------+  
+|sample|Age|   Sex|Anatomy|  
++------+---+------+-------+  
+|GHN-48| 68|female|    BOT|  
+|GHN-62| 71|  male|    BOT|  
+|GHN-65| 63|  male|    BOT|  
+|GHN-69| 56|  male|    BOT|  
+|GHN-70| 68|  male|    BOT|  
+|GHN-71| 59|  male|    BOT|  
+|GHN-82| 67|  male|    BOT|  
+|GHN-43| 65|  male|    BOT|  
++------+---+------+-------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Write the resulting Data Frame back to HDFS&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.write.option(&quot;header&quot;,&quot;true&quot;)
+	.csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv&quot;)
+
+$hadoop fs -ls  
+-rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 samples.csv  
+drwxr-xr-x   - adinasarapu supergroup     0 2020-02-14 10:39 samples_filtered.csv  
+-rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 survey.csv  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;overwrite&lt;/strong&gt; – mode is used to overwrite the existing file, alternatively, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;SaveMode.Overwrite&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.write.option(&quot;header&quot;,&quot;true&quot;)
+	.mode(&quot;overwrite&quot;)
+	.csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv&quot;)  
+
+OR  
+
+scala&amp;gt; import org.apache.spark.sql.SaveMode  
+
+scala&amp;gt; df.write.option(&quot;header&quot;,&quot;true&quot;)
+	.mode(SaveMode.Overwrite)
+	.csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv&quot;)  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;3-global-temp-views&quot;&gt;3. Global Temp Views&lt;/h2&gt;
+
+&lt;p&gt;Convert Spark Data Frame into temporary view that is available for only that spark session (Local)  or across spark sessions (Global) within the current application. The session-scoped view serve as a temporary table on which SQL queries can be made.&lt;/p&gt;
+
+&lt;p&gt;There are two broad categories of Data Frame methods to create a view:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Global Temp View: Visible to the current application across the Spark sessions.&lt;br /&gt;
+a). createGlobalTempView&lt;br /&gt;
+b). createOrReplaceGlobalTempView&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Local Temp View: Visible to the current Spark session.&lt;br /&gt;
+a). createOrReplaceTempView&lt;br /&gt;
+b). createTempView&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;em&gt;“The life of a Spark Application starts and finishes with the Spark Driver. The Driver is the process that clients use to submit applications in Spark. The Driver is also responsible for planning and coordinating the execution of the Spark program and returning status and/or results (data) to the client. The Driver can physically reside on a client or on a node in the cluster. The Spark Driver is responsible for creating the SparkSession.”&lt;/em&gt; - Data Analytics with Spark Using Python&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;“Spark &lt;strong&gt;Application&lt;/strong&gt; and Spark &lt;strong&gt;Session&lt;/strong&gt; are two different things. You can have multiple sessions in a single Spark Application. Spark session internally creates a Spark &lt;strong&gt;Context&lt;/strong&gt;. Spark Context represents connection to a Spark &lt;strong&gt;Cluster&lt;/strong&gt;. It also keeps track of all the RDDs, Cached data as well as the configurations. You can’t have more than one Spark Context in a single JVM. That means, one instance of an Application can have only one connection to the Cluster and hence a single Spark Context. In standard applications you may not have to create multiple sessions. However, if you are developing an application that needs to support multiple interactive users you might want to create one Spark Session for each user session. Ideally we should be able to create multiple connections to Spark Cluster for each user. But creating multiple Contexts is not yet supported by Spark.”&lt;/em&gt; - Learning Journal&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;“We can have multiple spark contexts by setting spark.driver.allowMultipleContexts to true. But having multiple spark contexts in the same jvm is not encouraged and is not considered as a good practice as it makes it more unstable and crashing of 1 spark context can affect the other.”&lt;/em&gt; -  A tale of Spark Session and Spark Context&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Created a local temporary table view&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.createOrReplaceTempView(&quot;sample_tbl&quot;)  
+
+scala&amp;gt; spark.catalog.listTables.show  
++----------+--------+-----------+---------+-----------+  
+|      name|database|description|tableType|isTemporary|  
++----------+--------+-----------+---------+-----------+  
+|sample_tbl|    null|       null|TEMPORARY|       true|  
++----------+--------+-----------+---------+-----------+  
+
+scala&amp;gt; df.cache()  
+
+scala&amp;gt; val resultsDF = spark.sql(&quot;SELECT * FROM sample_tbl WHERE Age &amp;gt; 70&quot;)  
+
+scala&amp;gt; resultsDF.show  
++------+--------+---+-----+------+-------+-------+---------+-----+  
+|Sample|     p16|Age| Race|   Sex|Anatomy|Smoking|Radiation|Chemo|  
++------+--------+---+-----+------+-------+-------+---------+-----+  
+|GHN-62|Negative| 71|white|  male|    BOT|  never|        Y|    N|  
+|GHN-73|Positive| 72|white|female| Tonsil|  never|        Y|    Y|  
++------+--------+---+-----+------+-------+-------+---------+-----+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Created a global temporary table view&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scala&amp;gt; df.createOrReplaceGlobalTempView(&quot;sample_gtbl&quot;)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sample_gtbl&lt;/code&gt; belongs to system database called &lt;code class=&quot;highlighter-rouge&quot;&gt;global_temp&lt;/code&gt;. This qualified name should be used to access &lt;code class=&quot;highlighter-rouge&quot;&gt;GlobalTempView(global_temp.sample_gtbl)&lt;/code&gt; or else it throws an error &lt;code class=&quot;highlighter-rouge&quot;&gt;Table or view not found&lt;/code&gt;.  When you run &lt;code class=&quot;highlighter-rouge&quot;&gt;spark.catalog.listTables.show&lt;/code&gt;, if you don’t specify the database for the &lt;code class=&quot;highlighter-rouge&quot;&gt;listTables()&lt;/code&gt; function it will point to default database. Try this instead:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scala&amp;gt; spark.catalog.listTables(&quot;global_temp&quot;).show&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-----------+-----------+-----------+---------+-----------+  
+|       name|   database|description|tableType|isTemporary|  
++-----------+-----------+-----------+---------+-----------+  
+|sample_gtbl|global_temp|       null|TEMPORARY|       true|  
+| sample_tbl|       null|       null|TEMPORARY|       true|  
++-----------+-----------+-----------+---------+-----------+  
+
+scala&amp;gt; val resultsDF = spark.sql(&quot;SELECT * FROM global_temp.sample_gtbl WHERE Age &amp;gt; 70&quot;)  
+
+scala&amp;gt; resultsDF.show  
++------+---+----+-------+  
+|sample|Age| Sex|Anatomy|  
++------+---+----+-------+  
+|GHN-62| 71|male|    BOT|  
++------+---+----+-------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;4-read-a-mysql-table-data-file-into-spark-data-frame&quot;&gt;4. Read a MySQL table data file into Spark Data Frame&lt;/h2&gt;
+
+&lt;p&gt;At the command line, log in to &lt;code class=&quot;highlighter-rouge&quot;&gt;MySQL&lt;/code&gt; as the root user:&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$mysql -u root -p&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Type the MySQL root password, and then press Enter.&lt;/p&gt;
+
+&lt;p&gt;To create a new MySQL user account, run the following command:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$mysql&amp;gt; CREATE USER 'adinasarapu'@'localhost' IDENTIFIED BY 'xxxxxxx';  
+
+$mysql&amp;gt; GRANT ALL PRIVILEGES ON *.* TO 'adinasarapu'@'localhost';  
+
+$mysql -u adinasarapu -p`  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Type the MySQL user’s  password, and then press Enter.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$mysql&amp;gt; SHOW DATABASES;
+
+$mysql&amp;gt; CREATE DATABASE meta;  
+
+$mysql&amp;gt; SHOW DATABASES;  
++--------------------+  
+| Database           |  
++--------------------+  
+| information_schema |  
+| meta               |  
+| mysql              |  
+| performance_schema |  
++--------------------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To work with the new database, type the following command.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql&amp;gt; USE meta;  
+mysql&amp;gt; CREATE TABLE samples (  
+	-&amp;gt;  Sample VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Age INT,  
+	-&amp;gt;  Race VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Sex VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Anatomy VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Smoking VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Radiation VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Chemo VARCHAR(20) NOT NULL,  
+	-&amp;gt;  PRIMARY KEY ( Sample )  
+-&amp;gt; );  
+mysql&amp;gt; LOAD DATA INFILE '/Users/adinasarapu/spark_example/samples.csv'  
+	INTO TABLE samples FIELDS TERMINATED BY ','  
+	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you encounter the following error&lt;br /&gt;
+ERROR 1290 (HY000): The MySQL server is running with the &lt;code class=&quot;highlighter-rouge&quot;&gt;--secure-file-priv&lt;/code&gt; option so it cannot execute this statement&lt;/p&gt;
+
+&lt;p&gt;Set &lt;code class=&quot;highlighter-rouge&quot;&gt;local_infile&lt;/code&gt; variable as true.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql&amp;gt; SET GLOBAL local_infile = true;
+
+mysql&amp;gt; SHOW GLOBAL VARIABLES LIKE 'local_infile';  
++---------------+-------+  
+| Variable_name | Value |  
++---------------+-------+  
+| local_infile  | ON    |  
++---------------+-------+  
+
+mysql&amp;gt; USE meta;  
+
+mysql&amp;gt; LOAD DATA LOCAL INFILE '/Users/adinasarapu/spark_example/samples.csv'  
+	INTO TABLE samples FIELDS TERMINATED BY ','  
+	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
+
+mysql&amp;gt; SELECT * FROM samples;  
++--------+------+------+-------+---------+---------+-----------+---------+  
+| Sample | Age  | Race | Sex   | Anatomy | Smoking | Radiation | Chemo   |  
++--------+------+------+-------+---------+---------+-----------+---------+  
+| GHN-39 |    0 | 51   | white | male    | BOT     | never     | Y       |  
+| GHN-40 |    0 | 66   | white | male    | Tonsil  | former    | Y       |  
+| GHN-43 |    0 | 65   | white | male    | BOT     | former    | Y       |  
+| GHN-48 |    0 | 68   | white | female  | BOT     | current   | Y       |  
+| GHN-53 |    0 | 58   | white | male    | Larynx  | current   | Y       |  
+| ...		...		...		...		...	 |  
+| ...		...		...		...		...	 |  
++------------------------------------------------------------------------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a new MySQL table from Spark&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; import org.apache.spark.sql.SaveMode  
+scala&amp;gt; df.write.mode(SaveMode.Append).jdbc(url,&quot;newsamples&quot;,prop)  
+
+mysql&amp;gt; USE meta;  
+mysql&amp;gt; SHOW tables;  
++----------------+  
+| Tables_in_meta |  
++----------------+  
+| newsamples     |  
+| samples        |  
++----------------+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://spark.apache.org&quot;&gt;Apache Spark&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://hadoop.apache.org&quot;&gt;Apache Hadoop&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.learningjournal.guru/courses/spark/spark-foundation-training/&quot;&gt;Learning Journal&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://medium.com/@achilleus/spark-session-10d0d66d1d24&quot;&gt;A tale of Spark Session and Spark Context&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.a2hosting.com.co/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line&quot;&gt;MySQL&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache spark" /><category term="real time data pipelines" /><category term="scala" /><category term="hadoop" /><category term="MySQL" /><category term="bioinformatics" /><category term="Hadoop Distributed File System" /><summary type="html">Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.1 Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs. Spark SQL is Spark’s package for working with structured data. Apache Spark&amp;nbsp;&amp;#8617;</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 2: Spark, Hadoop)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)" /><published>2020-02-09T00:00:00-08:00</published><updated>2020-02-09T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark/">&lt;p&gt;Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Apache Spark provides APIs in Java, Scala, Python, and R.&lt;/p&gt;
+
+&lt;p&gt;It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Scala, Java, Python and R).&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Apache Spark Ecosystem&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------+-----------+-------+----------+
@@ -16,28 +372,39 @@
 +---------------------------------------+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;Computing Engine&lt;/strong&gt;&lt;br /&gt;
-Apache Hadoop&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; offers distributed storage (HDFS), resource manager (YARN)  and computing framework (Map Reduce). Apache Spark is a distributed processing engine but it doesn’t come with inbuilt cluster resource manager and distributed storage system. We have to plugin a cluster manager and a storage system of our choice. We can use YARN, Mesos, and Kubernetes as a cluster manager for Apache Spark. Similarly, for the storage system we can use HDFS, Amazon S3, Google cloud storage or Cassandra File System (CFS) and more. The compute engine provides some basic functionality like memory management, task scheduling, fault recovery and most importantly interacting with the cluster manager and storage system.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Spark Computing Engine&lt;/strong&gt;: Hadoop MapReduce vs Spark&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Core APIs&lt;/strong&gt;
-Spark core consists of structured API and unstructured API. Structured API consists of Data Frames and Data Sets. Unstructured APIs consists of RDDs, accumulators and broadcast variables&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. These core APIs are available as Scala, Java, Python and R.  &lt;br /&gt;
-Outside of Spark Core we have 4 sets of libraries and packages, Spark SQL, Spark Streaming, MLlib and Graphx. They directly depend on Spark Core APIs to achieve distributed processing.&lt;/p&gt;
+&lt;p&gt;Apache Hadoop&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; offers distributed storage (HDFS), resource manager (YARN) and computing framework (MapReduce). MapReduce reads and writes from disk, which slows down the processing speed and overall efficiency.&lt;/p&gt;
 
-&lt;p&gt;Typical Spark Application Process Flow: Apache Spark reads some data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. Latest Spark release recommended to use Data Frame and Data Set. Both of them are compiled down in RDD.&lt;/p&gt;
+&lt;p&gt;Apache Spark is a distributed processing engine comes with it’s own Spark Standalone cluster manager. However, we can also plugin a cluster manager of our choice such as Apache Hadoop YARN (the resource manager in Hadoop 2), Apache Mesos, or Kubernetes. When Spark applications run on YARN, resource management, scheduling, and security are controlled by YARN. Similarly, for the storage system we can use Hadoop’s HDFS, Amazon S3, Google cloud storage or Apache Cassandra. The compute engine provides some basic functionality like memory management, task scheduling, fault recovery and most importantly interacting with the cluster manager and storage system. Spark also has a local mode, where the driver and executors run as threads on your computer instead of a cluster, which is useful for developing your applications from a personal computer.  Spark runs applications up to 100 times faster in memory and 10 times faster on disk than Hadoop by reducing the number of read-write operations to disk and storing intermediate data in-memory&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;RDD: Resilient Distributed Data Set&lt;/strong&gt; &lt;sup id=&quot;fnref:3:1&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; Spark RDD is a resilient, partitioned, distributed and immutable collection of data.&lt;br /&gt;
-&lt;strong&gt;Resilient&lt;/strong&gt; – RDDs are fault tolerant.&lt;br /&gt;
+&lt;p&gt;&lt;strong&gt;Spark Core APIs&lt;/strong&gt;
+Spark core consists of structured API and unstructured API. Structured API consists of Data Frames and Data Sets. Unstructured APIs consists of RDDs&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. These core APIs (available as Scala, Java, Python and R) facilitate the execution of high-level operators with RDD.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Spark libraries&lt;/strong&gt; such as Spark SQL, Spark Streaming, MLlib and Graphx directly depend on Spark Core APIs to achieve distributed processing.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Figure&lt;/b&gt;. Spark is fully compatible with the Hadoop eco-system and works smoothly with HDFS (&lt;a href=&quot;https://towardsdatascience.com&quot;&gt;https://towardsdatascience.com&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/hadoop.png&quot; alt=&quot;Spark&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Apache Spark reads data from source and load it into a Spark. There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD. We can create RDDs using one of the two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;RDD: Resilient Distributed Dataset&lt;/strong&gt;&lt;br /&gt;
+Spark RDD is a resilient, partitioned, distributed and immutable collection of data&lt;sup id=&quot;fnref:4:1&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. Basically, it is read-only partition collection of records. This set of data is spread across multiple machines over cluster.  &lt;br /&gt;
+&lt;strong&gt;Resilient&lt;/strong&gt; – RDDs are fault tolerant. If any bug or loss found, RDD has the capability to recover the loss. &lt;br /&gt;
 &lt;strong&gt;Partitioned&lt;/strong&gt; – Spark breaks the RDD into smaller chunks of data. These pieces are called partitions.&lt;br /&gt;
 &lt;strong&gt;Distributed&lt;/strong&gt; – Instead of keeping these partitions on a single machine, Spark spreads them across the cluster.&lt;br /&gt;
-&lt;strong&gt;Immutable&lt;/strong&gt; – Once defined, you can’t change them. So Spark RDD is a read-only data structure.&lt;/p&gt;
+&lt;strong&gt;Immutable&lt;/strong&gt; – Once defined, you can’t change them i.e Spark RDD is a read-only data structure.&lt;/p&gt;
 
-&lt;p&gt;For RDDs vs DataFrames and Datasets - When to use them and why. Read &lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;We can create RDD using two methods. 1.Load some data from a source or 2. Create an RDD by transforming another RDD&lt;/p&gt;
+&lt;p&gt;For “RDDs vs DataFrames and Datasets - When to use them and why”, see reference &lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Step 1&lt;/strong&gt;: Hadoop installation&lt;/p&gt;
 
-&lt;p&gt;See tutorial on &lt;a href=&quot;https://www.quickprogrammingtips.com/big-data/how-to-install-hadoop-on-mac-os-x-el-capitan.html&quot;&gt;How to Install and Configure Hadoop on Mac&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;See tutorials on&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.quickprogrammingtips.com/big-data/how-to-install-hadoop-on-mac-os-x-el-capitan.html&quot;&gt;How to Install and Configure Hadoop on Mac&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cwiki.apache.org/confluence/display/HADOOP2/GettingStartedWithHadoop&quot;&gt;Getting Started With Hadoop&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;Update your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_profile&lt;/code&gt; file, which is a configuration file for configuring user environments.&lt;/p&gt;
 
@@ -48,6 +415,11 @@ export PATH=$PATH:$HADOOP_HOME/bin
 &lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Start Hadoop&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;start-dfs.sh&lt;/code&gt; - Starts the Hadoop DFS daemons, the namenode and datanodes. Use this before start-mapred.sh&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;stop-dfs.sh&lt;/code&gt; - Stops the Hadoop DFS daemons.&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;start-mapred.sh&lt;/code&gt; - Starts the Hadoop Map/Reduce daemons, the jobtracker and tasktrackers.&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;stop-mapred.sh&lt;/code&gt; - Stops the Hadoop Map/Reduce daemons.&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$bash sbin/start-dfs.sh 
 Starting namenodes on [localhost]
@@ -71,11 +443,11 @@ Starting secondary namenodes [Ashoks-MacBook-Pro.local]
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$hadoop fs -mkdir -p /user/adinasarapu&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Move file to HDFS&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Move file to HDFS (Hadoop Distributed File System)&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$hadoop fs -copyFromLocal samples.csv /user/adinasarapu&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;Now the data file is at real distributed storage. The file location at HDFS is &lt;code class=&quot;highlighter-rouge&quot;&gt;hdfs://localhost:9000/user/adinasarapu/ samples.csv&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now the data file is at HDFS distributed storage. The file location at HDFS is &lt;code class=&quot;highlighter-rouge&quot;&gt;hdfs://localhost:9000/user/adinasarapu/samples.csv&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;List files moved&lt;/strong&gt;&lt;br /&gt;
 &lt;code class=&quot;highlighter-rouge&quot;&gt;$ hadoop fs -ls /user/adinasarapu&lt;/code&gt;&lt;/p&gt;
@@ -86,9 +458,9 @@ Starting secondary namenodes [Ashoks-MacBook-Pro.local]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;Apache Spark installation&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 2&lt;/strong&gt;: Apache Spark installation&lt;/p&gt;
 
-&lt;p&gt;See tutorial on &lt;a href=&quot;https://medium.com/luckspark/installing-spark-2-3-0-on-macos-high-sierra-276a127b8b85&quot;&gt;Installing Apache Spark … on macOS&lt;/a&gt;&lt;br /&gt;
+&lt;p&gt;For basic configuration see tutorial on &lt;a href=&quot;https://medium.com/luckspark/installing-spark-2-3-0-on-macos-high-sierra-276a127b8b85&quot;&gt;Installing Apache Spark … on macOS&lt;/a&gt;&lt;br /&gt;
 Update your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.bash_profile&lt;/code&gt; file, which is a configuration file for configuring user environments.&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$vi ~/.bash_profile  
@@ -119,15 +491,13 @@ Type :help for more information.
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;Read CSV data&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Read data from distributed storage (HDFS)&lt;/strong&gt;: csv file&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df = spark.read.options(Map(  
 	&quot;header&quot; -&amp;gt; &quot;true&quot;,  
 	&quot;inferSchema&quot;-&amp;gt;&quot;true&quot;,  
 	&quot;nullValue&quot;-&amp;gt;&quot;NA&quot;,  
 	&quot;timestampFormat&quot;-&amp;gt;&quot;MM-dd-yyyy&quot;,  
 	&quot;mode&quot;-&amp;gt;&quot;failfast&quot;)).csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples.csv&quot;)  
-
-df: org.apache.spark.sql.DataFrame = [Sample: string, p16: string ... 7 more fields]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -137,9 +507,8 @@ res4: Int = 1
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;Set/increase Number of partitions to 3&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df2 = df.repartition(3).toDF  
-df2: org.apache.spark.sql.DataFrame = [Sample: string, p16: string ... 7 more fields]  
+&lt;p&gt;&lt;strong&gt;Set/increase the number of partitions to 3&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df2 = df.repartition(3).toDF    
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Recheck the number of partitions&lt;/strong&gt;&lt;/p&gt;
@@ -149,7 +518,7 @@ res5: Int = 3
 &lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;SQL like operation&lt;/strong&gt; &lt;br /&gt;
-Data Frame follows row and column structure like a database table. Data Frame compiles down to RDDs. RDDs are immutable and once loaded you can’t modify it. However, you can perform the following operations a) Transformation and b) Actions. Spark Data Frames carries the same legacy from RDDs. Like RDDs, Spark Data Frames are immutable. You can perform transformation and actions on Data Frames.&lt;/p&gt;
+Data Frame follows row and column structure like a database table. Data Frame compiles down to RDDs. RDDs are immutable; once loaded you can’t modify it. However, you can perform Transformations and and Actions. Spark Data Frames carries the same legacy from RDDs. Like RDDs, Spark Data Frames are immutable. You can perform transformation and actions on Data Frames.&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.select(&quot;Sample&quot;,&quot;Age&quot;,&quot;Sex&quot;,&quot;Anatomy&quot;).filter(&quot;Age &amp;lt; 55&quot;).show  
   
@@ -169,8 +538,7 @@ Data Frame follows row and column structure like a database table. Data Frame co
 +------+---+------+-------+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df1 = df.select($&quot;Sex&quot;,$&quot;Radiation&quot;)  
-df1: org.apache.spark.sql.DataFrame = [Sex: string, Radiation: string]  
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df1 = df.select($&quot;Sex&quot;,$&quot;Radiation&quot;)    
 
 scala&amp;gt; df1.show  
 +------+---------+  
@@ -202,14 +570,13 @@ only showing top 20 rows
 &lt;/div&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df2 = df1.select($&quot;Sex&quot;,   
-		(when($&quot;Radiation&quot; === &quot;Y&quot;,1).otherwise(0)).alias(&quot;All-Yes&quot;),  
-		(when($&quot;Radiation&quot; === &quot;N&quot;,1).otherwise(0)).alias(&quot;All-Nos&quot;),  
-		(when($&quot;Radiation&quot; === &quot;Unknown&quot;,1).otherwise(0)).alias(&quot;All-Unknown&quot;))  
-df2: org.apache.spark.sql.DataFrame = [Sex: string, All-Yes: int ... 2 more fields]  
+		(when($&quot;Radiation&quot; === &quot;Y&quot;,1).otherwise(0)).alias(&quot;Yes&quot;),  
+		(when($&quot;Radiation&quot; === &quot;N&quot;,1).otherwise(0)).alias(&quot;No&quot;),  
+		(when($&quot;Radiation&quot; === &quot;Unknown&quot;,1).otherwise(0)).alias(&quot;Unknown&quot;))    
 
 scala&amp;gt; df2.show  
 +------+-------+-------+-----------+  
-|   Sex|All-Yes|All-Nos|All-Unknown|  
+|   Sex|    Yes|     No|    Unknown|  
 +------+-------+-------+-----------+  
 |female|      1|      0|          0|  
 |female|      1|      0|          0|  
@@ -248,20 +615,18 @@ only showing top 20 rows
 
 scala&amp;gt; val parseSexUDF = udf(parseSex _)  
 
-parseGenderUDF: org.apache.spark.sql.expressions.UserDefinedFunction = SparkUserDefinedFunction($Lambda$3628/1633612848@4ee80d4c,StringType,List(Some(Schema(StringType,true))),None,true,true)  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df3 = df2.select((parseSexUDF($&quot;Sex&quot;)).alias(&quot;Sex&quot;),$&quot;All-Yes&quot;,$&quot;All-Nos&quot;,$&quot;All-Unknown&quot;)  
-df3: org.apache.spark.sql.DataFrame = [Sex: string, All-Yes: int ... 2 more fields]  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df4 = df3.groupBy(&quot;Sex&quot;).agg(sum($&quot;All-Yes&quot;), sum($&quot;All-Nos&quot;), sum($&quot;All-Unknown&quot;))  
-df4: org.apache.spark.sql.DataFrame = [Sex: string, sum(All-Yes): bigint ... 2 more fields]  
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df3 = df2.select((parseSexUDF($&quot;Sex&quot;)).alias(&quot;Sex&quot;),$&quot;Yes&quot;,$&quot;No&quot;,$&quot;Unknown&quot;)  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df4 = df3.groupBy(&quot;Sex&quot;).agg(sum($&quot;Yes&quot;), sum($&quot;No&quot;), sum($&quot;Unknown&quot;))    
 
 scala&amp;gt; df4.show  
 +------+------------+------------+----------------+  
-|   Sex|sum(All-Yes)|sum(All-Nos)|sum(All-Unknown)|  
+|   Sex|    sum(Yes)|     sum(No)|    sum(Unknown)|     
 +------+------------+------------+----------------+  
 |Female|           3|           0|               0|  
 |  Male|          18|           5|               1|  
@@ -270,14 +635,11 @@ scala&amp;gt; df4.show
 &lt;/div&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df5 = df4.filter($&quot;Sex&quot; =!= &quot;Unknown&quot;)  
-df5: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [Sex: string, sum(All-Yes): bigint ... 2 more fields]  
-  
-scala&amp;gt; df5.collect()  
-res22: Array[org.apache.spark.sql.Row] = Array([Male,18,5,1])  
 
+scala&amp;gt; df5.collect()  
 scala&amp;gt; df5.show  
 +----+------------+------------+----------------+  
-| Sex|sum(All-Yes)|sum(All-Nos)|sum(All-Unknown)|  
+| Sex|    sum(Yes)|     sum(No)|    sum(Unknown)|  
 +----+------------+------------+----------------+  
 |Male|          18|           5|               1|  
 +----+------------+------------+----------------+  
@@ -294,13 +656,16 @@ scala&amp;gt; df5.show
       &lt;p&gt;&lt;a href=&quot;https://hadoop.apache.org&quot;&gt;Apache Hadoop&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://www.learningjournal.guru/courses/spark/spark-foundation-training/&quot;&gt;Learning Journal&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;https://dx.doi.org/10.1093%2Fgigascience%2Fgiy098&quot;&gt;Bioinformatics applications on Apache Spark&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:4&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html&quot;&gt;RDDs vs Data Frames and Data Sets&lt;/a&gt; A Tale of Three Apache Spark APIs: RDDs vs DataFrames and Datasets - When to use them and why&amp;nbsp;&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.learningjournal.guru/courses/spark/spark-foundation-training/&quot;&gt;Learning Journal&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:4:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html&quot;&gt;RDDs vs Data Frames and Data Sets&lt;/a&gt; A Tale of Three Apache Spark APIs: RDDs vs DataFrames and Datasets - When to use them and why&amp;nbsp;&lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache spark" /><category term="real time data pipelines" /><category term="scala" /><category term="hadoop" /><summary type="html">Apache Spark1 is a unified analytics engine for large-scale data processing. Apache Spark&amp;nbsp;&amp;#8617;</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 1: Kafka)</title><link href="http://localhost:4000/posts/2020/01/blog-post-kafka/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 1: Kafka)" /><published>2020-01-26T00:00:00-08:00</published><updated>2020-01-26T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-kafka</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-kafka/">&lt;p&gt;&lt;a href=&quot;https://kafka.apache.org&quot;&gt;Kafka&lt;/a&gt; is used for building real-time data pipelines and streaming apps.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache spark" /><category term="real time data pipelines" /><category term="scala" /><category term="hadoop" /><category term="YARN" /><category term="bioinformatics" /><category term="Hadoop Distributed File System" /><summary type="html">Apache Spark is a general-purpose, in-memory cluster computing engine for large scale data processing1. Apache Spark provides APIs in Java, Scala, Python, and R. Apache Spark&amp;nbsp;&amp;#8617;</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 1: Kafka)</title><link href="http://localhost:4000/posts/2020/01/blog-post-kafka/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 1: Kafka)" /><published>2020-01-26T00:00:00-08:00</published><updated>2020-01-26T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-kafka</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-kafka/">&lt;p&gt;&lt;a href=&quot;https://kafka.apache.org&quot;&gt;Kafka&lt;/a&gt; is used for building real-time data pipelines and streaming apps.&lt;/p&gt;
 
 &lt;p&gt;What is Kafka? &lt;a href=&quot;https://success.docker.com/article/getting-started-with-kafka&quot;&gt;Getting started with kafka&lt;/a&gt; says “Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo ‘data’ » file.dat), and consumers subscribe to a certain file (tail -f file.dat). In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper (simplified: solid, reliable, transactional key/value store) to keep track of the state of producers, topics, and consumers.”&lt;/p&gt;
 
@@ -615,7 +980,9 @@ spring:
 Produced message: hello  
 Consumed message: hello
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache kafka" /><category term="real time data pipelines" /><category term="java" /><category term="docker" /><category term="Spring Boot" /><category term="YAML" /><category term="Zookeeper" /><summary type="html">Kafka is used for building real-time data pipelines and streaming apps.</summary></entry><entry><title type="html">Quantitative proteomics: TMT-based quantitation of proteins</title><link href="http://localhost:4000/posts/2020/01/blog-post-tmt/" rel="alternate" type="text/html" title="Quantitative proteomics: TMT-based quantitation of proteins" /><published>2020-01-09T00:00:00-08:00</published><updated>2020-01-09T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-tmt</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-tmt/">&lt;p&gt;Here, I describe the general workflow of relative quantification of proteins using isobaric labeling (tandem mass tag or TMT). The methodology starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT). Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache kafka" /><category term="real time data pipelines" /><category term="java" /><category term="docker" /><category term="Spring Boot" /><category term="YAML" /><category term="Zookeeper" /><summary type="html">Kafka is used for building real-time data pipelines and streaming apps.</summary></entry><entry><title type="html">Quantitative proteomics: TMT-based quantitation of proteins</title><link href="http://localhost:4000/posts/2020/01/blog-post-tmt/" rel="alternate" type="text/html" title="Quantitative proteomics: TMT-based quantitation of proteins" /><published>2020-01-09T00:00:00-08:00</published><updated>2020-01-09T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-tmt</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-tmt/">&lt;p&gt;Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).&lt;/p&gt;
+
+&lt;p&gt;Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.&lt;/p&gt;
 
 &lt;p&gt;Fractionation prior to LC-MS/MS analysis effectively detects low abundance proteins (&amp;lt;100ng/mL), which is the concentration range of most clinical biomarkers.&lt;/p&gt;
 
@@ -687,7 +1054,9 @@ Multiplexed Protein Quantification Using the Isobaric TMT … &lt;sup id=&quot;f
       &lt;p&gt;&lt;a href=&quot;https://assets.thermofisher.com/TFS-Assets/CMD/Reference-Materials/PP-TMT-Multiplexed-Protein-Quantification-HUPO2015-EN.pdf&quot;&gt;TMT analysis using Proteome Discoverer&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:6&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="TMT" /><category term="tandem mass tag" /><category term="MS3 spectra" /><category term="MaxQuant" /><category term="isobaric labeling" /><category term="Perseus" /><category term="TMT 10plex" /><category term="10plex" /><summary type="html">Here, I describe the general workflow of relative quantification of proteins using isobaric labeling (tandem mass tag or TMT). The methodology starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT). Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.</summary></entry><entry><title type="html">ATAC-seq peak calling with MACS2</title><link href="http://localhost:4000/posts/2019/12/blog-post-atacseq/" rel="alternate" type="text/html" title="ATAC-seq peak calling with MACS2" /><published>2019-12-05T00:00:00-08:00</published><updated>2019-12-05T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/12/blog-atacseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/12/blog-post-atacseq/">&lt;p&gt;ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility. ATAC-seq achieves this by simultaneously fragmenting and tagging genomic DNA with sequencing adapters using the hyperactive Tn5 transposase enzyme &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Other global chromatin accessibility methods include FAIRE-seq and DNase-seq. This document aims to provide accessibility.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="TMT" /><category term="tandem mass tag" /><category term="MS3 spectra" /><category term="MaxQuant" /><category term="isobaric labeling" /><category term="Perseus" /><category term="TMT 10plex" /><category term="10plex" /><summary type="html">Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).</summary></entry><entry><title type="html">ATAC-seq peak calling with MACS2</title><link href="http://localhost:4000/posts/2019/12/blog-post-atacseq/" rel="alternate" type="text/html" title="ATAC-seq peak calling with MACS2" /><published>2019-12-05T00:00:00-08:00</published><updated>2019-12-05T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/12/blog-atacseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/12/blog-post-atacseq/">&lt;p&gt;ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility.&lt;/p&gt;
+
+&lt;p&gt;ATAC-seq achieves this by simultaneously fragmenting and tagging genomic DNA with sequencing adapters using the hyperactive Tn5 transposase enzyme &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Other global chromatin accessibility methods include FAIRE-seq and DNase-seq. This document aims to provide accessibility.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Pre-processing of raw sequencing reads&lt;/strong&gt; – before mapping the raw reads to the genome, trim the adapter sequences. Poor read quality or sequencing
 errors often lead to low mapping rate.&lt;/p&gt;
@@ -726,7 +1095,7 @@ For further reading: &lt;a href=&quot;https://yiweiniu.github.io/blog/2019/03/AT
       &lt;p&gt;&lt;a href=&quot;http://software.broadinstitute.org/software/igv/home&quot;&gt;IGV&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:7&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing)" /><category term="MACS2" /><category term="BWA" /><category term="HOMER" /><summary type="html">ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility. ATAC-seq achieves this by simultaneously fragmenting and tagging genomic DNA with sequencing adapters using the hyperactive Tn5 transposase enzyme 1. Other global chromatin accessibility methods include FAIRE-seq and DNase-seq. This document aims to provide accessibility. ATAC-seq - Nature Methods. 2013; 10:1213–1218.&amp;nbsp;&amp;#8617;</summary></entry><entry><title type="html">Single cell RNA-seq data analysis using CellRanger and Seurat on Cluster</title><link href="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/" rel="alternate" type="text/html" title="Single cell RNA-seq data analysis using CellRanger and Seurat on Cluster" /><published>2019-11-18T00:00:00-08:00</published><updated>2019-11-18T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/01/blog-sc-rnaseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/">&lt;p&gt;Running &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger&quot;&gt;cellranger&lt;/a&gt; as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing)" /><category term="MACS2" /><category term="BWA" /><category term="HOMER" /><summary type="html">ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility.</summary></entry><entry><title type="html">Single cell RNA-seq data analysis using CellRanger and Seurat on Cluster</title><link href="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/" rel="alternate" type="text/html" title="Single cell RNA-seq data analysis using CellRanger and Seurat on Cluster" /><published>2019-11-18T00:00:00-08:00</published><updated>2019-11-18T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/01/blog-sc-rnaseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/01/blog-post-sc-ranseq/">&lt;p&gt;Running &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger&quot;&gt;cellranger&lt;/a&gt; as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.&lt;/p&gt;
 
 &lt;p&gt;There are 4 steps to analyze Chromium Single Cell data&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
@@ -929,15 +1298,4 @@ HUMAnN2 utilizes the MetaCyc database as well as the UniRef gene family catalog 
   &lt;li&gt;EdgeR&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;This pipeline is available as &lt;a href=&quot;https://bitbucket.org/adinasarapu/ibs_class/src&quot;&gt;RNA-Seq Exercise&lt;/a&gt;&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="RNASeq" /><category term="RNA-Seq" /><category term="FastQC" /><category term="STAR" /><category term="HTSeq" /><category term="edgeR" /><summary type="html">A simple RNA-Seq differential expression analysis using High Performance Computing (HPC).</summary></entry><entry><title type="html">Genomic variants from RNA-Seq data</title><link href="http://localhost:4000/posts/2018/01/blog-post-gatk/" rel="alternate" type="text/html" title="Genomic variants from RNA-Seq data" /><published>2018-01-05T00:00:00-08:00</published><updated>2018-01-05T00:00:00-08:00</updated><id>http://localhost:4000/posts/2018/01/blog-gatk</id><content type="html" xml:base="http://localhost:4000/posts/2018/01/blog-post-gatk/">&lt;p&gt;RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.&lt;/p&gt;
-
-&lt;p&gt;Currently few workflows exist for detecting SNPs in RNA-seq data, including &lt;a href=&quot;http://bioinformaticstools.mayo.edu/research/esnv-detect/&quot;&gt;eSNV-detect&lt;/a&gt;, &lt;a href=&quot;https://github.com/rpiskol/SNPiR&quot;&gt;SNPiR&lt;/a&gt; and &lt;a href=&quot;https://github.com/pysam-developers/pysam&quot;&gt;Opossum&lt;/a&gt;. Here, I have employed &lt;a href=&quot;https://software.broadinstitute.org/gatk/documentation/article.php?id=3891&quot;&gt;GATK workflow for SNP and indel calling on RNAseq data&lt;/a&gt;, which is based on the following steps:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Reference (hg38) based read mapping using &lt;code class=&quot;highlighter-rouge&quot;&gt;STAR&lt;/code&gt; aligner. This is a 2-pass approach with the suggested parameters. In this STAR 2-pass approach, splice junctions detected in a first alignment run are used to guide the final alignment (reads which have been mapped across splice junctions must be split to remove intronic parts).&lt;/li&gt;
-  &lt;li&gt;Add read group information, sort, mark the duplicates and index with &lt;code class=&quot;highlighter-rouge&quot;&gt;picard.jar&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;GATK’s &lt;code class=&quot;highlighter-rouge&quot;&gt;SplitNCigarReads&lt;/code&gt; split the reads into exon segments (removing Ns but maintaining grouping information) and reassigning mapping qualities.&lt;/li&gt;
-  &lt;li&gt;Indel realignment and recalibration of Base qualities and&lt;/li&gt;
-  &lt;li&gt;Variant calling with GATK’s &lt;code class=&quot;highlighter-rouge&quot;&gt;HaplotypeCaller&lt;/code&gt;, and finally filtering the variants with GATK’s &lt;code class=&quot;highlighter-rouge&quot;&gt;VariantFiltration&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;My qsub-based pipeline is available at &lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/3e9a2b3881ea0e2afbe58df325ca693ecfac4fbc/job_rnaseq_variant_caller.sh&quot;&gt;bitbucket.org&lt;/a&gt;&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="GATK" /><category term="RNA-Seq" /><category term="STAR" /><category term="SNP" /><category term="Indel" /><summary type="html">RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.</summary></entry></feed>
+&lt;p&gt;This pipeline is available as &lt;a href=&quot;https://bitbucket.org/adinasarapu/ibs_class/src&quot;&gt;RNA-Seq Exercise&lt;/a&gt;&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="RNASeq" /><category term="RNA-Seq" /><category term="FastQC" /><category term="STAR" /><category term="HTSeq" /><category term="edgeR" /><summary type="html">A simple RNA-Seq differential expression analysis using High Performance Computing (HPC).</summary></entry></feed>
