@@ -2,7 +2,7 @@
 title: "Rectal microbiome composition correlates with humoral immunity to HIV-1 in vaccinated rhesus macaques."
 collection: publications
 permalink: /publication/2019-microbiome-msphere
-excerpt: ''
+excerpt: 'Host-Microbe Biology'
 date: 2019-12-11
 venue: 'mSphere'
 paperurl: 'http://adinasarapu.github.io/files/mSphere-2019.pdf'  
