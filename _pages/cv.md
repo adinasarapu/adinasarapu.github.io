@@ -71,4 +71,4 @@ Conference committee member
 * 2014 - International Symposium on Integrative Bioinformatics 2014, Newcastle University, UK
 * 2013 - International Symposium on Integrative Bioinformatics 2013, IPK-Gatersleben, Germany
 
-download résumé <[click here](/files/201912_resume.pdf)> 
+[//]: # download résumé <[click here](/files/201912_resume.pdf)> 
