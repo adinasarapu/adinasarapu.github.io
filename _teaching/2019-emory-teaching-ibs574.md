@@ -13,8 +13,8 @@ Graduate Division of Biological and Biomedical Sciences (GDBBS).
 1. Metagenomics  
    * Amplicon Sequencing  
    * Shotgun metagenomic Sequencing  
-   * [Microbiome Exercise](https://bitbucket.org/adinasarapu/ibs2019_qiime2/src/master/): raw reads to taxonomic classification
+   * [Microbiome Exercise](https://bitbucket.org/adinasarapu/ibs2019_qiime2/src): raw reads to taxonomic classification
 2. Gene expression - RNA-seq (Bulk)  
    * QC, Mapping, Normalization  
    * Differential Expression  
-   * [RNA-Seq Exercise](https://bitbucket.org/adinasarapu/ibs_class/src): raw reads to differential expression
+   * [RNA-Seq Exercise](https://bitbucket.org/adinasarapu/ibs2019_rnaseq/src): raw reads to differential expression
