@@ -144,11 +144,13 @@ bash-4.4# ./kafka-topics.sh \
 
 A Kafka producer is an object that consists of a pool of buffer space that holds records that haven't yet been transmitted to the server.  
 
-<b>Figure 2</b>. Kafka producer and consumer  ([cloudblogs.microsoft.com](https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/)).  
+<b>Figure 2</b>. Relationship between [Kafka Components](https://medium.com/@kavimaluskam/start-your-real-time-pipeline-with-apache-kafka-39e30129892a).  
 
 ![Producer](/images/kafka-producer-consumer.png)  
 
-The following is a producer command line to read data from standard input and write it to a Kafka topic.  
+Kafka broker (a.k.a Kafka server/node) is the server node in the cluster, mainly responsible for hosting partitions of Kafka Topics, transferring messages from Kafka Producer to Kafka Consumer and, providing data replication and partitioning within a Kafka Cluster.  
+
+The following is a producer command line to read data from standard input and write it to a Kafka Topic.  
 
 ```
 bash-4.4# ./kafka-console-producer.sh \
@@ -172,15 +174,15 @@ World
 ^CProcessed a total of 2 messages  
 ```  
 
-**Another way of reading data from a Kafka topic is by simply using a Spring Boot application** (Here I call this project as SpringBootKafka).  
+**Another way of reading data from a Kafka topic is by simply using a Spring Boot application**.  
 
-The following demonstrates how to receive messages from Kafka topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic. Then in next blog I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.  
+The following demonstrates how to receive messages from Kafka Topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka Topic. Then I create a Spring Kafka Producer, which is able to send messages to a Kafka Topic.  
 
-<b>Figure 3</b>. Kafka producer and consumer in Java ([blog.clairvoyantsoft.com](https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d)).
+<b>Figure 3</b>. Kafka Producer and Consumer in Java ([blog.clairvoyantsoft.com](https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d)).
 
 ![Java](/images/kafka-producer-consumer-java.png)  
 
-The first step to create a simple Spring Boot maven Application is [Starting with Spring Initializr](https://spring.io/guides/gs/spring-boot/) and make sure to have spring-kafka dependency to `pom.xml`.  
+The first step to create a simple **Spring Boot Maven Application** is [Starting with Spring Initializr](https://spring.io/guides/gs/spring-boot/) and make sure to have spring-kafka dependency to `pom.xml`.  
 
 ```  
 <dependency>  
@@ -200,6 +202,8 @@ public class SpringBootKafkaApplication {
 }  
 ```
 
+**Configure Kafka through application.yml configuration file**  
+
 In Spring Boot, properties are kept in the `application.properties` file under the classpath. The application.properties file is located in the `src/main/resources` directory. Change application.properties file to `application.yml`, then add the following content.  
 
 ```  
@@ -213,7 +217,7 @@ consumer:
   value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
 ```  
 
-Create a Spring Kafka Consumer class:  
+**Create a Spring Kafka Consumer class**  
 
 Create a class called `KafkaConsumer.java` and add a method with the @KakfaListener annotation.  
 
