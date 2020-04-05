@@ -13,10 +13,10 @@ tags:
   - Hadoop Distributed File System
 
 ---  
-Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.[^1] Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs.  
-  
-Spark SQL is Spark’s package for working with structured data.  
+Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.  
 
+Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs. Spark SQL is Spark’s package for working with structured data [^1].  
+ 
 ## 1. Start Hadoop, Copy a `csv` file to HDFS  
 
 *The Hadoop Distributed File System (HDFS) is the primary data storage system used by Hadoop applications. It employs a `NameNode` and `DataNode` architecture to implement a distributed file system that provides high-performance access to data across highly scalable Hadoop clusters*.[^2]  

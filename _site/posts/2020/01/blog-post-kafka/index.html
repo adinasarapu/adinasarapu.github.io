@@ -19,7 +19,7 @@
 
 
 
-<title>Building a real-time big data pipeline (part 1: Kafka) - Ashok R. Dinasarapu</title>
+<title>Building a real-time big data pipeline (part 1: Kafka, Zookeeper) - Ashok R. Dinasarapu</title>
 
 
 
@@ -29,7 +29,7 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu">
-<meta property="og:title" content="Building a real-time big data pipeline (part 1: Kafka)">
+<meta property="og:title" content="Building a real-time big data pipeline (part 1: Kafka, Zookeeper)">
 
 
   <link rel="canonical" href="http://localhost:4000/posts/2020/01/blog-post-kafka/">
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-01-26T00:00:00-08:00">
+  <meta property="article:published_time" content="2020-04-05T00:00:00-07:00">
 
 
 
@@ -242,29 +242,29 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Building a real-time big data pipeline (part 1: Kafka)">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (part 1: Kafka, Zookeeper)">
     <meta itemprop="description" content="Kafka is used for building real-time data pipelines and streaming apps.">
-    <meta itemprop="datePublished" content="January 26, 2020">
+    <meta itemprop="datePublished" content="April 05, 2020">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 1: Kafka)
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 1: Kafka, Zookeeper)
 </h1>
           
             <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
 
 
   
-	  7 minute read
+	  8 minute read
 	
 </p>
           
         
         
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-01-26T00:00:00-08:00">January 26, 2020</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-04-05T00:00:00-07:00">April 05, 2020</time></p>
         
         
              
@@ -276,12 +276,13 @@
       <section class="page__content" itemprop="text">
         <p><a href="https://kafka.apache.org">Kafka</a> is used for building real-time data pipelines and streaming apps.</p>
 
-<p>What is Kafka? <a href="https://success.docker.com/article/getting-started-with-kafka">Getting started with kafka</a> says “Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo ‘data’ » file.dat), and consumers subscribe to a certain file (tail -f file.dat). In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper (simplified: solid, reliable, transactional key/value store) to keep track of the state of producers, topics, and consumers.”</p>
+<p>What is Kafka? <a href="https://success.docker.com/article/getting-started-with-kafka">Getting started with kafka</a> says <em>Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo ‘data’ » file.dat), and consumers subscribe to a certain file (tail -f file.dat)</em>. In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper to store metadata about producers, topics and partitions.</p>
 
-<p><strong>Kafka for local development of applications</strong>:<br />
-There are multiple ways of running Kafka locally for development of apps but the easiest method is by docker-compose. To download Docker Desktop, go to <a href="https://hub.docker.com/">Docker Hub</a> and sign In with your Docker ID.</p>
+<p><strong>Kafka for local development of applications</strong>:</p>
 
-<p>Docker compose facilitates installing Kafka and Zookeeper with the help of <code class="highlighter-rouge">docker-compose.yml</code> file.</p>
+<p>There are multiple ways of running Kafka locally for development of apps but the easiest method is by <code class="highlighter-rouge">docker-compose</code>. To download Docker Desktop, go to <a href="https://hub.docker.com/">Docker Hub</a> and Sign In with your Docker ID.</p>
+
+<p>Docker compose facilitates installing <code class="highlighter-rouge">Kafka</code> and <code class="highlighter-rouge">Zookeeper</code> with the help of <code class="highlighter-rouge">docker-compose.yml</code> file.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>version: '2'  
 services:  
@@ -302,8 +303,9 @@ services:
 </code></pre>
 </div>
 
-<p><strong>1. Start the Kafka service</strong><br />
-Open a terminal, go where you have the docker-compose.yml file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.</p>
+<p><strong>1. Start the Kafka service</strong></p>
+
+<p>Open a terminal, go to the directory where you have the <code class="highlighter-rouge">docker-compose.yml</code> file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$docker-compose up -d  
 </code></pre>
@@ -350,8 +352,11 @@ Removing network kafka_example_default
 </code></pre>
 </div>
 
-<p><strong>2. Create a topic</strong><br />
-The Kafka cluster stores streams of records in categories called topics. A topic can have zero, one, or many consumers that subscribe to the data written to it. <code class="highlighter-rouge">docker-compose exec</code> command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where docker-compose.yml file present, and execute it as</p>
+<p><strong>2. Create a Kafka topic</strong></p>
+
+<p>The Kafka cluster stores streams of records in categories called topics. Each record in a topic consists of a key, a value, and a timestamp. A topic can have zero, one, or many consumers that subscribe to the data written to it.</p>
+
+<p>Use <code class="highlighter-rouge">docker-compose exec</code> to execute a command in a running container. For example, <code class="highlighter-rouge">docker-compose exec</code> command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where <code class="highlighter-rouge">docker-compose.yml</code> file present, and execute it as</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$docker-compose exec kafka bash  
 </code></pre>
@@ -362,16 +367,22 @@ The Kafka cluster stores streams of records in categories called topics. A topic
 <p>Change the directory to /opt/kafka/bin where you find scripts such as <code class="highlighter-rouge">kafka-topics.sh</code>.<br />
 <code class="highlighter-rouge">cd /opt/kafka/bin</code></p>
 
-<p>Create, list or delete existing topics:</p>
+<p><strong>Create, list or delete</strong> existing topics:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \  
  --create \  
- --topic test1 \  
+ --topic mytopic \  
  --partitions 1 \  
  --replication-factor 1 \  
  --bootstrap-server localhost:9092  
 </code></pre>
 </div>
+
+<p><b>Figure 1</b>. Kafka topic partitions layout (<a href="https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/">cloudblogs.microsoft.com</a>). Each partition in a topic is an ordered, immutable sequence of records that is continually appended to a structured commit log.</p>
+
+<p><img src="/images/kafka-partitions.png" alt="Partitions" /></p>
+
+<p><img src="/images/kafka-partition.png" alt="Partition" /></p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \
  --list \
@@ -383,17 +394,25 @@ The Kafka cluster stores streams of records in categories called topics. A topic
 
 <div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \
  --delete \
- --topic test1 \
+ --topic mytopic \
  --bootstrap-server localhost:9092  
 </code></pre>
 </div>
 
-<p><strong>3. Producer and Consumer</strong><br />
-A Kafka producer is an object that consists of a pool of buffer space that holds records that haven’t yet been transmitted to the server.</p>
+<p><strong>3. Kafka Producer and Consumer</strong></p>
+
+<p>A Kafka producer is an object that consists of a pool of buffer space that holds records that haven’t yet been transmitted to the server.</p>
+
+<p><b>Figure 2</b>. Kafka producer and consumer  (<a href="https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/">cloudblogs.microsoft.com</a>).</p>
+
+<p><img src="/images/kafka-producer-consumer.png" alt="Producer" /></p>
 
 <p>The following is a producer command line to read data from standard input and write it to a Kafka topic.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic test1  
+<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-console-producer.sh \
+ --broker-list localhost:9092 \
+ --topic mytopic
+  
 &gt;Hello  
 &gt;World  
 ^C
@@ -401,7 +420,11 @@ A Kafka producer is an object that consists of a pool of buffer space that holds
 </div>
 
 <p>The following is a command line to read data from a Kafka topic and write it to standard output.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test1 --from-beginning  
+<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-console-consumer.sh \
+ --bootstrap-server localhost:9092 \
+ --topic mytopic \
+ --from-beginning
+  
 Hello  
 World  
 ^CProcessed a total of 2 messages  
@@ -411,6 +434,10 @@ World
 <p><strong>Another way of reading data from a Kafka topic is by simply using a Spring Boot application</strong> (Here I call this project as SpringBootKafka).</p>
 
 <p>The following demonstrates how to receive messages from Kafka topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic. Then in next blog I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.</p>
+
+<p><b>Figure 3</b>. Kafka producer and consumer in Java (<a href="https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d">blog.clairvoyantsoft.com</a>).</p>
+
+<p><img src="/images/kafka-producer-consumer-java.png" alt="Java" /></p>
 
 <p>The first step to create a simple Spring Boot maven Application is <a href="https://spring.io/guides/gs/spring-boot/">Starting with Spring Initializr</a> and make sure to have spring-kafka dependency to <code class="highlighter-rouge">pom.xml</code>.</p>
 
@@ -451,7 +478,7 @@ consumer:
 
 <div class="highlighter-rouge"><pre class="highlight"><code>@Service  
 public class KafkaConsumer {  
-	@KafkaListener(id = "group_test1", topics = "test1")  
+	@KafkaListener(id = "group_test1", topics = "mytopic")  
 	public void consumeMessage(String message) {  
 		System.out.println("Consumed message: " + message);  
 	}  
@@ -472,7 +499,10 @@ Produce message using the Kafka console producer: <code class="highlighter-rouge
 Once inside the container <code class="highlighter-rouge">cd /opt/kafka/bin</code><br />
 Run the following console producer which will enable you to send messages to Kafka:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic test1  
+<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-console-producer.sh \
+ --broker-list localhost:9092 \
+ --topic mytopic
+  
 &gt;Hello  
 &gt;World  
 ^C  
@@ -536,7 +566,7 @@ public class KafkaController {
 
 <div class="highlighter-rouge"><pre class="highlight"><code>@Service  
 public class KafkaProducer {  
-	private static final String TOPIC = "test1";  
+	private static final String TOPIC = "mytopic";  
 
 	@Autowired  
 	private KafkaTemplate&lt;String, String&gt; kafkaTemplate;  
@@ -622,7 +652,15 @@ Consumed message: hello
     
       
       
+      <a href="http://localhost:4000/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">Bioinformatics</a><span class="sep">, </span>
+    
+      
+      
       <a href="http://localhost:4000/tags/#docker" class="page__taxonomy-item" rel="tag">docker</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#emory-university" class="page__taxonomy-item" rel="tag">Emory University</a><span class="sep">, </span>
     
       
       
@@ -673,12 +711,11 @@ Consumed message: hello
 
   <nav class="pagination">
     
-      <a href="http://localhost:4000/posts/2019/12/blog-post-atacseq/" class="pagination--pager" title="ATAC-seq peak calling with MACS2
+      <a href="http://localhost:4000/posts/2020/01/blog-post-tmt/" class="pagination--pager" title="Quantitative proteomics: TMT-based quantitation of proteins
 ">Previous</a>
     
     
-      <a href="http://localhost:4000/posts/2020/02/blog-post-spark/" class="pagination--pager" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 

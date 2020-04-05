@@ -10,14 +10,16 @@ tags:
   - hadoop   
   - YARN
   - bioinformatics
+  - Emory University
   - Hadoop Distributed File System
 
 ---  
-Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing[^1]. Apache Spark provides APIs in Java, Scala, Python, and R.  
+Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing.  
 
-It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Scala, Java, Python and R).  
+Apache Spark provides APIs in Java, Scala, Python, and R [^1]. It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Scala, Java, Python and R).  
 
 **Apache Spark Ecosystem**  
+
 ```
 +--------+-----------+-------+----------+
 | SQL	 | Streaming | MLlib |	GraphX 	|

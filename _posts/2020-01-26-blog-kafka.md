@@ -1,6 +1,6 @@
 ---
-title: 'Building a real-time big data pipeline (part 1: Kafka)'
-date: 2020-01-26
+title: 'Building a real-time big data pipeline (part 1: Kafka, Zookeeper)'
+date: 2020-04-05
 permalink: /posts/2020/01/blog-post-kafka/
 tags:
   - big data
@@ -10,17 +10,20 @@ tags:
   - docker
   - Spring Boot 
   - YAML
-  - Zookeeper  
+  - Zookeeper
+  - Bioinformatics
+  - Emory University 
 
 ---  
 [Kafka](https://kafka.apache.org) is used for building real-time data pipelines and streaming apps.  
 
-What is Kafka? [Getting started with kafka](https://success.docker.com/article/getting-started-with-kafka) says “Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo 'data' >> file.dat), and consumers subscribe to a certain file (tail -f file.dat). In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper (simplified: solid, reliable, transactional key/value store) to keep track of the state of producers, topics, and consumers.”  
+What is Kafka? [Getting started with kafka](https://success.docker.com/article/getting-started-with-kafka) says *Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo 'data' >> file.dat), and consumers subscribe to a certain file (tail -f file.dat)*. In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper to store metadata about producers, topics and partitions.  
 
 **Kafka for local development of applications**:  
-There are multiple ways of running Kafka locally for development of apps but the easiest method is by docker-compose. To download Docker Desktop, go to [Docker Hub](https://hub.docker.com/) and sign In with your Docker ID.  
+  
+There are multiple ways of running Kafka locally for development of apps but the easiest method is by `docker-compose`. To download Docker Desktop, go to [Docker Hub](https://hub.docker.com/) and Sign In with your Docker ID.  
 
-Docker compose facilitates installing Kafka and Zookeeper with the help of `docker-compose.yml` file.  
+Docker compose facilitates installing `Kafka` and `Zookeeper` with the help of `docker-compose.yml` file.  
 
 ```
 version: '2'  
@@ -42,7 +45,8 @@ services:
 ```  
 
 **1. Start the Kafka service**  
-Open a terminal, go where you have the docker-compose.yml file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.  
+
+Open a terminal, go to the directory where you have the `docker-compose.yml` file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.  
 
 ```
 $docker-compose up -d  
@@ -89,8 +93,11 @@ Next, check the Kafka logs to verify that broker is working and healthy.
 $docker-compose logs kafka | grep -i started  
 ```  
 
-**2. Create a topic**  
-The Kafka cluster stores streams of records in categories called topics. A topic can have zero, one, or many consumers that subscribe to the data written to it. `docker-compose exec` command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where docker-compose.yml file present, and execute it as  
+**2. Create a Kafka topic**  
+
+The Kafka cluster stores streams of records in categories called topics. Each record in a topic consists of a key, a value, and a timestamp. A topic can have zero, one, or many consumers that subscribe to the data written to it.  
+ 
+Use `docker-compose exec` to execute a command in a running container. For example, `docker-compose exec` command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where `docker-compose.yml` file present, and execute it as  
 
 ```  
 $docker-compose exec kafka bash  
@@ -101,16 +108,22 @@ $docker-compose exec kafka bash
 Change the directory to /opt/kafka/bin where you find scripts such as `kafka-topics.sh`.  
 `cd /opt/kafka/bin`  
 
-Create, list or delete existing topics:  
+**Create, list or delete** existing topics:  
 
 ```
 bash-4.4# ./kafka-topics.sh \  
  --create \  
- --topic test1 \  
+ --topic mytopic \  
  --partitions 1 \  
  --replication-factor 1 \  
  --bootstrap-server localhost:9092  
 ```  
+
+<b>Figure 1</b>. Kafka topic partitions layout ([cloudblogs.microsoft.com](https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/)). Each partition in a topic is an ordered, immutable sequence of records that is continually appended to a structured commit log.  
+
+![Partitions](/images/kafka-partitions.png)  
+
+![Partition](/images/kafka-partition.png)
 
 ```
 bash-4.4# ./kafka-topics.sh \
@@ -123,17 +136,25 @@ If necessary, delete a topic using the following command.
 ```
 bash-4.4# ./kafka-topics.sh \
  --delete \
- --topic test1 \
+ --topic mytopic \
  --bootstrap-server localhost:9092  
 ```  
 
-**3. Producer and Consumer**  
+**3. Kafka Producer and Consumer**  
+
 A Kafka producer is an object that consists of a pool of buffer space that holds records that haven't yet been transmitted to the server.  
+
+<b>Figure 2</b>. Kafka producer and consumer  ([cloudblogs.microsoft.com](https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/)).  
+
+![Producer](/images/kafka-producer-consumer.png)  
 
 The following is a producer command line to read data from standard input and write it to a Kafka topic.  
 
 ```
-bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic test1  
+bash-4.4# ./kafka-console-producer.sh \
+ --broker-list localhost:9092 \
+ --topic mytopic
+  
 >Hello  
 >World  
 ^C
@@ -141,7 +162,11 @@ bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic test1
 
 The following is a command line to read data from a Kafka topic and write it to standard output.  
 ```  
-bash-4.4# ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test1 --from-beginning  
+bash-4.4# ./kafka-console-consumer.sh \
+ --bootstrap-server localhost:9092 \
+ --topic mytopic \
+ --from-beginning
+  
 Hello  
 World  
 ^CProcessed a total of 2 messages  
@@ -150,6 +175,10 @@ World
 **Another way of reading data from a Kafka topic is by simply using a Spring Boot application** (Here I call this project as SpringBootKafka).  
 
 The following demonstrates how to receive messages from Kafka topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic. Then in next blog I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.  
+
+<b>Figure 3</b>. Kafka producer and consumer in Java ([blog.clairvoyantsoft.com](https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d)).
+
+![Java](/images/kafka-producer-consumer-java.png)  
 
 The first step to create a simple Spring Boot maven Application is [Starting with Spring Initializr](https://spring.io/guides/gs/spring-boot/) and make sure to have spring-kafka dependency to `pom.xml`.  
 
@@ -191,7 +220,7 @@ Create a class called `KafkaConsumer.java` and add a method with the @KakfaListe
 ```  
 @Service  
 public class KafkaConsumer {  
-	@KafkaListener(id = "group_test1", topics = "test1")  
+	@KafkaListener(id = "group_test1", topics = "mytopic")  
 	public void consumeMessage(String message) {  
 		System.out.println("Consumed message: " + message);  
 	}  
@@ -212,7 +241,10 @@ Once inside the container `cd /opt/kafka/bin`
 Run the following console producer which will enable you to send messages to Kafka:  
 
 ```  
-bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic test1  
+bash-4.4# ./kafka-console-producer.sh \
+ --broker-list localhost:9092 \
+ --topic mytopic
+  
 >Hello  
 >World  
 ^C  
@@ -276,7 +308,7 @@ public class KafkaController {
 ```  
 @Service  
 public class KafkaProducer {  
-	private static final String TOPIC = "test1";  
+	private static final String TOPIC = "mytopic";  
 
 	@Autowired  
 	private KafkaTemplate<String, String> kafkaTemplate;  

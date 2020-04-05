@@ -1,4 +1,349 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-04T11:13:40-07:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Quantitative proteomics: TMT-based quantitation of proteins</title><link href="http://localhost:4000/posts/2020/01/blog-post-tmt/" rel="alternate" type="text/html" title="Quantitative proteomics: TMT-based quantitation of proteins" /><published>2020-04-04T00:00:00-07:00</published><updated>2020-04-04T00:00:00-07:00</updated><id>http://localhost:4000/posts/2020/01/blog-tmt</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-tmt/">&lt;p&gt;Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-05T12:11:08-07:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 1: Kafka, Zookeeper)</title><link href="http://localhost:4000/posts/2020/01/blog-post-kafka/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 1: Kafka, Zookeeper)" /><published>2020-04-05T00:00:00-07:00</published><updated>2020-04-05T00:00:00-07:00</updated><id>http://localhost:4000/posts/2020/01/blog-kafka</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-kafka/">&lt;p&gt;&lt;a href=&quot;https://kafka.apache.org&quot;&gt;Kafka&lt;/a&gt; is used for building real-time data pipelines and streaming apps.&lt;/p&gt;
+
+&lt;p&gt;What is Kafka? &lt;a href=&quot;https://success.docker.com/article/getting-started-with-kafka&quot;&gt;Getting started with kafka&lt;/a&gt; says &lt;em&gt;Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo ‘data’ » file.dat), and consumers subscribe to a certain file (tail -f file.dat)&lt;/em&gt;. In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper to store metadata about producers, topics and partitions.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Kafka for local development of applications&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;There are multiple ways of running Kafka locally for development of apps but the easiest method is by &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose&lt;/code&gt;. To download Docker Desktop, go to &lt;a href=&quot;https://hub.docker.com/&quot;&gt;Docker Hub&lt;/a&gt; and Sign In with your Docker ID.&lt;/p&gt;
+
+&lt;p&gt;Docker compose facilitates installing &lt;code class=&quot;highlighter-rouge&quot;&gt;Kafka&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Zookeeper&lt;/code&gt; with the help of &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose.yml&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;version: '2'  
+services:  
+  zookeeper:  
+    image: wurstmeister/zookeeper  
+    ports:  
+      - &quot;2181:2181&quot;  
+  kafka:  
+   image: wurstmeister/kafka  
+    ports:  
+      - &quot;9092:9092&quot;  
+    environment:  
+     KAFKA_ADVERTISED_HOST_NAME: localhost  
+     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181  
+     KAFKA_AUTO_CREATE_TOPICS_ENABLE: &quot;true&quot;  
+    volumes:  
+     - /var/run/docker.sock:/var/run/docker.sock
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;1. Start the Kafka service&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Open a terminal, go to the directory where you have the &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose.yml&lt;/code&gt; file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose up -d  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Starting kafka_example_zookeeper_1 ... done  
+Starting kafka_example_kafka_1     ... done  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To list running docker containers, run the following command&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose ps  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Name				Command				State	Ports  
+kafka_example_kafka_1		start-kafka.sh			Up	0.0.0.0:9092-&amp;gt;9092/tcp                              
+kafka_example_zookeeper_1	/bin/sh -c /usr/sbin/sshd  ...	Up	0.0.0.0:2181-&amp;gt;2181/tcp, 22/tcp, 2888/tcp, 3888/tcp  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You can shut down docker-compose by executing the following command in another terminal.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose down  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Stopping kafka_example_zookeeper_1 ... done  
+Stopping kafka_example_kafka_1     ... done  
+Removing kafka_example_zookeeper_1 ... done  
+Removing kafka_example_kafka_1     ... done  
+Removing network kafka_example_default  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Using the following command check the ZooKeeper logs to verify that ZooKeeper is working and healthy.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose logs zookeeper | grep -i binding  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Next, check the Kafka logs to verify that broker is working and healthy.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose logs kafka | grep -i started  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;2. Create a Kafka topic&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The Kafka cluster stores streams of records in categories called topics. Each record in a topic consists of a key, a value, and a timestamp. A topic can have zero, one, or many consumers that subscribe to the data written to it.&lt;/p&gt;
+
+&lt;p&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose exec&lt;/code&gt; to execute a command in a running container. For example, &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose exec&lt;/code&gt; command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose.yml&lt;/code&gt; file present, and execute it as&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose exec kafka bash  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;(for zookeeper &lt;code class=&quot;highlighter-rouge&quot;&gt;$docker-compose exec zookeeper bash&lt;/code&gt;)&lt;/p&gt;
+
+&lt;p&gt;Change the directory to /opt/kafka/bin where you find scripts such as &lt;code class=&quot;highlighter-rouge&quot;&gt;kafka-topics.sh&lt;/code&gt;.&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cd /opt/kafka/bin&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Create, list or delete&lt;/strong&gt; existing topics:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh \  
+ --create \  
+ --topic mytopic \  
+ --partitions 1 \  
+ --replication-factor 1 \  
+ --bootstrap-server localhost:9092  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;b&gt;Figure 1&lt;/b&gt;. Kafka topic partitions layout (&lt;a href=&quot;https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/&quot;&gt;cloudblogs.microsoft.com&lt;/a&gt;). Each partition in a topic is an ordered, immutable sequence of records that is continually appended to a structured commit log.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/kafka-partitions.png&quot; alt=&quot;Partitions&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/kafka-partition.png&quot; alt=&quot;Partition&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh \
+ --list \
+ --bootstrap-server localhost:9092  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If necessary, delete a topic using the following command.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh \
+ --delete \
+ --topic mytopic \
+ --bootstrap-server localhost:9092  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;3. Kafka Producer and Consumer&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A Kafka producer is an object that consists of a pool of buffer space that holds records that haven’t yet been transmitted to the server.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Figure 2&lt;/b&gt;. Kafka producer and consumer  (&lt;a href=&quot;https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/&quot;&gt;cloudblogs.microsoft.com&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/kafka-producer-consumer.png&quot; alt=&quot;Producer&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The following is a producer command line to read data from standard input and write it to a Kafka topic.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-console-producer.sh \
+ --broker-list localhost:9092 \
+ --topic mytopic
+  
+&amp;gt;Hello  
+&amp;gt;World  
+^C
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The following is a command line to read data from a Kafka topic and write it to standard output.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-console-consumer.sh \
+ --bootstrap-server localhost:9092 \
+ --topic mytopic \
+ --from-beginning
+  
+Hello  
+World  
+^CProcessed a total of 2 messages  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Another way of reading data from a Kafka topic is by simply using a Spring Boot application&lt;/strong&gt; (Here I call this project as SpringBootKafka).&lt;/p&gt;
+
+&lt;p&gt;The following demonstrates how to receive messages from Kafka topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic. Then in next blog I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Figure 3&lt;/b&gt;. Kafka producer and consumer in Java (&lt;a href=&quot;https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d&quot;&gt;blog.clairvoyantsoft.com&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/kafka-producer-consumer-java.png&quot; alt=&quot;Java&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The first step to create a simple Spring Boot maven Application is &lt;a href=&quot;https://spring.io/guides/gs/spring-boot/&quot;&gt;Starting with Spring Initializr&lt;/a&gt; and make sure to have spring-kafka dependency to &lt;code class=&quot;highlighter-rouge&quot;&gt;pom.xml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;  
+  &amp;lt;groupId&amp;gt;org.springframework.kafka&amp;lt;/groupId&amp;gt;  
+  &amp;lt;artifactId&amp;gt;spring-kafka&amp;lt;/artifactId&amp;gt;  
+&amp;lt;/dependency&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SpringBootKafkaApplication.java&lt;/code&gt; class (The Spring Initializr creates the following simple application class for you)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@SpringBootApplication  
+public class SpringBootKafkaApplication {  
+	public static void main(String[] args) {  
+		SpringApplication.run(SpringBootApplication.class, args);  
+	}  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In Spring Boot, properties are kept in the &lt;code class=&quot;highlighter-rouge&quot;&gt;application.properties&lt;/code&gt; file under the classpath. The application.properties file is located in the &lt;code class=&quot;highlighter-rouge&quot;&gt;src/main/resources&lt;/code&gt; directory. Change application.properties file to &lt;code class=&quot;highlighter-rouge&quot;&gt;application.yml&lt;/code&gt;, then add the following content.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;spring:  
+  kafka:  
+consumer:  
+  bootstrap-servers: localhost:9092  
+  group-id: group_test1  
+  auto-offset-reset: earliest  
+  key-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+  value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Create a Spring Kafka Consumer class:&lt;/p&gt;
+
+&lt;p&gt;Create a class called &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaConsumer.java&lt;/code&gt; and add a method with the @KakfaListener annotation.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Service  
+public class KafkaConsumer {  
+	@KafkaListener(id = &quot;group_test1&quot;, topics = &quot;mytopic&quot;)  
+	public void consumeMessage(String message) {  
+		System.out.println(&quot;Consumed message: &quot; + message);  
+	}  
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;How to run Spring Boot web application in Eclipse?&lt;/p&gt;
+
+&lt;p&gt;In eclipse Project Explorer, right click the project name -&amp;gt; select “Run As” -&amp;gt; “Maven Build…”&lt;br /&gt;
+In the goals, enter &lt;code class=&quot;highlighter-rouge&quot;&gt;spring-boot:run&lt;/code&gt;&lt;br /&gt;
+then click Run button.&lt;/p&gt;
+
+&lt;p&gt;If you have Spring Tool Suite (STS) plug-in, you see a “Spring Boot App” option under Run As.&lt;/p&gt;
+
+&lt;p&gt;Start Kafka and Zookeeper: &lt;code class=&quot;highlighter-rouge&quot;&gt;$docker-compose up -d&lt;/code&gt;&lt;br /&gt;
+Produce message using the Kafka console producer: &lt;code class=&quot;highlighter-rouge&quot;&gt;$docker-compose exec kafka bash&lt;/code&gt;&lt;br /&gt;
+Once inside the container &lt;code class=&quot;highlighter-rouge&quot;&gt;cd /opt/kafka/bin&lt;/code&gt;&lt;br /&gt;
+Run the following console producer which will enable you to send messages to Kafka:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-console-producer.sh \
+ --broker-list localhost:9092 \
+ --topic mytopic
+  
+&amp;gt;Hello  
+&amp;gt;World  
+^C  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Try sending a few messages like above (Hello, World etc) and watch the application standard output in the Eclipse shell where you are running your Spring Boot application.&lt;/p&gt;
+
+&lt;p&gt;Eclipse Console:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  .   ____          _            __ _ _  
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \  
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \  
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )  
+  '  |____| .__|_| |_|_| |_\__, | / / / /  
+ =========|_|==============|___/=/_/_/_/  
+
+:: Spring Boot ::        (v2.2.4.RELEASE)  
+2020-01-26 14:26:55.205  INFO 11137 --- [           main] c.e.d.SpringBootKafkaConsumerApplication : Starting   
+…  
+…  
+…
+o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupId=simpleconsumer] Setting newly assigned partitions: test1-0  
+2020-01-26 14:26:56.384  INFO 11137 --- [econsumer-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupId=simpleconsumer] Found no committed offset for partition test1-0  
+2020-01-26 14:26:56.408  INFO 11137 --- [econsumer-0-C-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumer-1, groupId=simpleconsumer] Resetting offset for partition test1-0 to offset 2.  
+2020-01-26 14:26:56.477  INFO 11137 --- [econsumer-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : simpleconsumer: partitions assigned: [test1-0]  
+Got message: hello  
+Got message: world  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The following code demonstrates how to send and receive messages from Kafka topic. The above &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaConsumer.java&lt;/code&gt; receives messages that were sent to a Kafka topic. The followng &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaProducer.java&lt;/code&gt; send messages to a Kafka topic.&lt;/p&gt;
+
+&lt;p&gt;Make sure to have spring-web dependency to &lt;code class=&quot;highlighter-rouge&quot;&gt;pom.xml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;  
+  &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;  
+  &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt;  
+&amp;lt;/dependency&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Add two new java classes &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaController.java&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaProducer.java&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@RestController  
+@RequestMapping(value=&quot;/kafka&quot;)  
+public class KafkaController {  
+	private final KafkaProducer producer;  
+
+	@Autowired  
+	KafkaController(KafkaProducer producer){  
+		this.producer = producer;  
+	}  
+
+	@PostMapping(value=&quot;/publish&quot;)  
+	public void messagePrint(@RequestParam(value=&quot;message&quot;, required = false) String message) {  
+		this.producer.sendMessage(message);  
+	}  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Service  
+public class KafkaProducer {  
+	private static final String TOPIC = &quot;mytopic&quot;;  
+
+	@Autowired  
+	private KafkaTemplate&amp;lt;String, String&amp;gt; kafkaTemplate;  
+	
+	public void sendMessage(String message) {  
+		kafkaTemplate.send(TOPIC, message);  
+		System.out.println(&quot;Produced message: &quot; + message);  
+	}  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Update &lt;code class=&quot;highlighter-rouge&quot;&gt;application.yml&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;server:
+  port: 8080
+spring:
+  kafka:
+   consumer:
+    bootstrap-servers: localhost:9092
+    group-id: group_test1
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+   producer:  
+    bootstrap-servers: localhost:9092  
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer  
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Run Spring Boot web application (see How to run Spring Boot web application in Eclipse?)&lt;/p&gt;
+
+&lt;p&gt;Make POST request using &lt;a href=&quot;https://www.getpostman.com&quot;&gt;Postman&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Select &lt;code class=&quot;highlighter-rouge&quot;&gt;POST&lt;/code&gt; and use the API &lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8080/kafka/publish&lt;/code&gt;&lt;br /&gt;
+&lt;strong&gt;Body&lt;/strong&gt;: form-data  &lt;strong&gt;KEY&lt;/strong&gt;: message  &lt;strong&gt;VALUE&lt;/strong&gt;: hello&lt;/p&gt;
+
+&lt;p&gt;Finally click &lt;strong&gt;send&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;See Eclipse Console for messages:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;...  
+...  
+...  
+2020-01-27 13:12:06.911  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.3.1  
+2020-01-27 13:12:06.912  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 18a913733fb71c01  
+2020-01-27 13:12:06.912  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1580148726911  
+2020-01-27 13:12:06.947  INFO 31822 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: 6R8O95IPSfGoifR4zzwM6g  
+Produced message: hello  
+Consumed message: hello
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache kafka" /><category term="real time data pipelines" /><category term="java" /><category term="docker" /><category term="Spring Boot" /><category term="YAML" /><category term="Zookeeper" /><category term="Bioinformatics" /><category term="Emory University" /><summary type="html">Kafka is used for building real-time data pipelines and streaming apps.</summary></entry><entry><title type="html">Quantitative proteomics: TMT-based quantitation of proteins</title><link href="http://localhost:4000/posts/2020/01/blog-post-tmt/" rel="alternate" type="text/html" title="Quantitative proteomics: TMT-based quantitation of proteins" /><published>2020-04-04T00:00:00-07:00</published><updated>2020-04-04T00:00:00-07:00</updated><id>http://localhost:4000/posts/2020/01/blog-tmt</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-tmt/">&lt;p&gt;Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).&lt;/p&gt;
 
 &lt;p&gt;Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.&lt;/p&gt;
 
@@ -79,7 +424,9 @@ Isobaric matching between runs and novel PSM-level normalization in MaxQuant …
       &lt;p&gt;&lt;a href=&quot;https://doi.org/10.1101/2020.03.30.015487&quot;&gt;Isobaric matching between runs and novel PSM-level normalization&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:7&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="TMT" /><category term="tandem mass tag" /><category term="MS3 spectra" /><category term="MaxQuant" /><category term="isobaric labeling" /><category term="Perseus" /><category term="TMT 10plex" /><category term="10plex" /><category term="Bioinformatics" /><category term="Emory University" /><summary type="html">Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).</summary></entry><entry><title type="html">Quantitative proteomics: label-free quantitation of proteins</title><link href="http://localhost:4000/posts/2018/04/blog-post-lfq/" rel="alternate" type="text/html" title="Quantitative proteomics: label-free quantitation of proteins" /><published>2020-04-04T00:00:00-07:00</published><updated>2020-04-04T00:00:00-07:00</updated><id>http://localhost:4000/posts/2018/04/blog-lfq</id><content type="html" xml:base="http://localhost:4000/posts/2018/04/blog-post-lfq/">&lt;p&gt;Liquid chromatography (LC) coupled with mass spectrometry (MS) has been widely used for protein expression quantification. Protein quantification by tandem-MS (MS/MS) uses integrated peak intensity from the parent-ion mass (MS1) or features from fragment-ions (MS2). MS1 methods use the iBAQ (intensity Based Absolute Quantification) algorithm (a protein’s total non-normalised intensities are divided by the number of measurable tryptic peptides). Untargeted label-free quantitation (LFQ) of proteins, aims to determine the relative amount of proteins in two or more biological samples.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="TMT" /><category term="tandem mass tag" /><category term="MS3 spectra" /><category term="MaxQuant" /><category term="isobaric labeling" /><category term="Perseus" /><category term="TMT 10plex" /><category term="10plex" /><category term="Bioinformatics" /><category term="Emory University" /><summary type="html">Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).</summary></entry><entry><title type="html">Quantitative proteomics: label-free quantitation of proteins</title><link href="http://localhost:4000/posts/2018/04/blog-post-lfq/" rel="alternate" type="text/html" title="Quantitative proteomics: label-free quantitation of proteins" /><published>2020-04-04T00:00:00-07:00</published><updated>2020-04-04T00:00:00-07:00</updated><id>http://localhost:4000/posts/2018/04/blog-lfq</id><content type="html" xml:base="http://localhost:4000/posts/2018/04/blog-post-lfq/">&lt;p&gt;Liquid chromatography (LC) coupled with mass spectrometry (MS) has been widely used for protein expression quantification.&lt;/p&gt;
+
+&lt;p&gt;Protein quantification by tandem-MS (MS/MS) uses integrated peak intensity from the parent-ion mass (MS1) or features from fragment-ions (MS2). MS1 methods use the iBAQ (intensity Based Absolute Quantification) algorithm (a protein’s total non-normalised intensities are divided by the number of measurable tryptic peptides). Untargeted label-free quantitation (LFQ) of proteins, aims to determine the relative amount of proteins in two or more biological samples.&lt;/p&gt;
 
 &lt;p&gt;Mass spectrometer generated &lt;code class=&quot;highlighter-rouge&quot;&gt;raw&lt;/code&gt; files are used for label-free quantitation of proteins. Base peak chromatograms are inspected visually using &lt;code class=&quot;highlighter-rouge&quot;&gt;RawMeat&lt;/code&gt;&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, which  is a data quality assessment tool designed for Thermo instruments. All raw files are processed together in a single run by &lt;code class=&quot;highlighter-rouge&quot;&gt;MaxQuant v1.6.14&lt;/code&gt; &lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; with defaul parameters except the following&lt;/p&gt;
 
@@ -159,7 +506,7 @@ Isobaric matching between runs and novel PSM-level normalization in MaxQuant …
       &lt;p&gt;&lt;a href=&quot;http://www.coxdocs.org/doku.php?id=perseus:start&quot;&gt;Perseus&lt;/a&gt; is software package for shotgun proteomics data analyses&amp;nbsp;&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="LFQ" /><category term="label free quantitation" /><category term="iBAC" /><category term="MaxQuant" /><category term="Perseus" /><category term="Emory University" /><category term="Bioinformatics" /><summary type="html">Liquid chromatography (LC) coupled with mass spectrometry (MS) has been widely used for protein expression quantification. Protein quantification by tandem-MS (MS/MS) uses integrated peak intensity from the parent-ion mass (MS1) or features from fragment-ions (MS2). MS1 methods use the iBAQ (intensity Based Absolute Quantification) algorithm (a protein’s total non-normalised intensities are divided by the number of measurable tryptic peptides). Untargeted label-free quantitation (LFQ) of proteins, aims to determine the relative amount of proteins in two or more biological samples.</summary></entry><entry><title type="html">Spatial RNA-seq data analysis using Space Ranger on SGE Cluster</title><link href="http://localhost:4000/posts/2020/03/blog-spatial-gene-expression/" rel="alternate" type="text/html" title="Spatial RNA-seq data analysis using Space Ranger on SGE Cluster" /><published>2020-03-06T00:00:00-08:00</published><updated>2020-03-06T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/03/blog-spatial-expression</id><content type="html" xml:base="http://localhost:4000/posts/2020/03/blog-spatial-gene-expression/">&lt;p&gt;Running &lt;a href=&quot;https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/what-is-space-ranger&quot;&gt;spaceranger&lt;/a&gt; as cluster mode that uses Sun Grid Engine (SGE) as queuing.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="LFQ" /><category term="label free quantitation" /><category term="iBAC" /><category term="MaxQuant" /><category term="Perseus" /><category term="Emory University" /><category term="Bioinformatics" /><summary type="html">Liquid chromatography (LC) coupled with mass spectrometry (MS) has been widely used for protein expression quantification.</summary></entry><entry><title type="html">Spatial RNA-seq data analysis using Space Ranger on SGE Cluster</title><link href="http://localhost:4000/posts/2020/03/blog-spatial-gene-expression/" rel="alternate" type="text/html" title="Spatial RNA-seq data analysis using Space Ranger on SGE Cluster" /><published>2020-03-06T00:00:00-08:00</published><updated>2020-03-06T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/03/blog-spatial-expression</id><content type="html" xml:base="http://localhost:4000/posts/2020/03/blog-spatial-gene-expression/">&lt;p&gt;Running &lt;a href=&quot;https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/what-is-space-ranger&quot;&gt;spaceranger&lt;/a&gt; as cluster mode that uses Sun Grid Engine (SGE) as queuing.&lt;/p&gt;
 
 &lt;p&gt;There are 2 steps to analyze Spatial RNA-seq data&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
@@ -252,9 +599,9 @@ Read more at &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-e
       &lt;p&gt;&lt;a href=&quot;https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/what-is-space-ranger&quot;&gt;10XGenomics- Visium spatial RNA-seq&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:1:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="10XGenomics" /><category term="SPATIAL GENE EXPRESSION" /><category term="Visium Spatial Gene Expression Solution" /><category term="brightfield microscope image" /><category term="Space Ranger" /><category term="SGE Cluster" /><category term="Cluster Computing" /><summary type="html">Running spaceranger as cluster mode that uses Sun Grid Engine (SGE) as queuing.</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 3: Spark, SQL)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 3: Spark, SQL)" /><published>2020-02-15T00:00:00-08:00</published><updated>2020-02-15T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark-sql</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark-sql/">&lt;p&gt;Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="10XGenomics" /><category term="SPATIAL GENE EXPRESSION" /><category term="Visium Spatial Gene Expression Solution" /><category term="brightfield microscope image" /><category term="Space Ranger" /><category term="SGE Cluster" /><category term="Cluster Computing" /><summary type="html">Running spaceranger as cluster mode that uses Sun Grid Engine (SGE) as queuing.</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 3: Spark, SQL)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 3: Spark, SQL)" /><published>2020-02-15T00:00:00-08:00</published><updated>2020-02-15T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark-sql</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark-sql/">&lt;p&gt;Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.&lt;/p&gt;
 
-&lt;p&gt;Spark SQL is Spark’s package for working with structured data.&lt;/p&gt;
+&lt;p&gt;Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs. Spark SQL is Spark’s package for working with structured data &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;1-start-hadoop-copy-a-csv-file-to-hdfs&quot;&gt;1. Start Hadoop, Copy a &lt;code class=&quot;highlighter-rouge&quot;&gt;csv&lt;/code&gt; file to HDFS&lt;/h2&gt;
 
@@ -610,11 +957,12 @@ mysql&amp;gt; SHOW tables;
       &lt;p&gt;&lt;a href=&quot;https://www.a2hosting.com.co/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line&quot;&gt;MySQL&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache spark" /><category term="real time data pipelines" /><category term="scala" /><category term="hadoop" /><category term="MySQL" /><category term="bioinformatics" /><category term="Hadoop Distributed File System" /><summary type="html">Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.1 Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs. Spark SQL is Spark’s package for working with structured data. Apache Spark&amp;nbsp;&amp;#8617;</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 2: Spark, Hadoop)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)" /><published>2020-02-09T00:00:00-08:00</published><updated>2020-02-09T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark/">&lt;p&gt;Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Apache Spark provides APIs in Java, Scala, Python, and R.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache spark" /><category term="real time data pipelines" /><category term="scala" /><category term="hadoop" /><category term="MySQL" /><category term="bioinformatics" /><category term="Hadoop Distributed File System" /><summary type="html">Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 2: Spark, Hadoop)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)" /><published>2020-02-09T00:00:00-08:00</published><updated>2020-02-09T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark/">&lt;p&gt;Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing.&lt;/p&gt;
 
-&lt;p&gt;It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Scala, Java, Python and R).&lt;/p&gt;
+&lt;p&gt;Apache Spark provides APIs in Java, Scala, Python, and R &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. It also supports Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing. The spark core has two parts. (1). Computing engine and (2). Spark Core APIs (Scala, Java, Python and R).&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Apache Spark Ecosystem&lt;/strong&gt;&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------+-----------+-------+----------+
 | SQL	 | Streaming | MLlib |	GraphX 	|
 |---------------------------------------|
@@ -919,322 +1267,7 @@ scala&amp;gt; df5.show
       &lt;p&gt;&lt;a href=&quot;https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html&quot;&gt;RDDs vs Data Frames and Data Sets&lt;/a&gt; A Tale of Three Apache Spark APIs: RDDs vs DataFrames and Datasets - When to use them and why&amp;nbsp;&lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache spark" /><category term="real time data pipelines" /><category term="scala" /><category term="hadoop" /><category term="YARN" /><category term="bioinformatics" /><category term="Hadoop Distributed File System" /><summary type="html">Apache Spark is a general-purpose, in-memory cluster computing engine for large scale data processing1. Apache Spark provides APIs in Java, Scala, Python, and R. Apache Spark&amp;nbsp;&amp;#8617;</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 1: Kafka)</title><link href="http://localhost:4000/posts/2020/01/blog-post-kafka/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 1: Kafka)" /><published>2020-01-26T00:00:00-08:00</published><updated>2020-01-26T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/01/blog-kafka</id><content type="html" xml:base="http://localhost:4000/posts/2020/01/blog-post-kafka/">&lt;p&gt;&lt;a href=&quot;https://kafka.apache.org&quot;&gt;Kafka&lt;/a&gt; is used for building real-time data pipelines and streaming apps.&lt;/p&gt;
-
-&lt;p&gt;What is Kafka? &lt;a href=&quot;https://success.docker.com/article/getting-started-with-kafka&quot;&gt;Getting started with kafka&lt;/a&gt; says “Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo ‘data’ » file.dat), and consumers subscribe to a certain file (tail -f file.dat). In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper (simplified: solid, reliable, transactional key/value store) to keep track of the state of producers, topics, and consumers.”&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Kafka for local development of applications&lt;/strong&gt;:&lt;br /&gt;
-There are multiple ways of running Kafka locally for development of apps but the easiest method is by docker-compose. To download Docker Desktop, go to &lt;a href=&quot;https://hub.docker.com/&quot;&gt;Docker Hub&lt;/a&gt; and sign In with your Docker ID.&lt;/p&gt;
-
-&lt;p&gt;Docker compose facilitates installing Kafka and Zookeeper with the help of &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose.yml&lt;/code&gt; file.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;version: '2'  
-services:  
-  zookeeper:  
-    image: wurstmeister/zookeeper  
-    ports:  
-      - &quot;2181:2181&quot;  
-  kafka:  
-   image: wurstmeister/kafka  
-    ports:  
-      - &quot;9092:9092&quot;  
-    environment:  
-     KAFKA_ADVERTISED_HOST_NAME: localhost  
-     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181  
-     KAFKA_AUTO_CREATE_TOPICS_ENABLE: &quot;true&quot;  
-    volumes:  
-     - /var/run/docker.sock:/var/run/docker.sock
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;1. Start the Kafka service&lt;/strong&gt;&lt;br /&gt;
-Open a terminal, go where you have the docker-compose.yml file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose up -d  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Starting kafka_example_zookeeper_1 ... done  
-Starting kafka_example_kafka_1     ... done  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;To list running docker containers, run the following command&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose ps  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Name				Command				State	Ports  
-kafka_example_kafka_1		start-kafka.sh			Up	0.0.0.0:9092-&amp;gt;9092/tcp                              
-kafka_example_zookeeper_1	/bin/sh -c /usr/sbin/sshd  ...	Up	0.0.0.0:2181-&amp;gt;2181/tcp, 22/tcp, 2888/tcp, 3888/tcp  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You can shut down docker-compose by executing the following command in another terminal.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose down  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Stopping kafka_example_zookeeper_1 ... done  
-Stopping kafka_example_kafka_1     ... done  
-Removing kafka_example_zookeeper_1 ... done  
-Removing kafka_example_kafka_1     ... done  
-Removing network kafka_example_default  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Using the following command check the ZooKeeper logs to verify that ZooKeeper is working and healthy.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose logs zookeeper | grep -i binding  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Next, check the Kafka logs to verify that broker is working and healthy.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose logs kafka | grep -i started  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;2. Create a topic&lt;/strong&gt;&lt;br /&gt;
-The Kafka cluster stores streams of records in categories called topics. A topic can have zero, one, or many consumers that subscribe to the data written to it. &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose exec&lt;/code&gt; command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where docker-compose.yml file present, and execute it as&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$docker-compose exec kafka bash  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;(for zookeeper &lt;code class=&quot;highlighter-rouge&quot;&gt;$docker-compose exec zookeeper bash&lt;/code&gt;)&lt;/p&gt;
-
-&lt;p&gt;Change the directory to /opt/kafka/bin where you find scripts such as &lt;code class=&quot;highlighter-rouge&quot;&gt;kafka-topics.sh&lt;/code&gt;.&lt;br /&gt;
-&lt;code class=&quot;highlighter-rouge&quot;&gt;cd /opt/kafka/bin&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Create, list or delete existing topics:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh \  
- --create \  
- --topic test1 \  
- --partitions 1 \  
- --replication-factor 1 \  
- --bootstrap-server localhost:9092  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh \
- --list \
- --bootstrap-server localhost:9092  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;If necessary, delete a topic using the following command.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-topics.sh \
- --delete \
- --topic test1 \
- --bootstrap-server localhost:9092  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;3. Producer and Consumer&lt;/strong&gt;&lt;br /&gt;
-A Kafka producer is an object that consists of a pool of buffer space that holds records that haven’t yet been transmitted to the server.&lt;/p&gt;
-
-&lt;p&gt;The following is a producer command line to read data from standard input and write it to a Kafka topic.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic test1  
-&amp;gt;Hello  
-&amp;gt;World  
-^C
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The following is a command line to read data from a Kafka topic and write it to standard output.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test1 --from-beginning  
-Hello  
-World  
-^CProcessed a total of 2 messages  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Another way of reading data from a Kafka topic is by simply using a Spring Boot application&lt;/strong&gt; (Here I call this project as SpringBootKafka).&lt;/p&gt;
-
-&lt;p&gt;The following demonstrates how to receive messages from Kafka topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic. Then in next blog I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.&lt;/p&gt;
-
-&lt;p&gt;The first step to create a simple Spring Boot maven Application is &lt;a href=&quot;https://spring.io/guides/gs/spring-boot/&quot;&gt;Starting with Spring Initializr&lt;/a&gt; and make sure to have spring-kafka dependency to &lt;code class=&quot;highlighter-rouge&quot;&gt;pom.xml&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;  
-  &amp;lt;groupId&amp;gt;org.springframework.kafka&amp;lt;/groupId&amp;gt;  
-  &amp;lt;artifactId&amp;gt;spring-kafka&amp;lt;/artifactId&amp;gt;  
-&amp;lt;/dependency&amp;gt;  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SpringBootKafkaApplication.java&lt;/code&gt; class (The Spring Initializr creates the following simple application class for you)&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@SpringBootApplication  
-public class SpringBootKafkaApplication {  
-	public static void main(String[] args) {  
-		SpringApplication.run(SpringBootApplication.class, args);  
-	}  
-}  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;In Spring Boot, properties are kept in the &lt;code class=&quot;highlighter-rouge&quot;&gt;application.properties&lt;/code&gt; file under the classpath. The application.properties file is located in the &lt;code class=&quot;highlighter-rouge&quot;&gt;src/main/resources&lt;/code&gt; directory. Change application.properties file to &lt;code class=&quot;highlighter-rouge&quot;&gt;application.yml&lt;/code&gt;, then add the following content.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;spring:  
-  kafka:  
-consumer:  
-  bootstrap-servers: localhost:9092  
-  group-id: group_test1  
-  auto-offset-reset: earliest  
-  key-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
-  value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Create a Spring Kafka Consumer class:&lt;/p&gt;
-
-&lt;p&gt;Create a class called &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaConsumer.java&lt;/code&gt; and add a method with the @KakfaListener annotation.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Service  
-public class KafkaConsumer {  
-	@KafkaListener(id = &quot;group_test1&quot;, topics = &quot;test1&quot;)  
-	public void consumeMessage(String message) {  
-		System.out.println(&quot;Consumed message: &quot; + message);  
-	}  
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;How to run Spring Boot web application in Eclipse?&lt;/p&gt;
-
-&lt;p&gt;In eclipse Project Explorer, right click the project name -&amp;gt; select “Run As” -&amp;gt; “Maven Build…”&lt;br /&gt;
-In the goals, enter &lt;code class=&quot;highlighter-rouge&quot;&gt;spring-boot:run&lt;/code&gt;&lt;br /&gt;
-then click Run button.&lt;/p&gt;
-
-&lt;p&gt;If you have Spring Tool Suite (STS) plug-in, you see a “Spring Boot App” option under Run As.&lt;/p&gt;
-
-&lt;p&gt;Start Kafka and Zookeeper: &lt;code class=&quot;highlighter-rouge&quot;&gt;$docker-compose up -d&lt;/code&gt;&lt;br /&gt;
-Produce message using the Kafka console producer: &lt;code class=&quot;highlighter-rouge&quot;&gt;$docker-compose exec kafka bash&lt;/code&gt;&lt;br /&gt;
-Once inside the container &lt;code class=&quot;highlighter-rouge&quot;&gt;cd /opt/kafka/bin&lt;/code&gt;&lt;br /&gt;
-Run the following console producer which will enable you to send messages to Kafka:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic test1  
-&amp;gt;Hello  
-&amp;gt;World  
-^C  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Try sending a few messages like above (Hello, World etc) and watch the application standard output in the Eclipse shell where you are running your Spring Boot application.&lt;/p&gt;
-
-&lt;p&gt;Eclipse Console:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  .   ____          _            __ _ _  
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \  
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \  
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )  
-  '  |____| .__|_| |_|_| |_\__, | / / / /  
- =========|_|==============|___/=/_/_/_/  
-
-:: Spring Boot ::        (v2.2.4.RELEASE)  
-2020-01-26 14:26:55.205  INFO 11137 --- [           main] c.e.d.SpringBootKafkaConsumerApplication : Starting   
-…  
-…  
-…
-o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupId=simpleconsumer] Setting newly assigned partitions: test1-0  
-2020-01-26 14:26:56.384  INFO 11137 --- [econsumer-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupId=simpleconsumer] Found no committed offset for partition test1-0  
-2020-01-26 14:26:56.408  INFO 11137 --- [econsumer-0-C-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumer-1, groupId=simpleconsumer] Resetting offset for partition test1-0 to offset 2.  
-2020-01-26 14:26:56.477  INFO 11137 --- [econsumer-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : simpleconsumer: partitions assigned: [test1-0]  
-Got message: hello  
-Got message: world  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The following code demonstrates how to send and receive messages from Kafka topic. The above &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaConsumer.java&lt;/code&gt; receives messages that were sent to a Kafka topic. The followng &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaProducer.java&lt;/code&gt; send messages to a Kafka topic.&lt;/p&gt;
-
-&lt;p&gt;Make sure to have spring-web dependency to &lt;code class=&quot;highlighter-rouge&quot;&gt;pom.xml&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;  
-  &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;  
-  &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt;  
-&amp;lt;/dependency&amp;gt;  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Add two new java classes &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaController.java&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;KafkaProducer.java&lt;/code&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@RestController  
-@RequestMapping(value=&quot;/kafka&quot;)  
-public class KafkaController {  
-	private final KafkaProducer producer;  
-
-	@Autowired  
-	KafkaController(KafkaProducer producer){  
-		this.producer = producer;  
-	}  
-
-	@PostMapping(value=&quot;/publish&quot;)  
-	public void messagePrint(@RequestParam(value=&quot;message&quot;, required = false) String message) {  
-		this.producer.sendMessage(message);  
-	}  
-}  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Service  
-public class KafkaProducer {  
-	private static final String TOPIC = &quot;test1&quot;;  
-
-	@Autowired  
-	private KafkaTemplate&amp;lt;String, String&amp;gt; kafkaTemplate;  
-	
-	public void sendMessage(String message) {  
-		kafkaTemplate.send(TOPIC, message);  
-		System.out.println(&quot;Produced message: &quot; + message);  
-	}  
-}  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Update &lt;code class=&quot;highlighter-rouge&quot;&gt;application.yml&lt;/code&gt; file.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;server:
-  port: 8080
-spring:
-  kafka:
-   consumer:
-    bootstrap-servers: localhost:9092
-    group-id: group_test1
-    auto-offset-reset: earliest
-    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
-   producer:  
-    bootstrap-servers: localhost:9092  
-    key-serializer: org.apache.kafka.common.serialization.StringSerializer  
-    value-serializer: org.apache.kafka.common.serialization.StringSerializer  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Run Spring Boot web application (see How to run Spring Boot web application in Eclipse?)&lt;/p&gt;
-
-&lt;p&gt;Make POST request using &lt;a href=&quot;https://www.getpostman.com&quot;&gt;Postman&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Select &lt;code class=&quot;highlighter-rouge&quot;&gt;POST&lt;/code&gt; and use the API &lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8080/kafka/publish&lt;/code&gt;&lt;br /&gt;
-&lt;strong&gt;Body&lt;/strong&gt;: form-data  &lt;strong&gt;KEY&lt;/strong&gt;: message  &lt;strong&gt;VALUE&lt;/strong&gt;: hello&lt;/p&gt;
-
-&lt;p&gt;Finally click &lt;strong&gt;send&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;See Eclipse Console for messages:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;...  
-...  
-...  
-2020-01-27 13:12:06.911  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.3.1  
-2020-01-27 13:12:06.912  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 18a913733fb71c01  
-2020-01-27 13:12:06.912  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1580148726911  
-2020-01-27 13:12:06.947  INFO 31822 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: 6R8O95IPSfGoifR4zzwM6g  
-Produced message: hello  
-Consumed message: hello
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache kafka" /><category term="real time data pipelines" /><category term="java" /><category term="docker" /><category term="Spring Boot" /><category term="YAML" /><category term="Zookeeper" /><summary type="html">Kafka is used for building real-time data pipelines and streaming apps.</summary></entry><entry><title type="html">ATAC-seq peak calling with MACS2</title><link href="http://localhost:4000/posts/2019/12/blog-post-atacseq/" rel="alternate" type="text/html" title="ATAC-seq peak calling with MACS2" /><published>2019-12-05T00:00:00-08:00</published><updated>2019-12-05T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/12/blog-atacseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/12/blog-post-atacseq/">&lt;p&gt;ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache spark" /><category term="real time data pipelines" /><category term="scala" /><category term="hadoop" /><category term="YARN" /><category term="bioinformatics" /><category term="Emory University" /><category term="Hadoop Distributed File System" /><summary type="html">Apache Spark is a general-purpose, in-memory cluster computing engine for large scale data processing.</summary></entry><entry><title type="html">ATAC-seq peak calling with MACS2</title><link href="http://localhost:4000/posts/2019/12/blog-post-atacseq/" rel="alternate" type="text/html" title="ATAC-seq peak calling with MACS2" /><published>2019-12-05T00:00:00-08:00</published><updated>2019-12-05T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/12/blog-atacseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/12/blog-post-atacseq/">&lt;p&gt;ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility.&lt;/p&gt;
 
 &lt;p&gt;ATAC-seq achieves this by simultaneously fragmenting and tagging genomic DNA with sequencing adapters using the hyperactive Tn5 transposase enzyme &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Other global chromatin accessibility methods include FAIRE-seq and DNase-seq. This document aims to provide accessibility.&lt;/p&gt;
 
