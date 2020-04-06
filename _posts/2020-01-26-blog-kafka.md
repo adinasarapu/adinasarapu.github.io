@@ -1,5 +1,5 @@
 ---
-title: 'Building a real-time big data pipeline (part 1: Kafka, Zookeeper)'
+title: 'Building a real-time big data pipeline (part 1: Kafka)'
 date: 2020-04-05
 permalink: /posts/2020/01/blog-post-kafka/
 tags:
