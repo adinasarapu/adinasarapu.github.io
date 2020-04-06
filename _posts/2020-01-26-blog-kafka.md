@@ -239,9 +239,6 @@ then click Run button.
 
 If you have Spring Tool Suite (STS) plug-in, you see a "Spring Boot App" option under Run As.  
 
-Start Kafka and Zookeeper: `$docker-compose up -d`  
-Produce message using the Kafka console producer: `$docker-compose exec kafka bash`  
-Once inside the container `cd /opt/kafka/bin`  
 Run the following console producer which will enable you to send messages to Kafka:  
 
 ```  
@@ -278,8 +275,8 @@ Got message: hello
 Got message: world  
 ```  
 
-The following code demonstrates how to send and receive messages from Kafka topic. The above `KafkaConsumer.java` receives messages that were sent to a Kafka topic. The followng `KafkaProducer.java` send messages to a Kafka topic.          
-
+The following code demonstrates how to send and receive messages from Kafka Topic. The above `KafkaConsumer.java` receives messages that were sent to a Kafka Topic. The followng `KafkaProducer.java` send messages to a Kafka Topic.  
+          
 Make sure to have spring-web dependency to `pom.xml`.
 
 ```  
