@@ -31,7 +31,7 @@ Work experience
 * 11/2013-09/2015: Postdoctoral Associate
   * University of Florida, Gainesville
   * Duties included: Microarray data analysis
-  * Supervisor: [`Maureen Goodenow`](https://www.oar.nih.gov/about_oar/director.asp) Ph.D
+  * Supervisor: [`Maureen Goodenow`](https://www.oar.nih.gov/about/directors-corner) Ph.D
   
 * 03/2008-11/2013: Postdoctoral Fellow
   * University of California San Diego
