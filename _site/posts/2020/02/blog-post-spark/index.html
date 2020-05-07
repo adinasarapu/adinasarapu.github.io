@@ -423,34 +423,36 @@ Type :help for more information.
 </code></pre>
 </div>
 
-<p><strong>Check the file for content</strong><br />
-scala&gt; df.show</p>
+<p><strong>Check the file for content</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.show  
 
-<p>+——+——–+—+—–+——+——-+——-+———+——-+<br />
-|Sample|     p16|Age| Race|   Sex|Anatomy|Smoking|Radiation|  Chemo|<br />
-+——+——–+—+—–+——+——-+——-+———+——-+<br />
-|GHN-48|Negative| 68|white|female|    BOT|current|        Y|      Y|<br />
-|GHN-57|Negative| 50|white|female|    BOT|current|        Y|      Y|<br />
-|GHN-62|Negative| 71|white|  male|    BOT|  never|        Y|      N|<br />
-|GHN-76|Negative| 60|   AA|  male| Tonsil| former|        N|      N|<br />
-|GHN-39|Positive| 51|white|  male|    BOT|  never|        Y|      Y|<br />
-|GHN-60|Positive| 41|white|  male|    BOT|  never|        Y|      Y|<br />
-|GHN-64|Positive| 49|white|  male|    BOT|  never|        Y|      Y|<br />
-|GHN-65|Positive| 63|white|  male|    BOT| former|        Y|      Y|<br />
-|GHN-69|Positive| 56|white|  male|    BOT|current|        Y|      Y|<br />
-|GHN-70|Positive| 68|white|  male|    BOT| former|        Y|      Y|<br />
-|GHN-71|Positive| 59|white|  male|    BOT|  never|        N|      Y|<br />
-|GHN-77|Positive| 53|   AA|  male|    BOT|  never|        N|      N|<br />
-|GHN-82|Positive| 67|white|  male|    BOT| former|  Unknown|Unknown|<br />
-|GHN-43|Positive| 65|white|  male|    BOT| former|        Y|      Y|<br />
-|GHN-73|Positive| 72|white|female| Tonsil|  never|        Y|      Y|<br />
-|GHN-40|Positive| 66|white|  male| Tonsil| former|        Y|      Y|<br />
-|GHN-66|Positive| 52|white|  male| Tonsil|current|        Y|      Y|<br />
-|GHN-67|Positive| 54|white|  male| Tonsil|  never|        Y|      Y|<br />
-|GHN-68|Positive| 51|white|  male| Tonsil| former|        Y|      Y|<br />
-|GHN-79|Positive| 65|white|  male| Tonsil| former|        N|      Y|<br />
-+——+——–+—+—–+——+——-+——-+———+——-+<br />
-only showing top 20 rows</p>
++------+--------+---+-----+------+-------+-------+---------+-------+  
+|Sample|     p16|Age| Race|   Sex|Anatomy|Smoking|Radiation|  Chemo|  
++------+--------+---+-----+------+-------+-------+---------+-------+  
+|GHN-48|Negative| 68|white|female|    BOT|current|        Y|      Y|  
+|GHN-57|Negative| 50|white|female|    BOT|current|        Y|      Y|  
+|GHN-62|Negative| 71|white|  male|    BOT|  never|        Y|      N|  
+|GHN-76|Negative| 60|   AA|  male| Tonsil| former|        N|      N|  
+|GHN-39|Positive| 51|white|  male|    BOT|  never|        Y|      Y|  
+|GHN-60|Positive| 41|white|  male|    BOT|  never|        Y|      Y|  
+|GHN-64|Positive| 49|white|  male|    BOT|  never|        Y|      Y|  
+|GHN-65|Positive| 63|white|  male|    BOT| former|        Y|      Y|  
+|GHN-69|Positive| 56|white|  male|    BOT|current|        Y|      Y|  
+|GHN-70|Positive| 68|white|  male|    BOT| former|        Y|      Y|  
+|GHN-71|Positive| 59|white|  male|    BOT|  never|        N|      Y|  
+|GHN-77|Positive| 53|   AA|  male|    BOT|  never|        N|      N|  
+|GHN-82|Positive| 67|white|  male|    BOT| former|  Unknown|Unknown|  
+|GHN-43|Positive| 65|white|  male|    BOT| former|        Y|      Y|  
+|GHN-73|Positive| 72|white|female| Tonsil|  never|        Y|      Y|  
+|GHN-40|Positive| 66|white|  male| Tonsil| former|        Y|      Y|  
+|GHN-66|Positive| 52|white|  male| Tonsil|current|        Y|      Y|  
+|GHN-67|Positive| 54|white|  male| Tonsil|  never|        Y|      Y|  
+|GHN-68|Positive| 51|white|  male| Tonsil| former|        Y|      Y|  
+|GHN-79|Positive| 65|white|  male| Tonsil| former|        N|      Y|  
++------+--------+---+-----+------+-------+-------+---------+-------+  
+only showing top 20 rows  
+</code></pre>
+</div>
 
 <p><strong>Check the number of partitions</strong></p>
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.rdd.getNumPartitions  
@@ -489,6 +491,7 @@ Data Frame follows row and column structure like a database table. Data Frame co
 +------+---+------+-------+
 </code></pre>
 </div>
+
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.groupBy('Sex).agg(Map("Age" -&gt; "avg")).show  
 +------+------------------+  
 |   Sex|          avg(Age)|  
@@ -564,14 +567,16 @@ only showing top 20 rows
 </code></pre>
 </div>
 
-<p>scala&gt;df2.groupBy(“Sex”).agg(Map(“Yes” -&gt; “sum”, “No” -&gt; “sum”, “Unknown” -&gt; “sum”)).show</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt;df2.groupBy("Sex").agg(Map("Yes" -&gt; "sum", "No" -&gt; "sum", "Unknown" -&gt; "sum")).show  
 
-<p>+——+——–+——-+————+<br />
-|   Sex|sum(Yes)|sum(No)|sum(Unknown)|<br />
-+——+——–+——-+————+<br />
-|female|       3|      0|           0|<br />
-|  male|      18|      5|           1|<br />
-+——+——–+——-+————+</p>
++------+--------+-------+------------+  
+|   Sex|sum(Yes)|sum(No)|sum(Unknown)|  
++------+--------+-------+------------+  
+|female|       3|      0|           0|  
+|  male|      18|      5|           1|  
++------+--------+-------+------------+  
+</code></pre>
+</div>
 
 <p><strong>Scala user-defined function (UDF)</strong></p>
 

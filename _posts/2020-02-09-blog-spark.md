@@ -162,6 +162,7 @@ scala> val df = spark.read.options(Map(
 ```  
 
 **Check the file for content**  
+```  
 scala> df.show  
 
 +------+--------+---+-----+------+-------+-------+---------+-------+  
@@ -189,6 +190,7 @@ scala> df.show
 |GHN-79|Positive| 65|white|  male| Tonsil| former|        N|      Y|  
 +------+--------+---+-----+------+-------+-------+---------+-------+  
 only showing top 20 rows  
+```
 
 **Check the number of partitions**  
 ```
@@ -227,6 +229,7 @@ scala> df.select("Sample","Age","Sex","Anatomy").filter("Age < 55").show
 |GHN-83| 54|  male| Tonsil|  
 +------+---+------+-------+
 ```  
+
 ```  
 scala> df.groupBy('Sex).agg(Map("Age" -> "avg")).show  
 +------+------------------+  
@@ -302,6 +305,7 @@ scala> df2.show
 only showing top 20 rows  
 ```  
 
+```  
 scala>df2.groupBy("Sex").agg(Map("Yes" -> "sum", "No" -> "sum", "Unknown" -> "sum")).show  
 
 +------+--------+-------+------------+  
@@ -310,6 +314,7 @@ scala>df2.groupBy("Sex").agg(Map("Yes" -> "sum", "No" -> "sum", "Unknown" -> "su
 |female|       3|      0|           0|  
 |  male|      18|      5|           1|  
 +------+--------+-------+------------+  
+```  
 
 **Scala user-defined function (UDF)**  
 

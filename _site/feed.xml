@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-05-07T10:44:10-07:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 2: Spark, Hadoop)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)" /><published>2020-05-07T00:00:00-07:00</published><updated>2020-05-07T00:00:00-07:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark/">&lt;p&gt;Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing.  Spark can also work with Hadoop and its modules. The real-time data processing capability makes Spark a top choice for big data analytics.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-05-07T10:57:44-07:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 2: Spark, Hadoop)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)" /><published>2020-05-07T00:00:00-07:00</published><updated>2020-05-07T00:00:00-07:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark/">&lt;p&gt;Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing.  Spark can also work with Hadoop and its modules. The real-time data processing capability makes Spark a top choice for big data analytics.&lt;/p&gt;
 
 &lt;p&gt;The spark core has two parts. 1) Computing engine and 2) Spark Core APIs.&lt;/p&gt;
 
@@ -147,34 +147,36 @@ Type :help for more information.
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;Check the file for content&lt;/strong&gt;&lt;br /&gt;
-scala&amp;gt; df.show&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Check the file for content&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.show  
 
-&lt;p&gt;+——+——–+—+—–+——+——-+——-+———+——-+&lt;br /&gt;
-|Sample|     p16|Age| Race|   Sex|Anatomy|Smoking|Radiation|  Chemo|&lt;br /&gt;
-+——+——–+—+—–+——+——-+——-+———+——-+&lt;br /&gt;
-|GHN-48|Negative| 68|white|female|    BOT|current|        Y|      Y|&lt;br /&gt;
-|GHN-57|Negative| 50|white|female|    BOT|current|        Y|      Y|&lt;br /&gt;
-|GHN-62|Negative| 71|white|  male|    BOT|  never|        Y|      N|&lt;br /&gt;
-|GHN-76|Negative| 60|   AA|  male| Tonsil| former|        N|      N|&lt;br /&gt;
-|GHN-39|Positive| 51|white|  male|    BOT|  never|        Y|      Y|&lt;br /&gt;
-|GHN-60|Positive| 41|white|  male|    BOT|  never|        Y|      Y|&lt;br /&gt;
-|GHN-64|Positive| 49|white|  male|    BOT|  never|        Y|      Y|&lt;br /&gt;
-|GHN-65|Positive| 63|white|  male|    BOT| former|        Y|      Y|&lt;br /&gt;
-|GHN-69|Positive| 56|white|  male|    BOT|current|        Y|      Y|&lt;br /&gt;
-|GHN-70|Positive| 68|white|  male|    BOT| former|        Y|      Y|&lt;br /&gt;
-|GHN-71|Positive| 59|white|  male|    BOT|  never|        N|      Y|&lt;br /&gt;
-|GHN-77|Positive| 53|   AA|  male|    BOT|  never|        N|      N|&lt;br /&gt;
-|GHN-82|Positive| 67|white|  male|    BOT| former|  Unknown|Unknown|&lt;br /&gt;
-|GHN-43|Positive| 65|white|  male|    BOT| former|        Y|      Y|&lt;br /&gt;
-|GHN-73|Positive| 72|white|female| Tonsil|  never|        Y|      Y|&lt;br /&gt;
-|GHN-40|Positive| 66|white|  male| Tonsil| former|        Y|      Y|&lt;br /&gt;
-|GHN-66|Positive| 52|white|  male| Tonsil|current|        Y|      Y|&lt;br /&gt;
-|GHN-67|Positive| 54|white|  male| Tonsil|  never|        Y|      Y|&lt;br /&gt;
-|GHN-68|Positive| 51|white|  male| Tonsil| former|        Y|      Y|&lt;br /&gt;
-|GHN-79|Positive| 65|white|  male| Tonsil| former|        N|      Y|&lt;br /&gt;
-+——+——–+—+—–+——+——-+——-+———+——-+&lt;br /&gt;
-only showing top 20 rows&lt;/p&gt;
++------+--------+---+-----+------+-------+-------+---------+-------+  
+|Sample|     p16|Age| Race|   Sex|Anatomy|Smoking|Radiation|  Chemo|  
++------+--------+---+-----+------+-------+-------+---------+-------+  
+|GHN-48|Negative| 68|white|female|    BOT|current|        Y|      Y|  
+|GHN-57|Negative| 50|white|female|    BOT|current|        Y|      Y|  
+|GHN-62|Negative| 71|white|  male|    BOT|  never|        Y|      N|  
+|GHN-76|Negative| 60|   AA|  male| Tonsil| former|        N|      N|  
+|GHN-39|Positive| 51|white|  male|    BOT|  never|        Y|      Y|  
+|GHN-60|Positive| 41|white|  male|    BOT|  never|        Y|      Y|  
+|GHN-64|Positive| 49|white|  male|    BOT|  never|        Y|      Y|  
+|GHN-65|Positive| 63|white|  male|    BOT| former|        Y|      Y|  
+|GHN-69|Positive| 56|white|  male|    BOT|current|        Y|      Y|  
+|GHN-70|Positive| 68|white|  male|    BOT| former|        Y|      Y|  
+|GHN-71|Positive| 59|white|  male|    BOT|  never|        N|      Y|  
+|GHN-77|Positive| 53|   AA|  male|    BOT|  never|        N|      N|  
+|GHN-82|Positive| 67|white|  male|    BOT| former|  Unknown|Unknown|  
+|GHN-43|Positive| 65|white|  male|    BOT| former|        Y|      Y|  
+|GHN-73|Positive| 72|white|female| Tonsil|  never|        Y|      Y|  
+|GHN-40|Positive| 66|white|  male| Tonsil| former|        Y|      Y|  
+|GHN-66|Positive| 52|white|  male| Tonsil|current|        Y|      Y|  
+|GHN-67|Positive| 54|white|  male| Tonsil|  never|        Y|      Y|  
+|GHN-68|Positive| 51|white|  male| Tonsil| former|        Y|      Y|  
+|GHN-79|Positive| 65|white|  male| Tonsil| former|        N|      Y|  
++------+--------+---+-----+------+-------+-------+---------+-------+  
+only showing top 20 rows  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Check the number of partitions&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.rdd.getNumPartitions  
@@ -213,6 +215,7 @@ Data Frame follows row and column structure like a database table. Data Frame co
 +------+---+------+-------+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.groupBy('Sex).agg(Map(&quot;Age&quot; -&amp;gt; &quot;avg&quot;)).show  
 +------+------------------+  
 |   Sex|          avg(Age)|  
@@ -288,14 +291,16 @@ only showing top 20 rows
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;scala&amp;gt;df2.groupBy(“Sex”).agg(Map(“Yes” -&amp;gt; “sum”, “No” -&amp;gt; “sum”, “Unknown” -&amp;gt; “sum”)).show&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt;df2.groupBy(&quot;Sex&quot;).agg(Map(&quot;Yes&quot; -&amp;gt; &quot;sum&quot;, &quot;No&quot; -&amp;gt; &quot;sum&quot;, &quot;Unknown&quot; -&amp;gt; &quot;sum&quot;)).show  
 
-&lt;p&gt;+——+——–+——-+————+&lt;br /&gt;
-|   Sex|sum(Yes)|sum(No)|sum(Unknown)|&lt;br /&gt;
-+——+——–+——-+————+&lt;br /&gt;
-|female|       3|      0|           0|&lt;br /&gt;
-|  male|      18|      5|           1|&lt;br /&gt;
-+——+——–+——-+————+&lt;/p&gt;
++------+--------+-------+------------+  
+|   Sex|sum(Yes)|sum(No)|sum(Unknown)|  
++------+--------+-------+------------+  
+|female|       3|      0|           0|  
+|  male|      18|      5|           1|  
++------+--------+-------+------------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Scala user-defined function (UDF)&lt;/strong&gt;&lt;/p&gt;
 
