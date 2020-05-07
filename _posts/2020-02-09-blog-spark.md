@@ -321,9 +321,9 @@ scala>df2.groupBy("Sex").agg(Map("Yes" -> "sum", "No" -> "sum", "Unknown" -> "su
 ```  
 def parseSex(g: String) = {  
  	g.toLowerCase match {   
-			case "male"  => “Male”  
-			case "female" => “Female”   
-			case _ => “Other”  
+			case "male"  => "Male"  
+			case "female" => "Female"   
+			case _ => "Other"  
 	}  
 }   
 
@@ -357,7 +357,10 @@ scala> df5.show
 +----+------------+------------+----------------+  
 |Male|          18|           5|               1|  
 +----+------------+------------+----------------+  
-```
+```  
+
+Command to stop the interactive shell in Scala:  
+scala> Ctrl+D  
 
 [^1]: [Apache Spark](https://spark.apache.org)  
 [^2]: [Apache Hadoop](https://hadoop.apache.org)  
