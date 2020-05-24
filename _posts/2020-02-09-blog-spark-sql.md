@@ -1,6 +1,6 @@
 ---
 title: 'Building a real-time big data pipeline (part 3: Spark, SQL)'
-date: 2020-02-15
+date: 2020-05-24
 permalink: /posts/2020/02/blog-post-spark-sql/
 tags:
   - big data
@@ -35,6 +35,52 @@ $hadoop fs -copyFromLocal *.csv /user/adinasarapu
 $hadoop fs -ls /user/adinasarapu  
 -rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 /user/adinasarapu/samples.csv  
 -rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 /user/adinasarapu/survey.csv  
+```  
+
+`hadoop fs` is more generic command that allows you to interact with multiple file systems like local, HDFS etc. This can be used when you are dealing with different file systems such as local FS, (S)FTP, S3, and others.  
+
+`hdfs dfs` is the command that is specific to HDFS.  
+
+```  
+$hdfs dfs -ls /user/adinasarapu  
+-rw-r--r--   1 adinasarapu supergroup       1318 2020-02-15 10:02 samples.csv  
+-rw-r--r--   1 adinasarapu supergroup     303684 2020-02-15 10:02 survey.csv  
+```   
+
+<b>Figure</b>. Hadoop [filesystem](http://hadoop.apache.org).  
+
+![HDFS](/images/hadoop-fs.png)  
+
+For Hadoop Architecture in Detail – [HDFS, Yarn & MapReduce](https://data-flair.training/blogs/hadoop-architecture/)  
+
+```  
+$bash start-yarn.sh  
+Starting resourcemanager  
+Starting nodemanagers  
+```  
+
+Check the list of Java processes running in your system by using the command `jps`. If you are able to see the Hadoop daemons running after executing the jps command, we can safely assume that the Hadoop cluster is running.  
+
+```  
+$jps  
+96899 NodeManager  
+91702 SecondaryNameNode  
+96790 ResourceManager  
+97240 Jps  
+91437 NameNode  
+91550 DataNode  
+```  
+We can stop all the daemons using the command `stop-all.sh`. We can also start or stop each daemon separately.  
+
+```  
+$bash stop-all.sh  
+WARNING: Stopping all Apache Hadoop daemons as adinasarapu in 10 seconds.  
+WARNING: Use CTRL-C to abort.  
+Stopping namenodes on [localhost]  
+Stopping datanodes  
+Stopping secondary namenodes [Ashoks-MacBook-Pro.local]  
+Stopping nodemanagers  
+Stopping resourcemanager  
 ```  
 
 ## 2.  Read a `csv` file into Spark Data Frame  

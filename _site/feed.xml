@@ -1,4 +1,408 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-05-07T10:57:44-07:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 2: Spark, Hadoop)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)" /><published>2020-05-07T00:00:00-07:00</published><updated>2020-05-07T00:00:00-07:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark/">&lt;p&gt;Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing.  Spark can also work with Hadoop and its modules. The real-time data processing capability makes Spark a top choice for big data analytics.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-05-24T09:09:24-07:00</updated><id>http://localhost:4000/</id><title type="html">Ashok R. Dinasarapu</title><subtitle>personal description</subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Building a real-time big data pipeline (part 3: Spark, SQL)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 3: Spark, SQL)" /><published>2020-05-24T00:00:00-07:00</published><updated>2020-05-24T00:00:00-07:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark-sql</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark-sql/">&lt;p&gt;Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.&lt;/p&gt;
+
+&lt;p&gt;Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs. Spark SQL is Spark’s package for working with structured data &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-start-hadoop-copy-a-csv-file-to-hdfs&quot;&gt;1. Start Hadoop, Copy a &lt;code class=&quot;highlighter-rouge&quot;&gt;csv&lt;/code&gt; file to HDFS&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;The Hadoop Distributed File System (HDFS) is the primary data storage system used by Hadoop applications. It employs a &lt;code class=&quot;highlighter-rouge&quot;&gt;NameNode&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;DataNode&lt;/code&gt; architecture to implement a distributed file system that provides high-performance access to data across highly scalable Hadoop clusters&lt;/em&gt;.&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd hadoop-3.1.3/
+$bash sbin/start-dfs.sh
+$hadoop fs -mkdir -p /user/adinasarapu
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;-copyFromLocal&lt;/code&gt; command to move one or more files from local location to HDFS.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$hadoop fs -copyFromLocal *.csv /user/adinasarapu  
+
+$hadoop fs -ls /user/adinasarapu  
+-rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 /user/adinasarapu/samples.csv  
+-rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 /user/adinasarapu/survey.csv  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hadoop fs&lt;/code&gt; is more generic command that allows you to interact with multiple file systems like local, HDFS etc. This can be used when you are dealing with different file systems such as local FS, (S)FTP, S3, and others.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hdfs dfs&lt;/code&gt; is the command that is specific to HDFS.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$hdfs dfs -ls /user/adinasarapu  
+-rw-r--r--   1 adinasarapu supergroup       1318 2020-02-15 10:02 samples.csv  
+-rw-r--r--   1 adinasarapu supergroup     303684 2020-02-15 10:02 survey.csv  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;b&gt;Figure&lt;/b&gt;. Hadoop &lt;a href=&quot;http://hadoop.apache.org&quot;&gt;filesystem&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/hadoop-fs.png&quot; alt=&quot;HDFS&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For Hadoop Architecture in Detail – &lt;a href=&quot;https://data-flair.training/blogs/hadoop-architecture/&quot;&gt;HDFS, Yarn &amp;amp; MapReduce&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$bash start-yarn.sh  
+Starting resourcemanager  
+Starting nodemanagers  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Check the list of Java processes running in your system by using the command &lt;code class=&quot;highlighter-rouge&quot;&gt;jps&lt;/code&gt;. If you are able to see the Hadoop daemons running after executing the jps command, we can safely assume that the Hadoop cluster is running.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$jps  
+96899 NodeManager  
+91702 SecondaryNameNode  
+96790 ResourceManager  
+97240 Jps  
+91437 NameNode  
+91550 DataNode  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;We can stop all the daemons using the command &lt;code class=&quot;highlighter-rouge&quot;&gt;stop-all.sh&lt;/code&gt;. We can also start or stop each daemon separately.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$bash stop-all.sh  
+WARNING: Stopping all Apache Hadoop daemons as adinasarapu in 10 seconds.  
+WARNING: Use CTRL-C to abort.  
+Stopping namenodes on [localhost]  
+Stopping datanodes  
+Stopping secondary namenodes [Ashoks-MacBook-Pro.local]  
+Stopping nodemanagers  
+Stopping resourcemanager  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;2--read-a-csv-file-into-spark-data-frame&quot;&gt;2.  Read a &lt;code class=&quot;highlighter-rouge&quot;&gt;csv&lt;/code&gt; file into Spark Data Frame&lt;/h2&gt;
+
+&lt;p&gt;A Spark Data Frame can be constructed from an array of data different sources such as Hive tables, Structured Data files (ex.csv), external databases (eg. MySQL), or existing RDDs.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Start the Spark&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$spark-shell&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Options used while reading csv file into a Spark DataFrame:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df = spark.read.format(&quot;csv&quot;)
+	.option(&quot;header&quot;, &quot;true&quot;)
+	.option(&quot;inferSchema&quot;,&quot;true&quot;)
+	.option(&quot;nullValue&quot;,&quot;NA&quot;)
+	.option(&quot;mode&quot;,&quot;failfast&quot;)
+	.load(&quot;hdfs://localhost:9000/user/adinasarapu/samples.csv&quot;)  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;For more details visit &lt;a href=&quot;https://sparkbyexamples.com/spark/spark-read-csv-file-into-dataframe/&quot;&gt;Spark Read CSV file into DataFrame&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Select &amp;amp; Filter the Spark DataFrame&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val sel = df.select(&quot;Sample&quot;,&quot;p16&quot;,&quot;Age&quot;,&quot;Race&quot;).filter($&quot;Anatomy&quot;.like(&quot;BOT&quot;))  
+
+scala&amp;gt; sel.show  
++------+--------+---+-----+  
+|Sample|     p16|Age| Race|  
++------+--------+---+-----+  
+|GHN-48|Negative| 68|white|  
+|GHN-57|Negative| 50|white|  
+|GHN-62|Negative| 71|white|  
+|GHN-39|Positive| 51|white|  
+|GHN-60|Positive| 41|white|  
+|GHN-64|Positive| 49|white|  
+|GHN-65|Positive| 63|white|  
+|GHN-69|Positive| 56|white|  
+|GHN-70|Positive| 68|white|  
+|GHN-71|Positive| 59|white|  
+|GHN-77|Positive| 53|   AA|  
+|GHN-82|Positive| 67|white|  
+|GHN-43|Positive| 65|white|  
++-------------------------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Spark Data Frame Schema&lt;/strong&gt;:&lt;br /&gt;
+Schema is definition for the column name and it’s data type. In Spark, the data source defines the schema, and we infer it from the source. Spark Data Frame always uses Spark types (&lt;code class=&quot;highlighter-rouge&quot;&gt;org.apache.spark.sql.types&lt;/code&gt;)&lt;/p&gt;
+
+&lt;p&gt;To check the Schema of Spark Data Frame use the following command.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; println(df.schema)  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Alternatively, a user can define the schema explicitly  and read the data using user defined schema definition (when data source is csv or json files).&lt;/p&gt;
+
+&lt;p&gt;If you know the schema of the file ahead and do not want to use the inferSchema option for column names and types, use user-defined custom column names and type using schema option.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; import org.apache.spark.sql.types._
+
+scala&amp;gt; val sampleSchema = new StructType()
+	.add(&quot;Sample&quot;,StringType,true)
+	.add(&quot;p16&quot;,StringType,true)
+	.add(&quot;Age&quot;,IntegerType,true)
+	.add(&quot;Race&quot;,StringType,true)
+	.add(&quot;Sex&quot;,StringType,true)
+	.add(&quot;Anatomy&quot;,StringType,true)
+	.add(&quot;Smoking&quot;,StringType,true)
+	.add(&quot;Radiation&quot;,StringType,true)
+	.add(&quot;Chemo&quot;,StringType,true)  
+
+scala&amp;gt; val df = spark.read.format(&quot;csv&quot;)
+	.option(&quot;header&quot;, &quot;true&quot;)
+	.option(&quot;schema&quot;,&quot;sampleSchema&quot;)
+	.option(&quot;nullValue&quot;,&quot;NA&quot;)
+	.option(&quot;mode&quot;,&quot;failfast&quot;)
+	.load(&quot;hdfs://localhost:9000/user/adinasarapu/samples.csv&quot;)  
+
+scala&amp;gt; df.printSchema()  
+root  
+ |-- Sample: string (nullable = true)  
+ |-- p16: string (nullable = true)  
+ |-- Age: string (nullable = true)  
+ |-- Race: string (nullable = true)  
+ |-- Sex: string (nullable = true)  
+ |-- Anatomy: string (nullable = true)  
+ |-- Smoking: string (nullable = true)  
+ |-- Radiation: string (nullable = true)  
+ |-- Chemo: string (nullable = true)  
+
+scala&amp;gt; val df = df.select(&quot;sample&quot;,&quot;Age&quot;,&quot;Sex&quot;,&quot;Anatomy&quot;)
+	.filter($&quot;Anatomy&quot;.contains(&quot;BOT&quot;) and $&quot;Age&quot; &amp;gt; 55)  
+
+scala&amp;gt; df.show  
++------+---+------+-------+  
+|sample|Age|   Sex|Anatomy|  
++------+---+------+-------+  
+|GHN-48| 68|female|    BOT|  
+|GHN-62| 71|  male|    BOT|  
+|GHN-65| 63|  male|    BOT|  
+|GHN-69| 56|  male|    BOT|  
+|GHN-70| 68|  male|    BOT|  
+|GHN-71| 59|  male|    BOT|  
+|GHN-82| 67|  male|    BOT|  
+|GHN-43| 65|  male|    BOT|  
++------+---+------+-------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Write the resulting Data Frame back to HDFS&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.write.option(&quot;header&quot;,&quot;true&quot;)
+	.csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv&quot;)
+
+$hadoop fs -ls  
+-rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 samples.csv  
+drwxr-xr-x   - adinasarapu supergroup     0 2020-02-14 10:39 samples_filtered.csv  
+-rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 survey.csv  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;overwrite&lt;/strong&gt; – mode is used to overwrite the existing file, alternatively, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;SaveMode.Overwrite&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.write.option(&quot;header&quot;,&quot;true&quot;)
+	.mode(&quot;overwrite&quot;)
+	.csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv&quot;)  
+
+OR  
+
+scala&amp;gt; import org.apache.spark.sql.SaveMode  
+
+scala&amp;gt; df.write.option(&quot;header&quot;,&quot;true&quot;)
+	.mode(SaveMode.Overwrite)
+	.csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv&quot;)  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;3-global-temp-views&quot;&gt;3. Global Temp Views&lt;/h2&gt;
+
+&lt;p&gt;Convert Spark Data Frame into temporary view that is available for only that spark session (Local)  or across spark sessions (Global) within the current application. The session-scoped view serve as a temporary table on which SQL queries can be made.&lt;/p&gt;
+
+&lt;p&gt;There are two broad categories of Data Frame methods to create a view:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Global Temp View: Visible to the current application across the Spark sessions.&lt;br /&gt;
+a). createGlobalTempView&lt;br /&gt;
+b). createOrReplaceGlobalTempView&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Local Temp View: Visible to the current Spark session.&lt;br /&gt;
+a). createOrReplaceTempView&lt;br /&gt;
+b). createTempView&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;em&gt;“The life of a Spark Application starts and finishes with the Spark Driver. The Driver is the process that clients use to submit applications in Spark. The Driver is also responsible for planning and coordinating the execution of the Spark program and returning status and/or results (data) to the client. The Driver can physically reside on a client or on a node in the cluster. The Spark Driver is responsible for creating the SparkSession.”&lt;/em&gt; - Data Analytics with Spark Using Python&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;“Spark &lt;strong&gt;Application&lt;/strong&gt; and Spark &lt;strong&gt;Session&lt;/strong&gt; are two different things. You can have multiple sessions in a single Spark Application. Spark session internally creates a Spark &lt;strong&gt;Context&lt;/strong&gt;. Spark Context represents connection to a Spark &lt;strong&gt;Cluster&lt;/strong&gt;. It also keeps track of all the RDDs, Cached data as well as the configurations. You can’t have more than one Spark Context in a single JVM. That means, one instance of an Application can have only one connection to the Cluster and hence a single Spark Context. In standard applications you may not have to create multiple sessions. However, if you are developing an application that needs to support multiple interactive users you might want to create one Spark Session for each user session. Ideally we should be able to create multiple connections to Spark Cluster for each user. But creating multiple Contexts is not yet supported by Spark.”&lt;/em&gt; - Learning Journal&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;“We can have multiple spark contexts by setting spark.driver.allowMultipleContexts to true. But having multiple spark contexts in the same jvm is not encouraged and is not considered as a good practice as it makes it more unstable and crashing of 1 spark context can affect the other.”&lt;/em&gt; -  A tale of Spark Session and Spark Context&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Created a local temporary table view&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.createOrReplaceTempView(&quot;sample_tbl&quot;)  
+
+scala&amp;gt; spark.catalog.listTables.show  
++----------+--------+-----------+---------+-----------+  
+|      name|database|description|tableType|isTemporary|  
++----------+--------+-----------+---------+-----------+  
+|sample_tbl|    null|       null|TEMPORARY|       true|  
++----------+--------+-----------+---------+-----------+  
+
+scala&amp;gt; df.cache()  
+
+scala&amp;gt; val resultsDF = spark.sql(&quot;SELECT * FROM sample_tbl WHERE Age &amp;gt; 70&quot;)  
+
+scala&amp;gt; resultsDF.show  
++------+--------+---+-----+------+-------+-------+---------+-----+  
+|Sample|     p16|Age| Race|   Sex|Anatomy|Smoking|Radiation|Chemo|  
++------+--------+---+-----+------+-------+-------+---------+-----+  
+|GHN-62|Negative| 71|white|  male|    BOT|  never|        Y|    N|  
+|GHN-73|Positive| 72|white|female| Tonsil|  never|        Y|    Y|  
++------+--------+---+-----+------+-------+-------+---------+-----+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Created a global temporary table view&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scala&amp;gt; df.createOrReplaceGlobalTempView(&quot;sample_gtbl&quot;)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sample_gtbl&lt;/code&gt; belongs to system database called &lt;code class=&quot;highlighter-rouge&quot;&gt;global_temp&lt;/code&gt;. This qualified name should be used to access &lt;code class=&quot;highlighter-rouge&quot;&gt;GlobalTempView(global_temp.sample_gtbl)&lt;/code&gt; or else it throws an error &lt;code class=&quot;highlighter-rouge&quot;&gt;Table or view not found&lt;/code&gt;.  When you run &lt;code class=&quot;highlighter-rouge&quot;&gt;spark.catalog.listTables.show&lt;/code&gt;, if you don’t specify the database for the &lt;code class=&quot;highlighter-rouge&quot;&gt;listTables()&lt;/code&gt; function it will point to default database. Try this instead:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scala&amp;gt; spark.catalog.listTables(&quot;global_temp&quot;).show&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-----------+-----------+-----------+---------+-----------+  
+|       name|   database|description|tableType|isTemporary|  
++-----------+-----------+-----------+---------+-----------+  
+|sample_gtbl|global_temp|       null|TEMPORARY|       true|  
+| sample_tbl|       null|       null|TEMPORARY|       true|  
++-----------+-----------+-----------+---------+-----------+  
+
+scala&amp;gt; val resultsDF = spark.sql(&quot;SELECT * FROM global_temp.sample_gtbl WHERE Age &amp;gt; 70&quot;)  
+
+scala&amp;gt; resultsDF.show  
++------+---+----+-------+  
+|sample|Age| Sex|Anatomy|  
++------+---+----+-------+  
+|GHN-62| 71|male|    BOT|  
++------+---+----+-------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;4-read-a-mysql-table-data-file-into-spark-data-frame&quot;&gt;4. Read a MySQL table data file into Spark Data Frame&lt;/h2&gt;
+
+&lt;p&gt;At the command line, log in to &lt;code class=&quot;highlighter-rouge&quot;&gt;MySQL&lt;/code&gt; as the root user:&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$mysql -u root -p&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Type the MySQL root password, and then press Enter.&lt;/p&gt;
+
+&lt;p&gt;To create a new MySQL user account, run the following command:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$mysql&amp;gt; CREATE USER 'adinasarapu'@'localhost' IDENTIFIED BY 'xxxxxxx';  
+
+$mysql&amp;gt; GRANT ALL PRIVILEGES ON *.* TO 'adinasarapu'@'localhost';  
+
+$mysql -u adinasarapu -p`  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Type the MySQL user’s  password, and then press Enter.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$mysql&amp;gt; SHOW DATABASES;
+
+$mysql&amp;gt; CREATE DATABASE meta;  
+
+$mysql&amp;gt; SHOW DATABASES;  
++--------------------+  
+| Database           |  
++--------------------+  
+| information_schema |  
+| meta               |  
+| mysql              |  
+| performance_schema |  
++--------------------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To work with the new database, type the following command.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql&amp;gt; USE meta;  
+mysql&amp;gt; CREATE TABLE samples (  
+	-&amp;gt;  Sample VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Age INT,  
+	-&amp;gt;  Race VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Sex VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Anatomy VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Smoking VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Radiation VARCHAR(20) NOT NULL,  
+	-&amp;gt;  Chemo VARCHAR(20) NOT NULL,  
+	-&amp;gt;  PRIMARY KEY ( Sample )  
+-&amp;gt; );  
+mysql&amp;gt; LOAD DATA INFILE '/Users/adinasarapu/spark_example/samples.csv'  
+	INTO TABLE samples FIELDS TERMINATED BY ','  
+	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you encounter the following error&lt;br /&gt;
+ERROR 1290 (HY000): The MySQL server is running with the &lt;code class=&quot;highlighter-rouge&quot;&gt;--secure-file-priv&lt;/code&gt; option so it cannot execute this statement&lt;/p&gt;
+
+&lt;p&gt;Set &lt;code class=&quot;highlighter-rouge&quot;&gt;local_infile&lt;/code&gt; variable as true.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql&amp;gt; SET GLOBAL local_infile = true;
+
+mysql&amp;gt; SHOW GLOBAL VARIABLES LIKE 'local_infile';  
++---------------+-------+  
+| Variable_name | Value |  
++---------------+-------+  
+| local_infile  | ON    |  
++---------------+-------+  
+
+mysql&amp;gt; USE meta;  
+
+mysql&amp;gt; LOAD DATA LOCAL INFILE '/Users/adinasarapu/spark_example/samples.csv'  
+	INTO TABLE samples FIELDS TERMINATED BY ','  
+	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
+
+mysql&amp;gt; SELECT * FROM samples;  
++--------+------+------+-------+---------+---------+-----------+---------+  
+| Sample | Age  | Race | Sex   | Anatomy | Smoking | Radiation | Chemo   |  
++--------+------+------+-------+---------+---------+-----------+---------+  
+| GHN-39 |    0 | 51   | white | male    | BOT     | never     | Y       |  
+| GHN-40 |    0 | 66   | white | male    | Tonsil  | former    | Y       |  
+| GHN-43 |    0 | 65   | white | male    | BOT     | former    | Y       |  
+| GHN-48 |    0 | 68   | white | female  | BOT     | current   | Y       |  
+| GHN-53 |    0 | 58   | white | male    | Larynx  | current   | Y       |  
+| ...		...		...		...		...	 |  
+| ...		...		...		...		...	 |  
++------------------------------------------------------------------------+  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a new MySQL table from Spark&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; import org.apache.spark.sql.SaveMode  
+scala&amp;gt; df.write.mode(SaveMode.Append).jdbc(url,&quot;newsamples&quot;,prop)  
+
+mysql&amp;gt; USE meta;  
+mysql&amp;gt; SHOW tables;  
++----------------+  
+| Tables_in_meta |  
++----------------+  
+| newsamples     |  
+| samples        |  
++----------------+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://spark.apache.org&quot;&gt;Apache Spark&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://hadoop.apache.org&quot;&gt;Apache Hadoop&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.learningjournal.guru/courses/spark/spark-foundation-training/&quot;&gt;Learning Journal&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://medium.com/@achilleus/spark-session-10d0d66d1d24&quot;&gt;A tale of Spark Session and Spark Context&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.a2hosting.com.co/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line&quot;&gt;MySQL&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache spark" /><category term="real time data pipelines" /><category term="scala" /><category term="hadoop" /><category term="MySQL" /><category term="bioinformatics" /><category term="Hadoop Distributed File System" /><summary type="html">Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 2: Spark, Hadoop)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)" /><published>2020-05-07T00:00:00-07:00</published><updated>2020-05-07T00:00:00-07:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark/">&lt;p&gt;Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing.  Spark can also work with Hadoop and its modules. The real-time data processing capability makes Spark a top choice for big data analytics.&lt;/p&gt;
 
 &lt;p&gt;The spark core has two parts. 1) Computing engine and 2) Spark Core APIs.&lt;/p&gt;
 
@@ -306,9 +710,9 @@ only showing top 20 rows
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def parseSex(g: String) = {  
  	g.toLowerCase match {   
-			case &quot;male&quot;  =&amp;gt; “Male”  
-			case &quot;female&quot; =&amp;gt; “Female”   
-			case _ =&amp;gt; “Other”  
+			case &quot;male&quot;  =&amp;gt; &quot;Male&quot;  
+			case &quot;female&quot; =&amp;gt; &quot;Female&quot;   
+			case _ =&amp;gt; &quot;Other&quot;  
 	}  
 }   
 
@@ -344,6 +748,9 @@ scala&amp;gt; df5.show
 +----+------------+------------+----------------+  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;p&gt;Command to stop the interactive shell in Scala:&lt;br /&gt;
+scala&amp;gt; Ctrl+D&lt;/p&gt;
 
 &lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 &lt;div class=&quot;footnotes&quot;&gt;
@@ -966,365 +1373,7 @@ Read more at &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-e
       &lt;p&gt;&lt;a href=&quot;https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/what-is-space-ranger&quot;&gt;10XGenomics- Visium spatial RNA-seq&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:1:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="10XGenomics" /><category term="SPATIAL GENE EXPRESSION" /><category term="Visium Spatial Gene Expression Solution" /><category term="brightfield microscope image" /><category term="Space Ranger" /><category term="SGE Cluster" /><category term="Cluster Computing" /><summary type="html">Running spaceranger as cluster mode that uses Sun Grid Engine (SGE) as queuing.</summary></entry><entry><title type="html">Building a real-time big data pipeline (part 3: Spark, SQL)</title><link href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/" rel="alternate" type="text/html" title="Building a real-time big data pipeline (part 3: Spark, SQL)" /><published>2020-02-15T00:00:00-08:00</published><updated>2020-02-15T00:00:00-08:00</updated><id>http://localhost:4000/posts/2020/02/blog-spark-sql</id><content type="html" xml:base="http://localhost:4000/posts/2020/02/blog-post-spark-sql/">&lt;p&gt;Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.&lt;/p&gt;
-
-&lt;p&gt;Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs. Spark SQL is Spark’s package for working with structured data &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-start-hadoop-copy-a-csv-file-to-hdfs&quot;&gt;1. Start Hadoop, Copy a &lt;code class=&quot;highlighter-rouge&quot;&gt;csv&lt;/code&gt; file to HDFS&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;The Hadoop Distributed File System (HDFS) is the primary data storage system used by Hadoop applications. It employs a &lt;code class=&quot;highlighter-rouge&quot;&gt;NameNode&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;DataNode&lt;/code&gt; architecture to implement a distributed file system that provides high-performance access to data across highly scalable Hadoop clusters&lt;/em&gt;.&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd hadoop-3.1.3/
-$bash sbin/start-dfs.sh
-$hadoop fs -mkdir -p /user/adinasarapu
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;-copyFromLocal&lt;/code&gt; command to move one or more files from local location to HDFS.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$hadoop fs -copyFromLocal *.csv /user/adinasarapu  
-
-$hadoop fs -ls /user/adinasarapu  
--rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 /user/adinasarapu/samples.csv  
--rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 /user/adinasarapu/survey.csv  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;2--read-a-csv-file-into-spark-data-frame&quot;&gt;2.  Read a &lt;code class=&quot;highlighter-rouge&quot;&gt;csv&lt;/code&gt; file into Spark Data Frame&lt;/h2&gt;
-
-&lt;p&gt;A Spark Data Frame can be constructed from an array of data different sources such as Hive tables, Structured Data files (ex.csv), external databases (eg. MySQL), or existing RDDs.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Start the Spark&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$spark-shell&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Options used while reading csv file into a Spark DataFrame:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val df = spark.read.format(&quot;csv&quot;)
-	.option(&quot;header&quot;, &quot;true&quot;)
-	.option(&quot;inferSchema&quot;,&quot;true&quot;)
-	.option(&quot;nullValue&quot;,&quot;NA&quot;)
-	.option(&quot;mode&quot;,&quot;failfast&quot;)
-	.load(&quot;hdfs://localhost:9000/user/adinasarapu/samples.csv&quot;)  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;For more details visit &lt;a href=&quot;https://sparkbyexamples.com/spark/spark-read-csv-file-into-dataframe/&quot;&gt;Spark Read CSV file into DataFrame&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Select &amp;amp; Filter the Spark DataFrame&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; val sel = df.select(&quot;Sample&quot;,&quot;p16&quot;,&quot;Age&quot;,&quot;Race&quot;).filter($&quot;Anatomy&quot;.like(&quot;BOT&quot;))  
-
-scala&amp;gt; sel.show  
-+------+--------+---+-----+  
-|Sample|     p16|Age| Race|  
-+------+--------+---+-----+  
-|GHN-48|Negative| 68|white|  
-|GHN-57|Negative| 50|white|  
-|GHN-62|Negative| 71|white|  
-|GHN-39|Positive| 51|white|  
-|GHN-60|Positive| 41|white|  
-|GHN-64|Positive| 49|white|  
-|GHN-65|Positive| 63|white|  
-|GHN-69|Positive| 56|white|  
-|GHN-70|Positive| 68|white|  
-|GHN-71|Positive| 59|white|  
-|GHN-77|Positive| 53|   AA|  
-|GHN-82|Positive| 67|white|  
-|GHN-43|Positive| 65|white|  
-+-------------------------+  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Spark Data Frame Schema&lt;/strong&gt;:&lt;br /&gt;
-Schema is definition for the column name and it’s data type. In Spark, the data source defines the schema, and we infer it from the source. Spark Data Frame always uses Spark types (&lt;code class=&quot;highlighter-rouge&quot;&gt;org.apache.spark.sql.types&lt;/code&gt;)&lt;/p&gt;
-
-&lt;p&gt;To check the Schema of Spark Data Frame use the following command.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; println(df.schema)  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Alternatively, a user can define the schema explicitly  and read the data using user defined schema definition (when data source is csv or json files).&lt;/p&gt;
-
-&lt;p&gt;If you know the schema of the file ahead and do not want to use the inferSchema option for column names and types, use user-defined custom column names and type using schema option.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; import org.apache.spark.sql.types._
-
-scala&amp;gt; val sampleSchema = new StructType()
-	.add(&quot;Sample&quot;,StringType,true)
-	.add(&quot;p16&quot;,StringType,true)
-	.add(&quot;Age&quot;,IntegerType,true)
-	.add(&quot;Race&quot;,StringType,true)
-	.add(&quot;Sex&quot;,StringType,true)
-	.add(&quot;Anatomy&quot;,StringType,true)
-	.add(&quot;Smoking&quot;,StringType,true)
-	.add(&quot;Radiation&quot;,StringType,true)
-	.add(&quot;Chemo&quot;,StringType,true)  
-
-scala&amp;gt; val df = spark.read.format(&quot;csv&quot;)
-	.option(&quot;header&quot;, &quot;true&quot;)
-	.option(&quot;schema&quot;,&quot;sampleSchema&quot;)
-	.option(&quot;nullValue&quot;,&quot;NA&quot;)
-	.option(&quot;mode&quot;,&quot;failfast&quot;)
-	.load(&quot;hdfs://localhost:9000/user/adinasarapu/samples.csv&quot;)  
-
-scala&amp;gt; df.printSchema()  
-root  
- |-- Sample: string (nullable = true)  
- |-- p16: string (nullable = true)  
- |-- Age: string (nullable = true)  
- |-- Race: string (nullable = true)  
- |-- Sex: string (nullable = true)  
- |-- Anatomy: string (nullable = true)  
- |-- Smoking: string (nullable = true)  
- |-- Radiation: string (nullable = true)  
- |-- Chemo: string (nullable = true)  
-
-scala&amp;gt; val df = df.select(&quot;sample&quot;,&quot;Age&quot;,&quot;Sex&quot;,&quot;Anatomy&quot;)
-	.filter($&quot;Anatomy&quot;.contains(&quot;BOT&quot;) and $&quot;Age&quot; &amp;gt; 55)  
-
-scala&amp;gt; df.show  
-+------+---+------+-------+  
-|sample|Age|   Sex|Anatomy|  
-+------+---+------+-------+  
-|GHN-48| 68|female|    BOT|  
-|GHN-62| 71|  male|    BOT|  
-|GHN-65| 63|  male|    BOT|  
-|GHN-69| 56|  male|    BOT|  
-|GHN-70| 68|  male|    BOT|  
-|GHN-71| 59|  male|    BOT|  
-|GHN-82| 67|  male|    BOT|  
-|GHN-43| 65|  male|    BOT|  
-+------+---+------+-------+  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Write the resulting Data Frame back to HDFS&lt;/strong&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.write.option(&quot;header&quot;,&quot;true&quot;)
-	.csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv&quot;)
-
-$hadoop fs -ls  
--rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 samples.csv  
-drwxr-xr-x   - adinasarapu supergroup     0 2020-02-14 10:39 samples_filtered.csv  
--rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 survey.csv  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;overwrite&lt;/strong&gt; – mode is used to overwrite the existing file, alternatively, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;SaveMode.Overwrite&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.write.option(&quot;header&quot;,&quot;true&quot;)
-	.mode(&quot;overwrite&quot;)
-	.csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv&quot;)  
-
-OR  
-
-scala&amp;gt; import org.apache.spark.sql.SaveMode  
-
-scala&amp;gt; df.write.option(&quot;header&quot;,&quot;true&quot;)
-	.mode(SaveMode.Overwrite)
-	.csv(&quot;hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv&quot;)  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;3-global-temp-views&quot;&gt;3. Global Temp Views&lt;/h2&gt;
-
-&lt;p&gt;Convert Spark Data Frame into temporary view that is available for only that spark session (Local)  or across spark sessions (Global) within the current application. The session-scoped view serve as a temporary table on which SQL queries can be made.&lt;/p&gt;
-
-&lt;p&gt;There are two broad categories of Data Frame methods to create a view:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Global Temp View: Visible to the current application across the Spark sessions.&lt;br /&gt;
-a). createGlobalTempView&lt;br /&gt;
-b). createOrReplaceGlobalTempView&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Local Temp View: Visible to the current Spark session.&lt;br /&gt;
-a). createOrReplaceTempView&lt;br /&gt;
-b). createTempView&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;em&gt;“The life of a Spark Application starts and finishes with the Spark Driver. The Driver is the process that clients use to submit applications in Spark. The Driver is also responsible for planning and coordinating the execution of the Spark program and returning status and/or results (data) to the client. The Driver can physically reside on a client or on a node in the cluster. The Spark Driver is responsible for creating the SparkSession.”&lt;/em&gt; - Data Analytics with Spark Using Python&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;“Spark &lt;strong&gt;Application&lt;/strong&gt; and Spark &lt;strong&gt;Session&lt;/strong&gt; are two different things. You can have multiple sessions in a single Spark Application. Spark session internally creates a Spark &lt;strong&gt;Context&lt;/strong&gt;. Spark Context represents connection to a Spark &lt;strong&gt;Cluster&lt;/strong&gt;. It also keeps track of all the RDDs, Cached data as well as the configurations. You can’t have more than one Spark Context in a single JVM. That means, one instance of an Application can have only one connection to the Cluster and hence a single Spark Context. In standard applications you may not have to create multiple sessions. However, if you are developing an application that needs to support multiple interactive users you might want to create one Spark Session for each user session. Ideally we should be able to create multiple connections to Spark Cluster for each user. But creating multiple Contexts is not yet supported by Spark.”&lt;/em&gt; - Learning Journal&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;“We can have multiple spark contexts by setting spark.driver.allowMultipleContexts to true. But having multiple spark contexts in the same jvm is not encouraged and is not considered as a good practice as it makes it more unstable and crashing of 1 spark context can affect the other.”&lt;/em&gt; -  A tale of Spark Session and Spark Context&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Created a local temporary table view&lt;/strong&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; df.createOrReplaceTempView(&quot;sample_tbl&quot;)  
-
-scala&amp;gt; spark.catalog.listTables.show  
-+----------+--------+-----------+---------+-----------+  
-|      name|database|description|tableType|isTemporary|  
-+----------+--------+-----------+---------+-----------+  
-|sample_tbl|    null|       null|TEMPORARY|       true|  
-+----------+--------+-----------+---------+-----------+  
-
-scala&amp;gt; df.cache()  
-
-scala&amp;gt; val resultsDF = spark.sql(&quot;SELECT * FROM sample_tbl WHERE Age &amp;gt; 70&quot;)  
-
-scala&amp;gt; resultsDF.show  
-+------+--------+---+-----+------+-------+-------+---------+-----+  
-|Sample|     p16|Age| Race|   Sex|Anatomy|Smoking|Radiation|Chemo|  
-+------+--------+---+-----+------+-------+-------+---------+-----+  
-|GHN-62|Negative| 71|white|  male|    BOT|  never|        Y|    N|  
-|GHN-73|Positive| 72|white|female| Tonsil|  never|        Y|    Y|  
-+------+--------+---+-----+------+-------+-------+---------+-----+  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Created a global temporary table view&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scala&amp;gt; df.createOrReplaceGlobalTempView(&quot;sample_gtbl&quot;)&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sample_gtbl&lt;/code&gt; belongs to system database called &lt;code class=&quot;highlighter-rouge&quot;&gt;global_temp&lt;/code&gt;. This qualified name should be used to access &lt;code class=&quot;highlighter-rouge&quot;&gt;GlobalTempView(global_temp.sample_gtbl)&lt;/code&gt; or else it throws an error &lt;code class=&quot;highlighter-rouge&quot;&gt;Table or view not found&lt;/code&gt;.  When you run &lt;code class=&quot;highlighter-rouge&quot;&gt;spark.catalog.listTables.show&lt;/code&gt;, if you don’t specify the database for the &lt;code class=&quot;highlighter-rouge&quot;&gt;listTables()&lt;/code&gt; function it will point to default database. Try this instead:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scala&amp;gt; spark.catalog.listTables(&quot;global_temp&quot;).show&lt;/code&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-----------+-----------+-----------+---------+-----------+  
-|       name|   database|description|tableType|isTemporary|  
-+-----------+-----------+-----------+---------+-----------+  
-|sample_gtbl|global_temp|       null|TEMPORARY|       true|  
-| sample_tbl|       null|       null|TEMPORARY|       true|  
-+-----------+-----------+-----------+---------+-----------+  
-
-scala&amp;gt; val resultsDF = spark.sql(&quot;SELECT * FROM global_temp.sample_gtbl WHERE Age &amp;gt; 70&quot;)  
-
-scala&amp;gt; resultsDF.show  
-+------+---+----+-------+  
-|sample|Age| Sex|Anatomy|  
-+------+---+----+-------+  
-|GHN-62| 71|male|    BOT|  
-+------+---+----+-------+  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;4-read-a-mysql-table-data-file-into-spark-data-frame&quot;&gt;4. Read a MySQL table data file into Spark Data Frame&lt;/h2&gt;
-
-&lt;p&gt;At the command line, log in to &lt;code class=&quot;highlighter-rouge&quot;&gt;MySQL&lt;/code&gt; as the root user:&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$mysql -u root -p&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Type the MySQL root password, and then press Enter.&lt;/p&gt;
-
-&lt;p&gt;To create a new MySQL user account, run the following command:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$mysql&amp;gt; CREATE USER 'adinasarapu'@'localhost' IDENTIFIED BY 'xxxxxxx';  
-
-$mysql&amp;gt; GRANT ALL PRIVILEGES ON *.* TO 'adinasarapu'@'localhost';  
-
-$mysql -u adinasarapu -p`  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Type the MySQL user’s  password, and then press Enter.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$mysql&amp;gt; SHOW DATABASES;
-
-$mysql&amp;gt; CREATE DATABASE meta;  
-
-$mysql&amp;gt; SHOW DATABASES;  
-+--------------------+  
-| Database           |  
-+--------------------+  
-| information_schema |  
-| meta               |  
-| mysql              |  
-| performance_schema |  
-+--------------------+  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;To work with the new database, type the following command.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql&amp;gt; USE meta;  
-mysql&amp;gt; CREATE TABLE samples (  
-	-&amp;gt;  Sample VARCHAR(20) NOT NULL,  
-	-&amp;gt;  Age INT,  
-	-&amp;gt;  Race VARCHAR(20) NOT NULL,  
-	-&amp;gt;  Sex VARCHAR(20) NOT NULL,  
-	-&amp;gt;  Anatomy VARCHAR(20) NOT NULL,  
-	-&amp;gt;  Smoking VARCHAR(20) NOT NULL,  
-	-&amp;gt;  Radiation VARCHAR(20) NOT NULL,  
-	-&amp;gt;  Chemo VARCHAR(20) NOT NULL,  
-	-&amp;gt;  PRIMARY KEY ( Sample )  
--&amp;gt; );  
-mysql&amp;gt; LOAD DATA INFILE '/Users/adinasarapu/spark_example/samples.csv'  
-	INTO TABLE samples FIELDS TERMINATED BY ','  
-	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;If you encounter the following error&lt;br /&gt;
-ERROR 1290 (HY000): The MySQL server is running with the &lt;code class=&quot;highlighter-rouge&quot;&gt;--secure-file-priv&lt;/code&gt; option so it cannot execute this statement&lt;/p&gt;
-
-&lt;p&gt;Set &lt;code class=&quot;highlighter-rouge&quot;&gt;local_infile&lt;/code&gt; variable as true.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql&amp;gt; SET GLOBAL local_infile = true;
-
-mysql&amp;gt; SHOW GLOBAL VARIABLES LIKE 'local_infile';  
-+---------------+-------+  
-| Variable_name | Value |  
-+---------------+-------+  
-| local_infile  | ON    |  
-+---------------+-------+  
-
-mysql&amp;gt; USE meta;  
-
-mysql&amp;gt; LOAD DATA LOCAL INFILE '/Users/adinasarapu/spark_example/samples.csv'  
-	INTO TABLE samples FIELDS TERMINATED BY ','  
-	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
-
-mysql&amp;gt; SELECT * FROM samples;  
-+--------+------+------+-------+---------+---------+-----------+---------+  
-| Sample | Age  | Race | Sex   | Anatomy | Smoking | Radiation | Chemo   |  
-+--------+------+------+-------+---------+---------+-----------+---------+  
-| GHN-39 |    0 | 51   | white | male    | BOT     | never     | Y       |  
-| GHN-40 |    0 | 66   | white | male    | Tonsil  | former    | Y       |  
-| GHN-43 |    0 | 65   | white | male    | BOT     | former    | Y       |  
-| GHN-48 |    0 | 68   | white | female  | BOT     | current   | Y       |  
-| GHN-53 |    0 | 58   | white | male    | Larynx  | current   | Y       |  
-| ...		...		...		...		...	 |  
-| ...		...		...		...		...	 |  
-+------------------------------------------------------------------------+  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Create a new MySQL table from Spark&lt;/strong&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scala&amp;gt; import org.apache.spark.sql.SaveMode  
-scala&amp;gt; df.write.mode(SaveMode.Append).jdbc(url,&quot;newsamples&quot;,prop)  
-
-mysql&amp;gt; USE meta;  
-mysql&amp;gt; SHOW tables;  
-+----------------+  
-| Tables_in_meta |  
-+----------------+  
-| newsamples     |  
-| samples        |  
-+----------------+
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://spark.apache.org&quot;&gt;Apache Spark&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://hadoop.apache.org&quot;&gt;Apache Hadoop&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://www.learningjournal.guru/courses/spark/spark-foundation-training/&quot;&gt;Learning Journal&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:4&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://medium.com/@achilleus/spark-session-10d0d66d1d24&quot;&gt;A tale of Spark Session and Spark Context&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:5&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://www.a2hosting.com.co/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line&quot;&gt;MySQL&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="big data" /><category term="apache spark" /><category term="real time data pipelines" /><category term="scala" /><category term="hadoop" /><category term="MySQL" /><category term="bioinformatics" /><category term="Hadoop Distributed File System" /><summary type="html">Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.</summary></entry><entry><title type="html">ATAC-seq peak calling with MACS2</title><link href="http://localhost:4000/posts/2019/12/blog-post-atacseq/" rel="alternate" type="text/html" title="ATAC-seq peak calling with MACS2" /><published>2019-12-05T00:00:00-08:00</published><updated>2019-12-05T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/12/blog-atacseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/12/blog-post-atacseq/">&lt;p&gt;ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="10XGenomics" /><category term="SPATIAL GENE EXPRESSION" /><category term="Visium Spatial Gene Expression Solution" /><category term="brightfield microscope image" /><category term="Space Ranger" /><category term="SGE Cluster" /><category term="Cluster Computing" /><summary type="html">Running spaceranger as cluster mode that uses Sun Grid Engine (SGE) as queuing.</summary></entry><entry><title type="html">ATAC-seq peak calling with MACS2</title><link href="http://localhost:4000/posts/2019/12/blog-post-atacseq/" rel="alternate" type="text/html" title="ATAC-seq peak calling with MACS2" /><published>2019-12-05T00:00:00-08:00</published><updated>2019-12-05T00:00:00-08:00</updated><id>http://localhost:4000/posts/2019/12/blog-atacseq</id><content type="html" xml:base="http://localhost:4000/posts/2019/12/blog-post-atacseq/">&lt;p&gt;ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility.&lt;/p&gt;
 
 &lt;p&gt;ATAC-seq achieves this by simultaneously fragmenting and tagging genomic DNA with sequencing adapters using the hyperactive Tn5 transposase enzyme &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Other global chromatin accessibility methods include FAIRE-seq and DNase-seq. This document aims to provide accessibility.&lt;/p&gt;
 
