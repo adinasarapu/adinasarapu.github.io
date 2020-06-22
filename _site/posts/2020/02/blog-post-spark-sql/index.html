@@ -19,7 +19,7 @@
 
 
 
-<title>Building a real-time big data pipeline (part 3: Spark, SQL) - Ashok R. Dinasarapu</title>
+<title>Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL) - Ashok R. Dinasarapu</title>
 
 
 
@@ -29,7 +29,7 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu">
-<meta property="og:title" content="Building a real-time big data pipeline (part 3: Spark, SQL)">
+<meta property="og:title" content="Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL)">
 
 
   <link rel="canonical" href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/">
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-05-24T00:00:00-07:00">
+  <meta property="article:published_time" content="2020-06-22T00:00:00-07:00">
 
 
 
@@ -244,29 +244,29 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Building a real-time big data pipeline (part 3: Spark, SQL)">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL)">
     <meta itemprop="description" content="Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.">
-    <meta itemprop="datePublished" content="May 24, 2020">
+    <meta itemprop="datePublished" content="June 22, 2020">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 3: Spark, SQL)
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL)
 </h1>
           
             <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
 
 
   
-	  10 minute read
+	  12 minute read
 	
 </p>
           
         
         
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-05-24T00:00:00-07:00">May 24, 2020</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-06-22T00:00:00-07:00">June 22, 2020</time></p>
         
         
              
@@ -280,7 +280,7 @@
 
 <p>Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs. Spark SQL is Spark’s package for working with structured data <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>.</p>
 
-<h2 id="1-start-hadoop-copy-a-csv-file-to-hdfs">1. Start Hadoop, Copy a <code class="highlighter-rouge">csv</code> file to HDFS</h2>
+<h2 id="1-hadoop---copy-a-csv-file-to-hdfs">1. Hadoop - copy a <code class="highlighter-rouge">.csv</code> file to HDFS</h2>
 
 <p><em>The Hadoop Distributed File System (HDFS) is the primary data storage system used by Hadoop applications. It employs a <code class="highlighter-rouge">NameNode</code> and <code class="highlighter-rouge">DataNode</code> architecture to implement a distributed file system that provides high-performance access to data across highly scalable Hadoop clusters</em>.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup></p>
 
@@ -346,15 +346,23 @@ Stopping resourcemanager
 </code></pre>
 </div>
 
-<h2 id="2--read-a-csv-file-into-spark-data-frame">2.  Read a <code class="highlighter-rouge">csv</code> file into Spark Data Frame</h2>
+<p><b>Web UI</b><br />
+for HDFS: http://localhost:9870<br />
+for YARN Resource Manager: http://localhost:8088</p>
 
-<p>A Spark Data Frame can be constructed from an array of data different sources such as Hive tables, Structured Data files (ex.csv), external databases (eg. MySQL), or existing RDDs.</p>
+<p>Note: Hadoop can be installed in 3 different modes: standalone mode, pseudo-distributed mode and fully distributed mode. In fully distributed mode, replace the ‘’localhost’ with actual host name of machine on cluster.</p>
 
-<p><strong>Start the Spark</strong></p>
+<h2 id="2--read-a-csv-file-from-hdfs-into-spark-dataframe">2.  Read a <code class="highlighter-rouge">csv</code> file (from HDFS) into Spark DataFrame</h2>
 
-<p><code class="highlighter-rouge">$spark-shell</code></p>
+<p>A Spark DataFrame can be constructed from an array of data sources such as Hive tables, Structured Data files (ex.csv), external databases (eg. MySQL), or existing RDDs.</p>
 
-<p>Options used while reading csv file into a Spark DataFrame:</p>
+<p><strong>Start Hadoop and Spark</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>$bash start-dfs.sh  
+$spark-shell  
+</code></pre>
+</div>
+
+<p><strong>Read csv file into a Spark DataFrame</strong></p>
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df = spark.read.format("csv")
 	.option("header", "true")
 	.option("inferSchema","true")
@@ -366,8 +374,10 @@ Stopping resourcemanager
 
 <p>For more details visit <a href="https://sparkbyexamples.com/spark/spark-read-csv-file-into-dataframe/">Spark Read CSV file into DataFrame</a></p>
 
-<p><strong>Select &amp; Filter the Spark DataFrame</strong></p>
+<p><strong>Select &amp; filter the Spark DataFrame</strong></p>
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val sel = df.select("Sample","p16","Age","Race").filter($"Anatomy".like("BOT"))  
+
+What does dollar sign do here in scala? So, basically, you are making it a variable(of type Column) with $"" in Spark.  
 
 scala&gt; sel.show  
 +------+--------+---+-----+  
@@ -390,15 +400,15 @@ scala&gt; sel.show
 </code></pre>
 </div>
 
-<p><strong>Spark Data Frame Schema</strong>:<br />
+<p><strong>Spark DataFrame Schema</strong>:<br />
 Schema is definition for the column name and it’s data type. In Spark, the data source defines the schema, and we infer it from the source. Spark Data Frame always uses Spark types (<code class="highlighter-rouge">org.apache.spark.sql.types</code>)</p>
 
-<p>To check the Schema of Spark Data Frame use the following command.</p>
+<p>To check the Schema of Spark DataFrame use the following command.</p>
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; println(df.schema)  
 </code></pre>
 </div>
 
-<p>Alternatively, a user can define the schema explicitly  and read the data using user defined schema definition (when data source is csv or json files).</p>
+<p>Alternatively, a user can define the schema explicitly and read the data using user defined schema definition (when data source is csv or json files).</p>
 
 <p>If you know the schema of the file ahead and do not want to use the inferSchema option for column names and types, use user-defined custom column names and type using schema option.</p>
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; import org.apache.spark.sql.types._
@@ -452,7 +462,7 @@ scala&gt; df.show
 </code></pre>
 </div>
 
-<p><strong>Write the resulting Data Frame back to HDFS</strong></p>
+<p><strong>Write the resulting DataFrame back to HDFS</strong></p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.write.option("header","true")
 	.csv("hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv")
@@ -479,34 +489,64 @@ scala&gt; df.write.option("header","true")
 </code></pre>
 </div>
 
-<h2 id="3-global-temp-views">3. Global Temp Views</h2>
+<p>To list all the files within a hdfs directory using Hadoop command</p>
 
-<p>Convert Spark Data Frame into temporary view that is available for only that spark session (Local)  or across spark sessions (Global) within the current application. The session-scoped view serve as a temporary table on which SQL queries can be made.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>$hdfs dfs -ls /user/adinasarapu  
 
-<p>There are two broad categories of Data Frame methods to create a view:</p>
+OR  
 
-<ol>
-  <li>
-    <p>Global Temp View: Visible to the current application across the Spark sessions.<br />
-a). createGlobalTempView<br />
-b). createOrReplaceGlobalTempView</p>
-  </li>
-  <li>
-    <p>Local Temp View: Visible to the current Spark session.<br />
-a). createOrReplaceTempView<br />
-b). createTempView</p>
-  </li>
-</ol>
+$hadoop fs -ls /user/adinasarapu  
+</code></pre>
+</div>
+
+<p>To list all the files within a hdfs directory using Scala/Spark.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; import java.net.URI  
+scala&gt; import org.apache.hadoop.conf.Configuration
+scala&gt; import org.apache.hadoop.fs.{FileSystem, Path}  
+  
+scala&gt; val uri = new URI("hdfs://localhost:9000")  
+scala&gt; val fs = FileSystem.get(uri,new Configuration())  
+scala&gt; val filePath = new Path("/user/adinasarapu/")  
+scala&gt; val status = fs.listStatus(filePath)  
+scala&gt; status.map(sts =&gt; sts.getPath).foreach(println)  
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>hdfs://localhost:9000/user/adinasarapu/samples.csv  
+hdfs://localhost:9000/user/adinasarapu/select.csv  
+hdfs://localhost:9000/user/adinasarapu/survey.csv  
+</code></pre>
+</div>
+
+<h2 id="3-temporary-views">3. Temporary Views</h2>
 
 <p><em>“The life of a Spark Application starts and finishes with the Spark Driver. The Driver is the process that clients use to submit applications in Spark. The Driver is also responsible for planning and coordinating the execution of the Spark program and returning status and/or results (data) to the client. The Driver can physically reside on a client or on a node in the cluster. The Spark Driver is responsible for creating the SparkSession.”</em> - Data Analytics with Spark Using Python</p>
 
 <p><em>“Spark <strong>Application</strong> and Spark <strong>Session</strong> are two different things. You can have multiple sessions in a single Spark Application. Spark session internally creates a Spark <strong>Context</strong>. Spark Context represents connection to a Spark <strong>Cluster</strong>. It also keeps track of all the RDDs, Cached data as well as the configurations. You can’t have more than one Spark Context in a single JVM. That means, one instance of an Application can have only one connection to the Cluster and hence a single Spark Context. In standard applications you may not have to create multiple sessions. However, if you are developing an application that needs to support multiple interactive users you might want to create one Spark Session for each user session. Ideally we should be able to create multiple connections to Spark Cluster for each user. But creating multiple Contexts is not yet supported by Spark.”</em> - Learning Journal<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup></p>
 
-<p><em>“We can have multiple spark contexts by setting spark.driver.allowMultipleContexts to true. But having multiple spark contexts in the same jvm is not encouraged and is not considered as a good practice as it makes it more unstable and crashing of 1 spark context can affect the other.”</em> -  A tale of Spark Session and Spark Context<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup></p>
+<p>Convert Spark DataFrame into temporary view that is available for only that spark session (local)  or across spark sessions (global) within the current application. The session-scoped view serve as a temporary table on which SQL queries can be made. There are two broad categories of DataFrame methods to create a view:</p>
 
-<p><strong>Created a local temporary table view</strong></p>
+<ol>
+  <li>
+    <p>Local Temp View: Visible to the current Spark session.
+a). createOrReplaceTempView
+b). createTempView</p>
+  </li>
+  <li>
+    <p>Global Temp View: Visible to the current application across the Spark sessions.<br />
+a). createGlobalTempView<br />
+b). createOrReplaceGlobalTempView</p>
+  </li>
+</ol>
+
+<p><em>“We can have multiple spark contexts by setting spark.driver.allowMultipleContexts to true. But having multiple spark contexts in the same JVM is not encouraged and is not considered as a good practice as it makes it more unstable and crashing of 1 spark context can affect the other.”</em> -  A tale of Spark Session and Spark Context<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup></p>
+
+<p><strong>Create a local temporary table view</strong></p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.createOrReplaceTempView("sample_tbl")  
+
+spark.catalog.listTables() tries to fetch every table’s metadata first and then show the requested table names.  
 
 scala&gt; spark.catalog.listTables.show  
 +----------+--------+-----------+---------+-----------+  
@@ -516,6 +556,8 @@ scala&gt; spark.catalog.listTables.show
 +----------+--------+-----------+---------+-----------+  
 
 scala&gt; df.cache()  
+
+There are two function calls for caching an RDD: cache() and persist(level: StorageLevel). The difference among them is that cache() will cache the RDD into memory, whereas persist(level) can cache in memory, on disk, or off-heap memory according to the caching strategy specified by level. persist() without an argument is equivalent with cache().  
 
 scala&gt; val resultsDF = spark.sql("SELECT * FROM sample_tbl WHERE Age &gt; 70")  
 
@@ -529,7 +571,7 @@ scala&gt; resultsDF.show
 </code></pre>
 </div>
 
-<p><strong>Created a global temporary table view</strong></p>
+<p><strong>Create a global temporary table view</strong></p>
 
 <p><code class="highlighter-rouge">scala&gt; df.createOrReplaceGlobalTempView("sample_gtbl")</code></p>
 
@@ -555,7 +597,7 @@ scala&gt; resultsDF.show
 </code></pre>
 </div>
 
-<h2 id="4-read-a-mysql-table-data-file-into-spark-data-frame">4. Read a MySQL table data file into Spark Data Frame</h2>
+<h2 id="4-read-a-mysql-table-data-file-into-spark-dataframe">4. Read a MySQL table data file into Spark DataFrame</h2>
 
 <p>At the command line, log in to <code class="highlighter-rouge">MySQL</code> as the root user:<sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup></p>
 
@@ -595,6 +637,7 @@ $mysql&gt; SHOW DATABASES;
 <div class="highlighter-rouge"><pre class="highlight"><code>mysql&gt; USE meta;  
 mysql&gt; CREATE TABLE samples (  
 	-&gt;  Sample VARCHAR(20) NOT NULL,  
+	-&gt;  p16 VARCHAR(20) NOT NULL,  
 	-&gt;  Age INT,  
 	-&gt;  Race VARCHAR(20) NOT NULL,  
 	-&gt;  Sex VARCHAR(20) NOT NULL,  
@@ -604,18 +647,20 @@ mysql&gt; CREATE TABLE samples (
 	-&gt;  Chemo VARCHAR(20) NOT NULL,  
 	-&gt;  PRIMARY KEY ( Sample )  
 -&gt; );  
-mysql&gt; LOAD DATA INFILE '/Users/adinasarapu/spark_example/samples.csv'  
+mysql&gt; LOAD DATA LOCAL INFILE '/Users/adinasarapu/spark_example/samples.csv'  
 	INTO TABLE samples FIELDS TERMINATED BY ','  
 	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
 </code></pre>
 </div>
 
 <p>If you encounter the following error<br />
-ERROR 1290 (HY000): The MySQL server is running with the <code class="highlighter-rouge">--secure-file-priv</code> option so it cannot execute this statement</p>
+ERROR 3948 (42000): Loading local data is disabled; this must be enabled on both the client and server sides</p>
 
-<p>Set <code class="highlighter-rouge">local_infile</code> variable as true.</p>
+<p>Add <code class="highlighter-rouge">local_infile = 1</code> to the [mysqld] section of the /etc/my.cnf file and restart the mysqld service.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mysql&gt; SET GLOBAL local_infile = true;
+<div class="highlighter-rouge"><pre class="highlight"><code>$sudo vi /etc/my.cnf  
+
+$mysql -u root -p --local_infile=1
 
 mysql&gt; SHOW GLOBAL VARIABLES LIKE 'local_infile';  
 +---------------+-------+  
@@ -631,24 +676,33 @@ mysql&gt; LOAD DATA LOCAL INFILE '/Users/adinasarapu/spark_example/samples.csv'
 	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
 
 mysql&gt; SELECT * FROM samples;  
-+--------+------+------+-------+---------+---------+-----------+---------+  
-| Sample | Age  | Race | Sex   | Anatomy | Smoking | Radiation | Chemo   |  
-+--------+------+------+-------+---------+---------+-----------+---------+  
-| GHN-39 |    0 | 51   | white | male    | BOT     | never     | Y       |  
-| GHN-40 |    0 | 66   | white | male    | Tonsil  | former    | Y       |  
-| GHN-43 |    0 | 65   | white | male    | BOT     | former    | Y       |  
-| GHN-48 |    0 | 68   | white | female  | BOT     | current   | Y       |  
-| GHN-53 |    0 | 58   | white | male    | Larynx  | current   | Y       |  
-| ...		...		...		...		...	 |  
-| ...		...		...		...		...	 |  
-+------------------------------------------------------------------------+  
++--------+----------+-----+-------+--------+---------+---------+-----------+---------+  
+| Sample | p16      | Age | Race  | Sex    | Anatomy | Smoking | Radiation | Chemo   |  
++--------+----------+-----+-------+--------+---------+---------+-----------+---------+  
+| GHN-39 | Positive |  51 | white | male   | BOT     | never   | Y         | Y       |  
+| GHN-40 | Positive |  66 | white | male   | Tonsil  | former  | Y         | Y       |  
+| GHN-43 | Positive |  65 | white | male   | BOT     | former  | Y         | Y       |  
+| GHN-48 | Negative |  68 | white | female | BOT     | current | Y         | Y       |  
+| GHN-53 | Unknown  |  58 | white | male   | Larynx  | current | Y         | Y       |  
+| GHN-57 | Negative |  50 | white | female | BOT     | current | Y         | Y       |  
+| GHN-84 | Positive |  56 | white | male   | Tonsil  | never   | Y         | N       |  
+| ...    | ...      |  .. | ...   | ...    | ...     | ...     | ...       | ...     |  
++--------+----------+-----+-------+--------+---------+---------+-----------+---------+  
 </code></pre>
 </div>
 
-<p><strong>Create a new MySQL table from Spark</strong></p>
+<p><strong>Create a new MySQL table from Spark DataFrame</strong></p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; import org.apache.spark.sql.SaveMode  
+scala&gt; val prop = new java.util.Properties  
+scala&gt; prop.setProperty("driver", "com.mysql.cj.jdbc.Driver")  
+scala&gt; prop.setProperty("user", "root")  
+scala&gt; prop.setProperty("password", "pw")  
+scala&gt; val url = "jdbc:mysql://localhost:3306/meta"  
 scala&gt; df.write.mode(SaveMode.Append).jdbc(url,"newsamples",prop)  
+
+If you see MySQL JDBC Driver - Time Zone Issue, change url to  
+scala&gt; val url = "jdbc:mysql://localhost/meta?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"  
 
 mysql&gt; USE meta;  
 mysql&gt; SHOW tables;  
@@ -660,6 +714,12 @@ mysql&gt; SHOW tables;
 +----------------+
 </code></pre>
 </div>
+
+<p>Finally, exit mysql, scala and hadoop</p>
+
+<p>mysql&gt;exit<br />
+scala&gt;:q<br />
+bash stop-all.sh</p>
 
 <h2 id="references">References</h2>
 <div class="footnotes">
@@ -714,6 +774,10 @@ mysql&gt; SHOW tables;
       
       
       <a href="http://localhost:4000/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">bioinformatics</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#emory-uiversity" class="page__taxonomy-item" rel="tag">Emory Uiversity</a><span class="sep">, </span>
     
       
       
