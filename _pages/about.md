@@ -17,7 +17,7 @@ My research is focused on genomics and computing, with emphasis on variant and c
 ![/cladogram](/images/cladogram.png)  
 
 **Signatures of somatic mutations from HPV-positive head and neck squamous cell carcinomas (HNSCC).** Human papilloma virus (HPV) causes a subset of HNSCC of the oropharynx. We combined DNA-Seq and RNA-Seq data to identify genetic variants and gene expression signatures respectively from patients with HNSCC including oropharyngeal squamous cell carcinomas (OPSCC).  
-![/cancer_mutations](/images/cancer_mutations.png)  
+![/cancer_mutations](/images/HNSCC.png)  
 
 Previously, at Emory Vaccine Center, I worked in [Human Immunology Project Consortium](https://www.immuneprofiling.org/) projects with emphasis in understanding the effects of adjuvanted seasonal flu vaccination in healthy as well as in HIV-infected individuals. At University of Florida, I applied systems biology approaches to study the effects of recreational marijuana and/or tobacco use in HIV-infected young adults. At University of California San Diego, I worked for [LIPID MAPS](http://www.lipidmaps.org) and UCSD [Signaling Gateway consortium](http://www.signalinggateway.org/molecule/) projects.
 
