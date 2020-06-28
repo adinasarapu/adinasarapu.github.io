@@ -14,7 +14,7 @@ My research is focused on genomics and computing, with emphasis on variant and c
 ![Lesch-Nyhan-Disease](/images/lnd.png)  
 
 **Signatures of somatic mutations from HPV-positive head and neck squamous cell carcinomas (HNSCC).** Human papilloma virus (HPV) causes a subset of HNSCC of the oropharynx. We combined DNA-Seq and RNA-Seq data to identify genetic variants and gene expression signatures respectively from patients with HNSCC including oropharyngeal squamous cell carcinomas (OPSCC).
-![/cancer_mutations](/images/hnscc.png)  
+![/cancer_mutations](/images/hnsc.png)  
 
 **Rectal microbiome composition correlates with humoral immunity to HIV-1 in vaccinated rhesus macaques.** We assessed the longitudinal changes in vaginal and rectal microbiome profiles following intradermal immunization with an HIV-1 DNA vaccine in adult rhesus macaques that received two prior DNA primes. The rectal and vaginal (CVL) microbiota showed compositional differences at lower taxonomic levels. As demonstrated by the linear discriminant analysis effect size (LEfSe) plot, microbiome in vaginal and rectal compartments demonstrated characteristic phylotype abundances.  
 ![/cladogram](/images/cladogram.png)    
