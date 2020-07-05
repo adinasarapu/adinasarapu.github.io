@@ -9,8 +9,8 @@ main:
   - title: "NGS | Proteomics"
     url: /year-archive/
 
-  - title: "BigData"
-    url: /big-data/
+#  - title: "BigData"
+#    url: /big-data/
  
   - title: "Résumé"
     url: /cv/
