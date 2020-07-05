@@ -19,7 +19,7 @@
 
 
 
-<title>Building a real-time big data pipeline (part 1: Kafka, Spring Boot) - Ashok R. Dinasarapu</title>
+<title>            Building a real-time big data pipeline (part 1: Kafka, Spring Boot) - Bioinformatics      Big Data      </title>
 
 
 
@@ -28,7 +28,7 @@
 
 
 <meta property="og:locale" content="en-US">
-<meta property="og:site_name" content="Ashok R. Dinasarapu">
+<meta property="og:site_name" content="Bioinformatics | Big Data">
 <meta property="og:title" content="Building a real-time big data pipeline (part 1: Kafka, Spring Boot)">
 
 
@@ -79,7 +79,7 @@
 <!-- end SEO -->
 
 
-<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Ashok R. Dinasarapu Feed">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Bioinformatics | Big Data Feed">
 
 <!-- http://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -119,6 +119,18 @@
 <meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=M44lzPylqQ">
 <meta name="theme-color" content="#ffffff">
 <link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
 <!-- end custom head snippets -->
 
   </head>
@@ -136,19 +148,19 @@
       <nav id="site-nav" class="greedy-nav">
         <button><div class="navicon"></div></button>
         <ul class="visible-links">
-          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Ashok R. Dinasarapu</a></li>
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Bioinformatics | Big Data</a></li>
           
             
             <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
           
             
+            <li class="masthead__menu-item"><a href="http://localhost:4000/talks/">Talks</a></li>
+          
+            
             <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
           
             
-            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive/">NGS</a></li>
-          
-            
-            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive1/">BigData</a></li>
+            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive/">Blog Posts</a></li>
           
             
             <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">Résumé</a></li>
@@ -179,12 +191,12 @@
 
   <div class="author__avatar">
     
-    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Scientist, Bioinformatics">
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Ashok R. Dinasarapu">
     
   </div>
 
   <div class="author__content">
-    <h3 class="author__name">Scientist, Bioinformatics</h3>
+    <h3 class="author__name">Ashok R. Dinasarapu</h3>
     <p class="author__bio">Emory University</p>
   </div>
 
@@ -195,29 +207,26 @@
         <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Atlanta, GA</li>
       
       
-        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> http://www.emory.edu</li>
       
       
       
-        <li><a href="mailto:ashok.reddy.dinasarapu@emory.edu"><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+       
       
-      
-      
-        <li><a href="https://twitter.com/adinasarapu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        <li><a href="https://twitter.com/adinasarapu"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
       
       
       
       
-        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fa fa-fw fa-linkedin-square" aria-hidden="true"></i> LinkedIn</a></li>
+        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
       
       
       
       
       
-        <li><a href="https://bitbucket.org/adinasarapu"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+        <li><a href="https://bitbucket.org/adinasarapu"><i class="fab fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
       
       
-        <li><a href="https://github.com/adinasarapu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+        <li><a href="https://github.com/adinasarapu"><i class="fab fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
       
       
       
@@ -232,10 +241,14 @@
       
       
       
-        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="ai ai-google-scholar-square ai-fw"></i> Google Scholar</a></li>
+        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="fas fa-fw fa-graduation-cap"></i> Google Scholar</a></li>
+      
+      
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=dinasarapu+ashok+OR+D+ashok+reddy&sort=pubdate"><i class="ai ai-pubmed-square ai-fw"></i> PubMed</a></li>
       
       
         <li><a href="http://orcid.org/0000-0002-1423-1518"><i class="ai ai-orcid-square ai-fw"></i> ORCID</a></li>
+      
       
       
     </ul>
@@ -285,11 +298,11 @@
 
 <p><strong>Kafka for local development of applications</strong>:</p>
 
-<p>There are multiple ways of running Kafka locally for development of apps but the easiest method is by <code class="highlighter-rouge">docker-compose</code>. To download Docker Desktop, go to <a href="https://hub.docker.com/">Docker Hub</a> and Sign In with your Docker ID.</p>
+<p>There are multiple ways of running Kafka locally for development of apps but the easiest method is by <code class="language-plaintext highlighter-rouge">docker-compose</code>. To download Docker Desktop, go to <a href="https://hub.docker.com/">Docker Hub</a> and Sign In with your Docker ID.</p>
 
-<p>Docker compose facilitates installing <code class="highlighter-rouge">Kafka</code> and <code class="highlighter-rouge">Zookeeper</code> with the help of <code class="highlighter-rouge">docker-compose.yml</code> file.</p>
+<p>Docker compose facilitates installing <code class="language-plaintext highlighter-rouge">Kafka</code> and <code class="language-plaintext highlighter-rouge">Zookeeper</code> with the help of <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>version: '2'  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: '2'  
 services:  
   zookeeper:  
     image: wurstmeister/zookeeper  
@@ -305,83 +318,72 @@ services:
      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"  
     volumes:  
      - /var/run/docker.sock:/var/run/docker.sock
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>1. Start the Kafka service</strong></p>
 
-<p>Open a terminal, go to the directory where you have the <code class="highlighter-rouge">docker-compose.yml</code> file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.</p>
+<p>Open a terminal, go to the directory where you have the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$docker-compose up -d  
-</code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose up -d  
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Starting kafka_example_zookeeper_1 ... done  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting kafka_example_zookeeper_1 ... done  
 Starting kafka_example_kafka_1     ... done  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To list running docker containers, run the following command</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$docker-compose ps  
-</code></pre>
-</div>
-<div class="highlighter-rouge"><pre class="highlight"><code>Name				Command				State	Ports  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose ps  
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Name				Command				State	Ports  
 kafka_example_kafka_1		start-kafka.sh			Up	0.0.0.0:9092-&gt;9092/tcp                              
 kafka_example_zookeeper_1	/bin/sh -c /usr/sbin/sshd  ...	Up	0.0.0.0:2181-&gt;2181/tcp, 22/tcp, 2888/tcp, 3888/tcp  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can shut down docker-compose by executing the following command in another terminal.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$docker-compose down  
-</code></pre>
-</div>
-<div class="highlighter-rouge"><pre class="highlight"><code>Stopping kafka_example_zookeeper_1 ... done  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose down  
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stopping kafka_example_zookeeper_1 ... done  
 Stopping kafka_example_kafka_1     ... done  
 Removing kafka_example_zookeeper_1 ... done  
 Removing kafka_example_kafka_1     ... done  
 Removing network kafka_example_default  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Using the following command check the ZooKeeper logs to verify that ZooKeeper is working and healthy.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$docker-compose logs zookeeper | grep -i binding  
-</code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose logs zookeeper | grep -i binding  
+</code></pre></div></div>
 
 <p>Next, check the Kafka logs to verify that broker is working and healthy.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$docker-compose logs kafka | grep -i started  
-</code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose logs kafka | grep -i started  
+</code></pre></div></div>
 
 <p><strong>2. Create a Kafka topic</strong></p>
 
 <p>The Kafka cluster stores streams of records in categories called topics. Each record in a topic consists of a key, a value, and a timestamp. A topic can have zero, one, or many consumers that subscribe to the data written to it.</p>
 
-<p>Use <code class="highlighter-rouge">docker-compose exec</code> to execute a command in a running container. For example, <code class="highlighter-rouge">docker-compose exec</code> command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where <code class="highlighter-rouge">docker-compose.yml</code> file present, and execute it as</p>
+<p>Use <code class="language-plaintext highlighter-rouge">docker-compose exec</code> to execute a command in a running container. For example, <code class="language-plaintext highlighter-rouge">docker-compose exec</code> command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file present, and execute it as</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$docker-compose exec kafka bash  
-</code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose exec kafka bash  
+</code></pre></div></div>
 
-<p>(for zookeeper <code class="highlighter-rouge">$docker-compose exec zookeeper bash</code>)</p>
+<p>(for zookeeper <code class="language-plaintext highlighter-rouge">$docker-compose exec zookeeper bash</code>)</p>
 
-<p>Change the directory to /opt/kafka/bin where you find scripts such as <code class="highlighter-rouge">kafka-topics.sh</code>.<br />
-<code class="highlighter-rouge">cd /opt/kafka/bin</code></p>
+<p>Change the directory to /opt/kafka/bin where you find scripts such as <code class="language-plaintext highlighter-rouge">kafka-topics.sh</code>.<br />
+<code class="language-plaintext highlighter-rouge">cd /opt/kafka/bin</code></p>
 
 <p><strong>Create, list or delete</strong> existing topics:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \  
  --create \  
  --topic mytopic \  
  --partitions 1 \  
  --replication-factor 1 \  
  --bootstrap-server localhost:9092  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><b>Figure 1</b>. Kafka topic partitions layout (<a href="https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/">cloudblogs.microsoft.com</a>). Each partition in a topic is an ordered, immutable sequence of records that is continually appended to a structured commit log.</p>
 
@@ -389,20 +391,18 @@ Removing network kafka_example_default
 
 <p><img src="/images/kafka-partition.png" alt="Partition" /></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \
  --list \
  --bootstrap-server localhost:9092  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If necessary, delete a topic using the following command.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \
  --delete \
  --topic mytopic \
  --bootstrap-server localhost:9092  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>3. Kafka Producer and Consumer</strong></p>
 
@@ -416,18 +416,17 @@ Removing network kafka_example_default
 
 <p>The following is a producer command line to read data from standard input and write it to a Kafka Topic.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-console-producer.sh \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-console-producer.sh \
  --broker-list localhost:9092 \
  --topic mytopic
   
 &gt;Hello  
 &gt;World  
 ^C
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The following is a command line to read data from a Kafka topic and write it to standard output.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-console-consumer.sh \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-console-consumer.sh \
  --bootstrap-server localhost:9092 \
  --topic mytopic \
  --from-beginning
@@ -435,8 +434,7 @@ Removing network kafka_example_default
 Hello  
 World  
 ^CProcessed a total of 2 messages  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Another way of reading data from a Kafka topic is by simply using a Spring Boot application</strong>.</p>
 
@@ -446,31 +444,29 @@ World
 
 <p><img src="/images/kafka-producer-consumer-java.png" alt="Java" /></p>
 
-<p>The first step to create a simple <strong>Spring Boot Maven Application</strong> is <a href="https://spring.io/guides/gs/spring-boot/">Starting with Spring Initializr</a> and make sure to have spring-kafka dependency to <code class="highlighter-rouge">pom.xml</code>.</p>
+<p>The first step to create a simple <strong>Spring Boot Maven Application</strong> is <a href="https://spring.io/guides/gs/spring-boot/">Starting with Spring Initializr</a> and make sure to have spring-kafka dependency to <code class="language-plaintext highlighter-rouge">pom.xml</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;dependency&gt;  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependency&gt;  
   &lt;groupId&gt;org.springframework.kafka&lt;/groupId&gt;  
   &lt;artifactId&gt;spring-kafka&lt;/artifactId&gt;  
 &lt;/dependency&gt;  
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p><code class="highlighter-rouge">SpringBootKafkaApplication.java</code> class (The Spring Initializr creates the following simple application class for you)</p>
+<p><code class="language-plaintext highlighter-rouge">SpringBootKafkaApplication.java</code> class (The Spring Initializr creates the following simple application class for you)</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@SpringBootApplication  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@SpringBootApplication  
 public class SpringBootKafkaApplication {  
 	public static void main(String[] args) {  
 		SpringApplication.run(SpringBootApplication.class, args);  
 	}  
 }  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Configure Kafka through application.yml configuration file</strong></p>
 
-<p>In Spring Boot, properties are kept in the <code class="highlighter-rouge">application.properties</code> file under the classpath. The application.properties file is located in the <code class="highlighter-rouge">src/main/resources</code> directory. Change application.properties file to <code class="highlighter-rouge">application.yml</code>, then add the following content.</p>
+<p>In Spring Boot, properties are kept in the <code class="language-plaintext highlighter-rouge">application.properties</code> file under the classpath. The application.properties file is located in the <code class="language-plaintext highlighter-rouge">src/main/resources</code> directory. Change application.properties file to <code class="language-plaintext highlighter-rouge">application.yml</code>, then add the following content.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>spring:  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spring:  
   kafka:  
 consumer:  
   bootstrap-servers: localhost:9092  
@@ -478,47 +474,44 @@ consumer:
   auto-offset-reset: earliest  
   key-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
   value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Create a Spring Kafka Consumer class</strong></p>
 
-<p>Create a class called <code class="highlighter-rouge">KafkaConsumer.java</code> and add a method with the @KakfaListener annotation.</p>
+<p>Create a class called <code class="language-plaintext highlighter-rouge">KafkaConsumer.java</code> and add a method with the @KakfaListener annotation.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@Service  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Service  
 public class KafkaConsumer {  
 	@KafkaListener(id = "group_test1", topics = "mytopic")  
 	public void consumeMessage(String message) {  
 		System.out.println("Consumed message: " + message);  
 	}  
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>How to run Spring Boot web application in Eclipse?</p>
 
 <p>In eclipse Project Explorer, right click the project name -&gt; select “Run As” -&gt; “Maven Build…”<br />
-In the goals, enter <code class="highlighter-rouge">spring-boot:run</code><br />
+In the goals, enter <code class="language-plaintext highlighter-rouge">spring-boot:run</code><br />
 then click Run button.</p>
 
 <p>If you have Spring Tool Suite (STS) plug-in, you see a “Spring Boot App” option under Run As.</p>
 
 <p>Run the following console producer which will enable you to send messages to Kafka:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-console-producer.sh \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-console-producer.sh \
  --broker-list localhost:9092 \
  --topic mytopic
   
 &gt;Hello  
 &gt;World  
 ^C  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Try sending a few messages like above (Hello, World etc) and watch the application standard output in the Eclipse shell where you are running your Spring Boot application.</p>
 
 <p>Eclipse Console:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>  .   ____          _            __ _ _  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  .   ____          _            __ _ _  
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \  
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \  
  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )  
@@ -536,23 +529,21 @@ o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupI
 2020-01-26 14:26:56.477  INFO 11137 --- [econsumer-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : simpleconsumer: partitions assigned: [test1-0]  
 Got message: hello  
 Got message: world  
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p>The following code demonstrates how to send and receive messages from Kafka Topic. The above <code class="highlighter-rouge">KafkaConsumer.java</code> receives messages that were sent to a Kafka Topic. The followng <code class="highlighter-rouge">KafkaProducer.java</code> send messages to a Kafka Topic.</p>
+<p>The following code demonstrates how to send and receive messages from Kafka Topic. The above <code class="language-plaintext highlighter-rouge">KafkaConsumer.java</code> receives messages that were sent to a Kafka Topic. The followng <code class="language-plaintext highlighter-rouge">KafkaProducer.java</code> send messages to a Kafka Topic.</p>
 
-<p>Make sure to have spring-web dependency to <code class="highlighter-rouge">pom.xml</code>.</p>
+<p>Make sure to have spring-web dependency to <code class="language-plaintext highlighter-rouge">pom.xml</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;dependency&gt;  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependency&gt;  
   &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;  
   &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;  
 &lt;/dependency&gt;  
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p>Add two new java classes <code class="highlighter-rouge">KafkaController.java</code> and <code class="highlighter-rouge">KafkaProducer.java</code></p>
+<p>Add two new java classes <code class="language-plaintext highlighter-rouge">KafkaController.java</code> and <code class="language-plaintext highlighter-rouge">KafkaProducer.java</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@RestController  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@RestController  
 @RequestMapping(value="/kafka")  
 public class KafkaController {  
 	private final KafkaProducer producer;  
@@ -567,10 +558,9 @@ public class KafkaController {
 		this.producer.sendMessage(message);  
 	}  
 }  
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@Service  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Service  
 public class KafkaProducer {  
 	private static final String TOPIC = "mytopic";  
 
@@ -582,12 +572,11 @@ public class KafkaProducer {
 		System.out.println("Produced message: " + message);  
 	}  
 }  
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p>Update <code class="highlighter-rouge">application.yml</code> file.</p>
+<p>Update <code class="language-plaintext highlighter-rouge">application.yml</code> file.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>server:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server:
   port: 8080
 spring:
   kafka:
@@ -601,21 +590,20 @@ spring:
     bootstrap-servers: localhost:9092  
     key-serializer: org.apache.kafka.common.serialization.StringSerializer  
     value-serializer: org.apache.kafka.common.serialization.StringSerializer  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Run Spring Boot web application (see How to run Spring Boot web application in Eclipse?)</p>
 
 <p>Make POST request using <a href="https://www.getpostman.com">Postman</a>.</p>
 
-<p>Select <code class="highlighter-rouge">POST</code> and use the API <code class="highlighter-rouge">http://localhost:8080/kafka/publish</code><br />
+<p>Select <code class="language-plaintext highlighter-rouge">POST</code> and use the API <code class="language-plaintext highlighter-rouge">http://localhost:8080/kafka/publish</code><br />
 <strong>Body</strong>: form-data  <strong>KEY</strong>: message  <strong>VALUE</strong>: hello</p>
 
 <p>Finally click <strong>send</strong>.</p>
 
 <p>See Eclipse Console for messages:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>...  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...  
 ...  
 ...  
 2020-01-27 13:12:06.911  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.3.1  
@@ -624,8 +612,7 @@ spring:
 2020-01-27 13:12:06.947  INFO 31822 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: 6R8O95IPSfGoifR4zzwM6g  
 Produced message: hello  
 Consumed message: hello
-</code></pre>
-</div>
+</code></pre></div></div>
 
         
       </section>
@@ -703,13 +690,11 @@ Consumed message: hello
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/01/blog-post-kafka/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/01/blog-post-kafka/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/01/blog-post-kafka/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/01/blog-post-kafka/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://plus.google.com/share?url=http://localhost:4000/posts/2020/01/blog-post-kafka/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
-
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/01/blog-post-kafka/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/01/blog-post-kafka/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
@@ -721,7 +706,7 @@ Consumed message: hello
 ">Previous</a>
     
     
-      <a href="http://localhost:4000/posts/2020/02/blog-post-spark/" class="pagination--pager" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)
+      <a href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="pagination--pager" title="Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL)
 ">Next</a>
     
   </nav>
@@ -733,20 +718,206 @@ Consumed message: hello
 
   
   
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "http://localhost:4000/images//images/DEG.png"
+          
+          alt="">
+      </div>
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/07/blog-post-kafka-spark-streaming/" rel="permalink">Building a real-time big data pipeline (part 4: Kafka, Spark Streaming)
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  3 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-07-04T00:00:00-07:00">July 04, 2020</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><a href="https://kafka.apache.org/">Apache Kafka</a> is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java.</p>
+
+</p>
+    
+    
+    
+
+  </article>
 </div>
 
+        
+          
 
-    </script>
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/" rel="permalink">Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL)
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  13 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-06-22T00:00:00-07:00">June 22, 2020</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.</p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/01/blog-post-tmt/" rel="permalink">Quantitative proteomics: TMT-based quantitation of proteins
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  4 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-04-04T00:00:00-07:00">April 04, 2020</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).</p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2018/04/blog-post-lfq/" rel="permalink">Quantitative proteomics: label-free quantitation of proteins
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  4 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-04-04T00:00:00-07:00">April 04, 2020</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Liquid chromatography (LC) coupled with mass spectrometry (MS) has been widely used for protein expression quantification.</p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
 
     <div class="page__footer">
       <footer>
         <!-- start custom footer snippets -->
-<!--<a href="/sitemap/">Sitemap</a> -->
+<a href="/sitemap/">Sitemap</a>
 <!-- end custom footer snippets -->
 
         
 
-<!--
 <div class="page__footer-follow">
   <ul class="social-icons">
     
@@ -755,20 +926,16 @@ Consumed message: hello
     
     
     
-      <li><a href="http://github.com/adinasarapu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+      <li><a href="http://github.com/adinasarapu"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
     
     
-      <li><a href="http://bitbucket.org/adinasarapu"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+      <li><a href="http://bitbucket.org/adinasarapu"><i class="fab fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
     
     <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
   </ul>
 </div>
--->
 
-<div class="page__footer-copyright">&copy; 2020 Ashok R. Dinasarapu  | <a href="http://adinasarapu.github.io/terms/" rel="nofollow">Privacy Policy</a>
-
-<!-- Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.--> 
-</div>
+<div class="page__footer-copyright">&copy; 2020 Ashok R. Dinasarapu. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

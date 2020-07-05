@@ -19,7 +19,7 @@
 
 
 
-<title>Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL) - Ashok R. Dinasarapu</title>
+<title>            Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL) - Bioinformatics      Big Data      </title>
 
 
 
@@ -28,7 +28,7 @@
 
 
 <meta property="og:locale" content="en-US">
-<meta property="og:site_name" content="Ashok R. Dinasarapu">
+<meta property="og:site_name" content="Bioinformatics | Big Data">
 <meta property="og:title" content="Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL)">
 
 
@@ -79,7 +79,7 @@
 <!-- end SEO -->
 
 
-<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Ashok R. Dinasarapu Feed">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Bioinformatics | Big Data Feed">
 
 <!-- http://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -119,6 +119,18 @@
 <meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=M44lzPylqQ">
 <meta name="theme-color" content="#ffffff">
 <link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
 <!-- end custom head snippets -->
 
   </head>
@@ -136,19 +148,19 @@
       <nav id="site-nav" class="greedy-nav">
         <button><div class="navicon"></div></button>
         <ul class="visible-links">
-          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Ashok R. Dinasarapu</a></li>
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Bioinformatics | Big Data</a></li>
           
             
             <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
           
             
+            <li class="masthead__menu-item"><a href="http://localhost:4000/talks/">Talks</a></li>
+          
+            
             <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
           
             
-            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive/">NGS</a></li>
-          
-            
-            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive1/">BigData</a></li>
+            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive/">Blog Posts</a></li>
           
             
             <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">Résumé</a></li>
@@ -179,12 +191,12 @@
 
   <div class="author__avatar">
     
-    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Scientist, Bioinformatics">
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Ashok R. Dinasarapu">
     
   </div>
 
   <div class="author__content">
-    <h3 class="author__name">Scientist, Bioinformatics</h3>
+    <h3 class="author__name">Ashok R. Dinasarapu</h3>
     <p class="author__bio">Emory University</p>
   </div>
 
@@ -195,29 +207,26 @@
         <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Atlanta, GA</li>
       
       
-        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> http://www.emory.edu</li>
       
       
       
-        <li><a href="mailto:ashok.reddy.dinasarapu@emory.edu"><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+       
       
-      
-      
-        <li><a href="https://twitter.com/adinasarapu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        <li><a href="https://twitter.com/adinasarapu"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
       
       
       
       
-        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fa fa-fw fa-linkedin-square" aria-hidden="true"></i> LinkedIn</a></li>
+        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
       
       
       
       
       
-        <li><a href="https://bitbucket.org/adinasarapu"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+        <li><a href="https://bitbucket.org/adinasarapu"><i class="fab fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
       
       
-        <li><a href="https://github.com/adinasarapu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+        <li><a href="https://github.com/adinasarapu"><i class="fab fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
       
       
       
@@ -232,10 +241,14 @@
       
       
       
-        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="ai ai-google-scholar-square ai-fw"></i> Google Scholar</a></li>
+        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="fas fa-fw fa-graduation-cap"></i> Google Scholar</a></li>
+      
+      
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=dinasarapu+ashok+OR+D+ashok+reddy&sort=pubdate"><i class="ai ai-pubmed-square ai-fw"></i> PubMed</a></li>
       
       
         <li><a href="http://orcid.org/0000-0002-1423-1518"><i class="ai ai-orcid-square ai-fw"></i> ORCID</a></li>
+      
       
       
     </ul>
@@ -283,35 +296,32 @@
 
 <p>Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs. Spark SQL is Spark’s package for working with structured data <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>.</p>
 
-<h2 id="1-hadoop---copy-a-csv-file-to-hdfs">1. Hadoop - copy a <code class="highlighter-rouge">.csv</code> file to HDFS</h2>
+<h2 id="1-hadoop---copy-a-csv-file-to-hdfs">1. Hadoop - copy a <code class="language-plaintext highlighter-rouge">.csv</code> file to HDFS</h2>
 
-<p><em>The Hadoop Distributed File System (HDFS) is the primary data storage system used by Hadoop applications. It employs a <code class="highlighter-rouge">NameNode</code> and <code class="highlighter-rouge">DataNode</code> architecture to implement a distributed file system that provides high-performance access to data across highly scalable Hadoop clusters</em>.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup></p>
+<p><em>The Hadoop Distributed File System (HDFS) is the primary data storage system used by Hadoop applications. It employs a <code class="language-plaintext highlighter-rouge">NameNode</code> and <code class="language-plaintext highlighter-rouge">DataNode</code> architecture to implement a distributed file system that provides high-performance access to data across highly scalable Hadoop clusters</em>.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd hadoop-3.1.3/
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd hadoop-3.1.3/
 $bash sbin/start-dfs.sh
 $hadoop fs -mkdir -p /user/adinasarapu
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p>Use <code class="highlighter-rouge">-copyFromLocal</code> command to move one or more files from local location to HDFS.</p>
+<p>Use <code class="language-plaintext highlighter-rouge">-copyFromLocal</code> command to move one or more files from local location to HDFS.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$hadoop fs -copyFromLocal *.csv /user/adinasarapu  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hadoop fs -copyFromLocal *.csv /user/adinasarapu  
 
 $hadoop fs -ls /user/adinasarapu  
 -rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 /user/adinasarapu/samples.csv  
 -rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 /user/adinasarapu/survey.csv  
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p><code class="highlighter-rouge">hadoop fs</code> is more generic command that allows you to interact with multiple file systems like local, HDFS etc. This can be used when you are dealing with different file systems such as local FS, (S)FTP, S3, and others.</p>
+<p><code class="language-plaintext highlighter-rouge">hadoop fs</code> is more generic command that allows you to interact with multiple file systems like local, HDFS etc. This can be used when you are dealing with different file systems such as local FS, (S)FTP, S3, and others.</p>
 
-<p><code class="highlighter-rouge">hdfs dfs</code> is the command that is specific to HDFS.</p>
+<p><code class="language-plaintext highlighter-rouge">hdfs dfs</code> is the command that is specific to HDFS.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$hdfs dfs -ls /user/adinasarapu  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hdfs dfs -ls /user/adinasarapu  
 -rw-r--r--   1 adinasarapu supergroup       1318 2020-02-15 10:02 samples.csv  
 -rw-r--r--   1 adinasarapu supergroup     303684 2020-02-15 10:02 survey.csv  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><b>Figure</b>. Hadoop <a href="http://hadoop.apache.org">filesystem</a>.</p>
 
@@ -319,26 +329,24 @@ $hadoop fs -ls /user/adinasarapu
 
 <p>For Hadoop Architecture in Detail – <a href="https://data-flair.training/blogs/hadoop-architecture/">HDFS, Yarn &amp; MapReduce</a></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$bash start-yarn.sh  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$bash start-yarn.sh  
 Starting resourcemanager  
 Starting nodemanagers  
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p>Check the list of Java processes running in your system by using the command <code class="highlighter-rouge">jps</code>. If you are able to see the Hadoop daemons running after executing the jps command, we can safely assume that the Hadoop cluster is running.</p>
+<p>Check the list of Java processes running in your system by using the command <code class="language-plaintext highlighter-rouge">jps</code>. If you are able to see the Hadoop daemons running after executing the jps command, we can safely assume that the Hadoop cluster is running.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$jps  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$jps  
 96899 NodeManager  
 91702 SecondaryNameNode  
 96790 ResourceManager  
 97240 Jps  
 91437 NameNode  
 91550 DataNode  
-</code></pre>
-</div>
-<p>We can stop all the daemons using the command <code class="highlighter-rouge">stop-all.sh</code>. We can also start or stop each daemon separately.</p>
+</code></pre></div></div>
+<p>We can stop all the daemons using the command <code class="language-plaintext highlighter-rouge">stop-all.sh</code>. We can also start or stop each daemon separately.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$bash stop-all.sh  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$bash stop-all.sh  
 WARNING: Stopping all Apache Hadoop daemons as adinasarapu in 10 seconds.  
 WARNING: Use CTRL-C to abort.  
 Stopping namenodes on [localhost]  
@@ -346,8 +354,7 @@ Stopping datanodes
 Stopping secondary namenodes [Ashoks-MacBook-Pro.local]  
 Stopping nodemanagers  
 Stopping resourcemanager  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><b>Web UI</b><br />
 for HDFS: http://localhost:9870<br />
@@ -355,30 +362,28 @@ for YARN Resource Manager: http://localhost:8088</p>
 
 <p>Note: Hadoop can be installed in 3 different modes: standalone mode, pseudo-distributed mode and fully distributed mode. In fully distributed mode, replace the ‘’localhost’ with actual host name of machine on cluster.</p>
 
-<h2 id="2--read-a-csv-file-from-hdfs-into-spark-dataframe">2.  Read a <code class="highlighter-rouge">csv</code> file (from HDFS) into Spark DataFrame</h2>
+<h2 id="2--read-a-csv-file-from-hdfs-into-spark-dataframe">2.  Read a <code class="language-plaintext highlighter-rouge">csv</code> file (from HDFS) into Spark DataFrame</h2>
 
 <p>A Spark DataFrame can be constructed from an array of data sources such as Hive tables, Structured Data files (ex.csv), external databases (eg. MySQL), or existing RDDs.</p>
 
 <p><strong>Start Hadoop and Spark</strong></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>$bash start-dfs.sh  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$bash start-dfs.sh  
 $spark-shell  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Read csv file into a Spark DataFrame</strong></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val df = spark.read.format("csv")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val df = spark.read.format("csv")
 	.option("header", "true")
 	.option("inferSchema","true")
 	.option("nullValue","NA")
 	.option("mode","failfast")
 	.load("hdfs://localhost:9000/user/adinasarapu/samples.csv")  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>For more details visit <a href="https://sparkbyexamples.com/spark/spark-read-csv-file-into-dataframe/">Spark Read CSV file into DataFrame</a></p>
 
 <p><strong>Select &amp; filter the Spark DataFrame</strong></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; val sel = df.select("Sample","p16","Age","Race").filter($"Anatomy".like("BOT"))  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val sel = df.select("Sample","p16","Age","Race").filter($"Anatomy".like("BOT"))  
 
 What does dollar sign do here in scala? So, basically, you are making it a variable(of type Column) with $"" in Spark.  
 
@@ -400,21 +405,19 @@ scala&gt; sel.show
 |GHN-82|Positive| 67|white|  
 |GHN-43|Positive| 65|white|  
 +-------------------------+  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Spark DataFrame Schema</strong>:<br />
-Schema is definition for the column name and it’s data type. In Spark, the data source defines the schema, and we infer it from the source. Spark Data Frame always uses Spark types (<code class="highlighter-rouge">org.apache.spark.sql.types</code>)</p>
+Schema is definition for the column name and it’s data type. In Spark, the data source defines the schema, and we infer it from the source. Spark Data Frame always uses Spark types (<code class="language-plaintext highlighter-rouge">org.apache.spark.sql.types</code>)</p>
 
 <p>To check the Schema of Spark DataFrame use the following command.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; println(df.schema)  
-</code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; println(df.schema)  
+</code></pre></div></div>
 
 <p>Alternatively, a user can define the schema explicitly and read the data using user defined schema definition (when data source is csv or json files).</p>
 
 <p>If you know the schema of the file ahead and do not want to use the inferSchema option for column names and types, use user-defined custom column names and type using schema option.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; import org.apache.spark.sql.types._
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; import org.apache.spark.sql.types._
 
 scala&gt; val sampleSchema = new StructType()
 	.add("Sample",StringType,true)
@@ -462,23 +465,21 @@ scala&gt; df.show
 |GHN-82| 67|  male|    BOT|  
 |GHN-43| 65|  male|    BOT|  
 +------+---+------+-------+  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Write the resulting DataFrame back to HDFS</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.write.option("header","true")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; df.write.option("header","true")
 	.csv("hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv")
 
 $hadoop fs -ls  
 -rw-r--r--   1 adinasarapu supergroup     1318 2020-02-13 21:41 samples.csv  
 drwxr-xr-x   - adinasarapu supergroup     0 2020-02-14 10:39 samples_filtered.csv  
 -rw-r--r--   1 adinasarapu supergroup     303684 2020-02-14 09:33 survey.csv  
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p><strong>overwrite</strong> – mode is used to overwrite the existing file, alternatively, you can use <code class="highlighter-rouge">SaveMode.Overwrite</code>.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.write.option("header","true")
+<p><strong>overwrite</strong> – mode is used to overwrite the existing file, alternatively, you can use <code class="language-plaintext highlighter-rouge">SaveMode.Overwrite</code>.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; df.write.option("header","true")
 	.mode("overwrite")
 	.csv("hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv")  
 
@@ -489,22 +490,20 @@ scala&gt; import org.apache.spark.sql.SaveMode
 scala&gt; df.write.option("header","true")
 	.mode(SaveMode.Overwrite)
 	.csv("hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv")  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To list all the files within a hdfs directory using Hadoop command</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$hdfs dfs -ls /user/adinasarapu  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hdfs dfs -ls /user/adinasarapu  
 
 OR  
 
 $hadoop fs -ls /user/adinasarapu  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To list all the files within a hdfs directory using Scala/Spark.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; import java.net.URI  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; import java.net.URI  
 scala&gt; import org.apache.hadoop.conf.Configuration
 scala&gt; import org.apache.hadoop.fs.{FileSystem, Path}  
   
@@ -513,14 +512,12 @@ scala&gt; val fs = FileSystem.get(uri,new Configuration())
 scala&gt; val filePath = new Path("/user/adinasarapu/")  
 scala&gt; val status = fs.listStatus(filePath)  
 scala&gt; status.map(sts =&gt; sts.getPath).foreach(println)  
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>hdfs://localhost:9000/user/adinasarapu/samples.csv  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hdfs://localhost:9000/user/adinasarapu/samples.csv  
 hdfs://localhost:9000/user/adinasarapu/select.csv  
 hdfs://localhost:9000/user/adinasarapu/survey.csv  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="3-temporary-views">3. Temporary Views</h2>
 
@@ -547,7 +544,7 @@ b). createOrReplaceGlobalTempView</p>
 
 <p><strong>Create a local temporary table view</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; df.createOrReplaceTempView("sample_tbl")  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; df.createOrReplaceTempView("sample_tbl")  
 
 spark.catalog.listTables() tries to fetch every table’s metadata first and then show the requested table names.  
 
@@ -571,18 +568,17 @@ scala&gt; resultsDF.show
 |GHN-62|Negative| 71|white|  male|    BOT|  never|        Y|    N|  
 |GHN-73|Positive| 72|white|female| Tonsil|  never|        Y|    Y|  
 +------+--------+---+-----+------+-------+-------+---------+-----+  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Create a global temporary table view</strong></p>
 
-<p><code class="highlighter-rouge">scala&gt; df.createOrReplaceGlobalTempView("sample_gtbl")</code></p>
+<p><code class="language-plaintext highlighter-rouge">scala&gt; df.createOrReplaceGlobalTempView("sample_gtbl")</code></p>
 
-<p><code class="highlighter-rouge">sample_gtbl</code> belongs to system database called <code class="highlighter-rouge">global_temp</code>. This qualified name should be used to access <code class="highlighter-rouge">GlobalTempView(global_temp.sample_gtbl)</code> or else it throws an error <code class="highlighter-rouge">Table or view not found</code>.  When you run <code class="highlighter-rouge">spark.catalog.listTables.show</code>, if you don’t specify the database for the <code class="highlighter-rouge">listTables()</code> function it will point to default database. Try this instead:</p>
+<p><code class="language-plaintext highlighter-rouge">sample_gtbl</code> belongs to system database called <code class="language-plaintext highlighter-rouge">global_temp</code>. This qualified name should be used to access <code class="language-plaintext highlighter-rouge">GlobalTempView(global_temp.sample_gtbl)</code> or else it throws an error <code class="language-plaintext highlighter-rouge">Table or view not found</code>.  When you run <code class="language-plaintext highlighter-rouge">spark.catalog.listTables.show</code>, if you don’t specify the database for the <code class="language-plaintext highlighter-rouge">listTables()</code> function it will point to default database. Try this instead:</p>
 
-<p><code class="highlighter-rouge">scala&gt; spark.catalog.listTables("global_temp").show</code></p>
+<p><code class="language-plaintext highlighter-rouge">scala&gt; spark.catalog.listTables("global_temp").show</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>+-----------+-----------+-----------+---------+-----------+  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------+-----------+-----------+---------+-----------+  
 |       name|   database|description|tableType|isTemporary|  
 +-----------+-----------+-----------+---------+-----------+  
 |sample_gtbl|global_temp|       null|TEMPORARY|       true|  
@@ -597,29 +593,27 @@ scala&gt; resultsDF.show
 +------+---+----+-------+  
 |GHN-62| 71|male|    BOT|  
 +------+---+----+-------+  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="4-read-a-mysql-table-data-file-into-spark-dataframe">4. Read a MySQL table data file into Spark DataFrame</h2>
 
-<p>At the command line, log in to <code class="highlighter-rouge">MySQL</code> as the root user:<sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup></p>
+<p>At the command line, log in to <code class="language-plaintext highlighter-rouge">MySQL</code> as the root user:<sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup></p>
 
-<p><code class="highlighter-rouge">$mysql -u root -p</code></p>
+<p><code class="language-plaintext highlighter-rouge">$mysql -u root -p</code></p>
 
 <p>Type the MySQL root password, and then press Enter.</p>
 
 <p>To create a new MySQL user account, run the following command:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$mysql&gt; CREATE USER 'adinasarapu'@'localhost' IDENTIFIED BY 'xxxxxxx';  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$mysql&gt; CREATE USER 'adinasarapu'@'localhost' IDENTIFIED BY 'xxxxxxx';  
 
 $mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'adinasarapu'@'localhost';  
 
 $mysql -u adinasarapu -p`  
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>Type the MySQL user’s  password, and then press Enter.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$mysql&gt; SHOW DATABASES;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$mysql&gt; SHOW DATABASES;
 
 $mysql&gt; CREATE DATABASE meta;  
 
@@ -632,12 +626,11 @@ $mysql&gt; SHOW DATABASES;
 | mysql              |  
 | performance_schema |  
 +--------------------+  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To work with the new database, type the following command.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mysql&gt; USE meta;  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; USE meta;  
 mysql&gt; CREATE TABLE samples (  
 	-&gt;  Sample VARCHAR(20) NOT NULL,  
 	-&gt;  p16 VARCHAR(20) NOT NULL,  
@@ -653,15 +646,14 @@ mysql&gt; CREATE TABLE samples (
 mysql&gt; LOAD DATA LOCAL INFILE '/Users/adinasarapu/spark_example/samples.csv'  
 	INTO TABLE samples FIELDS TERMINATED BY ','  
 	LINES TERMINATED BY '\n' IGNORE 1 ROWS;  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If you encounter the following error<br />
 ERROR 3948 (42000): Loading local data is disabled; this must be enabled on both the client and server sides</p>
 
-<p>Add <code class="highlighter-rouge">local_infile = 1</code> to the [mysqld] section of the /etc/my.cnf file and restart the mysqld service.</p>
+<p>Add <code class="language-plaintext highlighter-rouge">local_infile = 1</code> to the [mysqld] section of the /etc/my.cnf file and restart the mysqld service.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$sudo vi /etc/my.cnf  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$sudo vi /etc/my.cnf  
 
 $mysql -u root -p --local_infile=1
 
@@ -691,12 +683,11 @@ mysql&gt; SELECT * FROM samples;
 | GHN-84 | Positive |  56 | white | male   | Tonsil  | never   | Y         | N       |  
 | ...    | ...      |  .. | ...   | ...    | ...     | ...     | ...       | ...     |  
 +--------+----------+-----+-------+--------+---------+---------+-----------+---------+  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Create a new MySQL table from Spark DataFrame</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; import org.apache.spark.sql.SaveMode  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; import org.apache.spark.sql.SaveMode  
 scala&gt; val prop = new java.util.Properties  
 scala&gt; prop.setProperty("driver", "com.mysql.cj.jdbc.Driver")  
 scala&gt; prop.setProperty("user", "root")  
@@ -715,8 +706,7 @@ mysql&gt; SHOW tables;
 | newsamples     |  
 | samples        |  
 +----------------+
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Finally, exit mysql, scala and hadoop</p>
 
@@ -728,19 +718,19 @@ bash stop-all.sh</p>
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p><a href="https://spark.apache.org">Apache Spark</a>&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+      <p><a href="https://spark.apache.org">Apache Spark</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:2">
-      <p><a href="https://hadoop.apache.org">Apache Hadoop</a>&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+      <p><a href="https://hadoop.apache.org">Apache Hadoop</a> <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:3">
-      <p><a href="https://www.learningjournal.guru/courses/spark/spark-foundation-training/">Learning Journal</a>&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+      <p><a href="https://www.learningjournal.guru/courses/spark/spark-foundation-training/">Learning Journal</a> <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:4">
-      <p><a href="https://medium.com/@achilleus/spark-session-10d0d66d1d24">A tale of Spark Session and Spark Context</a>&nbsp;<a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+      <p><a href="https://medium.com/@achilleus/spark-session-10d0d66d1d24">A tale of Spark Session and Spark Context</a> <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:5">
-      <p><a href="https://www.a2hosting.com.co/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line">MySQL</a>&nbsp;<a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+      <p><a href="https://www.a2hosting.com.co/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line">MySQL</a> <a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>
@@ -817,13 +807,11 @@ bash stop-all.sh</p>
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://plus.google.com/share?url=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
-
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
@@ -831,7 +819,7 @@ bash stop-all.sh</p>
 
   <nav class="pagination">
     
-      <a href="http://localhost:4000/posts/2020/02/blog-post-spark/" class="pagination--pager" title="Building a real-time big data pipeline (part 2: Spark, Hadoop)
+      <a href="http://localhost:4000/posts/2020/01/blog-post-kafka/" class="pagination--pager" title="Building a real-time big data pipeline (part 1: Kafka, Spring Boot)
 ">Previous</a>
     
     
@@ -847,20 +835,206 @@ bash stop-all.sh</p>
 
   
   
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "http://localhost:4000/images//images/DEG.png"
+          
+          alt="">
+      </div>
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/07/blog-post-kafka-spark-streaming/" rel="permalink">Building a real-time big data pipeline (part 4: Kafka, Spark Streaming)
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  3 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-07-04T00:00:00-07:00">July 04, 2020</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><a href="https://kafka.apache.org/">Apache Kafka</a> is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java.</p>
+
+</p>
+    
+    
+    
+
+  </article>
 </div>
 
+        
+          
 
-    </script>
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/01/blog-post-kafka/" rel="permalink">Building a real-time big data pipeline (part 1: Kafka, Spring Boot)
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-04-05T00:00:00-07:00">April 05, 2020</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><a href="https://kafka.apache.org">Kafka</a> is used for building real-time data pipelines and streaming apps.</p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/01/blog-post-tmt/" rel="permalink">Quantitative proteomics: TMT-based quantitation of proteins
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  4 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-04-04T00:00:00-07:00">April 04, 2020</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).</p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2018/04/blog-post-lfq/" rel="permalink">Quantitative proteomics: label-free quantitation of proteins
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  4 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-04-04T00:00:00-07:00">April 04, 2020</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Liquid chromatography (LC) coupled with mass spectrometry (MS) has been widely used for protein expression quantification.</p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
 
     <div class="page__footer">
       <footer>
         <!-- start custom footer snippets -->
-<!--<a href="/sitemap/">Sitemap</a> -->
+<a href="/sitemap/">Sitemap</a>
 <!-- end custom footer snippets -->
 
         
 
-<!--
 <div class="page__footer-follow">
   <ul class="social-icons">
     
@@ -869,20 +1043,16 @@ bash stop-all.sh</p>
     
     
     
-      <li><a href="http://github.com/adinasarapu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+      <li><a href="http://github.com/adinasarapu"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
     
     
-      <li><a href="http://bitbucket.org/adinasarapu"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+      <li><a href="http://bitbucket.org/adinasarapu"><i class="fab fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
     
     <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
   </ul>
 </div>
--->
 
-<div class="page__footer-copyright">&copy; 2020 Ashok R. Dinasarapu  | <a href="http://adinasarapu.github.io/terms/" rel="nofollow">Privacy Policy</a>
-
-<!-- Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.--> 
-</div>
+<div class="page__footer-copyright">&copy; 2020 Ashok R. Dinasarapu. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

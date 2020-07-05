@@ -7,7 +7,7 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Ashok R. Dinasarapu"
+title                    : "Bioinformatics | Big Data"
 title_separator          : "-"
 name                     : &name "Ashok R. Dinasarapu"
 description              : &description "personal description"
@@ -17,7 +17,9 @@ repository               : "adinasarapu/adinasarapu.github.io"
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 breadcrumbs              : false # true, false (default)
 words_per_minute         : 160
-read_more                : "enabled" # disabled or enabled. if enabled, adds "Read more" links to excerpts
+future                   : true
+read_more                : "disabled" # if enabled, adds "Read more" links to excerpts
+talkmap_link             : false #change to true to add link to talkmap on talks page
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "custom"
   disqus:
@@ -55,7 +57,7 @@ yandex_site_verification :
 
 # Social Sharing
 twitter:
-  username               : &dinasarapu
+  username               : &adinasarapu
 facebook:
   username               :
   app_id                 :
@@ -78,14 +80,16 @@ analytics:
 
 # Site Author
 author:
-  name             : "Scientist, Bioinformatics"
+  name             : "Ashok R. Dinasarapu"
   avatar           : "profile.png"
   bio              : "Emory University"
   location         : "Atlanta, GA"
-  employer         : ""
+  employer         :
+  pubmed           : "https://pubmed.ncbi.nlm.nih.gov/?term=dinasarapu+ashok+OR+D+ashok+reddy&sort=pubdate"
   googlescholar    : "https://scholar.google.com/citations?user=b6GBykAAAAAJ"
-  email            : "ashok.reddy.dinasarapu@emory.edu"
-  uri              : 
+  email            :
+  researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
+  uri              :
   bitbucket        : "adinasarapu"
   codepen          :
   dribbble         :
@@ -93,8 +97,10 @@ author:
   facebook         :
   foursquare       :
   github           : "adinasarapu"
-  google_plus      : 
+  google_plus      :
+  keybase          :
   instagram        :
+  impactstory      : #"https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
   lastfm           :
   linkedin         : "dareddy"
   orcid            : "http://orcid.org/0000-0002-1423-1518"
@@ -123,22 +129,23 @@ exclude:
   - .bundle
   - .jekyll-assets-cache
   - .sass-cache
-  - assets/js/plugins
-  - assets/js/_main.js
-  - assets/js/vendor
-  - Capfile
   - CHANGELOG
-  - config
+  - Capfile
   - Gemfile
   - Gruntfile.js
-  - gulpfile.js
   - LICENSE
+  - README
+  - Rakefile
+  - assets/js/_main.js
+  - assets/js/plugins
+  - assets/js/vendor
+  - config
+  - gulpfile.js
   - log
   - node_modules
   - package.json
-  - Rakefile
-  - README
   - tmp
+  - vendor
 keep_files:
   - .git
   - .svn
@@ -174,7 +181,7 @@ collections:
   publications:
     output: true
     permalink: /:collection/:path/
-  bigdata:
+  portfolio:
     output: true
     permalink: /:collection/:path/
   talks:
@@ -220,10 +227,10 @@ defaults:
       author_profile: true
       share: true
       comments: true
-  # _bigdata
+  # _portfolio
   - scope:
       path: ""
-      type: bigdata
+      type: portfolio
     values:
       layout: single
       author_profile: true
@@ -252,7 +259,7 @@ timezone: America/Los_Angeles # http://en.wikipedia.org/wiki/List_of_tz_database
 
 
 # Plugins
-gems:
+plugins:
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-gist
