@@ -1,0 +1,582 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Building a real-time big data pipeline (part 4: Kafka, Spark Streaming) - Ashok R. Dinasarapu</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Ashok R. Dinasarapu">
+<meta property="og:title" content="Building a real-time big data pipeline (part 4: Kafka, Spark Streaming)">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2020/07/blog-post-kafka-spark-streaming/">
+  <meta property="og:url" content="http://localhost:4000/posts/2020/07/blog-post-kafka-spark-streaming/">
+
+
+
+  <meta property="og:description" content="Apache Kafka is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java.">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-07-04T00:00:00-07:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Ashok R. Dinasarapu",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Ashok R. Dinasarapu Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="http://localhost:4000/images/apple-touch-icon-57x57.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="60x60" href="http://localhost:4000/images/apple-touch-icon-60x60.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="76x76" href="http://localhost:4000/images/apple-touch-icon-76x76.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=M44lzPylqQ">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=M44lzPylqQ" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=M44lzPylqQ" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-96x96.png?v=M44lzPylqQ" sizes="96x96">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=M44lzPylqQ" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=M44lzPylqQ">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=M44lzPylqQ">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-144x144.png?v=M44lzPylqQ">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=M44lzPylqQ">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Ashok R. Dinasarapu</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive/">NGS|Proteomics|BigData</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/big-data/">BigData</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">Résumé</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Scientist, Bioinformatics">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Scientist, Bioinformatics</h3>
+    <p class="author__bio">Emory University</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Atlanta, GA</li>
+      
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> </li>
+      
+      
+      
+        <li><a href="mailto:ashok.reddy.dinasarapu@emory.edu"><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+      
+      
+      
+        <li><a href="https://twitter.com/adinasarapu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fa fa-fw fa-linkedin-square" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+      
+      
+        <li><a href="https://bitbucket.org/adinasarapu"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+      
+      
+        <li><a href="https://github.com/adinasarapu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="ai ai-google-scholar-square ai-fw"></i> Google Scholar</a></li>
+      
+      
+        <li><a href="http://orcid.org/0000-0002-1423-1518"><i class="ai ai-orcid-square ai-fw"></i> ORCID</a></li>
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (part 4: Kafka, Spark Streaming)">
+    <meta itemprop="description" content="Apache Kafka is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java.">
+    <meta itemprop="datePublished" content="July 04, 2020">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 4: Kafka, Spark Streaming)
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  3 minute read
+	
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published/Updated:</strong> <time datetime="2020-07-04T00:00:00-07:00">July 04, 2020</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p><a href="https://kafka.apache.org/">Apache Kafka</a> is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java.</p>
+
+<p>Kafka requires <a href="https://zookeeper.apache.org/">Apache Zookeeper</a> to run. Kafka (v2.5.0) and zookeeper were installed using docker. See my other blog for installations <a href="https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/">Kafka and Zookeeper with Docker</a>.</p>
+
+<p>Once we start Zookeeper and Kafka locally, we can proceed to create our first topic, named “mytopic”:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \  
+   --create \  
+   --topic mytopic \  
+   --partitions 1 \  
+   --replication-factor 1 \  
+   --bootstrap-server localhost:9092  
+</code></pre>
+</div>
+<p>Spark Streaming is an extension of the core Apache Spark platform that enables scalable, high throughput, fault tolerant processing of data streams; written in Scala but offers Java, Python APIs to work with. Spark uses Hadoop’s client libraries for HDFS and YARN. It’s very important to assemble the compatible versions of all of these.</p>
+
+<p>Download, and unzip, Spark (v3.0.0) then add env variables to <code class="highlighter-rouge">~/.bash_profile</code> as</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>export SPARK_HOME="/Users/adinasarapu/spark-3.0.0-preview2-bin-hadoop3.2"  
+export PATH="$PATH:$SPARK_HOME/bin"  
+</code></pre>
+</div>
+
+<p>Once the right package of Spark is unpacked, your will need to add the following jars in the <code class="highlighter-rouge">$SPARK_HOME/jars</code> directory. It’s important to choose the right package depending upon the broker available and features desired. We can pull the following dependencies from Maven Central:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. commons-pool2-2.8.0.jar  
+2. kafka-clients-2.5.0.jar  
+3. spark-sql-kafka-0-10_2.12-3.0.0-preview2.jar  
+4. spark-token-provider-kafka-0-10_2.12-3.0.0-preview2.jar  
+5. spark-streaming-kafka-0-10_2.12-3.0.0-preview2.jar  
+6. kafka_2.12-2.5.0.jar  
+</code></pre>
+</div>
+
+<p>Start the spark-shell using the following command</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$spark-shell  
+</code></pre>
+</div>
+
+<p>Create a simple application in Scala using Spark which will integrate with the Kafka topic we created earlier. The application will read the messages as posted.</p>
+
+<p>We need to initialize the StreamingContext which is the entry point for all Spark Streaming applications:</p>
+
+<p>Stop <code class="highlighter-rouge">SparkContext</code> and create <code class="highlighter-rouge">StreamingContext</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sc.stop  
+
+import org.apache.spark.SparkConf  
+import org.apache.spark.streaming.StreamingContext  
+import org.apache.spark.streaming.Seconds  
+
+val conf = new SparkConf().setMaster("local[*]").setAppName("kafkaReceiver")  
+
+val streamingContext = new StreamingContext(conf, Seconds(10))  
+</code></pre>
+</div>
+
+<p>Now, we can connect to the Kafka topic from the StreamingContext. Please note that we’ve to provide deserializers for key and value here. For common data types like String, the deserializer is available by default. However, if we wish to retrieve custom data types, we’ll have to provide custom deserializers.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>import org.apache.kafka.clients.consumer.ConsumerRecord  
+import org.apache.kafka.common.serialization.StringDeserializer  
+import org.apache.spark.streaming.kafka010._  
+import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent  
+import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe  
+
+val kafkaParams = Map[String, Object](  
+	"bootstrap.servers" -&gt; "localhost:9092",  
+	"key.deserializer" -&gt; classOf[StringDeserializer],  
+	"value.deserializer" -&gt; classOf[StringDeserializer],  
+	"group.id" -&gt; " spark-streaming-consumer-group",  
+	"auto.offset.reset" -&gt; "latest",  
+	"enable.auto.commit" -&gt; (false: java.lang.Boolean))  
+
+val topics = Array("mytopic")  
+
+val stream = KafkaUtils.createDirectStream[String, String](  
+	streamingContext,  
+	PreferConsistent,  
+	Subscribe[String, String](topics, kafkaParams))  
+</code></pre>
+</div>
+
+<p>Here, we’ve obtained InputDStream which is an implementation of Discretized Streams or DStreams, the basic abstraction provided by Spark Streaming. Internally DStreams is nothing but a continuous series of RDDs.</p>
+
+<p>We’ll now perform a series of operations on the InputDStream to obtain our messages. As this is a stream processing application, we would want to keep this running:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>stream.map(record=&gt;(record.value().toString)).print  
+streamingContext.start  
+streamingContext.awaitTermination()  
+</code></pre>
+</div>
+
+<p>Once we start this application and post some messages in the Kafka topic we created earlier, … 
+Then start kafka producer…</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;bash-4.4# ./kafka-console-producer.sh  
+	--broker-list localhost:9092  
+	--topic mytopic
+&gt;hello  
+&gt;here is my message  
+</code></pre>
+</div>
+
+<p>we should see the messages like …</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>-------------------------------------------  
+Time: 1593889650000 ms  
+-------------------------------------------  
+hello  
+
+
+-------------------------------------------  
+Time: 1593889670000 ms  
+-------------------------------------------  
+here is my message  
+</code></pre>
+</div>
+
+<p>Finally, to exit from scala shell</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>scala&gt; :q  
+</code></pre>
+</div>
+
+<p>You can shut down docker-compose by executing the following command in another terminal.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bash-4.4# exit  
+
+$docker-compose down  
+</code></pre>
+</div>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#apache-kafka" class="page__taxonomy-item" rel="tag">apache kafka</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#big-data" class="page__taxonomy-item" rel="tag">big data</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">Bioinformatics</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#docker" class="page__taxonomy-item" rel="tag">docker</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#emory-university" class="page__taxonomy-item" rel="tag">Emory University</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#real-time-data-pipelines" class="page__taxonomy-item" rel="tag">real time data pipelines</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#scala" class="page__taxonomy-item" rel="tag">Scala</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#spark-streaming" class="page__taxonomy-item" rel="tag">Spark Streaming</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#yaml" class="page__taxonomy-item" rel="tag">YAML</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#zookeeper" class="page__taxonomy-item" rel="tag">Zookeeper</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/07/blog-post-kafka-spark-streaming/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/07/blog-post-kafka-spark-streaming/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http://localhost:4000/posts/2020/07/blog-post-kafka-spark-streaming/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/07/blog-post-kafka-spark-streaming/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2020/01/blog-post-tmt/" class="pagination--pager" title="Quantitative proteomics: TMT-based quantitation of proteins
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    </script>
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<!--<a href="/sitemap/">Sitemap</a> -->
+<!-- end custom footer snippets -->
+
+        
+
+<!--
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/adinasarapu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+      <li><a href="http://bitbucket.org/adinasarapu"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 Ashok R. Dinasarapu  | <a href="http://adinasarapu.github.io/terms/" rel="nofollow">Privacy Policy</a>
+
+<!-- Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.--> 
+</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-68614074-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+

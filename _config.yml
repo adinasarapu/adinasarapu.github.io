@@ -82,7 +82,7 @@ author:
   avatar           : "profile.png"
   bio              : "Emory University"
   location         : "Atlanta, GA"
-  employer         : "http://www.emory.edu"
+  employer         : ""
   googlescholar    : "https://scholar.google.com/citations?user=b6GBykAAAAAJ"
   email            : "ashok.reddy.dinasarapu@emory.edu"
   uri              : 
@@ -174,7 +174,7 @@ collections:
   publications:
     output: true
     permalink: /:collection/:path/
-  portfolio:
+  bigdata:
     output: true
     permalink: /:collection/:path/
   talks:
@@ -220,10 +220,10 @@ defaults:
       author_profile: true
       share: true
       comments: true
-  # _portfolio
+  # _bigdata
   - scope:
       path: ""
-      type: portfolio
+      type: bigdata
     values:
       layout: single
       author_profile: true
