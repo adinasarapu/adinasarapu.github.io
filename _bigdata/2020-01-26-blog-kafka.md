@@ -1,7 +1,7 @@
 ---
 title: 'Building a real-time big data pipeline (part 1: Kafka, Spring Boot)'
 date: 2020-04-05
-permalink: /bigdata/2020/01/blog-post-kafka/
+permalink: /big-data/2020/01/blog-post-kafka/
 tags:
   - big data
   - apache kafka

@@ -1,7 +1,7 @@
 ---
 title: 'Building a real-time big data pipeline (part 2: Hadoop, Spark)'
 date: 2020-05-07
-permalink: /bigdata/2020/02/blog-post-spark/
+permalink: /big-data/2020/02/blog-post-spark/
 tags:
   - big data
   - apache spark

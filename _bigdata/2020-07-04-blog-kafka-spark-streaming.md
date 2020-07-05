@@ -1,7 +1,7 @@
 ---
 title: 'Building a real-time big data pipeline (part 4: Kafka, Spark Streaming)'
 date: 2020-07-04
-permalink: /bigdata/2020/07/blog-post-kafka-spark-streaming/
+permalink: /big-data/2020/07/blog-post-kafka-spark-streaming/
 tags:
   - big data
   - apache kafka
