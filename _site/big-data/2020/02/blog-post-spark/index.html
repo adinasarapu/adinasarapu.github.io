@@ -1,0 +1,796 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Building a real-time big data pipeline (part 2: Hadoop, Spark) - Ashok R. Dinasarapu Ph.D</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
+<meta property="og:title" content="Building a real-time big data pipeline (part 2: Hadoop, Spark)">
+
+
+  <link rel="canonical" href="http://localhost:4000/big-data/2020/02/blog-post-spark/">
+  <meta property="og:url" content="http://localhost:4000/big-data/2020/02/blog-post-spark/">
+
+
+
+  <meta property="og:description" content="Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing.  Spark can also work with Hadoop and its modules. The real-time data processing capability makes Spark a top choice for big data analytics.">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-05-07T00:00:00-04:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Ashok R. Dinasarapu",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Ashok R. Dinasarapu Ph.D Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="http://localhost:4000/images/apple-touch-icon-57x57.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="60x60" href="http://localhost:4000/images/apple-touch-icon-60x60.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="76x76" href="http://localhost:4000/images/apple-touch-icon-76x76.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=M44lzPylqQ">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=M44lzPylqQ" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=M44lzPylqQ" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-96x96.png?v=M44lzPylqQ" sizes="96x96">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=M44lzPylqQ" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=M44lzPylqQ">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=M44lzPylqQ">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-144x144.png?v=M44lzPylqQ">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=M44lzPylqQ">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Ashok R. Dinasarapu Ph.D</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/portfolio/">Big Data</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/year-archive/">NGS | Proteomics</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">Résumé</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Scientist, Bioinformatics">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Scientist, Bioinformatics</h3>
+    <p class="author__bio">Emory University</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Atlanta, GA</li>
+      
+      
+      
+      
+        <li><a href="mailto:ashok.reddy.dinasarapu@emory.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i> Email</a></li>
+      
+      
+       
+      
+        <li><a href="https://twitter.com/adinasarapu"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+      
+      
+        <li><a href="https://bitbucket.org/adinasarapu"><i class="fab fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+      
+      
+        <li><a href="https://github.com/adinasarapu"><i class="fab fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="fas fa-fw fa-graduation-cap"></i> Google Scholar</a></li>
+      
+      
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=dinasarapu+ashok+OR+D+ashok+reddy&sort=pubdate"><i class="ai ai-pubmed-square ai-fw"></i> PubMed</a></li>
+      
+      
+        <li><a href="http://orcid.org/0000-0002-1423-1518"><i class="ai ai-orcid-square ai-fw"></i> ORCID</a></li>
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (part 2: Hadoop, Spark)">
+    <meta itemprop="description" content="Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing.  Spark can also work with Hadoop and its modules. The real-time data processing capability makes Spark a top choice for big data analytics.">
+    <meta itemprop="datePublished" content="May 07, 2020">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 2: Hadoop, Spark)
+</h1>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-05-07T00:00:00-04:00">May 07, 2020</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p>Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing.  Spark can also work with Hadoop and its modules. The real-time data processing capability makes Spark a top choice for big data analytics.</p>
+
+<p>The spark core has two parts. 1) Computing engine and 2) Spark Core APIs.</p>
+
+<p>Spark provides APIs in Java, Scala, Python and R <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>. It also supports libraries such as Spark SQL for structured data processing, MLlib for machine learning, GraphX for computing graphs, and Spark Streaming for stream computing.</p>
+
+<p><strong>Apache Spark Ecosystem</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------+-----------+-------+----------+
+| SQL	 | Streaming | MLlib |	GraphX 	|
+|---------------------------------------|
+|	Spark Core API			|	
+|---------------------------------------|
+| Scala	| Python    |	Java |	R	|
+|---------------------------------------|	
+|	Compute Engine			|
++---------------------------------------+
+</code></pre></div></div>
+<p><strong>Spark Computing Engine</strong>: Hadoop MapReduce vs Spark</p>
+
+<p>Apache Hadoop<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> offers distributed storage (HDFS), resource manager (YARN) and computing framework (MapReduce). MapReduce reads and writes from disk, which slows down the processing speed and overall efficiency.</p>
+
+<p>Apache Spark is a distributed processing engine comes with it’s own Spark Standalone cluster manager. However, we can also plugin a cluster manager of our choice such as YARN (the resource manager in Hadoop), Apache Mesos, or Kubernetes. When Spark applications run on YARN, resource management, scheduling, and security are controlled by YARN. Similarly, for the storage system we can use Hadoop’s HDFS, Amazon S3, Google cloud storage or Apache Cassandra. The Spark compute engine provides some basic functionality like memory management, task scheduling, fault recovery and most importantly interacting with the cluster manager and storage system. Spark also has a local mode, where the driver and executors run as threads on your computer instead on a cluster, which is useful for developing your applications from a personal computer.  Spark runs applications up to 100 times faster in memory and 10 times faster on disk than Hadoop by reducing the number of read-write operations to disk and storing intermediate data in-memory<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>.</p>
+
+<p><strong>Spark Core APIs</strong>
+There are 3 alternatives to hold data in Spark. 1) Data Frame 2) Data Set and 3) RDD (Resilient Distributed Dataset). Data Frame and Data Set operate on structured data while RDD operate on unstructured data <sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>. The core APIs (available as Scala, Java, Python and R) facilitate the execution of high-level operators with RDD. RDD allows Spark to transparently store data on the memory, and send to disk only what’s important or needed. As a result, a lot of time that is spent on the disc read and write is saved.</p>
+
+<p><strong>Spark libraries</strong><br />
+Spark libraries such as Spark SQL, Spark Streaming, MLlib and Graphx directly depend on Spark Core APIs to achieve distributed processing.</p>
+
+<p><b>Figure</b>. Spark is fully compatible with the Hadoop eco-system and works smoothly with HDFS (<a href="https://towardsdatascience.com">https://towardsdatascience.com</a>)</p>
+
+<p><img src="/images/hadoop.png" alt="Spark" /></p>
+
+<p>We can create RDDs using one of the two methods. 1) Load data from a source or 2) Create an RDD by transforming another RDD.</p>
+
+<p><strong>RDD: Resilient Distributed Dataset</strong><br />
+Spark RDD is a resilient, partitioned, distributed and immutable collection of data<sup id="fnref:4:1"><a href="#fn:4" class="footnote">4</a></sup>.   <br />
+<strong>Resilient</strong> – RDDs are fault tolerant. If any bug or loss found, RDD has the capability to recover the loss. <br />
+<strong>Partitioned</strong> – Spark breaks the RDD into smaller chunks of data. These pieces are called partitions.<br />
+<strong>Distributed</strong> – Instead of keeping these partitions on a single machine, Spark spreads them across the cluster.<br />
+<strong>Immutable</strong> – Once defined, you can’t change them i.e Spark RDD is a read-only data structure.</p>
+
+<p>For “RDDs vs DataFrames and Datasets - When to use them and why”, see reference <sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup>.</p>
+
+<p><strong>Step 1</strong>: Hadoop installation</p>
+
+<p>See tutorials on</p>
+<ul>
+  <li><a href="https://www.quickprogrammingtips.com/big-data/how-to-install-hadoop-on-mac-os-x-el-capitan.html">How to install and configure Hadoop on Mac</a></li>
+  <li><a href="https://cwiki.apache.org/confluence/display/HADOOP2/GettingStartedWithHadoop">Getting started with Hadoop</a></li>
+</ul>
+
+<p>Update your <code class="language-plaintext highlighter-rouge">~/.bash_profile</code> file, which is a configuration file for configuring user environments.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$vi ~/.bash_profile  
+export HADOOP_HOME=/Users/adinasarapu/Documents/hadoop-3.1.3  
+export PATH=$PATH:$HADOOP_HOME/bin  
+</code></pre></div></div>
+
+<p><strong>Start Hadoop</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">start-dfs.sh</code> - Starts the Hadoop DFS daemons, the namenode and datanodes. Use this before start-mapred.sh<br />
+<code class="language-plaintext highlighter-rouge">stop-dfs.sh</code> - Stops the Hadoop DFS daemons.<br />
+<code class="language-plaintext highlighter-rouge">start-mapred.sh</code> - Starts the Hadoop Map/Reduce daemons, the jobtracker and tasktrackers.<br />
+<code class="language-plaintext highlighter-rouge">stop-mapred.sh</code> - Stops the Hadoop Map/Reduce daemons.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$bash sbin/start-dfs.sh 
+Starting namenodes on [localhost]
+Starting datanodes
+Starting secondary namenodes [Ashoks-MacBook-Pro.local]
+</code></pre></div></div>
+
+<p><strong>Verify Hadoop installation</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ jps
+61073 ResourceManager
+82025 SecondaryNameNode
+61177 NodeManager
+81882 DataNode
+82303 Jps
+81774 NameNode
+</code></pre></div></div>
+
+<p><strong>Create user</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">$hadoop fs -mkdir -p /user/adinasarapu</code></p>
+
+<p><strong>Move file to HDFS (Hadoop Distributed File System)</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">$hadoop fs -copyFromLocal samples.csv /user/adinasarapu</code></p>
+
+<p>Now the data file is at HDFS distributed storage. The file location at HDFS is <code class="language-plaintext highlighter-rouge">hdfs://localhost:9000/user/adinasarapu/samples.csv</code></p>
+
+<p><strong>List files moved</strong><br />
+<code class="language-plaintext highlighter-rouge">$ hadoop fs -ls /user/adinasarapu</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Found 3 items
+-rw-r--r--   1 adinasarapu supergroup  110252495 2020-02-08 17:04 /user/adinasarapu/flist.txt
+-rw-r--r--   1 adinasarapu supergroup       1318 2020-02-09 14:47 /user/adinasarapu/samples.csv
+-rw-r--r--   1 adinasarapu supergroup     303684 2020-02-09 08:21 /user/adinasarapu/survey.csv
+</code></pre></div></div>
+
+<p><strong>Step 2</strong>: Apache Spark installation</p>
+
+<p>For basic configuration see tutorial on <a href="https://medium.com/luckspark/installing-spark-2-3-0-on-macos-high-sierra-276a127b8b85">Installing Apache Spark … on macOS</a><br />
+Update your <code class="language-plaintext highlighter-rouge">~/.bash_profile</code> file, which is a configuration file for configuring user environments.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$vi ~/.bash_profile  
+export SPARK_HOME=/Users/adinasarapu/Documents/spark-3.0.0-preview2-bin-hadoop3.2  
+export PATH=$PATH:$SPARK_HOME/bin  
+</code></pre></div></div>
+
+<p><strong>Start Spark shell</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$spark-shell  
+20/02/09 15:03:23 ..  
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties  
+Setting default log level to "WARN".  
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).  
+Spark context Web UI available at http://192.168.0.5:4040  
+Spark context available as 'sc' (master = local[*], app id = local-1581278612106).  
+Spark session available as 'spark'.  
+Welcome to  
+      ____              __  
+     / __/__  ___ _____/ /__  
+    _\ \/ _ \/ _ `/ __/  '_/  
+   /___/ .__/\_,_/_/ /_/\_\   version 3.0.0-preview2  
+      /_/  
+           
+Using Scala version 2.12.10 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_102)  
+Type in expressions to have them evaluated.  
+Type :help for more information.  
+</code></pre></div></div>
+
+<p><strong>Read data from distributed storage (HDFS)</strong>: csv file</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val df = spark.read.options(Map(  
+	"header" -&gt; "true",  
+	"inferSchema"-&gt;"true",  
+	"nullValue"-&gt;"NA",  
+	"timestampFormat"-&gt;"MM-dd-yyyy",  
+	"mode"-&gt;"failfast")).csv("hdfs://localhost:9000/user/adinasarapu/samples.csv")  
+</code></pre></div></div>
+
+<p><strong>Check the file for content</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; df.show  
+
++------+--------+---+-----+------+-------+-------+---------+-------+  
+|Sample|     p16|Age| Race|   Sex|Anatomy|Smoking|Radiation|  Chemo|  
++------+--------+---+-----+------+-------+-------+---------+-------+  
+|GHN-48|Negative| 68|white|female|    BOT|current|        Y|      Y|  
+|GHN-57|Negative| 50|white|female|    BOT|current|        Y|      Y|  
+|GHN-62|Negative| 71|white|  male|    BOT|  never|        Y|      N|  
+|GHN-76|Negative| 60|   AA|  male| Tonsil| former|        N|      N|  
+|GHN-39|Positive| 51|white|  male|    BOT|  never|        Y|      Y|  
+|GHN-60|Positive| 41|white|  male|    BOT|  never|        Y|      Y|  
+|GHN-64|Positive| 49|white|  male|    BOT|  never|        Y|      Y|  
+|GHN-65|Positive| 63|white|  male|    BOT| former|        Y|      Y|  
+|GHN-69|Positive| 56|white|  male|    BOT|current|        Y|      Y|  
+|GHN-70|Positive| 68|white|  male|    BOT| former|        Y|      Y|  
+|GHN-71|Positive| 59|white|  male|    BOT|  never|        N|      Y|  
+|GHN-77|Positive| 53|   AA|  male|    BOT|  never|        N|      N|  
+|GHN-82|Positive| 67|white|  male|    BOT| former|  Unknown|Unknown|  
+|GHN-43|Positive| 65|white|  male|    BOT| former|        Y|      Y|  
+|GHN-73|Positive| 72|white|female| Tonsil|  never|        Y|      Y|  
+|GHN-40|Positive| 66|white|  male| Tonsil| former|        Y|      Y|  
+|GHN-66|Positive| 52|white|  male| Tonsil|current|        Y|      Y|  
+|GHN-67|Positive| 54|white|  male| Tonsil|  never|        Y|      Y|  
+|GHN-68|Positive| 51|white|  male| Tonsil| former|        Y|      Y|  
+|GHN-79|Positive| 65|white|  male| Tonsil| former|        N|      Y|  
++------+--------+---+-----+------+-------+-------+---------+-------+  
+only showing top 20 rows  
+</code></pre></div></div>
+
+<p><strong>Check the number of partitions</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; df.rdd.getNumPartitions  
+res4: Int = 1  
+</code></pre></div></div>
+
+<p><strong>Set/increase the number of partitions to 3</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val df2 = df.repartition(3).toDF    
+</code></pre></div></div>
+<p><strong>Recheck the number of partitions</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; df2.rdd.getNumPartitions  
+res5: Int = 3  
+</code></pre></div></div>
+
+<p><strong>SQL like operation</strong> <br />
+Data Frame follows row and column structure like a database table. Data Frame compiles down to RDDs. RDDs are immutable; once loaded you can’t modify it. However, you can perform Transformations and and Actions. Spark Data Frames carries the same legacy from RDDs. Like RDDs, Spark Data Frames are immutable. You can perform transformation and actions on Data Frames.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; df.select("Sample","Age","Sex","Anatomy").filter("Age &lt; 55").show  
+  
++------+---+------+-------+  
+|Sample|Age|   Sex|Anatomy|  
++------+---+------+-------+  
+|GHN-57| 50|female|    BOT|  
+|GHN-39| 51|  male|    BOT|  
+|GHN-60| 41|  male|    BOT|  
+|GHN-64| 49|  male|    BOT|  
+|GHN-77| 53|  male|    BOT|  
+|GHN-66| 52|  male| Tonsil|  
+|GHN-67| 54|  male| Tonsil|  
+|GHN-68| 51|  male| Tonsil|  
+|GHN-80| 54|  male| Tonsil|  
+|GHN-83| 54|  male| Tonsil|  
++------+---+------+-------+
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; df.groupBy('Sex).agg(Map("Age" -&gt; "avg")).show  
++------+------------------+  
+|   Sex|          avg(Age)|  
++------+------------------+  
+|female|63.333333333333336|  
+|  male|            58.125|  
++------+------------------+  
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val df1 = df.select("Sex","Radiation")    
+
+scala&gt; df1.show  
++------+---------+  
+|   Sex|Radiation|  
++------+---------+  
+|female|        Y|  
+|female|        Y|  
+|  male|        Y|  
+|  male|        N|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        N|  
+|  male|        N|  
+|  male|  Unknown|  
+|  male|        Y|  
+|female|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        Y|  
+|  male|        N|  
++------+---------+  
+only showing top 20 rows  
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val df2 = df1.select($"Sex",   
+		(when($"Radiation" === "Y",1).otherwise(0)).alias("Yes"),  
+		(when($"Radiation" === "N",1).otherwise(0)).alias("No"),  
+		(when($"Radiation" === "Unknown",1).otherwise(0)).alias("Unknown"))    
+
+scala&gt; df2.show  
++------+-------+-------+-----------+  
+|   Sex|    Yes|     No|    Unknown|  
++------+-------+-------+-----------+  
+|female|      1|      0|          0|  
+|female|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      0|      1|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      0|      1|          0|  
+|  male|      0|      1|          0|  
+|  male|      0|      0|          1|  
+|  male|      1|      0|          0|  
+|female|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      1|      0|          0|  
+|  male|      0|      1|          0|  
++------+-------+-------+-----------+  
+only showing top 20 rows  
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt;df2.groupBy("Sex").agg(Map("Yes" -&gt; "sum", "No" -&gt; "sum", "Unknown" -&gt; "sum")).show  
+
++------+--------+-------+------------+  
+|   Sex|sum(Yes)|sum(No)|sum(Unknown)|  
++------+--------+-------+------------+  
+|female|       3|      0|           0|  
+|  male|      18|      5|           1|  
++------+--------+-------+------------+  
+</code></pre></div></div>
+
+<p><strong>Scala user-defined function (UDF)</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def parseSex(g: String) = {  
+ 	g.toLowerCase match {   
+			case "male"  =&gt; "Male"  
+			case "female" =&gt; "Female"   
+			case _ =&gt; "Other"  
+	}  
+}   
+
+scala&gt; val parseSexUDF = udf(parseSex _)  
+
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val df3 = df2.select((parseSexUDF($"Sex")).alias("Sex"),$"Yes",$"No",$"Unknown")  
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val df4 = df3.groupBy("Sex").agg(sum($"Yes"), sum($"No"), sum($"Unknown"))    
+
+scala&gt; df4.show  
++------+------------+------------+----------------+  
+|   Sex|    sum(Yes)|     sum(No)|    sum(Unknown)|     
++------+------------+------------+----------------+  
+|Female|           3|           0|               0|  
+|  Male|          18|           5|               1|  
++------+------------+------------+----------------+  
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val df5 = df4.filter($"Sex" =!= "Unknown")  
+
+scala&gt; df5.collect()  
+scala&gt; df5.show  
++----+------------+------------+----------------+  
+| Sex|    sum(Yes)|     sum(No)|    sum(Unknown)|  
++----+------------+------------+----------------+  
+|Male|          18|           5|               1|  
++----+------------+------------+----------------+  
+</code></pre></div></div>
+
+<p>Command to stop the interactive shell in Scala:<br />
+scala&gt; Ctrl+D</p>
+
+<h2 id="references">References</h2>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><a href="https://spark.apache.org">Apache Spark</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p><a href="https://hadoop.apache.org">Apache Hadoop</a> <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p><a href="https://dx.doi.org/10.1093%2Fgigascience%2Fgiy098">Bioinformatics applications on Apache Spark</a> <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p><a href="https://www.learningjournal.guru/courses/spark/spark-foundation-training/">Learning Journal</a> <a href="#fnref:4" class="reversefootnote">&#8617;</a> <a href="#fnref:4:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:5">
+      <p><a href="https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html">RDDs vs Data Frames and Data Sets</a> A Tale of Three Apache Spark APIs: RDDs vs DataFrames and Datasets - When to use them and why <a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#apache-spark" class="page__taxonomy-item" rel="tag">apache spark</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#big-data" class="page__taxonomy-item" rel="tag">big data</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">Bioinformatics</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#emory-university" class="page__taxonomy-item" rel="tag">Emory University</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#hadoop" class="page__taxonomy-item" rel="tag">hadoop</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#hdfs" class="page__taxonomy-item" rel="tag">HDFS</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#real-time-data-pipelines" class="page__taxonomy-item" rel="tag">real time data pipelines</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#scala" class="page__taxonomy-item" rel="tag">scala</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#yarn" class="page__taxonomy-item" rel="tag">YARN</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/big-data/2020/02/blog-post-spark/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/big-data/2020/02/blog-post-spark/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/big-data/2020/02/blog-post-spark/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2020/01/blog-post-kafka/" class="pagination--pager" title="Building a real-time big data pipeline (part 1: Kafka, Spring Boot)
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2020/02/blog-post-spark-sql/" class="pagination--pager" title="Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL)
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<!--<a href="/sitemap/">Sitemap</a>-->
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/adinasarapu"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+      <li><a href="http://bitbucket.org/adinasarapu"><i class="fab fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+    
+    <!--<li><a href="http://localhost:4000/feed.xml">
+	<i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>-->
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 Ashok R. Dinasarapu. 350 Whitehead Biomedical Research Building,
+Emory University, Atlanta, GA 30322.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-68614074-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
