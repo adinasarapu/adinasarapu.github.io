@@ -15,10 +15,10 @@ Previously, at Emory Vaccine Center, I worked in [Human Immunology Project Conso
 
 **RESEARCH**  
 *Integrative analysis of multi-omics data for discovery and functional studies of rare human genetic diseases.* Lesch-Nyhan disease (LND) is an inherited disorder caused by pathogenic variants in the HPRT1 gene, which encodes the purine recycling enzyme hypoxanthine-guanine phosphoribosyltransferase (HGprt). We generated 6 induced pluripotent stem cell (iPSC) lines from individuals affected LND, along with controls. These cell lines provided novel insights and applications for modeling LND.   
-![Lesch-Nyhan-Disease](/images/lnd.png)  
+![Lesch-Nyhan-Disease](/images/illustration1.png)  
 
 *Signatures of somatic mutations from HPV-positive head and neck squamous cell carcinomas (HNSCC).* Human papilloma virus (HPV) causes a subset of HNSCC of the oropharynx. We combined DNA-Seq and RNA-Seq data to identify genetic variants and gene expression signatures respectively from patients with HNSCC including oropharyngeal squamous cell carcinomas (OPSCC).
-![/cancer_mutations](/images/hnsc.png)  
+![/cancer_mutations](/images/illustration2.png)  
 
 *Rectal microbiome composition correlates with humoral immunity to HIV-1 in vaccinated rhesus macaques.* We assessed the longitudinal changes in vaginal and rectal microbiome profiles following intradermal immunization with an HIV-1 DNA vaccine in adult rhesus macaques that received two prior DNA primes. The rectal and vaginal (CVL) microbiota showed compositional differences at lower taxonomic levels. As demonstrated by the linear discriminant analysis effect size (LEfSe) plot, microbiome in vaginal and rectal compartments demonstrated characteristic phylotype abundances.
 ![/cladogram](/images/cladogram.png)  
