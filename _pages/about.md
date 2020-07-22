@@ -21,5 +21,5 @@ Previously, at Emory Vaccine Center, I worked in [Human Immunology Project Conso
 ![/cancer_mutations](/images/illustration2.png)  
 
 *Rectal microbiome composition correlates with humoral immunity to HIV-1 in vaccinated rhesus macaques.* We assessed the longitudinal changes in vaginal and rectal microbiome profiles following intradermal immunization with an HIV-1 DNA vaccine in adult rhesus macaques that received two prior DNA primes. The rectal and vaginal (CVL) microbiota showed compositional differences at lower taxonomic levels. As demonstrated by the linear discriminant analysis effect size (LEfSe) plot, microbiome in vaginal and rectal compartments demonstrated characteristic phylotype abundances.
-![/cladogram](/images/cladogram.png)  
+![/cladogram](/images/illustration3.png)  
 
