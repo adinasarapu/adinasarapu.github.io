@@ -5,7 +5,7 @@ permalink: /posts/2020/01/blog-post-kafka/
 tags:
   - big data
   - apache kafka
-  - real time data pipelines 
+  - real time data pipeline
   - java
   - docker
   - Spring Boot 
@@ -15,6 +15,8 @@ tags:
   - Emory University 
 
 ---  
+*Updated on August 01, 2020*  
+
 [Kafka](https://kafka.apache.org) is used for building real-time data pipelines and streaming apps.  
 
 What is Kafka? [Getting started with kafka](https://success.docker.com/article/getting-started-with-kafka) says *Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo 'data' >> file.dat), and consumers subscribe to a certain file (tail -f file.dat)*. In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper to store metadata about producers, topics and partitions.  
@@ -162,7 +164,8 @@ bash-4.4# ./kafka-console-producer.sh \
 ^C
 ```
 
-The following is a command line to read data from a Kafka topic and write it to standard output.  
+**Reading data from a Kafka topic**  The following is a command line to read data from a Kafka topic and write it to standard output.  
+
 ```  
 bash-4.4# ./kafka-console-consumer.sh \
  --bootstrap-server localhost:9092 \
@@ -174,7 +177,7 @@ World
 ^CProcessed a total of 2 messages  
 ```  
 
-**Another way of reading data from a Kafka topic is by simply using a Spring Boot application**.  
+Another way of reading data from a Kafka topic is by simply using a **Spring Boot application**.  
 
 The following demonstrates how to receive messages from Kafka Topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka Topic. Then I create a Spring Kafka Producer, which is able to send messages to a Kafka Topic.  
 
@@ -182,14 +185,13 @@ The following demonstrates how to receive messages from Kafka Topic. First in th
 
 ![Java](/images/kafka-producer-consumer-java.png)  
 
-The first step to create a simple **Spring Boot Maven Application** is [Starting with Spring Initializr](https://spring.io/guides/gs/spring-boot/) and make sure to have spring-kafka dependency to `pom.xml`.  
-
-```  
-<dependency>  
-  <groupId>org.springframework.kafka</groupId>  
-  <artifactId>spring-kafka</artifactId>  
-</dependency>  
-```  
+Download [Spring Tool Suite4](https://spring.io/tools) and install it.    
+At Eclipse IDE’s Package Explorer click “Create new Spring Starter Project” and  
+Name: SpringBootKafka  
+Project type: Maven  
+Spring Boot Version: 2.3.2  
+Search “kafka” at New Spring Starter Project Dependencies and select “Spring for Apache Kafka“  
+Click Finish.  
 
 `SpringBootKafkaApplication.java` class (The Spring Initializr creates the following simple application class for you)
 
@@ -286,7 +288,22 @@ Make sure to have spring-web dependency to `pom.xml`.
 </dependency>  
 ```  
 
-Add two new java classes `KafkaController.java` and `KafkaProducer.java`  
+Add two new java classes `KafkaProducer.java` and `KafkaController.java`  
+
+```
+@Service  
+public class KafkaProducer {  
+        private static final String TOPIC = "mytopic";  
+
+        @Autowired  
+        private KafkaTemplate<String, String> kafkaTemplate;  
+
+        public void sendMessage(String message) {  
+                kafkaTemplate.send(TOPIC, message);  
+                System.out.println("Produced message: " + message);  
+        }  
+}   
+```    
 
 ```
 @RestController  
@@ -302,21 +319,6 @@ public class KafkaController {
 	@PostMapping(value="/publish")  
 	public void messagePrint(@RequestParam(value="message", required = false) String message) {  
 		this.producer.sendMessage(message);  
-	}  
-}  
-```  
-
-```  
-@Service  
-public class KafkaProducer {  
-	private static final String TOPIC = "mytopic";  
-
-	@Autowired  
-	private KafkaTemplate<String, String> kafkaTemplate;  
-	
-	public void sendMessage(String message) {  
-		kafkaTemplate.send(TOPIC, message);  
-		System.out.println("Produced message: " + message);  
 	}  
 }  
 ```  
@@ -364,3 +366,4 @@ See Eclipse Console for messages:
 Produced message: hello  
 Consumed message: hello
 ```  
+  
