@@ -14,6 +14,8 @@ tags:
   - HDFS
 
 ---  
+*Updated on May 07, 2020*  
+
 Apache Spark is a general-purpose, in-memory cluster computing engine  for large scale data processing.  Spark can also work with Hadoop and its modules. The real-time data processing capability makes Spark a top choice for big data analytics.  
 
 The spark core has two parts. 1) Computing engine and 2) Spark Core APIs.  

@@ -366,4 +366,11 @@ See Eclipse Console for messages:
 Produced message: hello  
 Consumed message: hello
 ```  
-  
+
+You can shut down docker-compose by executing the following command in another terminal.  
+
+```  
+bash-4.4# exit  
+
+$docker-compose down  
+```    

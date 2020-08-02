@@ -17,10 +17,11 @@ tags:
   - Emory University 
 
 ---  
+*Updated on August 02, 2020*  
 
 [Apache Kafka](https://kafka.apache.org/) is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java.  
 
-Kafka requires [Apache Zookeeper](https://zookeeper.apache.org/) to run. Kafka (v2.5.0) and zookeeper were installed using docker. See my other blog for installations [Kafka and Zookeeper with Docker](https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/).  
+Kafka requires [Apache Zookeeper](https://zookeeper.apache.org/) to run. Kafka (v2.12 scala; v2.5.0 kafka) and zookeeper (v3.4.13) were installed using docker. See my other blog for installation [Kafka and Zookeeper with Docker](https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/).  
 
 Once we start Zookeeper and Kafka locally, we can proceed to create our first topic, named “mytopic”:  
 
@@ -32,12 +33,15 @@ bash-4.4# ./kafka-topics.sh \
    --replication-factor 1 \  
    --bootstrap-server localhost:9092  
 ```  
-Spark Streaming is an extension of the core Apache Spark platform that enables scalable, high throughput, fault tolerant processing of data streams; written in Scala but offers Java, Python APIs to work with. Spark uses Hadoop's client libraries for HDFS and YARN. It’s very important to assemble the compatible versions of all of these.  
 
-Download, and unzip, Spark (v3.0.0) then add env variables to `~/.bash_profile` as  
+*Spark Streaming* is an extension of the core *Apache Spark* platform that enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Java, Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. This data can be further processed using complex algorithms. The final output, which is the processed data can be pushed out to destinations such as HDFS filesystems, databases, and live dashboards. Spark Streaming allows you to use *Machine Learning* and *Graph Processing* to the data streams for advanced data processing. Spark uses Hadoop's client libraries for HDFS and YARN.  
+
+Figure source [https://www.cuelogic.com](https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka)
+![spark-streaming](/images/spark-streaming.png)  
+It’s very important to assemble the compatible versions of all of these. Download, and unzip, [Spark 3.0.0](https://spark.apache.org/downloads.html) pre-built for Apache 3.2 and later (Scala 2.12 compatible); then add env variables to `~/.bash_profile` as  
   
 ```
-export SPARK_HOME="/Users/adinasarapu/spark-3.0.0-preview2-bin-hadoop3.2"  
+export SPARK_HOME="/<path_to_installation_dir>/spark-3.0.0-bin-hadoop3.2"  
 export PATH="$PATH:$SPARK_HOME/bin"  
 ```
 
@@ -60,7 +64,7 @@ $spark-shell
 
 Create a simple application in Scala using Spark which will integrate with the Kafka topic we created earlier. The application will read the messages as posted.  
 
-We need to initialize the StreamingContext which is the entry point for all Spark Streaming applications:  
+We need to initialize the *StreamingContext* which is the entry point for all Spark Streaming applications:  
 
 Stop `SparkContext` and create `StreamingContext`.  
 
@@ -101,7 +105,12 @@ val stream = KafkaUtils.createDirectStream[String, String](
 	Subscribe[String, String](topics, kafkaParams))  
 ```
 
-Here, we've obtained InputDStream which is an implementation of Discretized Streams or DStreams, the basic abstraction provided by Spark Streaming. Internally DStreams is nothing but a continuous series of RDDs.  
+Spark Streaming provides a high-level abstraction that represents a continuous data stream. This abstraction of the data stream is called discretized stream or DStream. This DStream can either be created from the data streams from the sources such as Kafka, Flume, and Kinesis or other DStreams by applying high-level operations on them.
+
+Here, we've obtained InputDStream which is an implementation of Discretized Streams or DStreams, the basic abstraction provided by Spark Streaming. Internally DStreams is nothing but a continuous series of RDDs (Resilient Distributed Dataset).  
+
+Figure source [https://www.cuelogic.com](https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka)  
+![DStreams-sequences](/images/DStreams-sequences.png)  
 
 We'll now perform a series of operations on the InputDStream to obtain our messages. As this is a stream processing application, we would want to keep this running:  
 

@@ -14,6 +14,8 @@ tags:
   - Emory Uiversity
 
 ---  
+*Updated on June 22, 2020*  
+
 Apache Spark is an open-source cluster computing system that provides high-level API in Java, Scala, Python and R.  
 
 Spark also packaged with higher-level libraries for SQL, machine learning, streaming, and graphs. Spark SQL is Spark’s package for working with structured data [^1].  
