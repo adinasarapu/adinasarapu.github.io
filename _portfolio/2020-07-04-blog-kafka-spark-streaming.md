@@ -66,7 +66,7 @@ Create a simple application in Scala using Spark which will integrate with the K
 
 We need to initialize the *StreamingContext* which is the entry point for all Spark Streaming applications:  
 
-Stop `SparkContext` and create `StreamingContext`.  
+Stop `SparkContext` and create `StreamingContext`. You can create a *StreamingContext* by using an existing *SparkContext* or by providing the configuration (conf) necessary for a new one   
 
 ```  
 sc.stop  
@@ -93,7 +93,7 @@ val kafkaParams = Map[String, Object](
 	"bootstrap.servers" -> "localhost:9092",  
 	"key.deserializer" -> classOf[StringDeserializer],  
 	"value.deserializer" -> classOf[StringDeserializer],  
-	"group.id" -> " spark-streaming-consumer-group",  
+	"group.id" -> "spark-streaming-consumer-group",  
 	"auto.offset.reset" -> "latest",  
 	"enable.auto.commit" -> (false: java.lang.Boolean))  
 
@@ -120,8 +120,7 @@ streamingContext.start
 streamingContext.awaitTermination()  
 ```
 
-Once we start this application and post some messages in the Kafka topic we created earlier, … 
-Then start kafka producer...
+Once we start this application and post some messages in the Kafka topic we created earlier,
 
 ```  
 >bash-4.4# ./kafka-console-producer.sh  
@@ -137,7 +136,6 @@ we should see the messages like ...
 Time: 1593889650000 ms  
 -------------------------------------------  
 hello  
-
 
 -------------------------------------------  
 Time: 1593889670000 ms  
