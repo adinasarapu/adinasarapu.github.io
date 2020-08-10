@@ -97,7 +97,7 @@ For pipeline output directory, the `--id` argument is used i.e 10XGTX_v3.
 
 **for Feature Barcode Analysis**  
 
-Tested on Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay) data  
+Tested on Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay) data. For more information, please visit the [Single Cell Gene Expression with Feature Barcoding](https://support.10xgenomics.com/single-cell-gene-expression/overview/doc/getting-started-single-cell-gene-expression-with-feature-barcoding-technology) page (Single Cell 3') or the [Single Cell Immune Profiling Feature Barcoding](https://support.10xgenomics.com/single-cell-vdj/overview/doc/getting-started-immune-profiling-feature-barcoding) page (Single Cell 5').  
 
 To enable Feature Barcode analysis, `cellranger count` needs two inputs:  
 
