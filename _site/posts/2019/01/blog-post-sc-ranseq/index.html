@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Running cellranger as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.">
+  <meta property="og:description" content="Updated on August 10, 2020">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Single cell RNA-seq data analysis using CellRanger and Seurat on Cluster">
-    <meta itemprop="description" content="Running cellranger as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.">
+    <meta itemprop="description" content="Updated on August 10, 2020">
     <meta itemprop="datePublished" content="November 18, 2019">
     
 
@@ -279,7 +279,7 @@
 
 
   
-	  3 minute read
+	  5 minute read
 	
 </p>
           
@@ -296,7 +296,9 @@
       
 
       <section class="page__content" itemprop="text">
-        <p>Running <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger">cellranger</a> as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.</p>
+        <p><em>Updated on August 10, 2020</em></p>
+
+<p>Running <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger">cellranger</a> as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.</p>
 
 <p>There are 4 steps to analyze Chromium Single Cell data<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>.</p>
 
@@ -307,14 +309,14 @@
 
 <p>Running pipelines on cluster requires the following:</p>
 
-<p><strong>1</strong>. Load Cell Ranger module (<code class="language-plaintext highlighter-rouge">cellranger-3.1.0</code>)<sup id="fnref:1:1"><a href="#fn:1" class="footnote">1</a></sup> or, download and uncompress cellranger at your <code class="language-plaintext highlighter-rouge">$HOME</code> directory and add PATH in <code class="language-plaintext highlighter-rouge">~/.bashrc</code>.</p>
+<p><strong>1</strong>. Download and uncompress <code class="language-plaintext highlighter-rouge">cellranger-4.0.0</code><sup id="fnref:1:1"><a href="#fn:1" class="footnote">1</a></sup> at your <code class="language-plaintext highlighter-rouge">$HOME</code> directory and add PATH in <code class="language-plaintext highlighter-rouge">~/.bashrc</code>.</p>
 
-<p><strong>2</strong>. Update job config file (<code class="language-plaintext highlighter-rouge">cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/config.json</code>) for threads and memory. For example</p>
+<p><strong>2</strong>. Update job config file (<code class="language-plaintext highlighter-rouge">cellranger-4.0.0/martian-cs/vx.x.x/jobmanagers/config.json</code>) for threads and memory. For example</p>
 
 <p><code class="language-plaintext highlighter-rouge">"threads_per_job": 20,</code><br />
 <code class="language-plaintext highlighter-rouge">"memGB_per_job": 150,</code></p>
 
-<p><strong>3</strong>. Update template file (<code class="language-plaintext highlighter-rouge">cellranger-3.1.0/martian-cs/v3.2.3/jobmanagers/sge.template</code>).</p>
+<p><strong>3</strong>. Update template file (<code class="language-plaintext highlighter-rouge">cellranger-4.0.0/martian-cs/vx.x.x/jobmanagers/sge.template</code>).</p>
 
 <p><code class="language-plaintext highlighter-rouge">#!/bin/bash</code><br />
 <code class="language-plaintext highlighter-rouge">#$ -pe smp __MRO_THREADS__</code><br />
@@ -324,7 +326,7 @@
 <code class="language-plaintext highlighter-rouge">#$ -m abe</code><br />
 <code class="language-plaintext highlighter-rouge">#$ -M &lt;e-mail&gt;</code><br />
 <code class="language-plaintext highlighter-rouge">cd __MRO_JOB_WORKDIR__</code><br />
-<code class="language-plaintext highlighter-rouge">source $HOME/cellranger-3.1.0/sourceme.bash</code></p>
+<code class="language-plaintext highlighter-rouge">source $HOME/cellranger-4.0.0/sourceme.bash</code></p>
 
 <p>For clusters whose job managers do not support memory requests, it is possible to request memory 
 in the form of cores via the <code class="language-plaintext highlighter-rouge">--mempercore</code> command-line option. This option scales up the number 
@@ -335,7 +337,7 @@ see more at <a href="https://support.10xgenomics.com/single-cell-gene-expression
 
 <p><strong>5</strong>. Create <code class="language-plaintext highlighter-rouge">sge.sh</code> file</p>
 
-<p><code class="language-plaintext highlighter-rouge">TR="$HOME/refdata-cellranger-GRCh38-3.0.0"</code></p>
+<p><code class="language-plaintext highlighter-rouge">TR="$HOME/refdata-gex-GRCh38-2020-A"</code></p>
 
 <p><strong>for Single Cell 3′ Gene expression</strong></p>
 
@@ -362,7 +364,7 @@ see more at <a href="https://support.10xgenomics.com/single-cell-gene-expression
 
 <p><code class="language-plaintext highlighter-rouge">FASTQS="$HOME/vdj_v1_hs_nsclc_5gex_fastqs"</code></p>
 
-<h2 id="use-either-force-cells-or-expect-cells">use either –force-cells or –expect-cells</h2>
+<p><em>use either –force-cells or –expect-cells</em></p>
 
 <p><code class="language-plaintext highlighter-rouge">cellranger count \</code><br />
   <code class="language-plaintext highlighter-rouge">--id=10XGTX_v5 \</code><br />
@@ -375,10 +377,98 @@ see more at <a href="https://support.10xgenomics.com/single-cell-gene-expression
   <code class="language-plaintext highlighter-rouge">--maxjobs=3 \</code><br />
   <code class="language-plaintext highlighter-rouge">--jobinterval=2000</code></p>
 
-<p><strong>for Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay)</strong></p>
+<p><strong>for Feature Barcode Analysis</strong></p>
 
-<p><code class="language-plaintext highlighter-rouge">LIBRARY=$HOME/vdj_v1_hs_pbmc2_5gex_protein_fastqs/vdj_v1_hs_pbmc2_5gex_protein_library.csv</code><br />
-<code class="language-plaintext highlighter-rouge">FEATURE_REF=$HOME/vdj_v1_hs_pbmc2_5gex_protein_fastqs/vdj_v1_hs_pbmc2_5gex_protein_feature_ref.csv</code></p>
+<p>Tested on Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay) data</p>
+
+<p>To enable Feature Barcode analysis, <code class="language-plaintext highlighter-rouge">cellranger count</code> needs two inputs:</p>
+
+<p>First you need a csv file declaring input library data sources; one for the normal single-cell gene expression reads, and one for the Feature Barcode reads (the FASTQ file directory and library type for each input dataset).</p>
+
+<p><code class="language-plaintext highlighter-rouge">LIBRARY=$HOME/vdj_v1_hs_pbmc2_5gex_protein_fastqs/vdj_v1_hs_pbmc2_5gex_protein_library.csv</code></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>fastqs</th>
+      <th>sample</th>
+      <th>library_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>/path/to/antibody_fastqs</td>
+      <td>vdj_v1_hs_pbmc2_antibody</td>
+      <td>Antibody Capture</td>
+    </tr>
+    <tr>
+      <td>/path/to/gene_expression_fastqs</td>
+      <td>vdj_v1_hs_pbmc2_5gex</td>
+      <td>Gene Expression</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Second, you need Feature reference csv file, declaring feature-barcode constructs and associated barcodes. The pattern will be used to extract the Feature Barcode sequence from the read sequence.</p>
+
+<p><code class="language-plaintext highlighter-rouge">FEATURE_REF=$HOME/vdj_v1_hs_pbmc2_5gex_protein_fastqs/vdj_v1_hs_pbmc2_5gex_protein_feature_ref.csv</code></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>name</th>
+      <th>read</th>
+      <th>pattern</th>
+      <th>sequence</th>
+      <th>feature_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CD3</td>
+      <td>CD3_TotalSeqC</td>
+      <td>R2</td>
+      <td>5PNNNNNNNNNN(BC)NNNNNNNNN</td>
+      <td>CTCATTGTAACTCCT</td>
+      <td>Antibody Capture</td>
+    </tr>
+    <tr>
+      <td>CD19</td>
+      <td>CD19_TotalSeqC</td>
+      <td>R2</td>
+      <td>5PNNNNNNNNNN(BC)NNNNNNNNN</td>
+      <td>CTGGGCAATTACTCG</td>
+      <td>Antibody Capture</td>
+    </tr>
+    <tr>
+      <td>CD45RA</td>
+      <td>CD45RA_TotalSeqC</td>
+      <td>R2</td>
+      <td>5PNNNNNNNNNN(BC)NNNNNNNNN</td>
+      <td>TCAATCCTTCCGCTT</td>
+      <td>Antibody Capture</td>
+    </tr>
+    <tr>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Feature and Library Types</em> - When inputting Feature Barcode data to Cell Ranger via the Libraries CSV File, you must declare the library_type of each library. Examples include <em>Antibody Capture</em>, <em>CRISPR Guide Capture</em> or <em>Custom</em>. If your assay scheme creates a library containing multiple library_types, for example if you’re using CRISPR Guide Capture and Antibody Capture features, you will need to run Cell Ranger multiple times, passing different library_type values in the Libraries CSV File. If Targeted Gene Expression data is analyzed in conjunction with CRISPR-based Feature Barcode data, there are additional requirements imposed for the Feature Reference CSV file.</p>
+
+<p><a href="https://www.biolegend.com/en-us/totalseq">TotalSeq™ Reagents for Single-Cell Proteogenomics</a></p>
+
+<p><a href="https://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_feature_ref.csv">TotalSeq™-B</a> is a line of antibody-oligonucleotide conjugates supplied by BioLegend that are compatible with the Single Cell 3’ v3 assay.<br />
+<a href="https://support.10xgenomics.com/csv/vdj_v1_hs_pbmc2_5gex_protein_feature_ref.csv">TotalSeq™-C</a> is a line of antibody-oligonucleotide conjugates supplied by BioLegend that are compatible with the Single Cell 5’ assay.<br />
+<a href="https://support.10xgenomics.com/csv/TotalSeqA_example_feature_ref.csv">TotalSeq™-A</a> is a line of antibody-oligonucleotide conjugates supplied by BioLegend that are compatible with the Single Cell 3’ v2 and Single Cell 3’ v3 kits. Although TotalSeq™-A can be used with the CITE-Seq assay, CITE-Seq is not a 10x supported assay.</p>
+
+<p><em>“The pipeline first extracts and corrects the cell barcode and UMI from the feature library using the same methods as gene expression read processing. It then matches the Feature Barcode read against the list of features declared in the above <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/feature-bc-analysis#feature-ref">Feature Barcode Reference</a>. The counts for each feature are available in the feature-barcode matrix output files.”</em></p>
 
 <p><code class="language-plaintext highlighter-rouge">cellranger count \</code><br />
  <code class="language-plaintext highlighter-rouge">--libraries=${LIBRARY} \</code><br />
@@ -416,7 +506,7 @@ see more at <a href="https://support.10xgenomics.com/single-cell-gene-expression
 <p>Then access the UI using the following URL in your web browser
 <code class="language-plaintext highlighter-rouge">http://localhost:9000/</code></p>
 
-<p><strong>8</strong>. Single Cell Integration in Seurat v3.0</p>
+<p><strong>8</strong>. Single Cell Integration in Seurat v3.1.5</p>
 
 <p>Seurat is an R package designed for QC, analysis, and exploration of single cell RNA-seq data. Seurat aims to enable users to identify and interpret sources of heterogeneity from single cell transcriptomic measurements, and to integrate diverse types of single cell data. Seurat starts by reading cellranger data (barcodes.tsv.gz, features.tsv.gz and matrix.mtx.gz)</p>
 
