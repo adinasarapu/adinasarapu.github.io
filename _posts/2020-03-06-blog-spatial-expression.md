@@ -1,5 +1,5 @@
 ---
-title: 'Spatial RNA-seq data analysis using Space Ranger on SGE Cluster'
+title: 'Spatial gene expression data analysis on Cluster (10X Genomics, Space Ranger)'
 date: 2020-03-06
 permalink: /posts/2020/03/blog-spatial-gene-expression/
 tags:
