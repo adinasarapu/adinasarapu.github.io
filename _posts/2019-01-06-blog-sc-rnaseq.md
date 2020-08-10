@@ -1,5 +1,5 @@
 ---
-title: 'Single cell gene expression data analysis on Cluster (10X Genomics, CellRanger and Seurat)'
+title: 'Single cell gene expression data analysis on Cluster (10X Genomics, Cell Ranger and Seurat)'
 date: 2019-11-18
 permalink: /posts/2019/01/blog-post-sc-ranseq/
 tags:
