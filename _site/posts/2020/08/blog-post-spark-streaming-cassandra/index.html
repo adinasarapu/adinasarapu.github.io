@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on August 08, 2020">
+  <meta property="og:description" content="Updated on August 12, 2020">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (part 5: Cassandra, NoSQL Database)">
-    <meta itemprop="description" content="Updated on August 08, 2020">
+    <meta itemprop="description" content="Updated on August 12, 2020">
     <meta itemprop="datePublished" content="August 08, 2020">
     
 
@@ -288,12 +288,12 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on August 08, 2020</em></p>
+        <p><em>Updated on August 12, 2020</em></p>
 
-<p><a href="https://cassandra.apache.org">Apache Cassandra</a> is a distributed NoSQL database which is used for handling Big data and real-time web applications. NoSQL stands for “Not Only SQL” or “Not SQL”. NoSQL database is a non-relational data management system, that does not require a fixed schema.</p>
+<p><a href="https://cassandra.apache.org">Apache Cassandra</a> is a distributed NoSQL database (DB) which is used for handling Big data and real-time web applications. NoSQL stands for “Not Only SQL” or “Not SQL”. NoSQL database is a non-relational data management system, that does not require a fixed schema.</p>
 
 <p>Why NoSQL?<br />
-The system response time becomes slow when you use RDBMS for massive volumes of data. The alternative for this issue is to distribute database load on multiple hosts whenever the load increase.</p>
+The system response time becomes slow when you use RDBMS for massive volumes of data. The alternative for this issue is to distribute DB load on multiple hosts whenever the load increase.</p>
 
 <p>NoSQL databases are mainly categorized into four types:</p>
 <ol>
@@ -303,9 +303,18 @@ The system response time becomes slow when you use RDBMS for massive volumes of 
   <li>document-oriented (e.g . MongoDB)</li>
 </ol>
 
-<p>Every category has its unique attributes and limitations. None of the above-specified database is better to solve all the problems. Users should select the database based on their product need.</p>
+<p>Every category has its unique attributes and limitations. None of the above-specified DB is better to solve all the problems. Users should select the DB based on their product need.</p>
 
-<p>How to connect Cassandra to localhost using cqlsh?</p>
+<p><a href="https://stackoverflow.com/questions/2634955/when-not-to-use-cassandra">Cassandra is a good choice</a> if</p>
+<ol>
+  <li>You don’t require the ACID properties from your DB.</li>
+  <li>There would be massive and huge number of writes on the DB.</li>
+  <li>There is a requirement to integrate with Big Data, Hadoop, Hive and Spark.</li>
+  <li>There is a need of real time data analytics and report generations.</li>
+  <li>There is a requirement of impressive fault tolerant mechanism.</li>
+  <li>There is a requirement of homogenous system.</li>
+  <li>There is a requirement of lots of customization for tuning.</li>
+</ol>
 
 <p><strong>Step 1: Check installed java versions</strong></p>
 
@@ -318,33 +327,30 @@ The system response time becomes slow when you use RDBMS for massive volumes of 
 
 <p>In my case, cassandra is not working with Java 14.0.2, so I changed default Java JVM to Java 1.8.</p>
 
-<p>Add JAVA_HOME to ~/.bash_profile.</p>
+<p>Add JAVA_HOME to <code class="language-plaintext highlighter-rouge">~/.bash_profile</code></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home"  
 </code></pre></div></div>
 
-<p>Reload .bash_profile <code class="language-plaintext highlighter-rouge">source ~/.bash_profile</code></p>
+<p>Reload .bash_profile using <code class="language-plaintext highlighter-rouge">source ~/.bash_profile</code></p>
 
 <p><strong>Step 2: Download <a href="https://cassandra.apache.org/download/">Cassandra</a></strong></p>
 
-<p><code class="language-plaintext highlighter-rouge">Add CASSANDRA_HOME to ~/.bash_profile</code></p>
+<p>Add CASSANDRA_HOME to <code class="language-plaintext highlighter-rouge">~/.bash_profile</code></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export CASSANDRA_HOME="/Users/adinasa/bigdata/apache-cassandra-3.11.7"  
 export PATH="$PATH:$CASSANDRA_HOME/bin"
 </code></pre></div></div>
 
-<p>Reload .bash_profile <code class="language-plaintext highlighter-rouge">source ~/.bash_profile</code></p>
+<p>Reload .bash_profile using <code class="language-plaintext highlighter-rouge">source ~/.bash_profile</code></p>
 
 <p><strong>Step 3: Start Cassandra and cqlsh</strong></p>
 
-<p>To start Cassandra run the following command at terminal <code class="language-plaintext highlighter-rouge">cassandra -f</code></p>
+<p>To start Cassandra, run <code class="language-plaintext highlighter-rouge">cassandra -f</code></p>
 
 <p><code class="language-plaintext highlighter-rouge">cqlsh</code> is a command line shell for interacting with Cassandra through CQL (the CassandraQuery Language).</p>
 
-<p>You may need to reload your <code class="language-plaintext highlighter-rouge">~/.bash_profile</code></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source ~/.bash_profile  
-</code></pre></div></div>
+<p>You may need to reload your .bash_profile using <code class="language-plaintext highlighter-rouge">source ~/.bash_profile</code></p>
 
 <p>Run the following command at terminal <code class="language-plaintext highlighter-rouge">cqlsh</code></p>
 
@@ -356,14 +362,21 @@ cqlsh&gt;
 
 <p>Complete list of CQL commands are available at <a href="https://docs.datastax.com/en/cql-oss/3.x/cql/cql_reference/cqlCommandsTOC.html">cqlCommandsTOC</a></p>
 
+<p>A <strong>keyspace</strong> is the top-level DB object that controls the replication for the object it contains at each datacenter in the cluster. Keyspaces contain tables, materialized views and user-defined types, functions and aggregates.</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cqlsh&gt; DESCRIBE KEYSPACES;  
 cqlsh&gt; USE system_auth; DESC TABLES  
-cqlsh&gt; DESCRIBE TABLE system_auth.role_members  
+cqlsh&gt; DESC TABLE system_auth.role_members  
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cqlsh&gt; select release_version from system.local;  
 </code></pre></div></div>
 
 <p><strong>Step 4: Java application</strong></p>
 
-<p>Apart from the CQL shell, another way of connecting to Cassandra is via a programming language driver. Created a Maven project in Eclipse and update the pom.xml file with the following dependencies.</p>
+<p>Apart from the CQL shell, another way of connecting to Cassandra is <em>via</em> a programming language driver. I have selected <a href="https://github.com/datastax/java-driver">Datastax Java Driver</a>. Here is a (list of available client drivers](https://cassandra.apache.org/doc/latest/getting_started/drivers.html).</p>
+
+<p>Created a Maven project in Eclipse and update the pom.xml file for the following dependencies.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependencies&gt;  
  &lt;dependency&gt;  
@@ -383,6 +396,12 @@ cqlsh&gt; DESCRIBE TABLE system_auth.role_members
   &lt;artifactId&gt;cassandra-driver-mapping&lt;/artifactId&gt;  
   &lt;version&gt;3.10.0&lt;/version&gt;  
  &lt;/dependency&gt;  
+ 
+ &lt;dependency&gt;  
+  &lt;groupId&gt;com.datastax.oss&lt;/groupId&gt;  
+  &lt;artifactId&gt;java-driver-query-builder&lt;/artifactId&gt;  
+  &lt;version&gt;4.8.0&lt;/version&gt;  
+ &lt;/dependency&gt;  
 
  &lt;dependency&gt;  
   &lt;groupId&gt;com.datastax.cassandra&lt;/groupId&gt;  
@@ -392,24 +411,48 @@ cqlsh&gt; DESCRIBE TABLE system_auth.role_members
 &lt;/dependencies&gt;  
 </code></pre></div></div>
 
-<p>Create a class called <code class="language-plaintext highlighter-rouge">Cassandra.java</code></p>
+<p>Refer to each module’s manual for more details (<a href="https://github.com/datastax/java-driver/blob/4.x/manual/core">core</a>, <a href="https://github.com/datastax/java-driver/blob/4.x/manual/query_builder">query builder</a>, <a href="https://github.com/datastax/java-driver/blob/4.x/manual/mapper">mapper</a>).</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import org.apache.log4j.BasicConfigurator;  
-import com.datastax.driver.core.Cluster;  
-import com.datastax.driver.core.Session;  
+<p>The <strong>core</strong> module handles cluster connectivity and request execution. Here’s a short program that connects to Cassandra and executes a query:</p>
 
-public class Cassandra {  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import com.datastax.oss.driver.api.core.CqlSession;  
+import com.datastax.oss.driver.api.core.cql.ResultSet;  
+import com.datastax.oss.driver.api.core.cql.Row;  
+
+public class CassandraCore {  
 	public static void main(String[] args) {  
-		BasicConfigurator.configure();
-		Cluster cluster = Cluster.builder().withoutJMXReporting()
-				.addContactPoint("127.0.0.1")
-				.withPort(9042)
-				.build();
-		Session session = cluster.newSession();		
-		session.execute("SELECT * from system_auth.role_members");  
+		# If you don't specify any contact point, the driver defaults to 127.0.0.1:9042  
+		CqlSession session = CqlSession.builder().build();  
+		ResultSet rs = session.execute("select release_version from system.local");  
+		Row row = rs.one();  
+		System.out.println(row.getString("release_version"));  
+	}  
+} 
+</code></pre></div></div>
+
+<p>The <strong>query builder</strong> is a utility to generate CQL queries programmatically. Here’s a short program that connects to Cassandra and, creates and executes a query:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.*;  
+
+import com.datastax.oss.driver.api.core.CqlSession;  
+import com.datastax.oss.driver.api.core.cql.ResultSet;  
+import com.datastax.oss.driver.api.core.cql.Row;  
+import com.datastax.oss.driver.api.core.cql.SimpleStatement;  
+import com.datastax.oss.driver.api.querybuilder.select.Select;  
+
+public class CassandraQueryBuilder {  
+	public static void main(String[] args) {  
+		CqlSession session = CqlSession.builder().build();  
+		// SELECT release_version FROM system.local  
+		Select query = selectFrom("system", "local").column("release_version");   
+		SimpleStatement statement = query.build();  
+		ResultSet rs = session.execute(statement);  
+		Row row = rs.one();  
+		System.out.println(row.getString("release_version"));  
 	}  
 }  
 </code></pre></div></div>
+
 <p>How to run Spring Boot web application in Eclipse?<br />
 In eclipse Project Explorer, right click the project name -&gt; select “Run As” -&gt; “Java Application”</p>
 
