@@ -13,7 +13,7 @@ tags:
   - Emory University 
 
 ---  
-*Updated on August 13, 2020*  
+*Updated on August 14, 2020*  
 
 [Apache Cassandra](https://cassandra.apache.org) is a distributed NoSQL database (DB) which is used for handling Big data and real-time web applications. NoSQL stands for "Not Only SQL" or "Not SQL". NoSQL database is a non-relational data management system, that does not require a fixed schema.  
  
@@ -146,7 +146,11 @@ cqlsh> SELECT COUNT(*) FROM cancer.meta_data;
 
 Warnings :  
 Aggregation query used without partition key  
+```  
+[Partition Key vs Composite Key vs Clustering Columns in Cassandra](https://www.bmc.com/blogs/cassandra-clustering-columns-partition-composite-key/)  
 
+The partition key columns support only two operators: '=' and 'IN'.  
+```  
 cqlsh> SELECT * FROM cancer.meta_data WHERE id = 'GHN-1';  
 
  id    | age | details_  
@@ -163,9 +167,7 @@ cqlsh> SELECT * FROM cancer.meta_data WHERE id IN ('GHN-1', 'GHN-2');
  GHN-2 |  35 |  {'HPV': 'positive', 'bday': '05/07/1985', 'blist_nation': 'UK'}  
 
 (2 rows)   
-```    
-
-*The partition key columns support only two operators i.e = and IN.*  
+```     
 
 For map collections Cassandra allows creation of an index on keys, values or entries.  
 
@@ -199,7 +201,7 @@ cqlsh> SELECT * FROM cancer.meta_data WHERE id IN ('GHN-1','GHN-2','GHN-3') AND 
 Apart from the CQL shell, another way of connecting to Cassandra is *via* a programming language driver. Here I am using Datastax's [Java-Driver](https://github.com/datastax/java-driver). For a [list of available client drivers](https://cassandra.apache.org/doc/latest/getting_started/drivers.html).  
 
 ```
-cqlsh> select release_version from system.local;
+cqlsh> SELECT release_version FROM system.local;
 
 release_version
 -----------------
@@ -208,7 +210,7 @@ release_version
 (1 rows)  
 ```  
 
-Created a Maven project in Eclipse and update the pom.xml file for the following dependencies.  
+Created a **Maven project** in Eclipse and update the **pom.xml** file for the following dependencies.  
 
 ```
 <dependencies>  
@@ -221,31 +223,28 @@ Created a Maven project in Eclipse and update the pom.xml file for the following
  <dependency>  
   <groupId>com.datastax.cassandra</groupId>  
   <artifactId>cassandra-driver-core</artifactId>  
-  <version>3.10.0</version>  
+  <version>4.0.0</version>  
  </dependency>  
- 
- <dependency>  
-  <groupId>com.datastax.cassandra</groupId>  
-  <artifactId>cassandra-driver-mapping</artifactId>  
-  <version>3.10.0</version>  
- </dependency>  
- 
+
  <dependency>  
   <groupId>com.datastax.oss</groupId>  
   <artifactId>java-driver-query-builder</artifactId>  
   <version>4.8.0</version>  
- </dependency>  
-
- <dependency>  
-  <groupId>com.datastax.cassandra</groupId>  
-  <artifactId>cassandra-driver-extras</artifactId>  
-  <version>3.10.0</version>  
- </dependency>  
+ </dependency>   
 </dependencies>  
 ```  
-
+<!-- <dependency>  
+  <groupId>com.datastax.cassandra</groupId>
+  <artifactId>cassandra-driver-mapping</artifactId>
+  <version>3.10.0</version>
+ </dependency>
+ <dependency>
+  <groupId>com.datastax.cassandra</groupId>
+  <artifactId>cassandra-driver-extras</artifactId>
+  <version>3.10.0</version>
+ </dependency>
+-->
 Refer to each module's manual for more details ([core](https://github.com/datastax/java-driver/blob/4.x/manual/core), [query builder](https://github.com/datastax/java-driver/blob/4.x/manual/query_builder), [mapper](https://github.com/datastax/java-driver/blob/4.x/manual/mapper)).  
-
 
 The **core** module handles cluster connectivity and request execution. Here's a short program that connects to Cassandra and executes a query:  
 
@@ -290,4 +289,8 @@ public class CassandraQueryBuilder {
 ```  
 
 How to run Spring Boot web application in Eclipse?  
-In eclipse Project Explorer, right click the project name -> select “Run As” -> “Java Application”
+In eclipse Project Explorer, right click the project name -> select “Run As” -> “Java Application”  
+
+Further Reading:  
+[How to Setup a Cassandra Cluster](https://www.bmc.com/blogs/setup-cassandra-cluster/)  
+

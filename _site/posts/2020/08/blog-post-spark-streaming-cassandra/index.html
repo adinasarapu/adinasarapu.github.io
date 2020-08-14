@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on August 13, 2020">
+  <meta property="og:description" content="Updated on August 14, 2020">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (part 5: Cassandra, CQL, Java)">
-    <meta itemprop="description" content="Updated on August 13, 2020">
+    <meta itemprop="description" content="Updated on August 14, 2020">
     <meta itemprop="datePublished" content="August 08, 2020">
     
 
@@ -288,7 +288,7 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on August 13, 2020</em></p>
+        <p><em>Updated on August 14, 2020</em></p>
 
 <p><a href="https://cassandra.apache.org">Apache Cassandra</a> is a distributed NoSQL database (DB) which is used for handling Big data and real-time web applications. NoSQL stands for “Not Only SQL” or “Not SQL”. NoSQL database is a non-relational data management system, that does not require a fixed schema.</p>
 
@@ -416,8 +416,11 @@ cqlsh&gt; SELECT COUNT(*) FROM cancer.meta_data;
 
 Warnings :  
 Aggregation query used without partition key  
+</code></pre></div></div>
+<p><a href="https://www.bmc.com/blogs/cassandra-clustering-columns-partition-composite-key/">Partition Key vs Composite Key vs Clustering Columns in Cassandra</a></p>
 
-cqlsh&gt; SELECT * FROM cancer.meta_data WHERE id = 'GHN-1';  
+<p>The partition key columns support only two operators: ‘=’ and ‘IN’.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cqlsh&gt; SELECT * FROM cancer.meta_data WHERE id = 'GHN-1';  
 
  id    | age | details_  
 -------+-----+------------------------------------------------------------------  
@@ -434,8 +437,6 @@ cqlsh&gt; SELECT * FROM cancer.meta_data WHERE id IN ('GHN-1', 'GHN-2');
 
 (2 rows)   
 </code></pre></div></div>
-
-<p><em>The partition key columns support only two operators i.e = and IN.</em></p>
 
 <p>For map collections Cassandra allows creation of an index on keys, values or entries.</p>
 
@@ -466,7 +467,7 @@ cqlsh&gt; SELECT * FROM cancer.meta_data WHERE details_['blist_nation'] = 'UK';
 
 <p>Apart from the CQL shell, another way of connecting to Cassandra is <em>via</em> a programming language driver. Here I am using Datastax’s <a href="https://github.com/datastax/java-driver">Java-Driver</a>. For a <a href="https://cassandra.apache.org/doc/latest/getting_started/drivers.html">list of available client drivers</a>.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cqlsh&gt; select release_version from system.local;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cqlsh&gt; SELECT release_version FROM system.local;
 
 release_version
 -----------------
@@ -475,7 +476,7 @@ release_version
 (1 rows)  
 </code></pre></div></div>
 
-<p>Created a Maven project in Eclipse and update the pom.xml file for the following dependencies.</p>
+<p>Created a <strong>Maven project</strong> in Eclipse and update the <strong>pom.xml</strong> file for the following dependencies.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependencies&gt;  
  &lt;dependency&gt;  
@@ -487,29 +488,27 @@ release_version
  &lt;dependency&gt;  
   &lt;groupId&gt;com.datastax.cassandra&lt;/groupId&gt;  
   &lt;artifactId&gt;cassandra-driver-core&lt;/artifactId&gt;  
-  &lt;version&gt;3.10.0&lt;/version&gt;  
+  &lt;version&gt;4.0.0&lt;/version&gt;  
  &lt;/dependency&gt;  
- 
- &lt;dependency&gt;  
-  &lt;groupId&gt;com.datastax.cassandra&lt;/groupId&gt;  
-  &lt;artifactId&gt;cassandra-driver-mapping&lt;/artifactId&gt;  
-  &lt;version&gt;3.10.0&lt;/version&gt;  
- &lt;/dependency&gt;  
- 
+
  &lt;dependency&gt;  
   &lt;groupId&gt;com.datastax.oss&lt;/groupId&gt;  
   &lt;artifactId&gt;java-driver-query-builder&lt;/artifactId&gt;  
   &lt;version&gt;4.8.0&lt;/version&gt;  
- &lt;/dependency&gt;  
-
- &lt;dependency&gt;  
-  &lt;groupId&gt;com.datastax.cassandra&lt;/groupId&gt;  
-  &lt;artifactId&gt;cassandra-driver-extras&lt;/artifactId&gt;  
-  &lt;version&gt;3.10.0&lt;/version&gt;  
- &lt;/dependency&gt;  
+ &lt;/dependency&gt;   
 &lt;/dependencies&gt;  
 </code></pre></div></div>
-
+<!-- <dependency>  
+  <groupId>com.datastax.cassandra</groupId>
+  <artifactId>cassandra-driver-mapping</artifactId>
+  <version>3.10.0</version>
+ </dependency>
+ <dependency>
+  <groupId>com.datastax.cassandra</groupId>
+  <artifactId>cassandra-driver-extras</artifactId>
+  <version>3.10.0</version>
+ </dependency>
+-->
 <p>Refer to each module’s manual for more details (<a href="https://github.com/datastax/java-driver/blob/4.x/manual/core">core</a>, <a href="https://github.com/datastax/java-driver/blob/4.x/manual/query_builder">query builder</a>, <a href="https://github.com/datastax/java-driver/blob/4.x/manual/mapper">mapper</a>).</p>
 
 <p>The <strong>core</strong> module handles cluster connectivity and request execution. Here’s a short program that connects to Cassandra and executes a query:</p>
@@ -554,6 +553,10 @@ public class CassandraQueryBuilder {
 
 <p>How to run Spring Boot web application in Eclipse?<br />
 In eclipse Project Explorer, right click the project name -&gt; select “Run As” -&gt; “Java Application”</p>
+
+<p>Further Reading:<br />
+<a href="https://www.bmc.com/blogs/setup-cassandra-cluster/">How to Setup a Cassandra Cluster</a></p>
+
 
         
       </section>
