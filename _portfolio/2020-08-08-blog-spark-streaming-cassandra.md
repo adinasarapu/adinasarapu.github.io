@@ -237,17 +237,6 @@ Created a **Maven project** in Eclipse and update the **pom.xml** file for the f
  </dependency>   
 </dependencies>  
 ```  
-<!-- <dependency>  
-  <groupId>com.datastax.cassandra</groupId>
-  <artifactId>cassandra-driver-mapping</artifactId>
-  <version>3.10.0</version>
- </dependency>
- <dependency>
-  <groupId>com.datastax.cassandra</groupId>
-  <artifactId>cassandra-driver-extras</artifactId>
-  <version>3.10.0</version>
- </dependency>
--->
 Refer to each module's manual for more details ([core](https://github.com/datastax/java-driver/blob/4.x/manual/core), [query builder](https://github.com/datastax/java-driver/blob/4.x/manual/query_builder), [mapper](https://github.com/datastax/java-driver/blob/4.x/manual/mapper)).  
 
 The **core** module handles cluster connectivity and request execution. Here's a short program that connects to Cassandra and executes a query:  
@@ -316,7 +305,7 @@ public class CassandraQueryBuilder {
 }  
 ```  
 
-Output of the about program is  
+Output of the above program is  
 ```  
 ID: GHN-2  
 Age: 35  
@@ -324,6 +313,30 @@ HPV: positive
 bday: 05/07/1985  
 blist_nation: UK  
 ```
+<!--
+The **[mapper](https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/)** generates the boilerplate to execute queries and convert the results into application-level objects.  
+Update the above **pom.xml** file with the following dependency.  
+
+```  
+<dependency>  
+    <groupId>com.datastax.oss</groupId>  
+    <artifactId>java-driver-mapper-processor</artifactId>  
+    <version>4.8.0</version>  
+    <scope>test</scope>  
+</dependency>  
+```  
+
+**Entity class**:  
+This is a simple data container that will represent a row in the *meta_data* table. We use mapper annotations to mark the class as an entity, and indicate which field(s) correspond to the primary key.  
+
+**DAO interface**:
+A DAO defines a set of query methods.  
+
+**Mapper interface**:  
+This is the top-level entry point to mapper features, that allows you to obtain DAO instances.  
+
+More annotations are available; for more details, see Entities.
+-->  
 
 How to run Spring Boot web application in Eclipse?  
 In eclipse Project Explorer, right click the project name -> select “Run As” -> “Java Application”  

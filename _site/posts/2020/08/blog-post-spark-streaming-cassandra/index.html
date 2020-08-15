@@ -502,17 +502,6 @@ cqlsh&gt; SELECT * FROM cancer.meta_data WHERE details_['blist_nation'] = 'UK';
  &lt;/dependency&gt;   
 &lt;/dependencies&gt;  
 </code></pre></div></div>
-<!-- <dependency>  
-  <groupId>com.datastax.cassandra</groupId>
-  <artifactId>cassandra-driver-mapping</artifactId>
-  <version>3.10.0</version>
- </dependency>
- <dependency>
-  <groupId>com.datastax.cassandra</groupId>
-  <artifactId>cassandra-driver-extras</artifactId>
-  <version>3.10.0</version>
- </dependency>
--->
 <p>Refer to each module’s manual for more details (<a href="https://github.com/datastax/java-driver/blob/4.x/manual/core">core</a>, <a href="https://github.com/datastax/java-driver/blob/4.x/manual/query_builder">query builder</a>, <a href="https://github.com/datastax/java-driver/blob/4.x/manual/mapper">mapper</a>).</p>
 
 <p>The <strong>core</strong> module handles cluster connectivity and request execution. Here’s a short program that connects to Cassandra and executes a query:</p>
@@ -578,13 +567,37 @@ public class CassandraQueryBuilder {
 }  
 </code></pre></div></div>
 
-<p>Output of the about program is</p>
+<p>Output of the above program is</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ID: GHN-2  
 Age: 35  
 HPV: positive  
 bday: 05/07/1985  
 blist_nation: UK  
 </code></pre></div></div>
+<!--
+The **[mapper](https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/)** generates the boilerplate to execute queries and convert the results into application-level objects.  
+Update the above **pom.xml** file with the following dependency.  
+
+```  
+<dependency>  
+    <groupId>com.datastax.oss</groupId>  
+    <artifactId>java-driver-mapper-processor</artifactId>  
+    <version>4.8.0</version>  
+    <scope>test</scope>  
+</dependency>  
+```  
+
+**Entity class**:  
+This is a simple data container that will represent a row in the *meta_data* table. We use mapper annotations to mark the class as an entity, and indicate which field(s) correspond to the primary key.  
+
+**DAO interface**:
+A DAO defines a set of query methods.  
+
+**Mapper interface**:  
+This is the top-level entry point to mapper features, that allows you to obtain DAO instances.  
+
+More annotations are available; for more details, see Entities.
+-->
 
 <p>How to run Spring Boot web application in Eclipse?<br />
 In eclipse Project Explorer, right click the project name -&gt; select “Run As” -&gt; “Java Application”</p>
