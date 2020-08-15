@@ -13,7 +13,7 @@ tags:
   - Emory University 
 
 ---  
-*Updated on August 14, 2020*  
+*Updated on August 15, 2020*  
 
 [Apache Cassandra](https://cassandra.apache.org) is a distributed NoSQL database (DB) which is used for handling Big data and real-time web applications. NoSQL stands for "Not Only SQL" or "Not SQL". NoSQL database is a non-relational data management system, that does not require a fixed schema.  
  
@@ -23,8 +23,8 @@ The system response time becomes slow when you use RDBMS for massive volumes of 
 NoSQL databases are mainly categorized into four types:  
 1. key-value pair (e.g Redis, Dynamo)  
 2. column-oriented (e.g HBase, Cassandra)  
-3. graph-based (e.g . Neo4J)  
-4. document-oriented (e.g . MongoDB)  
+3. graph-based (e.g Neo4J)  
+4. document-oriented (e.g MongoDB)  
 
 Every category has its unique attributes and limitations. None of the above-specified DB is better to solve all the problems. Users should select the DB based on their product need.  
 
@@ -116,7 +116,7 @@ cqlsh>CREATE TABLE cancer.meta_data (ID text, AGE int, details_ map<text,text>, 
 cqlsh>INSERT INTO cancer.meta_data (ID, AGE, details_) VALUES ('GHN-1', 40,{'HPV':'negative', 'bday':'02/07/1980', 'blist_nation':'USA'});  
 cqlsh>INSERT INTO cancer.meta_data (ID, AGE, details_) VALUES ('GHN-2', 35,{'HPV':'positive', 'bday':'05/07/1985', 'blist_nation':'UK'});  
 cqlsh>INSERT INTO cancer.meta_data (ID, AGE, details_) VALUES ('GHN-3', 30,{'HPV':'negative', 'bday':'23/07/1990', 'blist_nation':'AUS'});  
-cqlsh>INSERT INTO cancer.meta_data (ID, AGE, details_) VALUES ('GHN-4', 44,{'HPV':'negative', 'bday':'19/07/1976', 'blist_nation':'USA'});  
+cqlsh>INSERT INTO cancer.meta_data (ID, AGE, details_) VALUES ('GHN-4', 44,{'HPV':'positive', 'bday':'19/07/1976', 'blist_nation':'UK'});  
 cqlsh>INSERT INTO cancer.meta_data (ID, AGE, details_) VALUES ('GHN-5', 25,{'HPV':'negative', 'bday':'05/07/1995', 'blist_nation':'UK'});  
 cqlsh>INSERT INTO cancer.meta_data (ID, AGE, details_) VALUES ('GHN-6', 40,{'HPV':'positive', 'bday':'12/07/1980', 'blist_nation':'USA'});  
 ```  
@@ -132,9 +132,14 @@ cqlsh> SELECT * FROM cancer.meta_data;
  GHN-6 |  40 | {'HPV': 'positive', 'bday': '12/07/1980', 'blist_nation': 'USA'}  
  GHN-5 |  25 |  {'HPV': 'negative', 'bday': '05/07/1995', 'blist_nation': 'UK'}  
  GHN-3 |  30 | {'HPV': 'negative', 'bday': '23/07/1990', 'blist_nation': 'AUS'}  
- GHN-4 |  44 | {'HPV': 'negative', 'bday': '19/07/1976', 'blist_nation': 'USA'}  
+ GHN-4 |  44 | {'HPV': 'positive', 'bday': '19/07/1976', 'blist_nation': 'UK'}  
 
 (6 rows)  
+
+Use the UPDATE command to insert values into the map.  
+cqlsh> UPDATE cancer.meta_data SET details_ = details_ + {'HPV': 'negative', 'bday': '19/07/1976', 'blist_nation':'USA'} WHERE id = 'GHN-4' AND age=44;  
+Set a specific element of map using the UPDATE command.  
+UPDATE cancer.meta_data SET details_['HPV'] = 'negative' WHERE id = 'GHN-4' AND age=44;  
 
 cqlsh> SELECT COUNT(*) FROM cancer.meta_data;  
 
@@ -200,14 +205,13 @@ cqlsh> SELECT * FROM cancer.meta_data WHERE id IN ('GHN-1','GHN-2','GHN-3') AND 
 
 Apart from the CQL shell, another way of connecting to Cassandra is *via* a programming language driver. Here I am using Datastax's [Java-Driver](https://github.com/datastax/java-driver). For a [list of available client drivers](https://cassandra.apache.org/doc/latest/getting_started/drivers.html).  
 
+Write a simple Java program for the following cql query.  
 ```
-cqlsh> SELECT release_version FROM system.local;
+cqlsh> SELECT * FROM cancer.meta_data WHERE id = 'GHN-1';  
 
-release_version
------------------
-        3.11.7
-
-(1 rows)  
+ id    | age | details_  
+-------+-----+------------------------------------------------------------------  
+ GHN-1 |  40 | {'HPV': 'negative', 'bday': '02/07/1980', 'blist_nation': 'USA'}  
 ```  
 
 Created a **Maven project** in Eclipse and update the **pom.xml** file for the following dependencies.  
@@ -255,13 +259,30 @@ import com.datastax.oss.driver.api.core.cql.Row;
 
 public class CassandraCore {  
 	public static void main(String[] args) {  
-		# If you don't specify any contact point, the driver defaults to 127.0.0.1:9042  
+		// If you don't specify any contact point, the driver defaults to 127.0.0.1:9042  
+
 		CqlSession session = CqlSession.builder().build();  
-		ResultSet rs = session.execute("select release_version from system.local");  
+		ResultSet rs = session.execute("SELECT * FROM cancer.meta_data WHERE id = 'GHN-1'");  
 		Row row = rs.one();  
-		System.out.println(row.getString("release_version"));  
+
+		System.out.println("ID: " + row.getString("id"));  
+		System.out.println("Age: " + row.getInt("age"));  
+
+		Map<String, String> m = row.getMap("details_",String.class,String.class);  
+		System.out.println("HPV: "+ m.get("HPV"));  
+		System.out.println("bday: "+ m.get("bday"));  
+		System.out.println("blist_nation: "+ m.get("blist_nation"));  
 	}  
 } 
+```  
+
+Output of the above program is  
+```  
+ID: GHN-1  
+Age: 40  
+HPV: negative  
+bday: 02/07/1980  
+blist_nation: USA
 ```  
 
 The **query builder** is a utility to generate CQL queries programmatically. Here's a short program that connects to Cassandra and, creates and executes a query:    
@@ -269,24 +290,40 @@ The **query builder** is a utility to generate CQL queries programmatically. Her
 ```  
 import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.*;  
 
+import java.util.Map;  
+
 import com.datastax.oss.driver.api.core.CqlSession;  
+import com.datastax.oss.driver.api.core.cql.PreparedStatement;  
 import com.datastax.oss.driver.api.core.cql.ResultSet;  
 import com.datastax.oss.driver.api.core.cql.Row;  
-import com.datastax.oss.driver.api.core.cql.SimpleStatement;  
 import com.datastax.oss.driver.api.querybuilder.select.Select;  
 
 public class CassandraQueryBuilder {  
 	public static void main(String[] args) {  
-		CqlSession session = CqlSession.builder().build();  
-		// SELECT release_version FROM system.local  
-		Select query = selectFrom("system", "local").column("release_version");   
-		SimpleStatement statement = query.build();  
-		ResultSet rs = session.execute(statement);  
+		CqlSession session = CqlSession.builder().build();    
+		// SELECT * == all()     
+		Select query = selectFrom("cancer", "meta_data").all().whereColumn("id").isEqualTo(bindMarker());  
+		PreparedStatement preparedQuery = session.prepare(query.build());  
+		ResultSet rs = session.execute(preparedQuery.bind("GHN-2"));  
 		Row row = rs.one();  
-		System.out.println(row.getString("release_version"));  
+		System.out.println("ID: " + row.getString("id"));   
+		System.out.println("Age: " + row.getInt("age"));   
+		Map<String, String> m = row.getMap("details_",String.class,String.class);  
+		System.out.println("HPV: "+ m.get("HPV"));  
+		System.out.println("bday: "+ m.get("bday"));  
+		System.out.println("blist_nation: "+ m.get("blist_nation"));	  
 	}  
 }  
 ```  
+
+Output of the about program is  
+```  
+ID: GHN-2  
+Age: 35  
+HPV: positive  
+bday: 05/07/1985  
+blist_nation: UK  
+```
 
 How to run Spring Boot web application in Eclipse?  
 In eclipse Project Explorer, right click the project name -> select “Run As” -> “Java Application”  
