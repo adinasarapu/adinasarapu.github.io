@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on August 15, 2020">
+  <meta property="og:description" content="Updated on August 16, 2020">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (part 5: Cassandra, CQL, Java)">
-    <meta itemprop="description" content="Updated on August 15, 2020">
+    <meta itemprop="description" content="Updated on August 16, 2020">
     <meta itemprop="datePublished" content="August 08, 2020">
     
 
@@ -288,7 +288,7 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on August 15, 2020</em></p>
+        <p><em>Updated on August 16, 2020</em></p>
 
 <p><a href="https://cassandra.apache.org">Apache Cassandra</a> is a distributed NoSQL database (DB) which is used for handling Big data and real-time web applications. NoSQL stands for “Not Only SQL” or “Not SQL”. NoSQL database is a non-relational data management system, that does not require a fixed schema.</p>
 
@@ -504,6 +504,8 @@ cqlsh&gt; SELECT * FROM cancer.meta_data WHERE details_['blist_nation'] = 'UK';
 </code></pre></div></div>
 <p>Refer to each module’s manual for more details (<a href="https://github.com/datastax/java-driver/blob/4.x/manual/core">core</a>, <a href="https://github.com/datastax/java-driver/blob/4.x/manual/query_builder">query builder</a>, <a href="https://github.com/datastax/java-driver/blob/4.x/manual/mapper">mapper</a>).</p>
 
+<p><strong>Java example code 1</strong></p>
+
 <p>The <strong>core</strong> module handles cluster connectivity and request execution. Here’s a short program that connects to Cassandra and executes a query:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import com.datastax.oss.driver.api.core.CqlSession;  
@@ -536,6 +538,8 @@ HPV: negative
 bday: 02/07/1980  
 blist_nation: USA
 </code></pre></div></div>
+
+<p><strong>Java example code 2</strong></p>
 
 <p>The <strong>query builder</strong> is a utility to generate CQL queries programmatically. Here’s a short program that connects to Cassandra and, creates and executes a query:</p>
 
@@ -574,33 +578,217 @@ HPV: positive
 bday: 05/07/1985  
 blist_nation: UK  
 </code></pre></div></div>
-<!--
-The **[mapper](https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/)** generates the boilerplate to execute queries and convert the results into application-level objects.  
-Update the above **pom.xml** file with the following dependency.  
+<p><strong>Java example code 3</strong></p>
 
-```  
-<dependency>  
-    <groupId>com.datastax.oss</groupId>  
-    <artifactId>java-driver-mapper-processor</artifactId>  
-    <version>4.8.0</version>  
-    <scope>test</scope>  
-</dependency>  
-```  
+<p>The <strong><a href="https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/">mapper</a></strong> generates the boilerplate to execute queries and convert the results into application-level objects. For a quick overview of mapper features, we are going to build a trivial example based on the schema <code class="language-plaintext highlighter-rouge">cancer.meta_data</code>:</p>
 
-**Entity class**:  
-This is a simple data container that will represent a row in the *meta_data* table. We use mapper annotations to mark the class as an entity, and indicate which field(s) correspond to the primary key.  
+<p>First, update the <strong>pom.xml</strong> file with the following dependency.</p>
 
-**DAO interface**:
-A DAO defines a set of query methods.  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependency&gt;  
+  &lt;groupId&gt;com.datastax.oss&lt;/groupId&gt;  
+  &lt;artifactId&gt;java-driver-mapper-processor&lt;/artifactId&gt;  
+  &lt;version&gt;4.8.0&lt;/version&gt;  
+&lt;/dependency&gt;  
+</code></pre></div></div>
 
-**Mapper interface**:  
-This is the top-level entry point to mapper features, that allows you to obtain DAO instances.  
+<p>Create the following Java classes/interfaces.</p>
 
-More annotations are available; for more details, see Entities.
--->
+<p><strong>Entity class</strong>: MetaData.java  <br />
+This is a simple data container that will represent a row in the <em>meta_data</em> table. We use mapper annotations to mark the class as an entity, and indicate which field(s) correspond to the primary key. Entity classes must have a no-arg constructor; note that, because we also have a constructor that takes all the fields, we have to define the no-arg constructor explicitly. We use mapper annotations to mark the class as an entity, and indicate which field(s) correspond to the primary key.</p>
 
-<p>How to run Spring Boot web application in Eclipse?<br />
-In eclipse Project Explorer, right click the project name -&gt; select “Run As” -&gt; “Java Application”</p>
+<p>More annotations are available; for more details, see <a href="https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/entities/">Entities</a>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import java.util.Map;    
+import com.datastax.oss.driver.api.mapper.annotations.CqlName;  
+import com.datastax.oss.driver.api.mapper.annotations.Entity;  
+import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;  
+
+@Entity  
+public class MetaData {  
+	
+	@PartitionKey  
+	@CqlName("id")  
+	private String id;  
+	
+	@CqlName("age")  
+	private Integer age;  
+
+	@CqlName("details_")  
+	private Map&lt;String, String&gt; details;  
+	
+	public MetaData() {}  
+	
+	public MetaData(String id, Integer age, Map&lt;String, String&gt; details) {  
+		  
+		this.id = id;  
+		this.age = age;  
+		this.details = details;  
+	}  
+
+	public String getId() {  
+		return id;  
+	}  
+
+	public void setId(String id) {  
+		this.id = id;  
+	}
+	
+	public Integer getAge() {  
+		return age;  
+	}
+
+	public void setAge(Integer age) {  
+		this.age = age;  
+	}
+
+	public Map&lt;String, String&gt; getDetails() {  
+		return details;  
+	}
+
+	public void setDetails(Map&lt;String, String&gt; details) {  
+		this.details = details;  
+	}  
+}
+</code></pre></div></div>
+
+<p><strong>DAO interface</strong>:MetaDataDAO<br />
+A DAO defines a set of query methods. Again, mapper annotations are used to mark the interface, and indicate what kind of request each method should execute.</p>
+
+<p>For the full list of available query types, see <a href="https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/daos/">DAOs</a>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import com.datastax.oss.driver.api.mapper.annotations.Dao;  
+import com.datastax.oss.driver.api.mapper.annotations.Delete;  
+import com.datastax.oss.driver.api.mapper.annotations.Insert;  
+import com.datastax.oss.driver.api.mapper.annotations.Select;
+
+@Dao   
+public interface MetaDataDAO {  
+	
+	@Select  
+	MetaData findById(String personId);  
+	
+	@Insert  
+	void save(MetaData metaData);  
+	
+	@Delete  
+	void delete(MetaData metaData);  
+}
+</code></pre></div></div>
+
+<p><strong>Mapper interface</strong>: PersonMapper.java<br />
+This is the top-level entry point to mapper features, that allows you to obtain DAO instances.</p>
+
+<p>For more details, see <a href="https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/mapper/">Mapper</a>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import com.datastax.oss.driver.api.core.CqlIdentifier;  
+import com.datastax.oss.driver.api.mapper.annotations.DaoFactory;  
+import com.datastax.oss.driver.api.mapper.annotations.DaoKeyspace;  
+import com.datastax.oss.driver.api.mapper.annotations.Mapper;  
+
+@Mapper  
+public interface PersonMapper {  
+	
+	@DaoFactory  
+	MetaDataDAO personDao(@DaoKeyspace CqlIdentifier keyspace);   
+}
+</code></pre></div></div>
+
+<p><strong>Generating an additional code using annotation processing</strong>:<br />
+Annotation processing is a common technique in modern frameworks, and is generally well supported by build tools and IDEs; See <a href="https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/config/">Configuring the annotation processor</a>.</p>
+
+<p>The mapper’s annotation processor hooks into the Java compiler, and generates additional source files from your annotated classes before the main compilation happens. It is contained in the <em>java-driver-mapper-processor</em> artifact.</p>
+
+<p>Updata the <strong>pom.xml</strong> file.</p>
+
+<p>The processor runs every time you execute the <em>mvn compile</em> phase.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependency&gt;  
+  &lt;groupId&gt;com.datastax.oss&lt;/groupId&gt;  
+  &lt;artifactId&gt;java-driver-mapper-processor&lt;/artifactId&gt;  
+  &lt;version&gt;4.8.0&lt;/version&gt;  
+&lt;/dependency&gt;  
+
+&lt;build&gt;  
+  &lt;plugins&gt;  
+     &lt;plugin&gt;  
+      &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;  
+      &lt;version&gt;3.8.1&lt;/version&gt;  
+      &lt;configuration&gt;  
+        &lt;source&gt;1.8&lt;/source&gt; &lt;!-- (or higher) --&gt;  
+        &lt;target&gt;1.8&lt;/target&gt; &lt;!-- (or higher) --&gt;  
+        &lt;annotationProcessorPaths&gt;  
+         &lt;path&gt;  
+            &lt;groupId&gt;com.datastax.oss&lt;/groupId&gt;  
+            &lt;artifactId&gt;java-driver-mapper-processor&lt;/artifactId&gt;   
+            &lt;version&gt;4.8.0&lt;/version&gt;  
+         &lt;/path&gt;  
+       &lt;/annotationProcessorPaths&gt;  
+     &lt;/configuration&gt;  
+   &lt;/plugin&gt;  
+  &lt;/plugins&gt;  
+&lt;/build&gt;  
+</code></pre></div></div>
+
+<p>With the above configuration, these files are in <strong>target/generated-sources/annotations</strong> directory of Eclipse. Make sure that directory is marked as a source folder in your IDE 
+(for example, in Eclipse IDE, this might require right-clicking on your pom.xml and selecting “Maven &gt; Update Project”).</p>
+
+<p><img src="/images/eclipse-annotations.png" alt="eclipse-annotations" /></p>
+
+<p>One of the classes generated during annotation processing is <em>PersonMapperBuilder.java</em>. It allows you to initialize a mapper instance by wrapping a core driver session:</p>
+
+<p><strong>Java main</strong> class: MetaDataMain.java<br />
+The main() method is the entry point into the application.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import java.util.HashMap;  
+import java.util.Map;  
+import com.datastax.oss.driver.api.core.CqlIdentifier;  
+import com.datastax.oss.driver.api.core.CqlSession;  
+
+public class MetaDataMain {  
+
+	public static void main(String[] args) {  
+	
+		CqlSession session = CqlSession.builder().build();  
+		PersonMapper personMapper = new PersonMapperBuilder(session).build();  	
+		MetaDataDAO dao = personMapper.personDao(CqlIdentifier.fromCql("cancer"));  
+
+		// retrieve data from DB  
+		MetaData md = dao.findById("GHN-1");  
+		System.out.println(md.getAge().toString());  
+		Map&lt;String, String&gt; details = md.getDetails();  
+		System.out.println(details.get("HPV"));  
+		System.out.println(details.get("bday"));  
+		System.out.println(details.get("blist_nation"));  
+		
+		// update DB with new data  
+		Map&lt;String, String&gt; map = new HashMap&lt;&gt;();  
+		map.put("HPV", "negative");  
+		map.put("bday", "01/02/2000");  
+		map.put("blist_nation", "Italy");  
+		dao.save(new MetaData("GHN-8", 20,map));  	
+	}  
+}  
+</code></pre></div></div>
+
+<p>Makesure to check the newly added row in DB i.e “GHN-8 …”</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cqlsh&gt; SELECT * FROM cancer.meta_data;  
+  
+ id    | age | details_  
+-------+-----+--------------------------------------------------------------------  
+ GHN-1 |  40 |   {'HPV': 'negative', 'bday': '02/07/1980', 'blist_nation': 'USA'}  
+ GHN-2 |  35 |    {'HPV': 'positive', 'bday': '05/07/1985', 'blist_nation': 'UK'}  
+ GHN-6 |  40 |   {'HPV': 'positive', 'bday': '12/07/1980', 'blist_nation': 'USA'}  
+ GHN-5 |  25 |    {'HPV': 'negative', 'bday': '05/07/1995', 'blist_nation': 'UK'}  
+ GHN-3 |  30 |   {'HPV': 'negative', 'bday': '23/07/1990', 'blist_nation': 'AUS'}  
+ GHN-8 |  20 | {'HPV': 'negative', 'bday': '01/02/2000', 'blist_nation': 'Italy'}  
+ GHN-4 |  44 |   {'HPV': 'negative', 'bday': '19/07/1976', 'blist_nation': 'USA'}  
+
+(7 rows)  
+</code></pre></div></div>
+
+<p>How to run Java Main class in Eclipse?<br />
+In eclipse Project Explorer, right click the Main class -&gt; select “Run As” -&gt; “Java Application”</p>
 
 <p>Further Reading:<br />
 <a href="https://www.bmc.com/blogs/setup-cassandra-cluster/">How to Setup a Cassandra Cluster</a></p>
