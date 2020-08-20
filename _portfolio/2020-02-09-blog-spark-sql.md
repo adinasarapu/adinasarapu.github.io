@@ -1,5 +1,5 @@
 ---
-title: 'Building a real-time big data pipeline (part 3: Hadoop, Spark and SQL)'
+title: 'Building a real-time big data pipeline (part 3: Hadoop, Spark SQL)'
 date: 2020-06-22
 permalink: /posts/2020/02/blog-post-spark-sql/
 tags:

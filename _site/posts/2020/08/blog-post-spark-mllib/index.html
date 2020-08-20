@@ -1,0 +1,836 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Building a real-time big data pipeline (part 3: Hadoop, Spark, Scala Build Tool) - Ashok R. Dinasarapu Ph.D</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
+<meta property="og:title" content="Building a real-time big data pipeline (part 3: Hadoop, Spark, Scala Build Tool)">
+
+
+  <link rel="canonical" href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/">
+  <meta property="og:url" content="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/">
+
+
+
+  <meta property="og:description" content="Updated on August 20, 2020">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-08-18T00:00:00-04:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Ashok R. Dinasarapu",
+      "url" : "https://adinasarapu.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://adinasarapu.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Ashok R. Dinasarapu Ph.D Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://adinasarapu.github.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="https://adinasarapu.github.io/images/apple-touch-icon-57x57.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="60x60" href="https://adinasarapu.github.io/images/apple-touch-icon-60x60.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="72x72" href="https://adinasarapu.github.io/images/apple-touch-icon-72x72.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="76x76" href="https://adinasarapu.github.io/images/apple-touch-icon-76x76.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="114x114" href="https://adinasarapu.github.io/images/apple-touch-icon-114x114.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="120x120" href="https://adinasarapu.github.io/images/apple-touch-icon-120x120.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="144x144" href="https://adinasarapu.github.io/images/apple-touch-icon-144x144.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="152x152" href="https://adinasarapu.github.io/images/apple-touch-icon-152x152.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="180x180" href="https://adinasarapu.github.io/images/apple-touch-icon-180x180.png?v=M44lzPylqQ">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/favicon-32x32.png?v=M44lzPylqQ" sizes="32x32">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/android-chrome-192x192.png?v=M44lzPylqQ" sizes="192x192">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/favicon-96x96.png?v=M44lzPylqQ" sizes="96x96">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/favicon-16x16.png?v=M44lzPylqQ" sizes="16x16">
+<link rel="manifest" href="https://adinasarapu.github.io/images/manifest.json?v=M44lzPylqQ">
+<link rel="mask-icon" href="https://adinasarapu.github.io/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=M44lzPylqQ">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="https://adinasarapu.github.io/images/mstile-144x144.png?v=M44lzPylqQ">
+<meta name="msapplication-config" content="https://adinasarapu.github.io/images/browserconfig.xml?v=M44lzPylqQ">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="https://adinasarapu.github.io/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://adinasarapu.github.io/">Ashok R. Dinasarapu Ph.D</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/portfolio/">Big Data</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/year-archive/">NGS | Proteomics</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/cv/">Résumé</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://adinasarapu.github.io/images/profile.png" class="author__avatar" alt="Scientist, Bioinformatics">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Scientist, Bioinformatics</h3>
+    <p class="author__bio">Emory University</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Atlanta, GA</li>
+      
+      
+      
+      
+        <li><a href="mailto:ashok.reddy.dinasarapu@emory.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i> Email</a></li>
+      
+      
+       
+        <li><a href="https://www.researchgate.net/profile/Ashok_Dinasarapu"><i class="fab fa-fw fa-researchgate" aria-hidden="true"></i> ResearchGate</a></li>
+      
+      
+        <li><a href="https://twitter.com/adinasarapu"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+      
+      
+        <li><a href="https://bitbucket.org/adinasarapu"><i class="fab fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+      
+      
+        <li><a href="https://github.com/adinasarapu"><i class="fab fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="fas fa-fw fa-graduation-cap"></i> Google Scholar</a></li>
+      
+      
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=dinasarapu+ashok+OR+D+ashok+reddy&sort=pubdate"><i class="ai ai-pubmed-square ai-fw"></i> PubMed</a></li>
+      
+      
+        <li><a href="http://orcid.org/0000-0002-1423-1518"><i class="ai ai-orcid-square ai-fw"></i> ORCID</a></li>
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (part 3: Hadoop, Spark, Scala Build Tool)">
+    <meta itemprop="description" content="Updated on August 20, 2020">
+    <meta itemprop="datePublished" content="August 18, 2020">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 3: Hadoop, Spark, Scala Build Tool)
+</h1>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-08-18T00:00:00-04:00">August 18, 2020</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p><em>Updated on August 20, 2020</em></p>
+
+<p>Apache Spark<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> is an open-source cluster computing system that provides high-level APIs in Java, Scala, Python and R. Spark also packaged with higher-level libraries for SQL, machine learning (MLlib), streaming, and graphs (GraphX).</p>
+
+<h2 id="1-hadoophdfs">1. Hadoop/HDFS</h2>
+
+<p>The Hadoop Distributed File System (HDFS) is the primary data storage system used by Hadoop applications. It employs a <code class="language-plaintext highlighter-rouge">NameNode</code> and <code class="language-plaintext highlighter-rouge">DataNode</code> architecture to implement a distributed file system that provides high-performance access to data across highly scalable Hadoop clusters.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup></p>
+
+<p>First format the HDFS (one time)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hadoop namenode -format
+</code></pre></div></div>
+
+<p>Start HDFS: The following command will start the namenode as well as the data nodes as cluster.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /Users/adinasa/bigdata/hadoop-3.2.1  
+$bash sbin/start-dfs.sh  
+</code></pre></div></div>
+
+<p>Create a directory</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$source ~/.bash_profile  
+$hadoop fs -mkdir -p /user/adinasarapu
+</code></pre></div></div>
+
+<p>Insert data into HDFS: Use <code class="language-plaintext highlighter-rouge">-copyFromLocal</code> command to move one or more files from local location to HDFS.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hadoop fs -copyFromLocal *.csv /user/adinasarapu
+</code></pre></div></div>
+
+<p>Verify the files using <code class="language-plaintext highlighter-rouge">ls</code> command.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hadoop fs -ls /user/adinasarapu  
+-rw-r--r--   1 adinasa supergroup     164762 2020-08-18 17:39 /user/adinasarapu/data_proteomics.csv  
+-rw-r--r--   1 adinasa supergroup        786 2020-08-18 17:39 /user/adinasarapu/samples_proteomics.csv  
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">hadoop fs</code> is more generic command that allows you to interact with multiple file systems like local, HDFS etc. This can be used when you are dealing with different file systems such as local FS, (S)FTP, S3, and others.</p>
+
+<p><code class="language-plaintext highlighter-rouge">hdfs dfs</code> is the command that is specific to HDFS.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hdfs dfs -ls /user/adinasarapu  
+-rw-r--r--   1 adinasa supergroup     164762 2020-08-18 17:39 /user/adinasarapu/data_proteomics.csv  
+-rw-r--r--   1 adinasa supergroup        786 2020-08-18 17:39 /user/adinasarapu/samples_proteomics.csv  
+</code></pre></div></div>
+
+<p>See <a href="https://data-flair.training/blogs/hadoop-architecture/">HDFS, Yarn &amp; MapReduce</a> for hadoop architecture in detail.</p>
+
+<p>Start YARN with the script: <code class="language-plaintext highlighter-rouge">start-yarn.sh</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$bash start-yarn.sh  
+Starting resourcemanager  
+Starting nodemanagers  
+</code></pre></div></div>
+
+<p>Check the list of Java processes running in your system by using the command <code class="language-plaintext highlighter-rouge">jps</code>. If you are able to see the Hadoop daemons running after executing the jps command, we can safely assume that the Hadoop cluster is running.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$jps  
+96899 NodeManager  
+91702 SecondaryNameNode  
+96790 ResourceManager  
+97240 Jps  
+91437 NameNode  
+91550 DataNode  
+</code></pre></div></div>
+
+<p>Open a web browser to see your configurations for the current session.</p>
+
+<p><em>Web UI</em><br />
+for HDFS: http://localhost:9870<br />
+for YARN Resource Manager: http://localhost:8088</p>
+
+<p><em>Shutting Down the HDFS</em>:<br />
+You can stop all the daemons using the command <code class="language-plaintext highlighter-rouge">stop-all.sh</code>. You can also start or stop each daemon separately.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$bash stop-all.sh  
+Stopping namenodes on [localhost]  
+Stopping datanodes  
+Stopping secondary namenodes [Ashoks-MacBook-Pro.2.local]  
+Stopping nodemanagers  
+Stopping resourcemanager  
+</code></pre></div></div>
+
+<p>Note: Hadoop can be installed in 3 different modes: standalone mode, pseudo-distributed mode and fully distributed mode. In fully distributed mode, replace the ‘’localhost’ with actual host name of machine on cluster.</p>
+
+<h2 id="2-apache-spark">2. Apache Spark</h2>
+
+<p>Spark’s shells provide simple ways to work interactively with Spark.</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">spark-shell</code> will launch the Scala interpreter (runs on Java VM); <em>:q</em> for exit it.</li>
+  <li><code class="language-plaintext highlighter-rouge">pyspark</code> will launch the Python interpreter; <em>exit()</em> for exit it.</li>
+  <li><code class="language-plaintext highlighter-rouge">sparkR</code> will the R interpreter; <em>q()</em> for exit it.</li>
+  <li><code class="language-plaintext highlighter-rouge">spark-sql</code> for working with structured data; <em>exit;</em> for exit it.</li>
+</ol>
+
+<p>Start Spark with <code class="language-plaintext highlighter-rouge">spark-shell</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source ~/.bashrc_profile  
+$spark-shell
+scala&gt;    
+</code></pre></div></div>
+
+<p><em>Read csv file from HDFS into a Spark DataFrame</em></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val df = spark.read.format("csv").option("header", "true").load("hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv")  
+scala&gt; df.show  
++--------+-------+-------+---+------+  
+|SampleID|Disease|Genetic|Age|   Sex|  
++--------+-------+-------+---+------+  
+|     D_2|    Yes|     No| 63|female|  
+|     D_7|    Yes|     No| 78|female|  
+|    D_12|    Yes|     No| 65|female|  
+|    D_17|    Yes|     No| 58|female|  
+|    D_22|    Yes|     No| 65|female|  
+|    D_27|    Yes|     No| 50|female|  
+|    D_32|    Yes|     No| 67|female|  
+|    D_37|    Yes|     No| 80|female|  
+|    D_42|    Yes|     No| 66|female|  
+|    D_47|    Yes|     No| 64|female|  
+|    DG_3|    Yes|    Yes| 76|female|  
+|    DG_8|    Yes|    Yes| 56|female|  
+|   DG_13|    Yes|    Yes| 81|female|  
+|   DG_18|    Yes|    Yes| 69|female|  
+|   DG_23|    Yes|    Yes| 60|female|  
+|   DG_28|    Yes|    Yes| 63|female|  
+|   DG_33|    Yes|    Yes| 70|female|  
+|   DG_38|    Yes|    Yes| 46|female|  
+|   DG_43|    Yes|    Yes| 65|female|  
+|   DG_48|    Yes|    Yes| 77|female|  
++--------+-------+-------+---+------+  
+only showing top 20 rows  
+</code></pre></div></div>
+
+<p>For more details visit <a href="https://sparkbyexamples.com/spark/spark-read-csv-file-into-dataframe/">Spark Read CSV file into DataFrame</a></p>
+
+<p><em>Select &amp; filter the Spark DataFrame</em></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; val sel = df.select("SampleID","Disease","Age","Sex").filter($"Disease".like("No"))
+scala&gt; sel.show
+
+OR
+
+df.select("*").filter($"Disease".like("No")).show()  
+</code></pre></div></div>
+<p>The dollar sign here is making “Disease” a variable (of type Column).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; sel.show  
++----------+-------+---+------+  
+|  SampleID|Disease|Age|   Sex|  
++----------+-------+---+------+  
+| Control_1|     No| 66|female|  
+| Control_6|     No| 68|female|  
+|Control_11|     No| 68|female|  
+|Control_16|     No| 41|female|  
+|Control_21|     No| 76|female|  
+|Control_26|     No| 60|female|  
+|Control_31|     No| 51|female|  
+|Control_36|     No| 55|female|  
+|Control_41|     No| 43|female|  
+|Control_46|     No| 42|female|  
++----------+-------+---+------+  
+</code></pre></div></div>
+
+<p><em>Write the resulting DataFrame back to HDFS</em></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; sel.write.option("header","true").csv("hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv")
+</code></pre></div></div>
+
+<p>Here is a script, interactively, list all the files within a HDFS directory using Scala/Spark.
+Make sure to download <em>hadoop-client-3.2.0.jar</em>, <em>hadoop-common-3.2.0.jar</em> and “hadoop-hdfs-client-3.2.0.jar” files into <code class="language-plaintext highlighter-rouge">$SPARK_HOME/jars</code> directory.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; import java.net.URI  
+scala&gt; import org.apache.hadoop.conf.Configuration
+scala&gt; import org.apache.hadoop.fs.{FileSystem, Path}  
+  
+scala&gt; val uri = new URI("hdfs://localhost:9000")  
+scala&gt; val fs = FileSystem.get(uri,new Configuration())  
+scala&gt; val filePath = new Path("/user/adinasarapu/")  
+scala&gt; val status = fs.listStatus(filePath)  
+scala&gt; status.map(sts =&gt; sts.getPath).foreach(println)  
+
+hdfs://localhost:9000/user/adinasarapu/data_proteomics.csv  
+hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv  
+hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv  
+</code></pre></div></div>
+
+<p>Let’s run the above scripts using SBT, an alternative to <code class="language-plaintext highlighter-rouge">spark-shell</code>.</p>
+
+<h2 id="3-the-scala-build-tool-sbt">3. The Scala Build Tool (SBT)</h2>
+
+<p>SBT is an interactive build tool for Scala, Java, and more. It requires Java 1.8 or later.</p>
+
+<p><a href="https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Mac.html">Installing sbt on macOS</a></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$brew install sbt
+</code></pre></div></div>
+
+<p>Start sbt</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$sbt
+[info] [launcher] getting org.scala-sbt sbt 1.3.13  (this may take some time)...  
+downloading https://repo1.maven.org/maven2/org/scala-sbt/sbt/1.3.13/sbt-1.3.13.jar ...  
+...
+...  
+
+[info] Fetched artifacts of   
+[info] set current project to adinasa (in build file:/Users/adinasa/)  
+[info] sbt server started at local:///Users/adinasa/.sbt/1.0/server/a09586e01e6aaffd93e6/sock  
+sbt:adinasa&gt;  
+</code></pre></div></div>
+
+<p>To leave sbt shell, type <em>exit</em><br />
+[info] shutting down sbt server</p>
+
+<p>The following is an excerpt from <a href="https://docs.scala-lang.org/getting-started/sbt-track/getting-started-with-scala-and-sbt-on-the-command-line.html">How to create an SBT project directory structure</a></p>
+
+<p><em>Create the project</em></p>
+
+<p>cd to an empy directory</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /Users/adinasa/Documents/bigdata/proteomics  
+</code></pre></div></div>
+
+<p>Run the following Unix shell script which creates the initial set of files and directories you’ll want for most projects:</p>
+
+<p><code class="language-plaintext highlighter-rouge">cretate_sbt_project.sh</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh  
+mkdir -p src/{main,test}/{java,resources,scala}  
+mkdir lib project target  
+
+# create an initial build.sbt file  
+echo 'name := "MyProject"  
+version := "1.0"  
+scalaVersion := "2.12.10"' &gt; build.sbt  
+</code></pre></div></div>
+
+<p>If you have the tree command on your system and run it from the current directory, you’ll see that the basic directory structure looks like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.		
+├── build.sbt		
+├── cretate_sbt_project.sh		
+├── lib		
+├── project		
+├── src		
+│   ├── main		
+│   │   ├── java		
+│   │   ├── resources		
+│   │   └── scala	
+│   └── test		
+│       ├── java		
+│       ├── resources		
+│       └── scala		
+└── target		
+</code></pre></div></div>
+
+<p><em>build.sbt</em></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">build.sbt</code> file is SBT’s basic configuration file. You define most settings that SBT needs in this file, including specifying library dependencies, repositories, and any other basic settings your project requires.</p>
+
+<p>The dependencies are in Maven format, with <code class="language-plaintext highlighter-rouge">%</code> separating the parts. The <code class="language-plaintext highlighter-rouge">%%</code> means that it will automatically add the specific Scala version to the dependency name.<br />
+Update the <code class="language-plaintext highlighter-rouge">build.sbt</code> file</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name := "MyProject"  
+version := "1.0"  
+scalaVersion := "2.12.10"  
+libraryDependencies += "org.apache.hadoop" % "hadoop-common" % "3.2.0";  
+libraryDependencies += "org.apache.hadoop" % "hadoop-hdfs-client" % "3.2.0";  
+libraryDependencies += "org.apache.spark" %% "spark-core" % "3.0.0";  
+libraryDependencies += "org.apache.spark" %% "spark-sql" % "3.0.0"  
+</code></pre></div></div>
+
+<p>Type <code class="language-plaintext highlighter-rouge">console</code> to start a REPL session from inside SBT: (from the directory where <code class="language-plaintext highlighter-rouge">build.sbt</code> is present)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$sbt  
+$console  
+
+OR  
+
+$sbt console  
+
+scala&gt;   
+
+scala&gt; import java.net.URI  
+scala&gt; import org.apache.hadoop.conf.Configuration  
+scala&gt; import org.apache.hadoop.fs.{FileSystem, Path}  
+
+scala&gt; val uri = new URI("hdfs://localhost:9000")  
+scala&gt; val fs = FileSystem.get(uri,new Configuration())  
+scala&gt; val filePath = new Path("/user/adinasarapu/")  
+scala&gt; val status = fs.listStatus(filePath)  
+scala&gt; status.map(sts =&gt; sts.getPath).foreach(println)  
+</code></pre></div></div>
+<p>Finally, exit <code class="language-plaintext highlighter-rouge">:q</code></p>
+
+<p><em>Scala application</em> with main method</p>
+
+<p>Create a file named <code class="language-plaintext highlighter-rouge">ScalaExampleMain.scala</code> in the <code class="language-plaintext highlighter-rouge">src/main/scala</code> directory. In Scala, the file’s package name doesn’t have to match the directory name.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.test.hadoop  
+
+import java.net.URI  
+import org.apache.hadoop.conf.Configuration  
+import org.apache.hadoop.fs.{FileSystem, Path}  
+
+object ScalaExampleMain {  
+   def main(args: Array[String]): Unit = {  
+      val uri = new URI("hdfs://localhost:9000")  
+      val fs = FileSystem.get(uri,new Configuration())  
+      val filePath = new Path("/user/adinasarapu/")  
+      val status = fs.listStatus(filePath)  
+      status.map(sts =&gt; sts.getPath).foreach(println)  
+   }  
+}  
+</code></pre></div></div>
+
+<p>Update the <code class="language-plaintext highlighter-rouge">build.sbt</code> file with <code class="language-plaintext highlighter-rouge">mainClass := Some("com.test.hadoop.ScalaExampleMain")</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name := "MyProject"
+version := "1.0"
+scalaVersion := "2.12.10"
+mainClass := Some("com.test.hadoop.ScalaExampleMain")
+libraryDependencies += "org.apache.hadoop" % "hadoop-common" % "3.2.0";
+libraryDependencies += "org.apache.hadoop" % "hadoop-hdfs-client" % "3.2.0";
+libraryDependencies += "org.apache.spark" %% "spark-core" % "3.0.0";
+libraryDependencies += "org.apache.spark" %% "spark-sql" % "3.0.0"
+</code></pre></div></div>
+
+<p>Compile the project:<code class="language-plaintext highlighter-rouge">sbt compile</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[info] welcome to sbt 1.3.13 (Oracle Corporation Java 1.8.0_261)  
+[info] loading project definition from /Users/adinasa/Documents/bigdata/proteomics/project  
+[info] loading settings for project proteomics from build.sbt ...  
+[info] set current project to MyProject (in build file:/Users/adinasa/Documents/bigdata/proteomics/)  
+[info] Executing in batch mode. For better performance use sbt's shell  
+[info] Compiling 1 Scala source to /Users/adinasa/Documents/bigdata/proteomics/target/scala-2.12/classes ...  
+[success] Total time: 3 s, completed Aug 19, 2020 3:04:57 PM  
+</code></pre></div></div>
+
+<p>Run the project:<code class="language-plaintext highlighter-rouge">sbt run</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[info] welcome to sbt 1.3.13 (Oracle Corporation Java 1.8.0_261)
+[info] loading project definition from /Users/adinasa/Documents/bigdata/proteomics/project
+[info] loading settings for project proteomics from build.sbt ...
+[info] set current project to MyProject (in build file:/Users/adinasa/Documents/bigdata/proteomics/)
+[warn] There may be incompatibilities among your library dependencies; run 'evicted' to see detailed eviction warnings.
+[info] running com.test.hadoop.ScalaExampleMain   
+log4j:WARN No appenders could be found for logger (org.apache.hadoop.util.Shell).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+hdfs://localhost:9000/user/adinasarapu/data_proteomics.csv
+hdfs://localhost:9000/user/adinasarapu/samples_filtered.csv
+hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv
+[success] Total time: 6 s, completed Aug 19, 2020 3:18:28 PM
+</code></pre></div></div>
+
+<p>Package the project:<code class="language-plaintext highlighter-rouge">sbt package</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[info] welcome to sbt 1.3.13 (Oracle Corporation Java 1.8.0_261)  
+[info] loading project definition from /Users/adinasa/Documents/bigdata/proteomics/project  
+[info] loading settings for project proteomics from build.sbt ...  
+[info] set current project to MyProject (in build file:/Users/adinasa/Documents/bigdata/proteomics/)  
+[success] Total time: 1 s, completed Aug 20, 2020 1:17:56 PM  
+</code></pre></div></div>
+
+<p>The JAR file created with sbt package is a normal Java JAR file. You can list its contents with the usual jar tvf command:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$jar tvf target/scala-2.12/myproject_2.12-1.0.jar  
+ 297 Thu Aug 20 13:00:02 EDT 2020 META-INF/MANIFEST.MF  
+   0 Thu Aug 20 13:00:02 EDT 2020 com/  
+   0 Thu Aug 20 13:00:02 EDT 2020 com/test/  
+   0 Thu Aug 20 13:00:02 EDT 2020 com/test/hadoop/  
+ 751 Thu Aug 20 12:59:40 EDT 2020 com/test/hadoop/ScalaExampleMain.class  
+3567 Thu Aug 20 12:59:40 EDT 2020 com/test/hadoop/ScalaExampleMain$.class  
+</code></pre></div></div>
+
+<p><strong><a href="https://alvinalexander.com/scala/sbt-how-to-configure-work-with-eclipse-projects/">How to configure SBT to work with Eclipse</a></strong></p>
+
+<p><a href="https://github.com/sbt/sbteclipse">sbteclipse</a> is a plugin for sbt to create Eclipse project definitions.</p>
+
+<p>Update the project-specific file at <code class="language-plaintext highlighter-rouge">PROJECT_DIR/project/plugins.sbt</code></p>
+
+<p>PROJECT_DIR is <code class="language-plaintext highlighter-rouge">/Users/adinasa/Documents/bigdata/proteomics</code></p>
+
+<p>In sbt use the command eclipse to create Eclipse project files</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$sbt eclipse  
+
+[info] welcome to sbt 1.3.13 (Oracle Corporation Java 1.8.0_261)  
+[info] loading settings for project proteomics-build from plugins.sbt ...  
+[info] loading project definition from /Users/adinasa/Documents/bigdata/proteomics/project  
+[info] loading settings for project proteomics from build.sbt ...  
+[info] set current project to MyProject (in build file:/Users/adinasa/Documents/bigdata/proteomics/)  
+[info] About to create Eclipse project files for your project(s).  
+[info] Successfully created Eclipse project files for project(s):  
+[info] MyProject  
+</code></pre></div></div>
+
+<p>In Eclipse use the Import Wizard to import Existing Projects into Workspace<br />
+Install <a href="http://scala-ide.org/docs/tutorials/m2eclipse/">m2eclipse-scala</a> plugin for Scala IDE on Maven projects.</p>
+
+<h2 id="references">References</h2>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><a href="https://spark.apache.org">Apache Spark</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p><a href="https://hadoop.apache.org">Apache Hadoop</a> <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#apache-spark" class="page__taxonomy-item" rel="tag">apache spark</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#big-data" class="page__taxonomy-item" rel="tag">big data</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">bioinformatics</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#eclipse" class="page__taxonomy-item" rel="tag">Eclipse</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#emory-uiversity" class="page__taxonomy-item" rel="tag">Emory Uiversity</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#hadoop-distributed-file-system" class="page__taxonomy-item" rel="tag">Hadoop Distributed File System</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#sbt" class="page__taxonomy-item" rel="tag">SBT</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#scala" class="page__taxonomy-item" rel="tag">scala</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-streaming-cassandra/" class="pagination--pager" title="Building a real-time big data pipeline (part 5: NoSQL, Java)
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<!--<a href="/sitemap/">Sitemap</a>-->
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/adinasarapu"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+      <li><a href="http://bitbucket.org/adinasarapu"><i class="fab fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+    
+    <!--<li><a href="https://adinasarapu.github.io/feed.xml">
+	<i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>-->
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 Ashok R. Dinasarapu. 350 Whitehead Biomedical Research Building,
+Emory University, Atlanta, GA 30322.</div>
+
+      </footer>
+    </div>
+
+    <script src="https://adinasarapu.github.io/assets/js/main.min.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-68614074-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+

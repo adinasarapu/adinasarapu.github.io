@@ -1,5 +1,5 @@
 ---
-title: 'Building a real-time big data pipeline (part 5: Cassandra, CQL, Java)'
+title: 'Building a real-time big data pipeline (part 5: NoSQL, Java)'
 date: 2020-08-08
 permalink: /posts/2020/08/blog-post-spark-streaming-cassandra/
 tags:
