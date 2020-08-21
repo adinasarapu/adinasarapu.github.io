@@ -19,7 +19,7 @@
 
 
 
-<title>Building a real-time big data pipeline (part 3: Hadoop, Spark, Scala Build Tool) - Ashok R. Dinasarapu Ph.D</title>
+<title>Building a real-time big data pipeline (part 6: Hadoop, Spark, Scala) - Ashok R. Dinasarapu Ph.D</title>
 
 
 
@@ -29,15 +29,15 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
-<meta property="og:title" content="Building a real-time big data pipeline (part 3: Hadoop, Spark, Scala Build Tool)">
+<meta property="og:title" content="Building a real-time big data pipeline (part 6: Hadoop, Spark, Scala)">
 
 
-  <link rel="canonical" href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/">
-  <meta property="og:url" content="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/">
+  <link rel="canonical" href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/">
+  <meta property="og:url" content="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/">
 
 
 
-  <meta property="og:description" content="Updated on August 20, 2020">
+  <meta property="og:description" content="Updated on August 21, 2020">
 
 
 
@@ -264,15 +264,15 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Building a real-time big data pipeline (part 3: Hadoop, Spark, Scala Build Tool)">
-    <meta itemprop="description" content="Updated on August 20, 2020">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (part 6: Hadoop, Spark, Scala)">
+    <meta itemprop="description" content="Updated on August 21, 2020">
     <meta itemprop="datePublished" content="August 18, 2020">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 3: Hadoop, Spark, Scala Build Tool)
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 6: Hadoop, Spark, Scala)
 </h1>
           
         
@@ -288,7 +288,7 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on August 20, 2020</em></p>
+        <p><em>Updated on August 21, 2020</em></p>
 
 <p>Apache Spark<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> is an open-source cluster computing system that provides high-level APIs in Java, Scala, Python and R. Spark also packaged with higher-level libraries for SQL, machine learning (MLlib), streaming, and graphs (GraphX).</p>
 
@@ -502,6 +502,11 @@ sbt:adinasa&gt;
 <p><code class="language-plaintext highlighter-rouge">cretate_sbt_project.sh</code></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh  
+
+PROJ_DIR="PROJ_DIR="/Users/adinasa/Documents/bigdata/proteomics""
+
+cd $PROJ_DIR
+
 mkdir -p src/{main,test}/{java,resources,scala}  
 mkdir lib project target  
 
@@ -514,8 +519,7 @@ scalaVersion := "2.12.10"' &gt; build.sbt
 <p>If you have the tree command on your system and run it from the current directory, you’ll see that the basic directory structure looks like this:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.		
-├── build.sbt		
-├── cretate_sbt_project.sh		
+├── build.sbt				
 ├── lib		
 ├── project		
 ├── src		
@@ -648,12 +652,11 @@ hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv
 
 <p><a href="https://github.com/sbt/sbteclipse">sbteclipse</a> is a plugin for sbt to create Eclipse project definitions.</p>
 
-<p>Update the project-specific file at <code class="language-plaintext highlighter-rouge">PROJECT_DIR/project/plugins.sbt</code></p>
+<p>Update the project-specific file at <code class="language-plaintext highlighter-rouge">&lt;PROJ_DIR&gt;/project/plugins.sbt</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "5.2.4")  
+</code></pre></div></div>
 
-<p>PROJECT_DIR is <code class="language-plaintext highlighter-rouge">/Users/adinasa/Documents/bigdata/proteomics</code></p>
-
-<p>In sbt use the command eclipse to create Eclipse project files</p>
-
+<p>Run <code class="language-plaintext highlighter-rouge">sbt eclipse</code> to create Eclipse project files</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$sbt eclipse  
 
 [info] welcome to sbt 1.3.13 (Oracle Corporation Java 1.8.0_261)  
@@ -666,8 +669,21 @@ hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv
 [info] MyProject  
 </code></pre></div></div>
 
-<p>In Eclipse use the Import Wizard to import Existing Projects into Workspace<br />
-Install <a href="http://scala-ide.org/docs/tutorials/m2eclipse/">m2eclipse-scala</a> plugin for Scala IDE on Maven projects.</p>
+<p>In Eclipse use the Import Wizard to <strong>import Existing Projects</strong> into Workspace</p>
+
+<p>If you prefer to use an existing Eclipse installation, you can use the following update sites to upgrade or install the Scala IDE plugin.</p>
+<ol>
+  <li>Install <a href="http://scala-ide.org/docs/tutorials/m2eclipse/">m2eclipse-scala</a> plugin for Scala IDE on Maven projects.</li>
+  <li><a href="http://download.scala-ide.org/sdk/lithium/e47/scala212/dev/site">For Eclipse Oxygen (version 4.7)</a></li>
+</ol>
+
+<p>At Eclipse, make sure you have done all of the following steps:</p>
+<ol>
+  <li>Switch to the Scala perspective</li>
+  <li>If you have already created or imported the project, you can right-click on the project’s root directory, then choose Scala and then Add Scala Nature.</li>
+  <li>Right-click on “ScalaExampleMain” -&gt; “Run As” -&gt;  “Scala Application”<br />
+<img src="/images/eclipse-scala.png" alt="eclipse-scala" /></li>
+</ol>
 
 <h2 id="references">References</h2>
 <div class="footnotes">
@@ -749,11 +765,11 @@ Install <a href="http://scala-ide.org/docs/tutorials/m2eclipse/">m2eclipse-scala
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
@@ -761,7 +777,7 @@ Install <a href="http://scala-ide.org/docs/tutorials/m2eclipse/">m2eclipse-scala
 
   <nav class="pagination">
     
-      <a href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-streaming-cassandra/" class="pagination--pager" title="Building a real-time big data pipeline (part 5: NoSQL, Java)
+      <a href="https://adinasarapu.github.io/posts/2020/08/blog-post-cassandra-java/" class="pagination--pager" title="Building a real-time big data pipeline (part 5: NoSQL, Java)
 ">Previous</a>
     
     

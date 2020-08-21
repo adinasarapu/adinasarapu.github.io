@@ -1,7 +1,7 @@
 ---
-title: 'Building a real-time big data pipeline (part 3: Hadoop, Spark, Scala Build Tool)'
+title: 'Building a real-time big data pipeline (part 6: Hadoop, Spark, Scala)'
 date: 2020-08-18
-permalink: /posts/2020/08/blog-post-spark-mllib/
+permalink: /posts/2020/08/blog-post-spark-sbt/
 tags:
   - big data
   - apache spark 
@@ -13,7 +13,7 @@ tags:
   - Emory Uiversity
 
 ---  
-*Updated on August 20, 2020*  
+*Updated on August 21, 2020*  
 
 Apache Spark[^1] is an open-source cluster computing system that provides high-level APIs in Java, Scala, Python and R. Spark also packaged with higher-level libraries for SQL, machine learning (MLlib), streaming, and graphs (GraphX).  
 {% comment %}
@@ -253,6 +253,11 @@ Run the following Unix shell script which creates the initial set of files and d
 
 ```  
 #!/bin/sh  
+
+PROJ_DIR="PROJ_DIR="/Users/adinasa/Documents/bigdata/proteomics""
+
+cd $PROJ_DIR
+
 mkdir -p src/{main,test}/{java,resources,scala}  
 mkdir lib project target  
 
@@ -266,8 +271,7 @@ If you have the tree command on your system and run it from the current director
 
 ```  
 .		
-├── build.sbt		
-├── cretate_sbt_project.sh		
+├── build.sbt				
 ├── lib		
 ├── project		
 ├── src		
@@ -408,12 +412,12 @@ $jar tvf target/scala-2.12/myproject_2.12-1.0.jar
 
 [sbteclipse](https://github.com/sbt/sbteclipse) is a plugin for sbt to create Eclipse project definitions.  
 
-Update the project-specific file at `PROJECT_DIR/project/plugins.sbt`  
+Update the project-specific file at `<PROJ_DIR>/project/plugins.sbt`  
+```  
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "5.2.4")  
+```  
 
-PROJECT_DIR is `/Users/adinasa/Documents/bigdata/proteomics`  
-
-In sbt use the command eclipse to create Eclipse project files  
-
+Run `sbt eclipse` to create Eclipse project files  
 ```  
 $sbt eclipse  
 
@@ -427,8 +431,17 @@ $sbt eclipse
 [info] MyProject  
 ```  
 
-In Eclipse use the Import Wizard to import Existing Projects into Workspace  
-Install [m2eclipse-scala](http://scala-ide.org/docs/tutorials/m2eclipse/) plugin for Scala IDE on Maven projects.  
+In Eclipse use the Import Wizard to **import Existing Projects** into Workspace  
+
+If you prefer to use an existing Eclipse installation, you can use the following update sites to upgrade or install the Scala IDE plugin.  
+1. Install [m2eclipse-scala](http://scala-ide.org/docs/tutorials/m2eclipse/) plugin for Scala IDE on Maven projects.  
+2. [For Eclipse Oxygen (version 4.7)](http://download.scala-ide.org/sdk/lithium/e47/scala212/dev/site)  
+
+At Eclipse, make sure you have done all of the following steps:  
+1. Switch to the Scala perspective  
+2. If you have already created or imported the project, you can right-click on the project's root directory, then choose Scala and then Add Scala Nature.  
+3. Right-click on "ScalaExampleMain" -> "Run As" ->  "Scala Application"  
+![eclipse-scala](/images/eclipse-scala.png)  
 
 [^1]: [Apache Spark](https://spark.apache.org)  
 [^2]: [Apache Hadoop](https://hadoop.apache.org)  
