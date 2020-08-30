@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://adinasarapu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://adinasarapu.github.io/" rel="alternate" type="text/html" /><updated>2020-08-24T14:41:10-04:00</updated><id>https://adinasarapu.github.io/feed.xml</id><title type="html">Ashok R. Dinasarapu Ph.D</title><subtitle></subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Quantitative proteomics: label-free quantitation of proteins</title><link href="https://adinasarapu.github.io/posts/2018/04/blog-post-lfq/" rel="alternate" type="text/html" title="Quantitative proteomics: label-free quantitation of proteins" /><published>2020-04-04T00:00:00-04:00</published><updated>2020-04-04T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2018/04/blog-lfq</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2018/04/blog-post-lfq/">&lt;p&gt;Liquid chromatography (LC) coupled with mass spectrometry (MS) has been widely used for protein expression quantification.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://adinasarapu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://adinasarapu.github.io/" rel="alternate" type="text/html" /><updated>2020-08-30T12:36:34-04:00</updated><id>https://adinasarapu.github.io/feed.xml</id><title type="html">Ashok R. Dinasarapu Ph.D</title><subtitle></subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Quantitative proteomics: label-free quantitation of proteins</title><link href="https://adinasarapu.github.io/posts/2018/04/blog-post-lfq/" rel="alternate" type="text/html" title="Quantitative proteomics: label-free quantitation of proteins" /><published>2020-04-04T00:00:00-04:00</published><updated>2020-04-04T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2018/04/blog-lfq</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2018/04/blog-post-lfq/">&lt;p&gt;Liquid chromatography (LC) coupled with mass spectrometry (MS) has been widely used for protein expression quantification.&lt;/p&gt;
 
 &lt;p&gt;Protein quantification by tandem-MS (MS/MS) uses integrated peak intensity from the parent-ion mass (MS1) or features from fragment-ions (MS2). MS1 methods use the iBAQ (intensity Based Absolute Quantification) algorithm (a protein’s total non-normalised intensities are divided by the number of measurable tryptic peptides). Untargeted label-free quantitation (LFQ) of proteins, aims to determine the relative amount of proteins in two or more biological samples.&lt;/p&gt;
 
@@ -295,7 +295,7 @@ For further reading: &lt;a href=&quot;https://yiweiniu.github.io/blog/2019/03/AT
       &lt;p&gt;&lt;a href=&quot;http://software.broadinstitute.org/software/igv/home&quot;&gt;IGV&lt;/a&gt; &lt;a href=&quot;#fnref:7&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing)" /><category term="MACS2" /><category term="BWA" /><category term="HOMER" /><summary type="html">ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility.</summary></entry><entry><title type="html">Single cell gene expression data analysis on Cluster (10X Genomics, Cell Ranger and Seurat)</title><link href="https://adinasarapu.github.io/posts/2019/01/blog-post-sc-ranseq/" rel="alternate" type="text/html" title="Single cell gene expression data analysis on Cluster (10X Genomics, Cell Ranger and Seurat)" /><published>2019-11-18T00:00:00-05:00</published><updated>2019-11-18T00:00:00-05:00</updated><id>https://adinasarapu.github.io/posts/2019/01/blog-sc-rnaseq</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2019/01/blog-post-sc-ranseq/">&lt;p&gt;&lt;em&gt;Updated on August 10, 2020&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing)" /><category term="MACS2" /><category term="BWA" /><category term="HOMER" /><summary type="html">ATAC-seq (Assay for Transposase Accessible Chromatin with high-throughput Sequencing) is a next-generation sequencing approach for the analysis of open chromatin regions to assess the genome-wise chromatin accessibility.</summary></entry><entry><title type="html">Single cell gene expression data analysis on Cluster (10X Genomics, Cell Ranger)</title><link href="https://adinasarapu.github.io/posts/2019/01/blog-post-sc-ranseq/" rel="alternate" type="text/html" title="Single cell gene expression data analysis on Cluster (10X Genomics, Cell Ranger)" /><published>2019-11-18T00:00:00-05:00</published><updated>2019-11-18T00:00:00-05:00</updated><id>https://adinasarapu.github.io/posts/2019/01/blog-sc-rnaseq</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2019/01/blog-post-sc-ranseq/">&lt;p&gt;&lt;em&gt;Updated on August 30, 2020&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Running &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger&quot;&gt;cellranger&lt;/a&gt; as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.&lt;/p&gt;
 
@@ -378,7 +378,70 @@ see more at &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-ex
 
 &lt;p&gt;&lt;strong&gt;for Feature Barcode Analysis&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;Tested on Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay) data. For more information, please visit the &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-expression/overview/doc/getting-started-single-cell-gene-expression-with-feature-barcoding-technology&quot;&gt;Single Cell Gene Expression with Feature Barcoding&lt;/a&gt; page (Single Cell 3’) or the &lt;a href=&quot;https://support.10xgenomics.com/single-cell-vdj/overview/doc/getting-started-immune-profiling-feature-barcoding&quot;&gt;Single Cell Immune Profiling Feature Barcoding&lt;/a&gt; page (Single Cell 5’).&lt;/p&gt;
+&lt;p&gt;Tested on Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay) data. For more information, please visit the &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-expression/overview/doc/getting-started-single-cell-gene-expression-with-feature-barcoding-technology&quot;&gt;Single Cell Gene Expression with Feature Barcoding&lt;/a&gt; page (Single Cell 3’) or the &lt;a href=&quot;https://support.10xgenomics.com/single-cell-vdj/overview/doc/getting-started-immune-profiling-feature-barcoding&quot;&gt;Single Cell Immune Profiling with Feature Barcoding&lt;/a&gt; page (Single Cell 5’).&lt;/p&gt;
+
+&lt;p&gt;Currently available Feature Barcode kits for Single Cell Gene Expression Feature Barcode Technology&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;10x Solution&lt;/th&gt;
+      &lt;th&gt;Gene Expression&lt;/th&gt;
+      &lt;th&gt;Cell Surface Protein&lt;/th&gt;
+      &lt;th&gt;CRISPR Screening&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Single Cell Gene Expression v2&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+      &lt;td&gt;-&lt;/td&gt;
+      &lt;td&gt;-&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Single Cell Gene Expression v3&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Single Cell Gene Expression v3.1&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Currently available Feature Barcoding kits for Single Cell Immune Profiling Feature Barcoding Technology&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;10x Solution&lt;/th&gt;
+      &lt;th&gt;TCR/Ig&lt;/th&gt;
+      &lt;th&gt;Gene Expression&lt;/th&gt;
+      &lt;th&gt;Cell Surface Marker&lt;/th&gt;
+      &lt;th&gt;TCR-Antigen Specificity&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Single Cell Immune Profiling&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+      &lt;td&gt;-&lt;/td&gt;
+      &lt;td&gt;-&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Single Cell Immune Profiling with Feature Barcoding technology&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+      &lt;td&gt;✓&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;p&gt;To enable Feature Barcode analysis, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cellranger count&lt;/code&gt; needs two inputs:&lt;/p&gt;
 
@@ -467,6 +530,8 @@ see more at &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-ex
 &lt;a href=&quot;https://support.10xgenomics.com/csv/vdj_v1_hs_pbmc2_5gex_protein_feature_ref.csv&quot;&gt;TotalSeq™-C&lt;/a&gt; is a line of antibody-oligonucleotide conjugates supplied by BioLegend that are compatible with the Single Cell 5’ assay.&lt;br /&gt;
 &lt;a href=&quot;https://support.10xgenomics.com/csv/TotalSeqA_example_feature_ref.csv&quot;&gt;TotalSeq™-A&lt;/a&gt; is a line of antibody-oligonucleotide conjugates supplied by BioLegend that are compatible with the Single Cell 3’ v2 and Single Cell 3’ v3 kits. Although TotalSeq™-A can be used with the CITE-Seq assay, CITE-Seq is not a 10x supported assay.&lt;/p&gt;
 
+&lt;p&gt;CITE-seq (Cellular Indexing of Transcriptomes and Epitopes by Sequencing) allows simultaneous analysis of transcriptome and cell surface protein information at the level of a single cell.&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
 &lt;p&gt;&lt;em&gt;“The pipeline first extracts and corrects the cell barcode and UMI from the feature library using the same methods as gene expression read processing. It then matches the Feature Barcode read against the list of features declared in the above &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/feature-bc-analysis#feature-ref&quot;&gt;Feature Barcode Reference&lt;/a&gt;. The counts for each feature are available in the feature-barcode matrix output files.”&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cellranger count \&lt;/code&gt;&lt;br /&gt;
@@ -521,8 +586,11 @@ see more at &lt;a href=&quot;https://support.10xgenomics.com/single-cell-gene-ex
     &lt;li id=&quot;fn:2&quot;&gt;
       &lt;p&gt;&lt;a href=&quot;https://satijalab.org/seurat/&quot;&gt;Seurat&lt;/a&gt; &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;Stoeckius, M. et al. Simultaneous epitope and transcriptome measurement in single cells. Nat. Methods 14, 865–868 (2017). &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="10XGenomics" /><category term="Chromium Single Cell Gene Expression" /><category term="Single cell RNA-sequencing (scRNA-seq)" /><category term="Single Cell" /><category term="Cell Ranger" /><category term="Seurat" /><category term="Cluster Computing" /><category term="Feature Barcoding" /><summary type="html">Updated on August 10, 2020</summary></entry><entry><title type="html">Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data</title><link href="https://adinasarapu.github.io/posts/2019/01/blog-post-qiime2/" rel="alternate" type="text/html" title="Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data" /><published>2019-01-01T00:00:00-05:00</published><updated>2019-01-01T00:00:00-05:00</updated><id>https://adinasarapu.github.io/posts/2019/01/blog-qiime2</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2019/01/blog-post-qiime2/">&lt;p&gt;The 16S ribosomal RNA (rRNA) gene of Bacteria codes for the RNA component of the 30S subunit. Different bacterial species have one to multiple copies of the 16S rRNA gene, and each with 9 hypervariable regions, V1-V9. High-throughput sequencing of 16S rRNA gene (a “marker gene”) amplicons has become a widely used method to study bacterial phylogeny and species classification.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="10XGenomics" /><category term="Chromium Single Cell Gene Expression" /><category term="Single cell RNA-sequencing (scRNA-seq)" /><category term="Single Cell" /><category term="Cell Ranger" /><category term="Seurat" /><category term="Cluster Computing" /><category term="Feature Barcoding" /><summary type="html">Updated on August 30, 2020</summary></entry><entry><title type="html">Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data</title><link href="https://adinasarapu.github.io/posts/2019/01/blog-post-qiime2/" rel="alternate" type="text/html" title="Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data" /><published>2019-01-01T00:00:00-05:00</published><updated>2019-01-01T00:00:00-05:00</updated><id>https://adinasarapu.github.io/posts/2019/01/blog-qiime2</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2019/01/blog-post-qiime2/">&lt;p&gt;The 16S ribosomal RNA (rRNA) gene of Bacteria codes for the RNA component of the 30S subunit. Different bacterial species have one to multiple copies of the 16S rRNA gene, and each with 9 hypervariable regions, V1-V9. High-throughput sequencing of 16S rRNA gene (a “marker gene”) amplicons has become a widely used method to study bacterial phylogeny and species classification.&lt;/p&gt;
 
 &lt;p&gt;Quantitative Insights Into Microbial Ecology “QIIME” 2 (release 2018.11)&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; is a widely used package to identity abundance of microbes using 16s rRNA. Briefly, feature table containing counts of each unique sequence in the samples will be constructed using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;qiime dada2 denoise-paired&lt;/code&gt; method. A feature is essentially any unit of observation, e.g., an OTU (Operational Taxonomic Unit), a sequence variant, a gene or a metabolite. In QIIME2 (currently), most features will be OTUs or sequence variants (alternatively, for OTUs, use QIIME2 plugin &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;q2-vsearch&lt;/code&gt;).&lt;/p&gt;
 

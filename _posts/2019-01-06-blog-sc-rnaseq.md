@@ -1,5 +1,5 @@
 ---
-title: 'Single cell gene expression data analysis on Cluster (10X Genomics, Cell Ranger and Seurat)'
+title: 'Single cell gene expression data analysis on Cluster (10X Genomics, Cell Ranger)'
 date: 2019-11-18
 permalink: /posts/2019/01/blog-post-sc-ranseq/
 tags:
@@ -13,7 +13,7 @@ tags:
   - Feature Barcoding
 
 ---  
-*Updated on August 10, 2020*  
+*Updated on August 30, 2020*  
 
 Running [cellranger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) as cluster mode that uses Sun Grid Engine (SGE) as queuing system allows highly parallelizable jobs.
 
@@ -97,7 +97,26 @@ For pipeline output directory, the `--id` argument is used i.e 10XGTX_v3.
 
 **for Feature Barcode Analysis**  
 
-Tested on Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay) data. For more information, please visit the [Single Cell Gene Expression with Feature Barcoding](https://support.10xgenomics.com/single-cell-gene-expression/overview/doc/getting-started-single-cell-gene-expression-with-feature-barcoding-technology) page (Single Cell 3') or the [Single Cell Immune Profiling Feature Barcoding](https://support.10xgenomics.com/single-cell-vdj/overview/doc/getting-started-immune-profiling-feature-barcoding) page (Single Cell 5').  
+Tested on Single Cell 5′ gene expression and cell surface protein (Feature Barcoding/Antibody Capture Assay) data. For more information, please visit the [Single Cell Gene Expression with Feature Barcoding](https://support.10xgenomics.com/single-cell-gene-expression/overview/doc/getting-started-single-cell-gene-expression-with-feature-barcoding-technology) page (Single Cell 3') or the [Single Cell Immune Profiling with Feature Barcoding](https://support.10xgenomics.com/single-cell-vdj/overview/doc/getting-started-immune-profiling-feature-barcoding) page (Single Cell 5').  
+
+Currently available Feature Barcode kits for Single Cell Gene Expression Feature Barcode Technology  
+
+|---------------------------------------------------------------------------------------------|  
+| 10x Solution			  | Gene Expression | Cell Surface Protein | CRISPR Screening |  
+|---------------------------------------------------------------------------------------------|  
+| Single Cell Gene Expression v2  | ✓		    | -			   | -		      |  
+| Single Cell Gene Expression v3  | ✓		    | ✓			   | ✓		      |  
+| Single Cell Gene Expression v3.1| ✓		    | ✓			   | ✓                |  
+|---------------------------------------------------------------------------------------------|  
+
+Currently available Feature Barcoding kits for Single Cell Immune Profiling Feature Barcoding Technology  
+
+|------------------------------------------------------------------------------------------------------------------------------------------|  
+| 10x Solution							| TCR/Ig | Gene Expression | Cell Surface Marker | TCR-Antigen Specificity |  
+|------------------------------------------------------------------------------------------------------------------------------------------|  
+| Single Cell Immune Profiling 					| ✓	 | ✓		   | -			 | -			   |  
+| Single Cell Immune Profiling with Feature Barcoding technology| ✓	 | ✓		   | ✓			 | ✓			   |  
+|------------------------------------------------------------------------------------------------------------------------------------------|  
 
 To enable Feature Barcode analysis, `cellranger count` needs two inputs:  
 
@@ -132,6 +151,8 @@ Second, you need Feature reference csv file, declaring feature-barcode construct
 [TotalSeq™-B](https://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_feature_ref.csv) is a line of antibody-oligonucleotide conjugates supplied by BioLegend that are compatible with the Single Cell 3' v3 assay.  
 [TotalSeq™-C](https://support.10xgenomics.com/csv/vdj_v1_hs_pbmc2_5gex_protein_feature_ref.csv) is a line of antibody-oligonucleotide conjugates supplied by BioLegend that are compatible with the Single Cell 5' assay.  
 [TotalSeq™-A](https://support.10xgenomics.com/csv/TotalSeqA_example_feature_ref.csv) is a line of antibody-oligonucleotide conjugates supplied by BioLegend that are compatible with the Single Cell 3' v2 and Single Cell 3' v3 kits. Although TotalSeq™-A can be used with the CITE-Seq assay, CITE-Seq is not a 10x supported assay.  
+
+CITE-seq (Cellular Indexing of Transcriptomes and Epitopes by Sequencing) allows simultaneous analysis of transcriptome and cell surface protein information at the level of a single cell.[^3]  
 
 *"The pipeline first extracts and corrects the cell barcode and UMI from the feature library using the same methods as gene expression read processing. It then matches the Feature Barcode read against the list of features declared in the above [Feature Barcode Reference](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/feature-bc-analysis#feature-ref). The counts for each feature are available in the feature-barcode matrix output files."*  
  
@@ -180,4 +201,6 @@ Seurat is an R package designed for QC, analysis, and exploration of single cell
 ---
 
 [^1]: [10XGenomics](https://support.10xgenomics.com/single-cell-gene-expression/software/overview/welcome)
-[^2]: [Seurat](https://satijalab.org/seurat/)
+[^2]: [Seurat](https://satijalab.org/seurat/)  
+[^3]: Stoeckius, M. et al. Simultaneous epitope and transcriptome measurement in single cells. Nat. Methods 14, 865–868 (2017).  
+
