@@ -19,7 +19,7 @@
 
 
 
-<title>Building a real-time big data pipeline (part 7: Hadoop, Spark Machine Learning) - Ashok R. Dinasarapu Ph.D</title>
+<title>Building a real-time big data pipeline (part 7: Hadoop, Spark MLlib, Generalized Linear Regression) - Ashok R. Dinasarapu Ph.D</title>
 
 
 
@@ -29,7 +29,7 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
-<meta property="og:title" content="Building a real-time big data pipeline (part 7: Hadoop, Spark Machine Learning)">
+<meta property="og:title" content="Building a real-time big data pipeline (part 7: Hadoop, Spark MLlib, Generalized Linear Regression)">
 
 
   <link rel="canonical" href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/">
@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on August 24, 2020">
+  <meta property="og:description" content="Updated on September 20, 2020">
 
 
 
@@ -264,15 +264,15 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Building a real-time big data pipeline (part 7: Hadoop, Spark Machine Learning)">
-    <meta itemprop="description" content="Updated on August 24, 2020">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (part 7: Hadoop, Spark MLlib, Generalized Linear Regression)">
+    <meta itemprop="description" content="Updated on September 20, 2020">
     <meta itemprop="datePublished" content="August 24, 2020">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 7: Hadoop, Spark Machine Learning)
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 7: Hadoop, Spark MLlib, Generalized Linear Regression)
 </h1>
           
         
@@ -288,7 +288,7 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on August 24, 2020</em></p>
+        <p><em>Updated on September 20, 2020</em></p>
 
 <p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as:</p>
 
@@ -296,7 +296,6 @@
   <li>Classification</li>
   <li>Regression</li>
   <li>Clustering</li>
-  <li>Modeling</li>
   <li>Dimentionality reduction</li>
   <li>Linear algebra, statistics and data handling</li>
 </ol>
@@ -421,9 +420,46 @@ libraryDependencies += "org.apache.spark" %% "spark-mllib" % "3.0.0"
 
 <h2 id="3-java-application">3. Java application</h2>
 
-<p>Create a file named <code class="language-plaintext highlighter-rouge">JavaExampleMain.java</code> in the <code class="language-plaintext highlighter-rouge">src/main/java</code> directory.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.test.rdd;  
+<p>GeneralizedLinearRegression is a regression algorithm. There are two steps to successfully run this application.</p>
 
+<p>STEP 1. To fit a Generalized Linear Model (GLM) use a symbolic description of the linear predictor (link function) and a description of the error distribution (family) from the following table.</p>
+
+<p>For example,</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GeneralizedLinearRegression glr = new GeneralizedLinearRegression().setFamily("gaussian").setLink("identity")  
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Family (Error distribution)</th>
+      <th>Link function (Linear predictor)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>gaussian</td>
+      <td>identity, log, inverse</td>
+    </tr>
+    <tr>
+      <td>binomial</td>
+      <td>logit, probit, cloglog</td>
+    </tr>
+    <tr>
+      <td>poisson</td>
+      <td>log, identity, sqrt</td>
+    </tr>
+    <tr>
+      <td>gamma</td>
+      <td>inverse, identity, log</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>STEP 2. Relating column names to model parameters (label and features).</p>
+
+<p>Create a file named <code class="language-plaintext highlighter-rouge">JavaExampleMain.java</code> in the <code class="language-plaintext highlighter-rouge">src/main/java</code> directory.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.test.rdd; 
+ 
 import static org.apache.spark.sql.functions.col;  
 import static org.apache.spark.sql.functions.lit;  
 import static org.apache.spark.sql.functions.when;  
@@ -442,79 +478,65 @@ import org.apache.log4j.Logger;
 import org.apache.spark.ml.feature.VectorAssembler;  
 import org.apache.spark.ml.regression.GeneralizedLinearRegression;  
 import org.apache.spark.ml.regression.GeneralizedLinearRegressionModel;  
+import org.apache.spark.ml.regression.GeneralizedLinearRegressionTrainingSummary;  
 import org.apache.spark.sql.Dataset;  
 import org.apache.spark.sql.Row;  
-import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.SparkSession;  
 
 public class JavaExampleMain {  
-	// main methos
-	public static void main(String[] args) {  
-		FileStatus[] fileStatus = filesFromHadoop();  
-		SparkSession spark = sparkSession();  
-		DatasetForML dataset = new DatasetForML();  
-		dataset.setFileStatus(fileStatus);  
-		dataset.setSpark(spark);  
-		Dataset&lt;Row&gt; dataset2 = dataset.createDataSet();  
-		
-		//
-		GeneralizedLinearRegression glr = new GeneralizedLinearRegression()  
-			.setFamily("gaussian")  
-			.setLink("identity")  
-			.setMaxIter(10)  
-			.setRegParam(0.3);  
-		
-		// Fit the model  
-		GeneralizedLinearRegressionModel model = glr.fit(dataset2);  
-		
-		// Print the coefficients and intercept for generalized linear regression model  
-		System.out.println("Coefficients: " + model.coefficients());  
-		System.out.println("Intercept: " + model.intercept());  
-		
-		spark.stop();  
-	}
+
+    public static void main(String[] args) {  
+
+	// Hadoop: get file-list from HDFS  
+
+	URI uri = null;  
+	try {  
+		uri = new URI("hdfs://localhost:9000/user/adinasarapu");  
+	} catch (URISyntaxException e1) {  
+		e1.printStackTrace();  
+	}  
 	
-	// method for SparkSession
-	private static SparkSession sparkSession() {
+	FileStatus[] fileStatus = filesFromHadoop(uri);
 
-		// The entry point to programming Spark with the Dataset and DataFrame API.  
-		// The builder can be used to create a new session  
-		SparkSession spark = SparkSession  
-			.builder()  
-			.master("local").appName("Java Spark SQL Example")  
-			.config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")  
-			.getOrCreate();  
-		return spark;  
-	}  
+        // This is the entry point to programming Spark with the Dataset and DataFrame API.  
+	// The builder can also be used to create a new session  
+	// If you didn't specify serialization in spark context you are using the default java serialization...  
+	// Spark runs on YARN, in cluster mode. spark.serializer is set to org.apache.spark.serializer.KryoSerializer  
 
-	// Hadoop connection  
-	private static FileStatus[] filesFromHadoop() {  
-		Logger rootLogger = LogManager.getRootLogger();
-		rootLogger.setLevel(Level.WARN);  
+        SparkSession spark = SparkSession  
+		.builder()  
+		.master("local").appName("Java Spark SQL Example")  
+		.config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")  
+		.getOrCreate();  
 
-		Configuration conf = new Configuration();  
-		URI uri = null;  
-		try {  
-			uri = new URI("hdfs://localhost:9000/user/adinasarapu");  
-		} catch (URISyntaxException e1) {  
-			e1.printStackTrace();  
-		}  
-		FileSystem fs = null;  
-		try {  
-			fs = FileSystem.get(uri, conf);  
-		} catch (IOException e) {  
-			e.printStackTrace();  
-		}  
-			FileStatus[] fileStatus = null;  
-		try {  
-			fileStatus = fs.listStatus(new Path(uri));  
-		} catch (FileNotFoundException e) {  
-			e.printStackTrace();  
-		} catch (IOException e) {  
-			e.printStackTrace();  
-		}  
-		return fileStatus;  
-	}  
-}  
+        // Create Dataset&lt;Row&gt; object  
+        
+	DatasetForML dataset = new DatasetForML();  
+	dataset.setFileStatus(fileStatus);  
+	dataset.setSpark(spark);  
+	Dataset&lt;Row&gt; dataset2 = dataset.createDataSet();  
+
+	// Here you can also set label column and features columns  
+	// label: dependent variable in the model  
+	// features is a vector and independent variables in the model  
+
+       GeneralizedLinearRegression glr = new GeneralizedLinearRegression()  
+		.setFamily("gaussian")  
+		.setLink("identity")  
+		.setMaxIter(10)  
+		.setRegParam(0.3);  
+
+                // .setLabelCol("label")  
+		// .setFeaturesCol("features");  
+
+	// Fit the model  
+
+	GeneralizedLinearRegressionModel model = glr.fit(dataset2);  
+
+        // Print the coefficients and intercept for generalized linear regression model  
+
+        GeneralizedLinearRegressionTrainingSummary summary = model.summary();  
+        System.out.println(summary.toString());  
 </code></pre></div></div>
 
 <p>Create a file named <code class="language-plaintext highlighter-rouge">DatasetForML.java</code> in the <code class="language-plaintext highlighter-rouge">src/main/java</code> directory.</p>
@@ -532,83 +554,105 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;  
 
 public class DatasetForML {  
-
-	private static final long serialVersionUID = 1L;  
-
-	FileStatus[] fileStatus = null;  
-	SparkSession spark = null;  
-
-	public DatasetForML() {	}  
-
-	public FileStatus[] getFileStatus() {  
-		return fileStatus;  
-	}  
-
-	public void setFileStatus(FileStatus[] fileStatus) {  
-		this.fileStatus = fileStatus;  
-	}  
-
-	public SparkSession getSpark() {  
-		return spark;  
-	}  
+    private static final long serialVersionUID = 1L; 
+    
+    // initialize with null
+    FileStatus[] fileStatus = null;  
+    SparkSession spark = null;  
 	
-	public void setSpark(SparkSession spark) {  
-		this.spark = spark;  
-	}  
-	
-	public Dataset&lt;Row&gt; createDataSet() {  
-		 
-		Dataset&lt;Row&gt; dataset = null;  
-		String data_file = null;  
-		String samples_file = null;
-		
-		// Check if file exists at the given location
-		for (FileStatus status : fileStatus) {  
-			String file_name = status.getPath().toString();  
-			File f = new File(file_name);
-  
-			if(f.getName().startsWith("data_")) {  
-				data_file = file_name;    
-			}  
+    // No-argument constructor  
+    public DatasetForML() { }  
 
-			if(f.getName().startsWith("samples_")) {  
-				samples_file = file_name;  
-			}  
-		}  
+    public void setFileStatus(FileStatus[] fileStatus) {  
+       this.fileStatus = fileStatus;   
+    }  
 
-		Dataset&lt;Row&gt; df_sample = spark.read()  
-				.option("inferSchema","true")  
-				.option("header", "true")  
-				.csv(samples_file)  
-				.withColumnRenamed("Disease", "label");  
-		
-		Dataset&lt;Row&gt; df_sample2 = df_sample.withColumn("label", when(col("label").isNotNull()  
-				.and(col("label").equalTo(lit("Yes"))),lit(1))
-				.otherwise(lit(0)));  
-		
-		Dataset&lt;Row&gt; df_sample3 = df_sample2.select("SampleID","label", "Age");  
+    public void setSpark(SparkSession spark) {
+       this.spark = spark;
+    }
 
-		String[] myStrings = {"label","Age"};  
-		VectorAssembler VA = new  VectorAssembler()  
-				.setInputCols(myStrings)  
-				.setOutputCol("features");  
-		dataset = VA.transform(df_sample3);  
-		return dataset;  
-	}  
+    public FileStatus[] getFileStatus() {  return fileStatus; }  
+
+    public SparkSession getSpark() {  return spark; }     
+
+    public Dataset&lt;Row&gt; createDataSet() {   
+       
+       Dataset&lt;Row&gt; dataset = null;   
+       String data_file = null;   
+       String samples_file = null;  
+     
+       for (FileStatus status : fileStatus) {  
+           String file_name = status.getPath().toString();  
+           File f = new File(file_name);  
+           if (f.getName().startsWith("data_")) {  
+              data_file = file_name;  
+           }  
+           if (f.getName().startsWith("samples_")) {  
+              samples_file = file_name;
+           }  
+       }  
+ 
+       // Read samples file as Dataset&lt;Row&gt;  
+       // Replace column name Disease with label as .withColumnRenamed("Disease", "label")  
+       // Now label column is a target (acts as dependent variable in the model)  
+       // Optionally you can use setLabelCol("Disease") with GeneralizedLinearRegression class  
+
+       Dataset&lt;Row&gt; df_sample = spark.read()  
+		.option("inferSchema", "true")  
+		.option("header", "true")  
+		.csv(samples_file)  
+		.withColumnRenamed("Disease", "label");  
+
+       // Replace Yes or NO with 1 or 0  
+
+       Dataset&lt;Row&gt; df_sample2 = df_sample  
+		.withColumn("label", when(col("label").isNotNull()  
+			.and(col("label").equalTo(lit("Yes"))), lit(1)).otherwise(lit(0)))  
+		.withColumn("Genetic",when(col("Genetic").isNotNull()  
+			.and(col("Genetic").equalTo(lit("Yes"))),lit(1)).otherwise(lit(0)));  
+
+       // Subset the Dataset  
+
+       Dataset&lt;Row&gt; df_sample3 = df_sample2.select("SampleID", "label", "Genetic","Age");  
+       
+       // df_sample3.show();  
+       // df_sample3.printSchema();  
+
+       // VectorAssembler is a transformer that combines a given list of columns into a single vector column  
+       // We want to combine Genetic and Age into a single feature vector called features (acts as independent variables in the model)  
+       // Optionally you can use setFearuresCol("name_of_a_vector") with GeneralizedLinearRegression class
+
+       String[] myStrings = {"Genetic", "Age"};  
+       VectorAssembler VA = new VectorAssembler().setInputCols(myStrings).setOutputCol("features");  
+       dataset = VA.transform(df_sample3);  
+
+       // dataset.show();
+       return dataset;    
 }  
 </code></pre></div></div>
 
-<p>Run the project:<code class="language-plaintext highlighter-rouge">sbt run</code></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[info] welcome to sbt 1.3.13 (Oracle Corporation Java 1.8.0_261)  
-[info] loading settings for project proteomics-build from plugins.sbt ...  
-[info] loading project definition from /Users/adinasa/Documents/bigdata/proteomics/project  
-[info] loading settings for project proteomics from built.sbt ...  
-[info] set current project to MyProject (in build file:/Users/adinasa/Documents/bigdata/proteomics/)  
-...  
-...  
-...  
-Coefficients: [0.5885374357547469,0.004125098728643811]  
-Intercept: 0.01456465954989681  
+<p>To compile and run the project use either sbt or IntelliJ IDEA</p>
+
+<p>For <code class="language-plaintext highlighter-rouge">sbt</code>, run <code class="language-plaintext highlighter-rouge">sbt run</code> in the directory where <code class="language-plaintext highlighter-rouge">build.sbt</code> is present.</p>
+
+<p>For Intellij IDEA,</p>
+<ol>
+  <li>Download and intall IntelliJ IDEA</li>
+  <li>Add the Scala plugin (IntelliJ IDEA -&gt; Preferences -&gt; Plugins)</li>
+  <li>Import an sbt project (From the <code class="language-plaintext highlighter-rouge">Welcome Screen</code> or <code class="language-plaintext highlighter-rouge">File</code> -&gt; Open; Browse to and select the top-level folder of your sbt project, and click OK)</li>
+</ol>
+
+<p>Results</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coefficients:  
+	Feature     Estimate  Std Error T Value	P Value  
+	(Intercept) 0.0408    0.3501	0.1165	0.9081  
+	Genetic     0.2797    0.1278	2.1878	0.0375  
+	Age   	    0.0085    0.0055	1.5454	0.1339  
+
+(Dispersion parameter for gaussian family taken to be 0.1753)  
+	Null deviance: 6.6667 on 27 degrees of freedom  
+	Residual deviance: 4.7321 on 27 degrees of freedom  
+AIC: 37.7313  
 </code></pre></div></div>
 
 <p>Finally,
@@ -622,6 +666,12 @@ Stopping secondary namenodes [Ashoks-MacBook-Pro.2.local]
 Stopping nodemanagers
 Stopping resourcemanager
 </code></pre></div></div>
+
+<p>Further reading…</p>
+
+<p><a href="https://medium.com/@dhiraj.p.rai/logistic-regression-in-spark-ml-8a95b5f5434c">Logistic Regression in Spark ML</a><br />
+<a href="https://medium.com/rahasak/logistic-regression-with-apache-spark-b7ec4c98cfcd">Logistic Regression with Apache Spark</a><br />
+<a href="https://towardsdatascience.com/apache-spark-mllib-tutorial-7aba8a1dce6e">Feature Transformation</a></p>
 
 <h2 id="references">References</h2>
 <div class="footnotes">
@@ -676,6 +726,10 @@ Stopping resourcemanager
       
       
       <a href="https://adinasarapu.github.io/tags/#emory-uiversity" class="page__taxonomy-item" rel="tag">Emory Uiversity</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#generalized-linear-regression" class="page__taxonomy-item" rel="tag">Generalized Linear Regression</a><span class="sep">, </span>
     
       
       
