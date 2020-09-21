@@ -349,60 +349,9 @@ for YARN Resource Manager: http://localhost:8088</p>
 
 <p>SBT is an interactive build tool for Scala, Java, and more. It requires Java 1.8 or later.</p>
 
-<p><a href="https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Mac.html">Installing sbt on macOS</a></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$brew install sbt
-</code></pre></div></div>
+<p><a href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/">How to install, and create an initial set of files and directories for any SBT project</a></p>
 
-<p><em>Create the project</em></p>
-
-<p>cd to an empy directory</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /Users/adinasa/Documents/bigdata/proteomics  
-</code></pre></div></div>
-
-<p>Run the following Unix shell script which creates the initial set of files and directories you’ll want for most projects:</p>
-
-<p><code class="language-plaintext highlighter-rouge">cretate_sbt_project.sh</code></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh  
-
-PROJ_DIR="PROJ_DIR="/Users/adinasa/Documents/bigdata/proteomics""
-
-cd $PROJ_DIR
-
-mkdir -p src/{main,test}/{java,resources,scala}  
-mkdir lib project target  
-
-# create an initial build.sbt file  
-echo 'name := "MyProject"  
-version := "1.0"  
-scalaVersion := "2.12.12"' &gt; build.sbt  
-</code></pre></div></div>
-
-<p>If you have the tree command on your system and run it from the current directory, you’ll see that the basic directory structure looks like this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.		
-├── build.sbt				
-├── lib		
-├── project		
-├── src		
-│   ├── main		
-│   │   ├── java		
-│   │   ├── resources		
-│   │   └── scala	
-│   └── test		
-│       ├── java		
-│       ├── resources		
-│       └── scala		
-└── target		
-</code></pre></div></div>
-
-<p><em>build.sbt</em></p>
-
-<p>The <code class="language-plaintext highlighter-rouge">build.sbt</code> file is SBT’s basic configuration file. You define most settings that SBT needs in this file, including specifying library dependencies, repositories, and any other basic settings your project requires.</p>
-
-<p>The dependencies are in Maven format, with <code class="language-plaintext highlighter-rouge">%</code> separating the parts. The <code class="language-plaintext highlighter-rouge">%%</code> means that it will automatically add the specific Scala version to the dependency name.</p>
-
-<p>Update the <code class="language-plaintext highlighter-rouge">build.sbt</code> file for Hadoop, Spark core and Spark Machine Learning libs <sup id="fnref:1:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2:1"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3:2"><a href="#fn:3" class="footnote">3</a></sup> <sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> <sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup>.</p>
+<p>Update the <code class="language-plaintext highlighter-rouge">build.sbt</code> file for Hadoop, Spark core and Spark Machine Learning libraries <sup id="fnref:1:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2:1"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3:2"><a href="#fn:3" class="footnote">3</a></sup> <sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> <sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup>. Use Maven repository to get any <code class="language-plaintext highlighter-rouge">libraryDependencies</code>. See <a href="https://mvnrepository.com/artifact/org.apache.spark/spark-mllib">Spark Project ML Library</a> at Maven repository.</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name := "MyProject"
 version := "1.0"
 
@@ -420,13 +369,11 @@ libraryDependencies += "org.apache.spark" %% "spark-mllib" % "3.0.0"
 
 <h2 id="3-java-application">3. Java application</h2>
 
-<p>GeneralizedLinearRegression is a regression algorithm. There are two steps to successfully run this application.</p>
+<p><code class="language-plaintext highlighter-rouge">GeneralizedLinearRegression</code> is a regression algorithm. There are two steps to successfully run this application.</p>
 
-<p>STEP 1. To fit a Generalized Linear Model (GLM) use a symbolic description of the linear predictor (link function) and a description of the error distribution (family) from the following table.</p>
+<p>First to fit a Generalized Linear Model (GLM), use a symbolic description of the linear predictor (link function) and a description of the error distribution (family) from the following table.</p>
 
-<p>For example,</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GeneralizedLinearRegression glr = new GeneralizedLinearRegression().setFamily("gaussian").setLink("identity")  
-</code></pre></div></div>
+<p>For example, <code class="language-plaintext highlighter-rouge">GeneralizedLinearRegression glr = new GeneralizedLinearRegression().setFamily("gaussian").setLink("identity")</code></p>
 
 <table>
   <thead>
@@ -455,7 +402,9 @@ libraryDependencies += "org.apache.spark" %% "spark-mllib" % "3.0.0"
   </tbody>
 </table>
 
-<p>STEP 2. Relating column names to model parameters (label and features).</p>
+<p>Second, relate column names to model parameters (label and features).<br />
+<code class="language-plaintext highlighter-rouge">label</code>: dependent variable in the model<br />
+<code class="language-plaintext highlighter-rouge">features</code> is a vector with independent variables in the model</p>
 
 <p>Create a file named <code class="language-plaintext highlighter-rouge">JavaExampleMain.java</code> in the <code class="language-plaintext highlighter-rouge">src/main/java</code> directory.</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.test.rdd; 
@@ -631,16 +580,22 @@ public class DatasetForML {
 }  
 </code></pre></div></div>
 
-<p>To compile and run the project use either sbt or IntelliJ IDEA</p>
+<h2 id="4-code-compilation-and-results">4. Code compilation and results</h2>
 
-<p>For <code class="language-plaintext highlighter-rouge">sbt</code>, run <code class="language-plaintext highlighter-rouge">sbt run</code> in the directory where <code class="language-plaintext highlighter-rouge">build.sbt</code> is present.</p>
+<p>To compile and run the project use either SBT, IntelliJ IDEA or Eclipse IDE</p>
+
+<p>For <code class="language-plaintext highlighter-rouge">SBT</code>,</p>
+
+<p>run <code class="language-plaintext highlighter-rouge">sbt run</code> in the directory where <code class="language-plaintext highlighter-rouge">build.sbt</code> file is present.</p>
 
 <p>For Intellij IDEA,</p>
 <ol>
   <li>Download and intall IntelliJ IDEA</li>
   <li>Add the Scala plugin (IntelliJ IDEA -&gt; Preferences -&gt; Plugins)</li>
-  <li>Import an sbt project (From the <code class="language-plaintext highlighter-rouge">Welcome Screen</code> or <code class="language-plaintext highlighter-rouge">File</code> -&gt; Open; Browse to and select the top-level folder of your sbt project, and click OK)</li>
+  <li>Import an SBT project (From the <code class="language-plaintext highlighter-rouge">Welcome Screen</code> or <code class="language-plaintext highlighter-rouge">File</code> -&gt; Open; Browse to and select the top-level folder of your sbt project, and click OK)</li>
 </ol>
+
+<p>For <a href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/">Eclipse IDE</a></p>
 
 <p>Results</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coefficients:  
@@ -655,8 +610,7 @@ public class DatasetForML {
 AIC: 37.7313  
 </code></pre></div></div>
 
-<p>Finally,
-<em>Shutting Down the HDFS</em>:
+<p>Finally, shutting down the HDFS<br />
 You can stop all the daemons using the command <code class="language-plaintext highlighter-rouge">stop-all.sh</code>. You can also start or stop each daemon separately.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$bash stop-all.sh

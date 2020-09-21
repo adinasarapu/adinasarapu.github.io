@@ -78,64 +78,9 @@ for YARN Resource Manager: http://localhost:8088
 
 SBT is an interactive build tool for Scala, Java, and more. It requires Java 1.8 or later.  
 
-[Installing sbt on macOS](https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Mac.html)  
-```  
-$brew install sbt
-```  
+[How to install, and create an initial set of files and directories for any SBT project](https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/)  
 
-*Create the project*  
-
-cd to an empy directory
-```
-cd /Users/adinasa/Documents/bigdata/proteomics  
-```  
-
-Run the following Unix shell script which creates the initial set of files and directories you’ll want for most projects:  
-
-`cretate_sbt_project.sh`  
-
-```  
-#!/bin/sh  
-
-PROJ_DIR="PROJ_DIR="/Users/adinasa/Documents/bigdata/proteomics""
-
-cd $PROJ_DIR
-
-mkdir -p src/{main,test}/{java,resources,scala}  
-mkdir lib project target  
-
-# create an initial build.sbt file  
-echo 'name := "MyProject"  
-version := "1.0"  
-scalaVersion := "2.12.12"' > build.sbt  
-```  
-
-If you have the tree command on your system and run it from the current directory, you’ll see that the basic directory structure looks like this:  
-
-```  
-.		
-├── build.sbt				
-├── lib		
-├── project		
-├── src		
-│   ├── main		
-│   │   ├── java		
-│   │   ├── resources		
-│   │   └── scala	
-│   └── test		
-│       ├── java		
-│       ├── resources		
-│       └── scala		
-└── target		
-```  
-
-*build.sbt*  
-
-The `build.sbt` file is SBT’s basic configuration file. You define most settings that SBT needs in this file, including specifying library dependencies, repositories, and any other basic settings your project requires.  
-
-The dependencies are in Maven format, with `%` separating the parts. The `%%` means that it will automatically add the specific Scala version to the dependency name.  
-
-Update the `build.sbt` file for Hadoop, Spark core and Spark Machine Learning libs [^1] [^2] [^3] [^4] [^5].   
+Update the `build.sbt` file for Hadoop, Spark core and Spark Machine Learning libraries [^1] [^2] [^3] [^4] [^5]. Use Maven repository to get any `libraryDependencies`. See [Spark Project ML Library](https://mvnrepository.com/artifact/org.apache.spark/spark-mllib) at Maven repository.  
 ```  
 name := "MyProject"
 version := "1.0"
@@ -154,14 +99,11 @@ libraryDependencies += "org.apache.spark" %% "spark-mllib" % "3.0.0"
 
 ## 3. Java application  
 
-GeneralizedLinearRegression is a regression algorithm. There are two steps to successfully run this application. 
+`GeneralizedLinearRegression` is a regression algorithm. There are two steps to successfully run this application. 
 
-STEP 1. To fit a Generalized Linear Model (GLM) use a symbolic description of the linear predictor (link function) and a description of the error distribution (family) from the following table.
+First to fit a Generalized Linear Model (GLM), use a symbolic description of the linear predictor (link function) and a description of the error distribution (family) from the following table.
 
-For example,  
-```  
-GeneralizedLinearRegression glr = new GeneralizedLinearRegression().setFamily("gaussian").setLink("identity")  
-```  
+For example, `GeneralizedLinearRegression glr = new GeneralizedLinearRegression().setFamily("gaussian").setLink("identity")`    
   
 | Family (Error distribution) 	| Link function (Linear predictor) |  
 | ----------------------------- | -------------------------------- |  
@@ -170,7 +112,9 @@ GeneralizedLinearRegression glr = new GeneralizedLinearRegression().setFamily("g
 | poisson			| log, identity, sqrt		   |  
 | gamma				| inverse, identity, log	   |  
 
-STEP 2. Relating column names to model parameters (label and features).  
+Second, relate column names to model parameters (label and features).  
+`label`: dependent variable in the model  
+`features` is a vector with independent variables in the model  
 
 Create a file named `JavaExampleMain.java` in the `src/main/java` directory.  
 ```  
@@ -348,14 +292,20 @@ public class DatasetForML {
 }  
 ```  
 
-To compile and run the project use either sbt or IntelliJ IDEA  
+## 4. Code compilation and results  
 
-For `sbt`, run `sbt run` in the directory where `build.sbt` is present.  
+To compile and run the project use either SBT, IntelliJ IDEA or Eclipse IDE  
+
+For `SBT`,  
+
+run `sbt run` in the directory where `build.sbt` file is present.  
 
 For Intellij IDEA,   
-1. Download and intall IntelliJ IDEA
-2. Add the Scala plugin (IntelliJ IDEA -> Preferences -> Plugins)
-3. Import an sbt project (From the `Welcome Screen` or `File` -> Open; Browse to and select the top-level folder of your sbt project, and click OK)
+1. Download and intall IntelliJ IDEA  
+2. Add the Scala plugin (IntelliJ IDEA -> Preferences -> Plugins)  
+3. Import an SBT project (From the `Welcome Screen` or `File` -> Open; Browse to and select the top-level folder of your sbt project, and click OK)  
+
+For [Eclipse IDE](https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/)  
 
 Results  
 ```  
@@ -371,9 +321,8 @@ Coefficients:
 AIC: 37.7313  
 ```  
 
-Finally,
-*Shutting Down the HDFS*:
-You can stop all the daemons using the command `stop-all.sh`. You can also start or stop each daemon separately.
+Finally, shutting down the HDFS  
+You can stop all the daemons using the command `stop-all.sh`. You can also start or stop each daemon separately.  
 
 ```
 $bash stop-all.sh
