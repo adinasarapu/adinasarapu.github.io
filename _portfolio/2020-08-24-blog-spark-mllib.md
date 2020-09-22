@@ -1,5 +1,5 @@
 ---
-title: 'Building a real-time big data pipeline (part 7: Hadoop, Spark MLlib, Generalized Linear Regression)'
+title: 'Building a real-time big data pipeline (part 7: Spark MLlib, Generalized Linear Regression)'
 date: 2020-08-24
 permalink: /posts/2020/08/blog-post-spark-mllib/
 tags:
