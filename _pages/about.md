@@ -24,8 +24,8 @@ Human papilloma virus (HPV) causes a subset of HNSCC of the oropharynx. We combi
 {% comment %} 
 ![/cancer_mutations](/images/illustration2.png)  
 {% endcomment %}
+{% comment %}
 * _Rectal microbiome composition correlates with humoral immunity to HIV-1 in vaccinated rhesus macaques_  
 We assessed the longitudinal changes in vaginal and rectal microbiome profiles following intradermal immunization with an HIV-1 DNA vaccine in adult rhesus macaques that received two prior DNA primes. The rectal and vaginal (CVL) microbiota showed compositional differences at lower taxonomic levels. As demonstrated by the linear discriminant analysis effect size (LEfSe) plot, microbiome in vaginal and rectal compartments demonstrated characteristic phylotype abundances.
-{% comment %} 
 ![/cladogram](/images/illustration3.png)  
 {% endcomment %}
