@@ -19,7 +19,7 @@
 
 
 
-<title>Building a real-time big data pipeline (part 7: Spark MLlib, Generalized Linear Regression) - Ashok R. Dinasarapu Ph.D</title>
+<title>Building a real-time big data pipeline (part 7: Spark MLlib, Linear Regression) - Ashok R. Dinasarapu Ph.D</title>
 
 
 
@@ -29,7 +29,7 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
-<meta property="og:title" content="Building a real-time big data pipeline (part 7: Spark MLlib, Generalized Linear Regression)">
+<meta property="og:title" content="Building a real-time big data pipeline (part 7: Spark MLlib, Linear Regression)">
 
 
   <link rel="canonical" href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/">
@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on September 20, 2020">
+  <meta property="og:description" content="Updated on October 02, 2020">
 
 
 
@@ -264,15 +264,15 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Building a real-time big data pipeline (part 7: Spark MLlib, Generalized Linear Regression)">
-    <meta itemprop="description" content="Updated on September 20, 2020">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (part 7: Spark MLlib, Linear Regression)">
+    <meta itemprop="description" content="Updated on October 02, 2020">
     <meta itemprop="datePublished" content="August 24, 2020">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 7: Spark MLlib, Generalized Linear Regression)
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 7: Spark MLlib, Linear Regression)
 </h1>
           
         
@@ -288,17 +288,9 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on September 20, 2020</em></p>
+        <p><em>Updated on October 02, 2020</em></p>
 
-<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as:</p>
-
-<ol>
-  <li>Classification</li>
-  <li>Regression</li>
-  <li>Clustering</li>
-  <li>Dimentionality reduction</li>
-  <li>Linear algebra, statistics and data handling</li>
-</ol>
+<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: Classification, Regression, Clustering, Dimentionality reduction and, Linear algebra, statistics and data handling</p>
 
 <h2 id="1-start-hadoophdfs">1. Start Hadoop/HDFS</h2>
 
@@ -358,6 +350,7 @@ version := "1.0"
 // Scala version above 2.12.8 is necessary to prevent "Task not serializable: java.io.NotSerializableException ..."  
 scalaVersion := "2.12.12"
 
+// Create "JavaExampleMain.java" java main class in "src/main/java" directory with package name "com.test.rdd"  
 mainClass := Some("com.test.rdd.JavaExampleMain")  
 
 libraryDependencies += "org.apache.hadoop" % "hadoop-common" % "3.2.1";  
@@ -402,200 +395,317 @@ libraryDependencies += "org.apache.spark" %% "spark-mllib" % "3.0.0"
   </tbody>
 </table>
 
-<p>Second, relate column names to model parameters (label and features).<br />
+<p>Second, relate your data column names to model parameters (label and features).<br />
 <code class="language-plaintext highlighter-rouge">label</code>: dependent variable in the model<br />
 <code class="language-plaintext highlighter-rouge">features</code> is a vector with independent variables in the model</p>
 
-<p>Create a file named <code class="language-plaintext highlighter-rouge">JavaExampleMain.java</code> in the <code class="language-plaintext highlighter-rouge">src/main/java</code> directory.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.test.rdd; 
- 
-import static org.apache.spark.sql.functions.col;  
-import static org.apache.spark.sql.functions.lit;  
-import static org.apache.spark.sql.functions.when;  
-import java.io.File;  
-import java.io.FileNotFoundException;  
-import java.io.IOException;  
-import java.net.URI;  
-import java.net.URISyntaxException;  
-import org.apache.hadoop.conf.Configuration;  
-import org.apache.hadoop.fs.FileStatus;  
-import org.apache.hadoop.fs.FileSystem;  
-import org.apache.hadoop.fs.Path;  
-import org.apache.log4j.Level;  
-import org.apache.log4j.LogManager;  
-import org.apache.log4j.Logger;  
-import org.apache.spark.ml.feature.VectorAssembler;  
-import org.apache.spark.ml.regression.GeneralizedLinearRegression;  
-import org.apache.spark.ml.regression.GeneralizedLinearRegressionModel;  
-import org.apache.spark.ml.regression.GeneralizedLinearRegressionTrainingSummary;  
-import org.apache.spark.sql.Dataset;  
-import org.apache.spark.sql.Row;  
-import org.apache.spark.sql.SparkSession;  
+<p>Create an empty java main class file named <code class="language-plaintext highlighter-rouge">JavaExampleMain.java</code> in the <code class="language-plaintext highlighter-rouge">src/main/java/com/ml/rdd</code> directory (compulsory).</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.ml.rdd;  
 
 public class JavaExampleMain {  
-
-    public static void main(String[] args) {  
-
-	// Hadoop: get file-list from HDFS  
-
-	URI uri = null;  
-	try {  
-		uri = new URI("hdfs://localhost:9000/user/adinasarapu");  
-	} catch (URISyntaxException e1) {  
-		e1.printStackTrace();  
-	}  
-	
-	FileStatus[] fileStatus = filesFromHadoop(uri);
-
-        // This is the entry point to programming Spark with the Dataset and DataFrame API.  
-	// The builder can also be used to create a new session  
-	// If you didn't specify serialization in spark context you are using the default java serialization...  
-	// Spark runs on YARN, in cluster mode. spark.serializer is set to org.apache.spark.serializer.KryoSerializer  
-
-        SparkSession spark = SparkSession  
-		.builder()  
-		.master("local").appName("Java Spark SQL Example")  
-		.config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")  
-		.getOrCreate();  
-
-        // Create Dataset&lt;Row&gt; object  
-        
-	DatasetForML dataset = new DatasetForML();  
-	dataset.setFileStatus(fileStatus);  
-	dataset.setSpark(spark);  
-	Dataset&lt;Row&gt; dataset2 = dataset.createDataSet();  
-
-	// Here you can also set label column and features columns  
-	// label: dependent variable in the model  
-	// features is a vector and independent variables in the model  
-
-       GeneralizedLinearRegression glr = new GeneralizedLinearRegression()  
-		.setFamily("gaussian")  
-		.setLink("identity")  
-		.setMaxIter(10)  
-		.setRegParam(0.3);  
-
-                // .setLabelCol("label")  
-		// .setFeaturesCol("features");  
-
-	// Fit the model  
-
-	GeneralizedLinearRegressionModel model = glr.fit(dataset2);  
-
-        // Print the coefficients and intercept for generalized linear regression model  
-
-        GeneralizedLinearRegressionTrainingSummary summary = model.summary();  
-        System.out.println(summary.toString());  
+  public static void main(String[] args) {}  
+}  
 </code></pre></div></div>
 
-<p>Create a file named <code class="language-plaintext highlighter-rouge">DatasetForML.java</code> in the <code class="language-plaintext highlighter-rouge">src/main/java</code> directory.</p>
+<p>Create another empty java class file named <code class="language-plaintext highlighter-rouge">DatasetForML.java</code> in the <code class="language-plaintext highlighter-rouge">src/main/java/com/ml/rdd</code> directory (optional).</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.ml.rdd;  
+  
+public class DatasetForML {}  
+</code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.test.rdd;  
+<p>Compile and run the project using SBT command <code class="language-plaintext highlighter-rouge">sbt run</code> in the directory where <code class="language-plaintext highlighter-rouge">build.sbt</code> file present.</p>
 
-import static org.apache.spark.sql.functions.col;  
-import static org.apache.spark.sql.functions.lit;  
-import static org.apache.spark.sql.functions.when;  
-import java.io.File;  
-import org.apache.hadoop.fs.FileStatus;  
-import org.apache.spark.ml.feature.VectorAssembler;  
-import org.apache.spark.sql.Dataset;  
-import org.apache.spark.sql.Row;  
-import org.apache.spark.sql.SparkSession;  
-
-public class DatasetForML {  
-    private static final long serialVersionUID = 1L; 
-    
-    // initialize with null
-    FileStatus[] fileStatus = null;  
-    SparkSession spark = null;  
-	
-    // No-argument constructor  
-    public DatasetForML() { }  
-
-    public void setFileStatus(FileStatus[] fileStatus) {  
-       this.fileStatus = fileStatus;   
-    }  
-
-    public void setSpark(SparkSession spark) {
-       this.spark = spark;
-    }
-
-    public FileStatus[] getFileStatus() {  return fileStatus; }  
-
-    public SparkSession getSpark() {  return spark; }     
-
-    public Dataset&lt;Row&gt; createDataSet() {   
-       
-       Dataset&lt;Row&gt; dataset = null;   
-       String data_file = null;   
-       String samples_file = null;  
-     
-       for (FileStatus status : fileStatus) {  
-           String file_name = status.getPath().toString();  
-           File f = new File(file_name);  
-           if (f.getName().startsWith("data_")) {  
-              data_file = file_name;  
-           }  
-           if (f.getName().startsWith("samples_")) {  
-              samples_file = file_name;
-           }  
-       }  
- 
-       // Read samples file as Dataset&lt;Row&gt;  
-       // Replace column name Disease with label as .withColumnRenamed("Disease", "label")  
-       // Now label column is a target (acts as dependent variable in the model)  
-       // Optionally you can use setLabelCol("Disease") with GeneralizedLinearRegression class  
-
-       Dataset&lt;Row&gt; df_sample = spark.read()  
-		.option("inferSchema", "true")  
-		.option("header", "true")  
-		.csv(samples_file)  
-		.withColumnRenamed("Disease", "label");  
-
-       // Replace Yes or NO with 1 or 0  
-
-       Dataset&lt;Row&gt; df_sample2 = df_sample  
-		.withColumn("label", when(col("label").isNotNull()  
-			.and(col("label").equalTo(lit("Yes"))), lit(1)).otherwise(lit(0)))  
-		.withColumn("Genetic",when(col("Genetic").isNotNull()  
-			.and(col("Genetic").equalTo(lit("Yes"))),lit(1)).otherwise(lit(0)));  
-
-       // Subset the Dataset  
-
-       Dataset&lt;Row&gt; df_sample3 = df_sample2.select("SampleID", "label", "Genetic","Age");  
-       
-       // df_sample3.show();  
-       // df_sample3.printSchema();  
-
-       // VectorAssembler is a transformer that combines a given list of columns into a single vector column  
-       // We want to combine Genetic and Age into a single feature vector called features (acts as independent variables in the model)  
-       // Optionally you can use setFearuresCol("name_of_a_vector") with GeneralizedLinearRegression class
-
-       String[] myStrings = {"Genetic", "Age"};  
-       VectorAssembler VA = new VectorAssembler().setInputCols(myStrings).setOutputCol("features");  
-       dataset = VA.transform(df_sample3);  
-
-       // dataset.show();
-       return dataset;    
-}  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adinasa@Ashoks-MacBook-Pro-2 proteomics % sbt run  
+[info] welcome to sbt 1.3.13 (Oracle Corporation Java 1.8.0_261)  
+[info] loading project definition from /Users/adinasa/Documents/bigdata/proteomics/project  
+[info] loading settings for project proteomics from built.sbt ...  
+[info] set current project to proteomics (in build file:/Users/adinasa/Documents/bigdata/proteomics/)  
+[info] Compiling 2 Java sources to /Users/adinasa/Documents/bigdata/proteomics/target/scala-2.12/classes ...  
+[info] running com.ml.rdd.JavaExampleMain   
+[success] Total time: 3 s, completed Oct 2, 2020 2:33:48 PM  
 </code></pre></div></div>
 
 <h2 id="4-code-compilation-and-results">4. Code compilation and results</h2>
 
-<p>To compile and run the project use either SBT, IntelliJ IDEA or Eclipse IDE</p>
+<p>To compile and run the project use either SBT (above), IntelliJ IDEA or Eclipse IDE</p>
 
-<p>For <code class="language-plaintext highlighter-rouge">SBT</code>,</p>
+<p>For <code class="language-plaintext highlighter-rouge">SBT</code>, use <code class="language-plaintext highlighter-rouge">sbt run</code> command in the directory where <code class="language-plaintext highlighter-rouge">build.sbt</code> file is present.<br />
+For <a href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/">Eclipse IDE</a><br />
+For Intellij IDEA,<br />
+ a. Download and intall IntelliJ IDEA<br />
+ b. Add the Scala plugin (IntelliJ IDEA -&gt; Preferences -&gt; Plugins)<br />
+ c. Import an SBT project (From the <code class="language-plaintext highlighter-rouge">Welcome Screen</code> or <code class="language-plaintext highlighter-rouge">File</code> -&gt; Open; Browse to and select the top-level folder of your sbt project, and click OK)</p>
 
-<p>run <code class="language-plaintext highlighter-rouge">sbt run</code> in the directory where <code class="language-plaintext highlighter-rouge">build.sbt</code> file is present.</p>
+<p><img src="/images/open_import.png" alt="Partitions" /></p>
 
-<p>For Intellij IDEA,</p>
-<ol>
-  <li>Download and intall IntelliJ IDEA</li>
-  <li>Add the Scala plugin (IntelliJ IDEA -&gt; Preferences -&gt; Plugins)</li>
-  <li>Import an SBT project (From the <code class="language-plaintext highlighter-rouge">Welcome Screen</code> or <code class="language-plaintext highlighter-rouge">File</code> -&gt; Open; Browse to and select the top-level folder of your sbt project, and click OK)</li>
-</ol>
+<p>After importing the above created simple SBT project into IntelliJ IDEA, update <code class="language-plaintext highlighter-rouge">JavaExampleMain.java</code> file</p>
 
-<p>For <a href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/">Eclipse IDE</a></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.ml.rdd;  
+
+import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.lit;
+import static org.apache.spark.sql.functions.when;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.spark.ml.feature.VectorAssembler;
+import org.apache.spark.ml.regression.GeneralizedLinearRegression;
+import org.apache.spark.ml.regression.GeneralizedLinearRegressionModel;
+import org.apache.spark.ml.regression.GeneralizedLinearRegressionTrainingSummary;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+
+
+public class JavaExampleMain {
+
+    public static void main(String[] args) {
+
+        // Hadoop: get file-list from HDFS
+        URI uri = null;
+        try {
+            uri = new URI("hdfs://localhost:9000/user/adinasarapu");
+        } catch (URISyntaxException e1) {
+            e1.printStackTrace();
+        }
+        FileStatus[] fileStatus = filesFromHadoop(uri);
+
+        // The entry point to programming Spark with the Dataset and DataFrame API.
+        // The builder can also be used to create a new session
+        // If you didn't specify serialization in spark context you are using the default java serialization...
+        // Spark runs on YARN, in cluster mode. spark.serializer is set to org.apache.spark.serializer.KryoSerializer
+
+        SparkSession spark = SparkSession
+                .builder()
+                .master("local").appName("Java Spark SQL Example")
+                .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+                .getOrCreate();
+
+        // Pass fileStatus and spark context to DatasetForML and, create Dataset&lt;Row&gt; object
+        DatasetForML dataset = new DatasetForML();
+        dataset.setFileStatus(fileStatus);
+        dataset.setSpark(spark);
+        Dataset&lt;Row&gt; dataset2 = dataset.createDataSet();
+
+        GeneralizedLinearRegression glr = new GeneralizedLinearRegression()
+                .setFamily("gaussian")
+                .setLink("identity")
+                .setMaxIter(10)
+                .setRegParam(0.3)
+                .setLabelCol("label")
+                .setFeaturesCol("features");
+
+        // Fit the model
+        GeneralizedLinearRegressionModel model = glr.fit(dataset2);
+        // Print the coefficients and intercept for generalized linear regression model
+        GeneralizedLinearRegressionTrainingSummary summary = model.summary();
+        System.out.println(summary.toString());
+        spark.stop();
+    }
+
+    /**
+     * @param fileStatus
+     * @param spark
+     * @return
+     */
+
+    private static Dataset&lt;Row&gt; getDataSet(FileStatus[] fileStatus, SparkSession spark) {
+
+        String data_file = null;
+        String samples_file = null;
+
+        // Check if file exists at the given location
+        for (FileStatus status : fileStatus) {
+
+            //System.out.println(status.getPath().toString());
+            String file_name = status.getPath().toString();
+
+            File f = new File(file_name);
+
+            if (f.getName().startsWith("data_")) {
+                data_file = file_name;
+                System.out.println("data_file : " + data_file);
+            }
+            if (f.getName().startsWith("samples_")) {
+                samples_file = file_name;
+                System.out.println("samples_file : " + samples_file);
+            }
+        }
+
+
+        // sparkSession.read().option("header", true).option("inferSchema","true").csv("Book.csv");
+        // setting label and features.
+        //dataset = new StringIndexer().setInputCol("Disease").setOutputCol("SampleID").fit(dataset).transform(dataset);
+        //.format("libsvm")
+
+        Dataset&lt;Row&gt; df_sample = spark.read().option("inferSchema", "true").option("header", "true").csv(samples_file)
+                .withColumnRenamed("Disease", "label");
+
+        Dataset&lt;Row&gt; df_sample2 = df_sample.withColumn("label", when(col("label").isNotNull().
+                and(col("label").equalTo(lit("Yes"))), lit(1)).otherwise(lit(0)));
+
+        Dataset&lt;Row&gt; df_sample3 = df_sample2.select("SampleID", "label", "Age");
+
+        df_sample3.show();
+
+        df_sample3.printSchema();
+
+        // change Disease -&gt; label
+        // Yes or No -&gt; 1 or 0
+        // label column should be of numeric type. I think it should be 0 or 1 so your T or F should be mapped appropriately.
+        // creates a new column features
+
+        String[] myStrings = {"label", "Age"};
+
+        // After VectorAssembler you have to have a training dataset with label and features columns.
+        // https://spark.apache.org/docs/latest/ml-features#vectorassembler
+        VectorAssembler VA = new VectorAssembler().setInputCols(myStrings).setOutputCol("features");
+        Dataset&lt;Row&gt; dataset = VA.transform(df_sample3);
+
+        return dataset;
+    }
+
+    /**
+     * @return
+     * @throws URISyntaxException
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @param uri
+     */
+    private static FileStatus[] filesFromHadoop(URI uri) {
+
+        // Message levels lower than passed log level value will be discarded by the logger.
+        Logger rootLogger = LogManager.getRootLogger();
+        rootLogger.setLevel(Level.WARN);
+
+        // conf: Configuration that contains the classpath setting
+        Configuration conf = new Configuration();
+
+        FileSystem fs = null;
+        try {
+            fs = FileSystem.get(uri, conf);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        FileStatus[] fileStatus = null;
+        try {
+            fileStatus = fs.listStatus(new Path(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileStatus;
+    }
+}
+</code></pre></div></div>
+
+<p>Also, update <code class="language-plaintext highlighter-rouge">DatasetForML.java</code> file</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.ml.rdd;
+
+import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.lit;
+import static org.apache.spark.sql.functions.when;
+
+import java.io.File;
+
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.spark.ml.feature.VectorAssembler;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+
+public class DatasetForML {
+
+    private static final long serialVersionUID = 1L;
+
+    FileStatus[] fileStatus = null;
+    SparkSession spark = null;
+
+    public DatasetForML() { }
+
+    public FileStatus[] getFileStatus() {
+        return fileStatus;
+    }
+
+    public void setFileStatus(FileStatus[] fileStatus) {
+        this.fileStatus = fileStatus;
+    }
+
+    public SparkSession getSpark() {
+        return spark;
+    }
+
+    public void setSpark(SparkSession spark) {
+        this.spark = spark;
+    }
+
+    public Dataset&lt;Row&gt; createDataSet() {
+
+        Dataset&lt;Row&gt; dataset = null;
+
+        String data_file = null;
+        String samples_file = null;
+
+        // Check if file exists at the given location
+        for (FileStatus status : fileStatus) {
+
+            //System.out.println(status.getPath().toString());
+            String file_name = status.getPath().toString();
+            File f = new File(file_name);
+            if (f.getName().startsWith("data_")) {
+                data_file = file_name;
+                System.out.println("data_file : " + data_file);
+            }
+            if (f.getName().startsWith("samples_")) {
+                samples_file = file_name;
+                System.out.println("samples_file : " + samples_file);
+            }
+        }
+
+        // Read samples file as Dataset
+        // Replace column name Disease with label
+        Dataset&lt;Row&gt; df_sample = spark.read()
+                .option("inferSchema", "true")
+                .option("header", "true")
+                .csv(samples_file)
+                .withColumnRenamed("Disease", "label");
+
+        // Replace Yes or NO with 1 or 0
+        Dataset&lt;Row&gt; df_sample2 = df_sample
+                .withColumn("label", when(col("label").isNotNull()
+                        .and(col("label").equalTo(lit("Yes"))), lit(1)).otherwise(lit(0)))
+                .withColumn("Genetic",when(col("Genetic").isNotNull()
+                        .and(col("Genetic").equalTo(lit("Yes"))),lit(1)).otherwise(lit(0)));
+
+        // Subset Dataset
+        Dataset&lt;Row&gt; df_sample3 = df_sample2.select("SampleID", "label", "Genetic","Age");
+        df_sample3.show();
+        df_sample3.printSchema();
+        // VectorAssembler is a transformer that combines a given list of columns into a single vector column
+        // We want to combine Genetic and Age into a single feature vector called features and use it to predict label (Disease) or not.
+        String[] myStrings = {"Genetic", "Age"};
+        VectorAssembler VA = new VectorAssembler().setInputCols(myStrings).setOutputCol("features");
+        dataset = VA.transform(df_sample3);
+        dataset.show();
+        return dataset;
+    }
+}
+</code></pre></div></div>
+
+<p>Go to the Run menu and select the Run option.</p>
 
 <p>Results</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coefficients:  
