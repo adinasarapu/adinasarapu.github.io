@@ -1,0 +1,643 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Building a real-time big data pipeline (part 8: Spark MLlib, R, Regression) - Ashok R. Dinasarapu Ph.D</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
+<meta property="og:title" content="Building a real-time big data pipeline (part 8: Spark MLlib, R, Regression)">
+
+
+  <link rel="canonical" href="https://adinasarapu.github.io/posts/2020/10/blog-post-sparkr-mllib/">
+  <meta property="og:url" content="https://adinasarapu.github.io/posts/2020/10/blog-post-sparkr-mllib/">
+
+
+
+  <meta property="og:description" content="Updated on October 04, 2020">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-10-04T00:00:00-04:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Ashok R. Dinasarapu",
+      "url" : "https://adinasarapu.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://adinasarapu.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Ashok R. Dinasarapu Ph.D Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://adinasarapu.github.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="https://adinasarapu.github.io/images/apple-touch-icon-57x57.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="60x60" href="https://adinasarapu.github.io/images/apple-touch-icon-60x60.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="72x72" href="https://adinasarapu.github.io/images/apple-touch-icon-72x72.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="76x76" href="https://adinasarapu.github.io/images/apple-touch-icon-76x76.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="114x114" href="https://adinasarapu.github.io/images/apple-touch-icon-114x114.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="120x120" href="https://adinasarapu.github.io/images/apple-touch-icon-120x120.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="144x144" href="https://adinasarapu.github.io/images/apple-touch-icon-144x144.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="152x152" href="https://adinasarapu.github.io/images/apple-touch-icon-152x152.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="180x180" href="https://adinasarapu.github.io/images/apple-touch-icon-180x180.png?v=M44lzPylqQ">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/favicon-32x32.png?v=M44lzPylqQ" sizes="32x32">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/android-chrome-192x192.png?v=M44lzPylqQ" sizes="192x192">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/favicon-96x96.png?v=M44lzPylqQ" sizes="96x96">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/favicon-16x16.png?v=M44lzPylqQ" sizes="16x16">
+<link rel="manifest" href="https://adinasarapu.github.io/images/manifest.json?v=M44lzPylqQ">
+<link rel="mask-icon" href="https://adinasarapu.github.io/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=M44lzPylqQ">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="https://adinasarapu.github.io/images/mstile-144x144.png?v=M44lzPylqQ">
+<meta name="msapplication-config" content="https://adinasarapu.github.io/images/browserconfig.xml?v=M44lzPylqQ">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="https://adinasarapu.github.io/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://adinasarapu.github.io/">Ashok R. Dinasarapu Ph.D</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/portfolio/">Big Data</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/year-archive/">NGS | Proteomics</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/cv/">Résumé</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://adinasarapu.github.io/images/profile.png" class="author__avatar" alt="Scientist, Bioinformatics">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Scientist, Bioinformatics</h3>
+    <p class="author__bio">Emory University</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Atlanta, GA</li>
+      
+      
+      
+      
+        <li><a href="mailto:ashok.reddy.dinasarapu@emory.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i> Email</a></li>
+      
+      
+       
+        <li><a href="https://www.researchgate.net/profile/Ashok_Dinasarapu"><i class="fab fa-fw fa-researchgate" aria-hidden="true"></i> ResearchGate</a></li>
+      
+      
+        <li><a href="https://twitter.com/adinasarapu"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+      
+      
+        <li><a href="https://bitbucket.org/adinasarapu"><i class="fab fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+      
+      
+        <li><a href="https://github.com/adinasarapu"><i class="fab fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="fas fa-fw fa-graduation-cap"></i> Google Scholar</a></li>
+      
+      
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=dinasarapu+ashok+OR+D+ashok+reddy&sort=pubdate"><i class="ai ai-pubmed-square ai-fw"></i> PubMed</a></li>
+      
+      
+        <li><a href="http://orcid.org/0000-0002-1423-1518"><i class="ai ai-orcid-square ai-fw"></i> ORCID</a></li>
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (part 8: Spark MLlib, R, Regression)">
+    <meta itemprop="description" content="Updated on October 04, 2020">
+    <meta itemprop="datePublished" content="October 04, 2020">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 8: Spark MLlib, R, Regression)
+</h1>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-10-04T00:00:00-04:00">October 04, 2020</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p><em>Updated on October 04, 2020</em></p>
+
+<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: Classification, Regression, Clustering, Dimentionality reduction and, Linear algebra, statistics and data handling</p>
+
+<h2 id="1-start-hadoophdfs">1. Start Hadoop/HDFS</h2>
+
+<p>The following command will start the namenode as well as the data nodes as cluster <sup id="fnref:3:1"><a href="#fn:3" class="footnote">3</a></sup>.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /Users/adinasa/bigdata/hadoop-3.2.1  
+$bash sbin/start-dfs.sh  
+</code></pre></div></div>
+
+<p>Create a directory</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$source ~/.bash_profile  
+$hadoop fs -mkdir -p /user/adinasarapu
+</code></pre></div></div>
+
+<p>Insert data into HDFS: Use <code class="language-plaintext highlighter-rouge">-copyFromLocal</code> command to move one or more files from local location to HDFS.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hadoop fs -copyFromLocal *.csv /user/adinasarapu
+</code></pre></div></div>
+
+<p>Verify the files using <code class="language-plaintext highlighter-rouge">ls</code> command.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hadoop fs -ls /user/adinasarapu  
+-rw-r--r--   1 adinasa supergroup     164762 2020-08-18 17:39 /user/adinasarapu/data_proteomics.csv  
+-rw-r--r--   1 adinasa supergroup        786 2020-08-18 17:39 /user/adinasarapu/samples_proteomics.csv  
+</code></pre></div></div>
+
+<p>Start YARN with the script: <code class="language-plaintext highlighter-rouge">start-yarn.sh</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$bash start-yarn.sh  
+Starting resourcemanager  
+Starting nodemanagers  
+</code></pre></div></div>
+
+<p>Check the list of Java processes running in your system by using the command <code class="language-plaintext highlighter-rouge">jps</code>. If you are able to see the Hadoop daemons running after executing the jps command, we can safely assume that the Hadoop cluster is running.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$jps  
+96899 NodeManager  
+91702 SecondaryNameNode  
+96790 ResourceManager  
+97240 Jps  
+91437 NameNode  
+91550 DataNode  
+</code></pre></div></div>
+
+<p>Open a web browser to see your configurations for the current session.</p>
+
+<p><em>Web UI</em><br />
+for HDFS: http://localhost:9870<br />
+for YARN Resource Manager: http://localhost:8088</p>
+
+<h2 id="2-sparkr-spark-session-in-r-environment">2. SparkR, <code class="language-plaintext highlighter-rouge">spark session</code> in R environment</h2>
+
+<p>a. Start sparkR shell from Spark installation</p>
+
+<p>cd to spark installation directory and run <code class="language-plaintext highlighter-rouge">sparkR</code> command</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd bigdata/spark-3.0.0-bin-hadoop3.2/bin/  
+&gt;sparkR
+
+...
+...
+...
+
+ Welcome to
+    ____              __ 
+   / __/__  ___ _____/ /__ 
+  _\ \/ _ \/ _ `/ __/  '_/ 
+ /___/ .__/\_,_/_/ /_/\_\   version  3.0.0 
+    /_/ 
+
+
+ SparkSession available as 'spark'.
+During startup - Warning message:
+In SparkR::sparkR.session() :
+  Version mismatch between Spark JVM and SparkR package. JVM version was 3.0.0 , while R package version was 2.4.6
+</code></pre></div></div>
+<p>b. Install <code class="language-plaintext highlighter-rouge">SparkR</code> package</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages(remotes)  
+library(remotes)
+install_github(“cran/SparkR”)
+</code></pre></div></div>
+<p>c. Open RStudio and set SPARK_HOME and JAVA_HOME</p>
+
+<p>Check java version <code class="language-plaintext highlighter-rouge">system("java -version")</code><br />
+If you see an error like “R looking for the wrong java version” set <code class="language-plaintext highlighter-rouge">Sys.setenv(JAVA_HOME=java_path)</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error in checkJavaVersion() : 
+  Java version 8 is required for this package; found version: 14.0.2
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sys.setenv(SPARK_HOME = "/Users/adinasa/bigdata/spark-3.0.0-bin-hadoop3.2")
+.libPaths(c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib"), .libPaths()))
+
+java_path &lt;- normalizePath("/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home")
+Sys.setenv(JAVA_HOME=java_path)
+
+# load 
+library(SparkR)
+
+# SparkSession is the entry point into SparkR. 
+SparkR::sparkR.session(master = "local", sparkHome = Sys.getenv("SPARK_HOME"), appName = "SparkR", spark.executor.memory = "2g")
+
+# a list of config values with keys as their names
+sparkR.conf()
+
+# In Spark 2.0 csv is natively supported so you should be able to do something like this:
+s.df &lt;- SparkR::read.df("hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv", source = "csv", header = "true")
+
+# SQL like query
+createOrReplaceTempView(s.df, "df_view")
+new_df &lt;- SparkR::sql("SELECT * FROM df_view WHERE Age &lt; 51")
+
+# Spark Dataframe to R DataFrame
+r.df &lt;- SparkR::as.data.frame(new_df)
+
+r.df
+</code></pre></div></div>
+
+<p>Output,</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>SampleID</th>
+      <th>Disease</th>
+      <th>Genetic</th>
+      <th>Age</th>
+      <th>Sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>D_27</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>50</td>
+      <td>female</td>
+    </tr>
+    <tr>
+      <td>DG_38</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>46</td>
+      <td>female</td>
+    </tr>
+    <tr>
+      <td>Control_16</td>
+      <td>No</td>
+      <td>No</td>
+      <td>41</td>
+      <td>female</td>
+    </tr>
+    <tr>
+      <td>Control_41</td>
+      <td>No</td>
+      <td>No</td>
+      <td>43</td>
+      <td>female</td>
+    </tr>
+    <tr>
+      <td>Control_46</td>
+      <td>No</td>
+      <td>No</td>
+      <td>42</td>
+      <td>female</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Regression analysis script will added soon!!!</p>
+
+<p>Finally, shutting down the HDFS<br />
+You can stop all the daemons using the command <code class="language-plaintext highlighter-rouge">stop-all.sh</code>. You can also start or stop each daemon separately.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$bash stop-all.sh
+Stopping namenodes on [localhost]
+Stopping datanodes
+Stopping secondary namenodes [Ashoks-MacBook-Pro.2.local]
+Stopping nodemanagers
+Stopping resourcemanager
+</code></pre></div></div>
+
+<p>Further reading…</p>
+
+<p><a href="https://medium.com/@dhiraj.p.rai/logistic-regression-in-spark-ml-8a95b5f5434c">Logistic Regression in Spark ML</a><br />
+<a href="https://medium.com/rahasak/logistic-regression-with-apache-spark-b7ec4c98cfcd">Logistic Regression with Apache Spark</a><br />
+<a href="https://towardsdatascience.com/apache-spark-mllib-tutorial-7aba8a1dce6e">Feature Transformation</a></p>
+
+<h2 id="references">References</h2>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><a href="https://spark.apache.org">Apache Spark</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p><a href="https://spark.apache.org/docs/3.0.0/mllib-guide.html">Spark MLlib: RDD-based API</a> <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p><a href="https://medium.com/@achilleus/spark-session-10d0d66d1d24">A tale of Spark Session and Spark Context</a> <a href="#fnref:3" class="reversefootnote">&#8617;</a> <a href="#fnref:3:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#big-data" class="page__taxonomy-item" rel="tag">big data</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">bioinformatics</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#emory-uiversity" class="page__taxonomy-item" rel="tag">Emory Uiversity</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#generalized-linear-regression" class="page__taxonomy-item" rel="tag">Generalized Linear Regression</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#hadoop-distributed-file-system" class="page__taxonomy-item" rel="tag">Hadoop Distributed File System</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#machine-learning" class="page__taxonomy-item" rel="tag">Machine Learning</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#spark-mllib" class="page__taxonomy-item" rel="tag">Spark MLlib</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#sparkr" class="page__taxonomy-item" rel="tag">sparkR</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2020/10/blog-post-sparkr-mllib/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2020/10/blog-post-sparkr-mllib/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2020/10/blog-post-sparkr-mllib/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-mllib/" class="pagination--pager" title="Building a real-time big data pipeline (part 7: Spark MLlib, Java, Regression)
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<!--<a href="/sitemap/">Sitemap</a>-->
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/adinasarapu"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+      <li><a href="http://bitbucket.org/adinasarapu"><i class="fab fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+    
+    <!--<li><a href="https://adinasarapu.github.io/feed.xml">
+	<i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>-->
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 Ashok R. Dinasarapu. 350 Whitehead Biomedical Research Building,
+Emory University, Atlanta, GA 30322.</div>
+
+      </footer>
+    </div>
+
+    <script src="https://adinasarapu.github.io/assets/js/main.min.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-68614074-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
