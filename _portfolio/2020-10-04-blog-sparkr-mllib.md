@@ -15,7 +15,11 @@ tags:
 ---  
 *Updated on October 04, 2020*  
 
-Apache Spark MLlib [^1] [^2] [^3] is a distributed framework that provides many utilities useful for **machine learning** tasks, such as: Classification, Regression, Clustering, Dimentionality reduction and, Linear algebra, statistics and data handling   
+Apache Spark MLlib [^1] [^2] [^3] is a distributed framework that provides many utilities useful for **machine learning** tasks, such as: Classification, Regression, Clustering, Dimentionality reduction and, Linear algebra, statistics and data handling. R is single threaded and it is often impractical to use R on large datasets. To address R’s scalability issue, the Spark community developed SparkR package which is based on a distributed data frame that enables structured data processing with a syntax familiar to R users.  
+
+[SparkR (R on Spark)](https://spark.apache.org/docs/3.0.0/sparkr.html#overview)  
+
+_"SparkR is an R package that provides a light-weight frontend to use Apache Spark from R. In Spark 3.0.0, SparkR provides a distributed data frame implementation that supports operations like selection, filtering, aggregation etc. (similar to R data frames, dplyr) but on large datasets. SparkR also supports distributed machine learning using MLlib"._  
 
 ## 1. Start Hadoop/HDFS  
 
@@ -148,7 +152,7 @@ Output,
 | Control_41     | No       | No      | 43   | female|
 | Control_46     | No       | No      | 42   | female| 
 
-Regression analysis script will added soon!!!  
+Regression analysis script will be added soon!!!  
 
 Finally, shutting down the HDFS  
 You can stop all the daemons using the command `stop-all.sh`. You can also start or stop each daemon separately.  
@@ -163,10 +167,11 @@ Stopping resourcemanager
 ```
 
 Further reading...  
-
 [Logistic Regression in Spark ML](https://medium.com/@dhiraj.p.rai/logistic-regression-in-spark-ml-8a95b5f5434c)  
 [Logistic Regression with Apache Spark](https://medium.com/rahasak/logistic-regression-with-apache-spark-b7ec4c98cfcd)  
 [Feature Transformation](https://towardsdatascience.com/apache-spark-mllib-tutorial-7aba8a1dce6e)  
+[SparkR and Sparking Water](https://rpubs.com/wendyu/sparkr)  
+[Integrate SparkR and R for Better Data Science Workflow](https://blog.cloudera.com/integrate-sparkr-and-r-for-better-data-science-workflow/)  
 
 [^1]: [Apache Spark](https://spark.apache.org)     
 [^2]: [Spark MLlib: RDD-based API](https://spark.apache.org/docs/3.0.0/mllib-guide.html)

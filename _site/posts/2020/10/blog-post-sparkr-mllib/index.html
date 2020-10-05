@@ -290,7 +290,11 @@
       <section class="page__content" itemprop="text">
         <p><em>Updated on October 04, 2020</em></p>
 
-<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: Classification, Regression, Clustering, Dimentionality reduction and, Linear algebra, statistics and data handling</p>
+<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: Classification, Regression, Clustering, Dimentionality reduction and, Linear algebra, statistics and data handling. R is single threaded and it is often impractical to use R on large datasets. To address R’s scalability issue, the Spark community developed SparkR package which is based on a distributed data frame that enables structured data processing with a syntax familiar to R users.</p>
+
+<p><a href="https://spark.apache.org/docs/3.0.0/sparkr.html#overview">SparkR (R on Spark)</a></p>
+
+<p><em>“SparkR is an R package that provides a light-weight frontend to use Apache Spark from R. In Spark 3.0.0, SparkR provides a distributed data frame implementation that supports operations like selection, filtering, aggregation etc. (similar to R data frames, dplyr) but on large datasets. SparkR also supports distributed machine learning using MLlib”.</em></p>
 
 <h2 id="1-start-hadoophdfs">1. Start Hadoop/HDFS</h2>
 
@@ -454,7 +458,7 @@ r.df
   </tbody>
 </table>
 
-<p>Regression analysis script will added soon!!!</p>
+<p>Regression analysis script will be added soon!!!</p>
 
 <p>Finally, shutting down the HDFS<br />
 You can stop all the daemons using the command <code class="language-plaintext highlighter-rouge">stop-all.sh</code>. You can also start or stop each daemon separately.</p>
@@ -467,11 +471,12 @@ Stopping nodemanagers
 Stopping resourcemanager
 </code></pre></div></div>
 
-<p>Further reading…</p>
-
-<p><a href="https://medium.com/@dhiraj.p.rai/logistic-regression-in-spark-ml-8a95b5f5434c">Logistic Regression in Spark ML</a><br />
+<p>Further reading…<br />
+<a href="https://medium.com/@dhiraj.p.rai/logistic-regression-in-spark-ml-8a95b5f5434c">Logistic Regression in Spark ML</a><br />
 <a href="https://medium.com/rahasak/logistic-regression-with-apache-spark-b7ec4c98cfcd">Logistic Regression with Apache Spark</a><br />
-<a href="https://towardsdatascience.com/apache-spark-mllib-tutorial-7aba8a1dce6e">Feature Transformation</a></p>
+<a href="https://towardsdatascience.com/apache-spark-mllib-tutorial-7aba8a1dce6e">Feature Transformation</a><br />
+<a href="https://rpubs.com/wendyu/sparkr">SparkR and Sparking Water</a><br />
+<a href="https://blog.cloudera.com/integrate-sparkr-and-r-for-better-data-science-workflow/">Integrate SparkR and R for Better Data Science Workflow</a></p>
 
 <h2 id="references">References</h2>
 <div class="footnotes">
