@@ -172,6 +172,7 @@ Further reading...
 [Feature Transformation](https://towardsdatascience.com/apache-spark-mllib-tutorial-7aba8a1dce6e)  
 [SparkR and Sparking Water](https://rpubs.com/wendyu/sparkr)  
 [Integrate SparkR and R for Better Data Science Workflow](https://blog.cloudera.com/integrate-sparkr-and-r-for-better-data-science-workflow/)  
+[A Compelling Case for SparkR](https://cosminsanda.com/posts/a-compelling-case-for-sparkr/)  
 
 [^1]: [Apache Spark](https://spark.apache.org)     
 [^2]: [Spark MLlib: RDD-based API](https://spark.apache.org/docs/3.0.0/mllib-guide.html)
