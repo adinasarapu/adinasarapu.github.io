@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on October 04, 2020">
+  <meta property="og:description" content="Updated on October 06, 2020">
 
 
 
@@ -197,7 +197,7 @@
 
   <div class="author__content">
     <h3 class="author__name">Scientist, Bioinformatics</h3>
-    <p class="author__bio">Bridging the gap between Genomics and Data Science in the world of Big Data</p>
+    <p class="author__bio">Bridging the gap between Genomics and Data Science</p>
   </div>
 
   <div class="author__urls-wrapper">
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (part 8: Spark MLlib, R, Regression)">
-    <meta itemprop="description" content="Updated on October 04, 2020">
+    <meta itemprop="description" content="Updated on October 06, 2020">
     <meta itemprop="datePublished" content="October 04, 2020">
     
 
@@ -288,11 +288,13 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on October 04, 2020</em></p>
+        <p><em>Updated on October 06, 2020</em></p>
 
-<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: Classification, Regression, Clustering, Dimentionality reduction and, Linear algebra, statistics and data handling. R is single threaded and it is often impractical to use R on large datasets. To address R’s scalability issue, the Spark community developed SparkR package which is based on a distributed data frame that enables structured data processing with a syntax familiar to R users.</p>
+<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: Classification, Regression, Clustering, Dimentionality reduction and, Linear algebra, statistics and data handling. R is a popular statistical programming language with a number of packages that support data processing and machine learning tasks. However, R is single threaded and is often impractical to use it on large datasets. To address R’s scalability issue, the Spark community developed SparkR package<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> which is based on a distributed data frame that enables structured data processing with a syntax familiar to R users.</p>
 
-<p><a href="https://spark.apache.org/docs/3.0.0/sparkr.html#overview">SparkR (R on Spark)</a></p>
+<p><a href="https://spark.apache.org/docs/3.0.0/sparkr.html#overview">SparkR (R on Spark)</a> Architecture <sup id="fnref:4:1"><a href="#fn:4" class="footnote">4</a></sup></p>
+
+<p><img src="/images/SparkR.png" alt="SparkR Architecture" /></p>
 
 <p><em>“SparkR is an R package that provides a light-weight frontend to use Apache Spark from R. In Spark 3.0.0, SparkR provides a distributed data frame implementation that supports operations like selection, filtering, aggregation etc. (similar to R data frames, dplyr) but on large datasets. SparkR also supports distributed machine learning using MLlib”.</em></p>
 
@@ -378,87 +380,104 @@ If you see an error like “R looking for the wrong java version” set <code cl
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error in checkJavaVersion() : 
   Java version 8 is required for this package; found version: 14.0.2
 </code></pre></div></div>
-
+<p>Set env variables</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sys.setenv(SPARK_HOME = "/Users/adinasa/bigdata/spark-3.0.0-bin-hadoop3.2")
 .libPaths(c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib"), .libPaths()))
 
 java_path &lt;- normalizePath("/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home")
-Sys.setenv(JAVA_HOME=java_path)
-
-# load 
-library(SparkR)
-
-# SparkSession is the entry point into SparkR. 
-SparkR::sparkR.session(master = "local", sparkHome = Sys.getenv("SPARK_HOME"), appName = "SparkR", spark.executor.memory = "2g")
-
-# a list of config values with keys as their names
-sparkR.conf()
-
-# In Spark 2.0 csv is natively supported so you should be able to do something like this:
-s.df &lt;- SparkR::read.df("hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv", source = "csv", header = "true")
-
-# SQL like query
-createOrReplaceTempView(s.df, "df_view")
-new_df &lt;- SparkR::sql("SELECT * FROM df_view WHERE Age &lt; 51")
-
-# Spark Dataframe to R DataFrame
-r.df &lt;- SparkR::as.data.frame(new_df)
-
-r.df
+Sys.setenv(JAVA_HOME=java_path)  
 </code></pre></div></div>
 
-<p>Output,</p>
+<p>Load <code class="language-plaintext highlighter-rouge">SparkR</code> and start SparkSession which is the entry point into SparkR.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(SparkR)  
+SparkR::sparkR.session(master = "local", sparkHome = Sys.getenv("SPARK_HOME"), appName = "SparkR", spark.executor.memory = "2g")
+</code></pre></div></div>
 
-<table>
-  <thead>
-    <tr>
-      <th>SampleID</th>
-      <th>Disease</th>
-      <th>Genetic</th>
-      <th>Age</th>
-      <th>Sex</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>D_27</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>50</td>
-      <td>female</td>
-    </tr>
-    <tr>
-      <td>DG_38</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>46</td>
-      <td>female</td>
-    </tr>
-    <tr>
-      <td>Control_16</td>
-      <td>No</td>
-      <td>No</td>
-      <td>41</td>
-      <td>female</td>
-    </tr>
-    <tr>
-      <td>Control_41</td>
-      <td>No</td>
-      <td>No</td>
-      <td>43</td>
-      <td>female</td>
-    </tr>
-    <tr>
-      <td>Control_46</td>
-      <td>No</td>
-      <td>No</td>
-      <td>42</td>
-      <td>female</td>
-    </tr>
-  </tbody>
-</table>
+<p>To list config values with keys as their names,</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sparkR.conf()  
+</code></pre></div></div>
 
-<p>Regression analysis script will be added soon!!!</p>
+<p>Read data from hadoop/csv file. In Spark 2.0 csv is natively supported so you should be able to do something like this</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s.df &lt;- SparkR::read.df("hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv", source = "csv", header = "true")
+
+# s.df
+# SparkDataFrame[SampleID:string, Disease:string, Genetic:string, Age:string, Sex:string]
+
+# Replace Yes or No with 1 or 0
+newDF1 &lt;- withColumn(s.df, "Disease", ifelse(s.df$Disease == "Yes", 1, 0))
+newDF2 &lt;- withColumn(newDF1, "Genetic", ifelse(s.df$Genetic == "Yes", 1, 0))
+
+# head(newDF2)
+
+# Change Column type and select required columns for model building
+createOrReplaceTempView(newDF2, "df_view")
+new_df &lt;- SparkR::sql("SELECT DOUBLE(Disease), DOUBLE(Genetic), DOUBLE(Age) from df_view")
+
+model &lt;- spark.glm(new_df, Disease ~ Genetic + Age, family = "gaussian",maxIter=10, regParam=0.3)
+
+# Print model summary
+summary(model)
+</code></pre></div></div>
+
+<p>Results</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Deviance Residuals: 
+(Note: These are approximate quantiles with relative error &lt;= 0.01)
+     Min        1Q    Median        3Q       Max  
+-0.68368  -0.40454   0.09583   0.39245   0.53625  
+
+Coefficients:
+              Estimate  Std. Error  t value  Pr(&gt;|t|)
+(Intercept)  0.0408043   0.3501497  0.11653  0.908092
+Genetic      0.2797034   0.1278479  2.18778  0.037519
+Age          0.0084589   0.0054737  1.54538  0.133896
+
+(Dispersion parameter for gaussian family taken to be 0.1752621)
+
+    Null deviance: 6.6667  on 29  degrees of freedom
+Residual deviance: 4.7321  on 27  degrees of freedom
+AIC: 37.73
+
+Number of Fisher Scoring iterations: 1
+</code></pre></div></div>
+
+<p>Further, compute predictions using training data</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>preds &lt;- predict(model, training)
+</code></pre></div></div>
+
+<p>Note: One of the major changes of Apache Spark for R version 4.0.0 (06/2020)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[2.4][SPARK-31918][R] Ignore S4 generic methods under SparkR namespace in closure cleaning to support R 4.0.0+ (+18, -13)&gt;
+
+This PR proposes to exclude the S4 generic methods under SparkR namespace in closure cleaning to support R 4.0.0+ in SparkR. Without this patch, you will hit the following exception when running R native codes with R 4.0.0
+
+df &lt;- createDataFrame(lapply(seq(100), function (e) list(value=e)))
+count(dapply(df, function(x) as.data.frame(x[x$value &lt; 50,]), schema(df)))
+
+org.apache.spark.SparkException: R unexpectedly exited.
+R worker produced errors: Error in lapply(part, FUN) : attempt to bind a variable to R_UnboundValue
+</code></pre></div></div>
+
+<p><em>Other important Spark Dataframe Operations:</em> filter, select, summarize, groupBy, arrange(=sort)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>head(filter(s.df, s.df$Age &gt; 50))  
+head(select(s.df, s.df$SampleID, s.df$Genetic))  
+head(select(filter(s.df, s.df$Age &gt; 55), s.df$SampleID, s.df$Disease))
+head(summarize(groupBy(s.df, s.df$Disease), mean=mean(s.df$Age), count=n(s.df$Genetic)))
+head(arrange(s.df, asc(s.df$Age)))
+</code></pre></div></div>
+<p><em>Combine Spark DataFrame operations</em> using library magrittr</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(magrittr)
+f_df &lt;- filter(s.df, s.df$Age &gt; 50) %&gt;% groupBy(s.df$Disease) %&gt;% summarize(mean=mean(s.df$Age))
+</code></pre></div></div>
+
+<p><em>SQL like queries:</em> First register Spark Dataframe as sql table</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>createOrReplaceTempView(s.df, "df_view")
+new_df &lt;- SparkR::sql("SELECT * FROM df_view WHERE Age &lt; 51")  
+</code></pre></div></div>
+
+<p><em>Convert Spark Dataframe to R DataFrame:</em> as.data.frame or collect</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>r.df &lt;- SparkR::as.data.frame(new_df)  
+# r.df &lt;- SparkR::collect(new_df)
+r.df
+</code></pre></div></div>
 
 <p>Finally, shutting down the HDFS<br />
 You can stop all the daemons using the command <code class="language-plaintext highlighter-rouge">stop-all.sh</code>. You can also start or stop each daemon separately.</p>
@@ -477,7 +496,9 @@ Stopping resourcemanager
 <a href="https://towardsdatascience.com/apache-spark-mllib-tutorial-7aba8a1dce6e">Feature Transformation</a><br />
 <a href="https://rpubs.com/wendyu/sparkr">SparkR and Sparking Water</a><br />
 <a href="https://blog.cloudera.com/integrate-sparkr-and-r-for-better-data-science-workflow/">Integrate SparkR and R for Better Data Science Workflow</a><br />
-<a href="https://cosminsanda.com/posts/a-compelling-case-for-sparkr/">A Compelling Case for SparkR</a></p>
+<a href="https://cosminsanda.com/posts/a-compelling-case-for-sparkr/">A Compelling Case for SparkR</a><br />
+<a href="https://sparkbyexamples.com/spark/spark-change-dataframe-column-type/">Spark – How to change column type?</a><br />
+<a href="https://rstudio-pubs-static.s3.amazonaws.com/91559_b0a439e19f6044a9b462d0aa7b5081a2.html">SparkRext - SparkR extension for closer to dplyr</a></p>
 
 <h2 id="references">References</h2>
 <div class="footnotes">
@@ -490,6 +511,9 @@ Stopping resourcemanager
     </li>
     <li id="fn:3">
       <p><a href="https://medium.com/@achilleus/spark-session-10d0d66d1d24">A tale of Spark Session and Spark Context</a> <a href="#fnref:3" class="reversefootnote">&#8617;</a> <a href="#fnref:3:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:4">
+      <p><a href="https://cs.stanford.edu/~matei/papers/2016/sigmod_sparkr.pdf">SparkR: Scaling R Programs with Spark</a> <a href="#fnref:4" class="reversefootnote">&#8617;</a> <a href="#fnref:4:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
     </li>
   </ol>
 </div>

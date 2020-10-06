@@ -82,7 +82,7 @@ analytics:
 author:
   name             : "Scientist, Bioinformatics"
   avatar           : "profile.png"
-  bio              : "Bridging the gap between Genomics and Data Science in the world of Big Data"
+  bio              : "Bridging the gap between Genomics and Data Science"
   location         : "Atlanta, GA"
   employer         :
   pubmed           : "https://pubmed.ncbi.nlm.nih.gov/?term=dinasarapu+ashok+OR+D+ashok+reddy&sort=pubdate"
