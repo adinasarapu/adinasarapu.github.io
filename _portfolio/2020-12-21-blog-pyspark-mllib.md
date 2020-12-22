@@ -15,11 +15,11 @@ tags:
 ---  
 *Updated on December 21, 2020*  
 
-Apache Spark MLlib [^1] [^2] [^3] is a distributed framework that provides many utilities useful for **machine learning** tasks, such as: Classification, Regression, Clustering, Dimentionality reduction and, Linear algebra, statistics and data handling. Python is a popular programming language with a number of packages that support data processing and machine learning tasks. The Spark Python API (PySpark) exposes the Spark programming model to Python.  
+Apache Spark MLlib [^1] [^2] [^3] is a distributed framework that provides many utilities useful for **machine learning** tasks, such as: classification, regression, clustering, dimentionality reduction and, linear algebra and statistics. Python is a general purpose popular programming language with a number of packages that support data processing and machine learning tasks. The Spark Python API (PySpark) exposes the Spark programming model to Python.   
 
 [PySpark (Python on Spark)](https://spark.apache.org/docs/latest/api/python/index.html)  
 
-Python or R DataFrames exist on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark dataframes, and not using Python or R data types. This has been achieved by taking advantage of the SparkR[^4] or PySpark APIs. Spark's data frame object can be thought of as a table distributed across a cluster and has functionality that is similar to dataframe in R.  
+Python, or R, DataFrame exists on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark dataframes, and not using Python or R dataframe. This has been achieved by taking advantage of the SparkR[^4] or PySpark APIs. Spark's dataframe object can be thought of as a table distributed across a cluster and has functionality that is similar to dataframe in R or python.  
 
 ## 1. Start Hadoop/HDFS  
 
@@ -72,25 +72,47 @@ Open a web browser to see your configurations for the current session.
 for HDFS: http://localhost:9870  
 for YARN Resource Manager: http://localhost:8088 
 
-## 2. PySpark, `spark session` in Python environment  
+## 2. PySpark, spark session in Python environment  
 
-a. Configuring Eclipse with PySpark and Hadoop  
+Configuring Eclipse IDE with PySpark and Hadoop: Here are the instructions for [Configuring Eclipse with Python and Spark on Hadoop](https://enahwe.wordpress.com)  
 
-[Configuring Eclipse with Python and Spark on Hadoop](https://enahwe.wordpress.com)  
+PySpark communicates with the Scala-based Spark via the [Py4J library](https://www.py4j.org). Py4J isn’t specific to PySpark or Spark. Py4J allows any Python program to talk to JVM-based code.  
 
-Create Spark session   
+Creating a spark context: _"The entry-point of any PySpark program is a SparkContext object. This object allows you to connect to a Spark cluster and create RDDs. The local[\*] string is a special string denoting that you’re using a local cluster, which is another way of saying you’re running in single-machine mode. The * tells Spark to create as many worker threads as logical cores on your machine. Creating a SparkContext can be more involved when you’re using a cluster. To connect to a Spark cluster, you might need to handle authentication and a few other pieces of information specific to your cluster"_ [https://realpython.com](https://realpython.com/pyspark-intro/)  
+
 ```  
-from pyspark.sql import SparkSession  
+from pyspark.conf import SparkConf
+from pyspark.context import SparkContext
+from pyspark.sql import SparkSession
 from pyspark.sql.functions import when   
 
-spark = SparkSession.builder.master('local').appName("HDFS").getOrCreate()  
+conf = SparkConf()
+conf.setMaster('local[*]')
+conf.setAppName('MyApp')
+# conf.set(key, value)
+conf.set("spark.executor.memory", '4g')
+conf.set('spark.executor.cores', '1')
+conf.set('spark.cores.max', '1')
+conf.set("spark.driver.memory",'4g')
+
+SparkContext().stop()
+
+spark = SparkSession.builder.config(conf=conf).getOrCreate()
 ```  
 
-Convert list to data frame  
+```
+sc = spark.sparkContext
+txt = sc.textFile('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv')
+print(txt.collect())
+```  
+You can start creating RDDs once you have a SparkContext. One way to create RDDs is to read in a file with textFile(). RDDs are one of the foundational data structures for using PySpark so many of the functions in the API return RDDs.  
+
+Converting list to data frame  
 ```
 df = spark.read.format('csv').option('header',True).option('multiLine', True).load('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv')  
 df.show()  
 ```
+
 ```    
 +--------+-------+-------+---+------+  
 |SampleID|Disease|Genetic|Age|   Sex|  

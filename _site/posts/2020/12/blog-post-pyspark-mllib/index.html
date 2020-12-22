@@ -290,11 +290,11 @@
       <section class="page__content" itemprop="text">
         <p><em>Updated on December 21, 2020</em></p>
 
-<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: Classification, Regression, Clustering, Dimentionality reduction and, Linear algebra, statistics and data handling. Python is a popular programming language with a number of packages that support data processing and machine learning tasks. The Spark Python API (PySpark) exposes the Spark programming model to Python.</p>
+<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: classification, regression, clustering, dimentionality reduction and, linear algebra and statistics. Python is a general purpose popular programming language with a number of packages that support data processing and machine learning tasks. The Spark Python API (PySpark) exposes the Spark programming model to Python.</p>
 
 <p><a href="https://spark.apache.org/docs/latest/api/python/index.html">PySpark (Python on Spark)</a></p>
 
-<p>Python or R DataFrames exist on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark dataframes, and not using Python or R data types. This has been achieved by taking advantage of the SparkR<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> or PySpark APIs. Spark’s data frame object can be thought of as a table distributed across a cluster and has functionality that is similar to dataframe in R.</p>
+<p>Python, or R, DataFrame exists on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark dataframes, and not using Python or R dataframe. This has been achieved by taking advantage of the SparkR<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> or PySpark APIs. Spark’s dataframe object can be thought of as a table distributed across a cluster and has functionality that is similar to dataframe in R or python.</p>
 
 <h2 id="1-start-hadoophdfs">1. Start Hadoop/HDFS</h2>
 
@@ -341,23 +341,44 @@ Starting nodemanagers
 for HDFS: http://localhost:9870<br />
 for YARN Resource Manager: http://localhost:8088</p>
 
-<h2 id="2-pyspark-spark-session-in-python-environment">2. PySpark, <code class="language-plaintext highlighter-rouge">spark session</code> in Python environment</h2>
+<h2 id="2-pyspark-spark-session-in-python-environment">2. PySpark, spark session in Python environment</h2>
 
-<p>a. Configuring Eclipse with PySpark and Hadoop</p>
+<p>Configuring Eclipse IDE with PySpark and Hadoop: Here are the instructions for <a href="https://enahwe.wordpress.com">Configuring Eclipse with Python and Spark on Hadoop</a></p>
 
-<p><a href="https://enahwe.wordpress.com">Configuring Eclipse with Python and Spark on Hadoop</a></p>
+<p>PySpark communicates with the Scala-based Spark via the <a href="https://www.py4j.org">Py4J library</a>. Py4J isn’t specific to PySpark or Spark. Py4J allows any Python program to talk to JVM-based code.</p>
 
-<p>Create Spark session</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from pyspark.sql import SparkSession  
+<p>Creating a spark context: <em>“The entry-point of any PySpark program is a SparkContext object. This object allows you to connect to a Spark cluster and create RDDs. The local[*] string is a special string denoting that you’re using a local cluster, which is another way of saying you’re running in single-machine mode. The * tells Spark to create as many worker threads as logical cores on your machine. Creating a SparkContext can be more involved when you’re using a cluster. To connect to a Spark cluster, you might need to handle authentication and a few other pieces of information specific to your cluster”</em> <a href="https://realpython.com/pyspark-intro/">https://realpython.com</a></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from pyspark.conf import SparkConf
+from pyspark.context import SparkContext
+from pyspark.sql import SparkSession
 from pyspark.sql.functions import when   
 
-spark = SparkSession.builder.master('local').appName("HDFS").getOrCreate()  
+conf = SparkConf()
+conf.setMaster('local[*]')
+conf.setAppName('MyApp')
+# conf.set(key, value)
+conf.set("spark.executor.memory", '4g')
+conf.set('spark.executor.cores', '1')
+conf.set('spark.cores.max', '1')
+conf.set("spark.driver.memory",'4g')
+
+SparkContext().stop()
+
+spark = SparkSession.builder.config(conf=conf).getOrCreate()
 </code></pre></div></div>
 
-<p>Convert list to data frame</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sc = spark.sparkContext
+txt = sc.textFile('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv')
+print(txt.collect())
+</code></pre></div></div>
+<p>You can start creating RDDs once you have a SparkContext. One way to create RDDs is to read in a file with textFile(). RDDs are one of the foundational data structures for using PySpark so many of the functions in the API return RDDs.</p>
+
+<p>Converting list to data frame</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>df = spark.read.format('csv').option('header',True).option('multiLine', True).load('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv')  
 df.show()  
 </code></pre></div></div>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------+-------+-------+---+------+  
 |SampleID|Disease|Genetic|Age|   Sex|  
 +--------+-------+-------+---+------+  
