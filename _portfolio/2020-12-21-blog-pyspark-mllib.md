@@ -100,14 +100,18 @@ SparkContext().stop()
 spark = SparkSession.builder.config(conf=conf).getOrCreate()
 ```  
 
+In PySpark, SparkContext is available as `sc` by default. To create a new SparkContext, first you need to stop the default SparkContext.  
 ```
 sc = spark.sparkContext
 txt = sc.textFile('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv')
 print(txt.collect())
 ```  
-You can start creating RDDs once you have a SparkContext. One way to create RDDs is to read in a file with textFile(). RDDs are one of the foundational data structures for using PySpark so many of the functions in the API return RDDs.  
+You can start creating Resilient Distributed Datasets (RDDs) once you have a SparkContext. One way to create RDDs is to read a file with textFile(). RDDs are one of the foundational data structures in Spark. A single RDD can be divided into multiple logical partitions so that these partitions can be stored and processed on different machines of a cluster. RDDs are immutable (read-only) in nature. You cannot change an original RDD, but you can create new RDDs by performing operations, like transformations, on an existing RDD. An RDD in Spark can be cached and used again for future transformations. RDDs are said to be lazily evaluated, i.e., they delay the evaluation until it is really needed.    
 
-Converting list to data frame  
+[What are the Limitations of RDD in Apache Spark?](https://techvidvan.com/tutorials/spark-rdd-features/)  
+RDD does not provide schema view of data. It has no provision for handling structured data. Dataset and DataFrame provide the Schema view of data. DataFrame is a distributed collection of data organized into named columns. Spark DataFrames can be created from various sources, such as external files or databases, or the existing RDDs. DataFrames allow the processing of huge amounts of data. Datasets are an extension of the DataFrame APIs in Spark. In addition to the features of DataFrames and RDDs, datasets provide various other functionalities. They provide an object-oriented programming interface, which includes the concepts of classes and objects.
+
+Creating Spark DataFrame from CSV file:  
 ```
 df = spark.read.format('csv').option('header',True).option('multiLine', True).load('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv')  
 df.show()  
@@ -146,7 +150,7 @@ print(df)
 DataFrame[SampleID: string, Disease: string, Genetic: string, Age: string, Sex: string]  
 ```
 
-Replace Yes or No with 1 or 0  
+Replacing Yes or No with 1 or 0  
 ```  
 newDf = df.withColumn('Disease', when(df['Disease'] == 'Yes', 1).otherwise(0))  
 newDf = newDf.withColumn('Genetic', when(df['Genetic'] == 'Yes', 1).otherwise(0))  
@@ -180,7 +184,6 @@ newDf.show()
 +--------+-------+-------+---+------+  
 only showing top 20 rows  
 ```  
-
 
 Change Column type and select required columns for model building  
 ```  
@@ -265,6 +268,7 @@ Further reading...
 [Logistic Regression in Spark ML](https://medium.com/@dhiraj.p.rai/logistic-regression-in-spark-ml-8a95b5f5434c)  
 [Logistic Regression with Apache Spark](https://medium.com/rahasak/logistic-regression-with-apache-spark-b7ec4c98cfcd)  
 [Feature Transformation](https://towardsdatascience.com/apache-spark-mllib-tutorial-7aba8a1dce6e)  
+[PySpark: Apache Spark with Python](https://intellipaat.com/blog/tutorial/spark-tutorial/pyspark-tutorial/#_SparkContext)  
 [SparkR and Sparking Water](https://rpubs.com/wendyu/sparkr)  
 [Integrate SparkR and R for Better Data Science Workflow](https://blog.cloudera.com/integrate-sparkr-and-r-for-better-data-science-workflow/)  
 [A Compelling Case for SparkR](https://cosminsanda.com/posts/a-compelling-case-for-sparkr/)  
