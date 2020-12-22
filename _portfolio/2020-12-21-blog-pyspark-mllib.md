@@ -13,7 +13,7 @@ tags:
   - Emory Uiversity
 
 ---  
-*Updated on December 21, 2020*  
+*Updated on December 22, 2020*  
 
 Apache Spark MLlib [^1] [^2] [^3] is a distributed framework that provides many utilities useful for **machine learning** tasks, such as: classification, regression, clustering, dimentionality reduction and, linear algebra and statistics. Python is a general purpose popular programming language with a number of packages that support data processing and machine learning tasks. The Spark Python API (PySpark) exposes the Spark programming model to Python.   
 
@@ -274,6 +274,7 @@ Further reading...
 [A Compelling Case for SparkR](https://cosminsanda.com/posts/a-compelling-case-for-sparkr/)  
 [Spark – How to change column type?](https://sparkbyexamples.com/spark/spark-change-dataframe-column-type/)  
 [SparkRext - SparkR extension for closer to dplyr](https://rstudio-pubs-static.s3.amazonaws.com/91559_b0a439e19f6044a9b462d0aa7b5081a2.html)  
+[Scala Vs Python Vs R Vs Java - Which language is better for Spark & Why?](https://www.knowledgehut.com/blog/programming/scala-vs-python-vs-r-vs-java)  
 
 [^1]: [Apache Spark](https://spark.apache.org)     
 [^2]: [Spark MLlib: RDD-based API](https://spark.apache.org/docs/3.0.0/mllib-guide.html)
