@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on December 21, 2020">
+  <meta property="og:description" content="Updated on December 26, 2020">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (part 9: Spark MLlib, Python, Regression)">
-    <meta itemprop="description" content="Updated on December 21, 2020">
+    <meta itemprop="description" content="Updated on December 26, 2020">
     <meta itemprop="datePublished" content="December 21, 2020">
     
 
@@ -288,7 +288,7 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on December 21, 2020</em></p>
+        <p><em>Updated on December 26, 2020</em></p>
 
 <p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: classification, regression, clustering, dimentionality reduction and, linear algebra and statistics. Python is a general purpose popular programming language with a number of packages that support data processing and machine learning tasks. The Spark Python API (PySpark) exposes the Spark programming model to Python.</p>
 
@@ -343,11 +343,15 @@ for YARN Resource Manager: http://localhost:8088</p>
 
 <h2 id="2-pyspark-spark-session-in-python-environment">2. PySpark, spark session in Python environment</h2>
 
-<p>Configuring Eclipse IDE with PySpark and Hadoop: Here are the instructions for <a href="https://enahwe.wordpress.com">Configuring Eclipse with Python and Spark on Hadoop</a></p>
+<p>Here are the instructions for <a href="https://enahwe.wordpress.com">Configuring Eclipse with Python and Spark on Hadoop</a></p>
 
 <p>PySpark communicates with the Scala-based Spark via the <a href="https://www.py4j.org">Py4J library</a>. Py4J isn’t specific to PySpark or Spark. Py4J allows any Python program to talk to JVM-based code.</p>
 
 <p>Creating a spark context: <em>“The entry-point of any PySpark program is a SparkContext object. This object allows you to connect to a Spark cluster and create RDDs. The local[*] string is a special string denoting that you’re using a local cluster, which is another way of saying you’re running in single-machine mode. The * tells Spark to create as many worker threads as logical cores on your machine. Creating a SparkContext can be more involved when you’re using a cluster. To connect to a Spark cluster, you might need to handle authentication and a few other pieces of information specific to your cluster”</em> <a href="https://realpython.com/pyspark-intro/">https://realpython.com</a></p>
+
+<p>Since Spark 2.x, a new entry point called <em>SparkSession</em> has been introduced that essentially combined all functionalities available in Spark 1.x entry ponits (SparkContext, SQLContext and HiveContext).</p>
+
+<p><img src="/images/spark-context.png" alt="spark-context" /></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
@@ -362,19 +366,38 @@ conf.set("spark.executor.memory", '4g')
 conf.set('spark.executor.cores', '1')
 conf.set('spark.cores.max', '1')
 conf.set("spark.driver.memory",'4g')
-
-SparkContext().stop()
-
-spark = SparkSession.builder.config(conf=conf).getOrCreate()
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sc = spark.sparkContext
+<h3 id="sparkcontext-is-available-as-sc-by-default">SparkContext is available as <code class="language-plaintext highlighter-rouge">sc</code> by default.</h3>
+
+<p>If you are using the spark-shell, SparkContext is already available through the variable called <em>sc</em>. To create a new SparkContext, first you need to stop the default SparkContext.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sc.stop()  
+SparkContext().stop()
+</code></pre></div></div>
+
+<h3 id="sparksession-gives-access-to-sparkcontext"><code class="language-plaintext highlighter-rouge">SparkSession</code> gives access to <code class="language-plaintext highlighter-rouge">SparkContext</code>.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sc = SparkContext(conf=conf)
+
+spark = SparkSession.builder.config(conf=conf).getOrCreate()
+sc = spark.sparkContext
+
 txt = sc.textFile('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv')
 print(txt.collect())
 </code></pre></div></div>
-<p>You can start creating RDDs once you have a SparkContext. One way to create RDDs is to read in a file with textFile(). RDDs are one of the foundational data structures for using PySpark so many of the functions in the API return RDDs.</p>
 
-<p>Converting list to data frame</p>
+<h3 id="you-can-start-creating-resilient-distributed-datasets-rdds-once-you-have-a-sparkcontext">You can start creating <code class="language-plaintext highlighter-rouge">Resilient Distributed Datasets (RDDs)</code> once you have a <code class="language-plaintext highlighter-rouge">SparkContext</code>.</h3>
+
+<p>One way to create RDDs is to read a file with textFile() method. RDDs are one of the foundational data structures in Spark. A single RDD can be divided into multiple logical partitions so that these partitions can be stored and processed on different machines of a cluster. RDDs are immutable (read-only) in nature. You cannot change an original RDD, but you can create new RDDs by performing operations, like transformations, on an existing RDD. An RDD in Spark can be cached and used again for future transformations. RDDs are said to be lazily evaluated, i.e., they delay the evaluation until it is really needed.</p>
+
+<p><a href="https://techvidvan.com/tutorials/spark-rdd-features/">What are the limitations of RDD in Apache Spark?</a><br />
+RDD does not provide schema view of data. It has no provision for handling structured data. Dataset and DataFrame provide the Schema view of data. DataFrame is a distributed collection of data organized into named columns. Spark DataFrames can be created from various sources, such as external files or databases, or the existing RDDs. DataFrames allow the processing of huge amounts of data. Datasets are an extension of the DataFrame APIs in Spark. In addition to the features of DataFrames and RDDs, datasets provide various other functionalities. They provide an object-oriented programming interface, which includes the concepts of classes and objects.</p>
+
+<h3 id="you-can-start-creating-a-dataframe-once-you-have-a-sparksession">You can start creating a <code class="language-plaintext highlighter-rouge">DataFrame</code> once you have a <code class="language-plaintext highlighter-rouge">SparkSession</code>.</h3>
+
+<p>A <code class="language-plaintext highlighter-rouge">SparkSession</code> can be used create DataFrame, register DataFrame as tables, execute SQL over tables, cache tables <em>etc</em>.<br />
+Creating Spark DataFrame from CSV file:</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>df = spark.read.format('csv').option('header',True).option('multiLine', True).load('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv')  
 df.show()  
 </code></pre></div></div>
@@ -410,7 +433,8 @@ only showing top 20 rows
 DataFrame[SampleID: string, Disease: string, Genetic: string, Age: string, Sex: string]  
 </code></pre></div></div>
 
-<p>Replace Yes or No with 1 or 0</p>
+<h3 id="replacing-yes-or-no-with-1-or-0">Replacing <code class="language-plaintext highlighter-rouge">Yes</code> or <code class="language-plaintext highlighter-rouge">No</code> with <code class="language-plaintext highlighter-rouge">1</code> or <code class="language-plaintext highlighter-rouge">0</code></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>newDf = df.withColumn('Disease', when(df['Disease'] == 'Yes', 1).otherwise(0))  
 newDf = newDf.withColumn('Genetic', when(df['Genetic'] == 'Yes', 1).otherwise(0))  
 </code></pre></div></div>
@@ -448,6 +472,7 @@ only showing top 20 rows
 newDf = newDf.withColumn("Genetic",newDf["Genetic"].cast('double'))  
 newDf = newDf.withColumn("Age",newDf["Age"].cast('double'))  
 </code></pre></div></div>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>newDf.show()    
 +--------+-------+-------+----+------+  
 |SampleID|Disease|Genetic| Age|   Sex|  
@@ -476,7 +501,14 @@ newDf = newDf.withColumn("Age",newDf["Age"].cast('double'))
 only showing top 20 rows  
 </code></pre></div></div>
 
-<p>Prepare data for Machine Learning. And we need two columns only — features and label(“Disease”)</p>
+<h3 id="prepare-data-for-machine-learning">Prepare data for Machine Learning.</h3>
+
+<p><em>In statistical modeling</em>, regression analysis focuses on investigating the relationship between a dependent variable and one or more independent variables.</p>
+
+<p><em>In data mining</em>, Regression is a model to represent the relationship between the value of lable ( or target, it is numerical variable) and on one or more features (or predictors they can be numerical and categorical variables).</p>
+
+<p>We need only  two columns — <code class="language-plaintext highlighter-rouge">features</code> (Genetic and Age) and <code class="language-plaintext highlighter-rouge">label</code> (“Disease”)</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from pyspark.ml.feature import VectorAssembler  
 vectorAssembler = VectorAssembler(inputCols = ['Genetic','Age'], outputCol = 'features')  
 vhouse_df = vectorAssembler.transform(newDf)  
@@ -518,11 +550,13 @@ Stopping resourcemanager
 <a href="https://medium.com/@dhiraj.p.rai/logistic-regression-in-spark-ml-8a95b5f5434c">Logistic Regression in Spark ML</a><br />
 <a href="https://medium.com/rahasak/logistic-regression-with-apache-spark-b7ec4c98cfcd">Logistic Regression with Apache Spark</a><br />
 <a href="https://towardsdatascience.com/apache-spark-mllib-tutorial-7aba8a1dce6e">Feature Transformation</a><br />
+<a href="https://intellipaat.com/blog/tutorial/spark-tutorial/pyspark-tutorial/#_SparkContext">PySpark: Apache Spark with Python</a><br />
 <a href="https://rpubs.com/wendyu/sparkr">SparkR and Sparking Water</a><br />
 <a href="https://blog.cloudera.com/integrate-sparkr-and-r-for-better-data-science-workflow/">Integrate SparkR and R for Better Data Science Workflow</a><br />
 <a href="https://cosminsanda.com/posts/a-compelling-case-for-sparkr/">A Compelling Case for SparkR</a><br />
 <a href="https://sparkbyexamples.com/spark/spark-change-dataframe-column-type/">Spark – How to change column type?</a><br />
-<a href="https://rstudio-pubs-static.s3.amazonaws.com/91559_b0a439e19f6044a9b462d0aa7b5081a2.html">SparkRext - SparkR extension for closer to dplyr</a></p>
+<a href="https://rstudio-pubs-static.s3.amazonaws.com/91559_b0a439e19f6044a9b462d0aa7b5081a2.html">SparkRext - SparkR extension for closer to dplyr</a><br />
+<a href="https://www.knowledgehut.com/blog/programming/scala-vs-python-vs-r-vs-java">Scala Vs Python Vs R Vs Java - Which language is better for Spark &amp; Why?</a></p>
 
 <h2 id="references">References</h2>
 <div class="footnotes">

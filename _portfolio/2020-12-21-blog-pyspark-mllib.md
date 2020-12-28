@@ -13,7 +13,7 @@ tags:
   - Emory Uiversity
 
 ---  
-*Updated on December 22, 2020*  
+*Updated on December 26, 2020*  
 
 Apache Spark MLlib [^1] [^2] [^3] is a distributed framework that provides many utilities useful for **machine learning** tasks, such as: classification, regression, clustering, dimentionality reduction and, linear algebra and statistics. Python is a general purpose popular programming language with a number of packages that support data processing and machine learning tasks. The Spark Python API (PySpark) exposes the Spark programming model to Python.   
 
@@ -74,11 +74,15 @@ for YARN Resource Manager: http://localhost:8088
 
 ## 2. PySpark, spark session in Python environment  
 
-Configuring Eclipse IDE with PySpark and Hadoop: Here are the instructions for [Configuring Eclipse with Python and Spark on Hadoop](https://enahwe.wordpress.com)  
+Here are the instructions for [Configuring Eclipse with Python and Spark on Hadoop](https://enahwe.wordpress.com)  
 
 PySpark communicates with the Scala-based Spark via the [Py4J library](https://www.py4j.org). Py4J isn’t specific to PySpark or Spark. Py4J allows any Python program to talk to JVM-based code.  
 
 Creating a spark context: _"The entry-point of any PySpark program is a SparkContext object. This object allows you to connect to a Spark cluster and create RDDs. The local[\*] string is a special string denoting that you’re using a local cluster, which is another way of saying you’re running in single-machine mode. The * tells Spark to create as many worker threads as logical cores on your machine. Creating a SparkContext can be more involved when you’re using a cluster. To connect to a Spark cluster, you might need to handle authentication and a few other pieces of information specific to your cluster"_ [https://realpython.com](https://realpython.com/pyspark-intro/)  
+ 
+Since Spark 2.x, a new entry point called _SparkSession_ has been introduced that essentially combined all functionalities available in Spark 1.x entry ponits (SparkContext, SQLContext and HiveContext).  
+
+![spark-context](/images/spark-context.png)  
 
 ```  
 from pyspark.conf import SparkConf
@@ -94,23 +98,39 @@ conf.set("spark.executor.memory", '4g')
 conf.set('spark.executor.cores', '1')
 conf.set('spark.cores.max', '1')
 conf.set("spark.driver.memory",'4g')
-
-SparkContext().stop()
-
-spark = SparkSession.builder.config(conf=conf).getOrCreate()
 ```  
 
-In PySpark, SparkContext is available as `sc` by default. To create a new SparkContext, first you need to stop the default SparkContext.  
-```
+### SparkContext is available as `sc` by default.  
+
+If you are using the spark-shell, SparkContext is already available through the variable called _sc_. To create a new SparkContext, first you need to stop the default SparkContext.  
+
+```  
+# sc.stop()  
+SparkContext().stop()
+```  
+
+### `SparkSession` gives access to `SparkContext`.  
+
+```  
+# sc = SparkContext(conf=conf)
+
+spark = SparkSession.builder.config(conf=conf).getOrCreate()
 sc = spark.sparkContext
+
 txt = sc.textFile('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv')
 print(txt.collect())
 ```  
-You can start creating Resilient Distributed Datasets (RDDs) once you have a SparkContext. One way to create RDDs is to read a file with textFile(). RDDs are one of the foundational data structures in Spark. A single RDD can be divided into multiple logical partitions so that these partitions can be stored and processed on different machines of a cluster. RDDs are immutable (read-only) in nature. You cannot change an original RDD, but you can create new RDDs by performing operations, like transformations, on an existing RDD. An RDD in Spark can be cached and used again for future transformations. RDDs are said to be lazily evaluated, i.e., they delay the evaluation until it is really needed.    
 
-[What are the Limitations of RDD in Apache Spark?](https://techvidvan.com/tutorials/spark-rdd-features/)  
+### You can start creating `Resilient Distributed Datasets (RDDs)` once you have a `SparkContext`.  
+  
+One way to create RDDs is to read a file with textFile() method. RDDs are one of the foundational data structures in Spark. A single RDD can be divided into multiple logical partitions so that these partitions can be stored and processed on different machines of a cluster. RDDs are immutable (read-only) in nature. You cannot change an original RDD, but you can create new RDDs by performing operations, like transformations, on an existing RDD. An RDD in Spark can be cached and used again for future transformations. RDDs are said to be lazily evaluated, i.e., they delay the evaluation until it is really needed.    
+
+[What are the limitations of RDD in Apache Spark?](https://techvidvan.com/tutorials/spark-rdd-features/)  
 RDD does not provide schema view of data. It has no provision for handling structured data. Dataset and DataFrame provide the Schema view of data. DataFrame is a distributed collection of data organized into named columns. Spark DataFrames can be created from various sources, such as external files or databases, or the existing RDDs. DataFrames allow the processing of huge amounts of data. Datasets are an extension of the DataFrame APIs in Spark. In addition to the features of DataFrames and RDDs, datasets provide various other functionalities. They provide an object-oriented programming interface, which includes the concepts of classes and objects.
 
+### You can start creating a `DataFrame` once you have a `SparkSession`.  
+    
+A `SparkSession` can be used create DataFrame, register DataFrame as tables, execute SQL over tables, cache tables _etc_.  
 Creating Spark DataFrame from CSV file:  
 ```
 df = spark.read.format('csv').option('header',True).option('multiLine', True).load('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv')  
@@ -148,9 +168,10 @@ only showing top 20 rows
 ```  
 print(df)  
 DataFrame[SampleID: string, Disease: string, Genetic: string, Age: string, Sex: string]  
-```
+```  
 
-Replacing Yes or No with 1 or 0  
+### Replacing `Yes` or `No` with `1` or `0`  
+  
 ```  
 newDf = df.withColumn('Disease', when(df['Disease'] == 'Yes', 1).otherwise(0))  
 newDf = newDf.withColumn('Genetic', when(df['Genetic'] == 'Yes', 1).otherwise(0))  
@@ -191,6 +212,7 @@ newDf = newDf.withColumn("Disease",newDf["Disease"].cast('double'))
 newDf = newDf.withColumn("Genetic",newDf["Genetic"].cast('double'))  
 newDf = newDf.withColumn("Age",newDf["Age"].cast('double'))  
 ```  
+
 ```  
 newDf.show()    
 +--------+-------+-------+----+------+  
@@ -220,7 +242,14 @@ newDf.show()
 only showing top 20 rows  
 ```  
 
-Prepare data for Machine Learning. And we need two columns only — features and label(“Disease”)  
+### Prepare data for Machine Learning.  
+
+_In statistical modeling_, regression analysis focuses on investigating the relationship between a dependent variable and one or more independent variables.  
+
+_In data mining_, Regression is a model to represent the relationship between the value of lable ( or target, it is numerical variable) and on one or more features (or predictors they can be numerical and categorical variables).  
+
+We need only  two columns — `features` (Genetic and Age) and `label` (“Disease”)  
+
 ```  
 from pyspark.ml.feature import VectorAssembler  
 vectorAssembler = VectorAssembler(inputCols = ['Genetic','Age'], outputCol = 'features')  
@@ -247,7 +276,7 @@ print("Intercept: " + str(lr_model.intercept))
 ```  
 
 Results  
-```
+```  
 Coefficients: [0.2797034064149404,0.008458887145555321]  
 Intercept: 0.04080427059655318
 ```  
