@@ -78,11 +78,12 @@ Here are the instructions for [Configuring Eclipse with Python and Spark on Hado
 
 PySpark communicates with the Scala-based Spark via the [Py4J library](https://www.py4j.org). Py4J isn’t specific to PySpark or Spark. Py4J allows any Python program to talk to JVM-based code.  
 
-Creating a spark context: _"The entry-point of any PySpark program is a SparkContext object. This object allows you to connect to a Spark cluster and create RDDs. The local[\*] string is a special string denoting that you’re using a local cluster, which is another way of saying you’re running in single-machine mode. The * tells Spark to create as many worker threads as logical cores on your machine. Creating a SparkContext can be more involved when you’re using a cluster. To connect to a Spark cluster, you might need to handle authentication and a few other pieces of information specific to your cluster"_ [https://realpython.com](https://realpython.com/pyspark-intro/)  
- 
-Since Spark 2.x, a new entry point called _SparkSession_ has been introduced that essentially combined all functionalities available in Spark 1.x entry ponits (SparkContext, SQLContext and HiveContext).  
+Creating a spark context: _"The entry-point of any PySpark program is a SparkContext object. This object allows you to connect to a Spark cluster and create RDDs. The local[\*] string is a special string denoting that you’re using a local cluster, which is another way of saying you’re running in single-machine mode. The * tells Spark to create as many worker threads as logical cores on your machine. Creating a SparkContext can be more involved when you’re using a cluster. To connect to a Spark cluster, you might need to handle authentication and a few other pieces of information specific to your cluster"_ _Source https://realpython.com_  
+
+Since Spark 2.x, a new entry point called _SparkSession_ has been introduced that essentially combined all functionalities available in Spark 1.x (entry ponits SparkContext, SQLContext and HiveContext).  
 
 ![spark-context](/images/spark-context.png)  
+_Image source https://www.tutorialspoint.com_  
 
 ```  
 from pyspark.conf import SparkConf

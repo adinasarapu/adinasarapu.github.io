@@ -347,11 +347,12 @@ for YARN Resource Manager: http://localhost:8088</p>
 
 <p>PySpark communicates with the Scala-based Spark via the <a href="https://www.py4j.org">Py4J library</a>. Py4J isn’t specific to PySpark or Spark. Py4J allows any Python program to talk to JVM-based code.</p>
 
-<p>Creating a spark context: <em>“The entry-point of any PySpark program is a SparkContext object. This object allows you to connect to a Spark cluster and create RDDs. The local[*] string is a special string denoting that you’re using a local cluster, which is another way of saying you’re running in single-machine mode. The * tells Spark to create as many worker threads as logical cores on your machine. Creating a SparkContext can be more involved when you’re using a cluster. To connect to a Spark cluster, you might need to handle authentication and a few other pieces of information specific to your cluster”</em> <a href="https://realpython.com/pyspark-intro/">https://realpython.com</a></p>
+<p>Creating a spark context: <em>“The entry-point of any PySpark program is a SparkContext object. This object allows you to connect to a Spark cluster and create RDDs. The local[*] string is a special string denoting that you’re using a local cluster, which is another way of saying you’re running in single-machine mode. The * tells Spark to create as many worker threads as logical cores on your machine. Creating a SparkContext can be more involved when you’re using a cluster. To connect to a Spark cluster, you might need to handle authentication and a few other pieces of information specific to your cluster”</em> <em>Source https://realpython.com</em></p>
 
-<p>Since Spark 2.x, a new entry point called <em>SparkSession</em> has been introduced that essentially combined all functionalities available in Spark 1.x entry ponits (SparkContext, SQLContext and HiveContext).</p>
+<p>Since Spark 2.x, a new entry point called <em>SparkSession</em> has been introduced that essentially combined all functionalities available in Spark 1.x (entry ponits SparkContext, SQLContext and HiveContext).</p>
 
-<p><img src="/images/spark-context.png" alt="spark-context" /></p>
+<p><img src="/images/spark-context.png" alt="spark-context" /><br />
+<em>Image source https://www.tutorialspoint.com</em></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
