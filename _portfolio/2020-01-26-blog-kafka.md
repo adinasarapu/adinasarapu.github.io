@@ -96,6 +96,8 @@ Next, check the Kafka logs to verify that broker is working and healthy.
 $docker-compose logs kafka | grep -i started  
 ```  
 
+Two fundamental concepts in Apache Kafka are Topics and Partitions. 
+
 **2. Create a Kafka topic**  
 
 The Kafka cluster stores streams of records in categories called topics. Each record in a topic consists of a key, a value, and a timestamp. A topic can have zero, one, or many consumers that subscribe to the data written to it.  
@@ -122,10 +124,12 @@ bash-4.4# ./kafka-topics.sh \
  --bootstrap-server localhost:9092  
 ```  
 
-<b>Figure 1</b>. Kafka topic partitions layout ([cloudblogs.microsoft.com](https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/)). Each partition in a topic is an ordered, immutable sequence of records that is continually appended to a structured commit log.  
+<b>Figure 1</b>. Kafka topic partitions layout (Image source [cloudblogs.microsoft.com](https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/)).  
 
+Kafka topics are divided into a number of partitions.  
 ![Partitions](/images/kafka-partitions.png)  
 
+Each partition in a topic is an ordered, immutable sequence of records that continually appended.  
 ![Partition](/images/kafka-partition.png)
 
 ```
@@ -145,9 +149,9 @@ bash-4.4# ./kafka-topics.sh \
 
 **3a. Kafka Producer and Consumer** - kafka from command line  
 
-A Kafka producer is an object that consists of a pool of buffer space that holds records that haven't yet been transmitted to the server.  
+A Kafka producer is an object that consists of a pool of buffer space that holds records that haven't yet been transmitted to the server. Kafka consumers subscribe to one or more topics of interest and receive messages that are sent to those topics by producers.  
 
-<b>Figure 2</b>. Relationship between kafka components. Source (https://medium.com)(https://medium.com/@kavimaluskam/start-your-real-time-pipeline-with-apache-kafka-39e30129892a).  
+<b>Figure 2</b>. Relationship between kafka components. Image source [https://medium.com](https://medium.com/@kavimaluskam/start-your-real-time-pipeline-with-apache-kafka-39e30129892a).  
 
 ![Producer](/images/kafka-producer-consumer.png)  
 
@@ -177,6 +181,7 @@ Hello
 World  
 ^CProcessed a total of 2 messages  
 ```  
+
 **3b. Kafka Producer and Consumer** - kafka from java web application  
 
 Another way of reading data from a Kafka topic is by simply using a *Java Spring Boot*.  
@@ -375,3 +380,8 @@ bash-4.4# exit
 
 $docker-compose down  
 ```    
+
+Further reading…  
+
+The Power of Kafka Partitions : How to Get the Most out of Your Kafka Cluster](https://www.instaclustr.com/the-power-of-kafka-partitions-how-to-get-the-most-out-of-your-kafka-cluster/)
+
