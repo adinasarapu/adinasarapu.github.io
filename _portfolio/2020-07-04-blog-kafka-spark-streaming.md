@@ -1,9 +1,9 @@
 ---
-title: 'Building a real-time big data pipeline (part 4: Kafka, Spark Streaming)'
+title: 'Building a real-time big data pipeline (4: Spark Streaming, Kafka, Scala)'
 date: 2020-07-04
 permalink: /posts/2020/07/blog-post-kafka-spark-streaming/
 header:
-  teaser: "/images/DEG.png"
+  teaser: ""
 tags:
   - big data
   - apache kafka
@@ -11,17 +11,20 @@ tags:
   - Scala
   - docker
   - Spark Streaming 
+  - HDFS
   - YAML
   - Zookeeper
   - Bioinformatics
   - Emory University 
 
 ---  
-*Updated on August 02, 2020*  
+*Updated on January 19, 2021*  
 
 [Apache Kafka](https://kafka.apache.org/) is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java.  
 
-Kafka requires [Apache Zookeeper](https://zookeeper.apache.org/) to run. Kafka (v2.12 scala; v2.5.0 kafka) and zookeeper (v3.4.13) were installed using docker. See my other blog for installation [Kafka and Zookeeper with Docker](https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/).  
+Kafka requires [Apache Zookeeper](https://zookeeper.apache.org/) to run. Kafka v2.5.0 (scala v2.12 build) and zookeeper (v3.4.13) were installed using docker.  
+
+See my other blogs for installations [Kafka and Zookeeper with Docker](https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/); [The Scala Build Tool (SBT) on macOS](https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/)  
 
 Once we start Zookeeper and Kafka locally, we can proceed to create our first topic, named “mytopic”:  
 
@@ -34,18 +37,20 @@ bash-4.4# ./kafka-topics.sh \
    --bootstrap-server localhost:9092  
 ```  
 
-*Spark Streaming* is an extension of the core *Apache Spark* platform that enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Java, Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. This data can be further processed using complex algorithms. The final output, which is the processed data can be pushed out to destinations such as HDFS filesystems, databases, and live dashboards. Spark Streaming allows you to use *Machine Learning* and *Graph Processing* to the data streams for advanced data processing. Spark uses Hadoop's client libraries for HDFS and YARN.  
+*Spark Streaming* is an extension of the core *Apache Spark* platform that enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Scala, Java, R and Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. This data can be further processed using complex algorithms. The final output, which is the processed data can be pushed out to destinations such as HDFS filesystems, databases, and live dashboards. Spark Streaming allows you to use *Machine Learning* applications to the data streams for advanced data processing. Spark uses Hadoop's client libraries for distributed storage (HDFS) and resource management (YARN).  
 
-Figure source [https://www.cuelogic.com](https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka)
+See my other blog for [Hadoop installation](https://adinasarapu.github.io/big-data/2020/02/blog-post-spark/) and moving files from local to Hadoop Distributed File System (HDFS).  
+
+Figure source [https://www.cuelogic.com](https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka)  
 ![spark-streaming](/images/spark-streaming.png)  
-It’s very important to assemble the compatible versions of all of these. Download, and unzip, [Spark 3.0.0](https://spark.apache.org/downloads.html) pre-built for Apache 3.2 and later (Scala 2.12 compatible); then add env variables to `~/.bash_profile` as  
-  
+It’s very important to assemble the compatible versions of all of these. Download, and unzip, [Spark 3.0.0](https://spark.apache.org/downloads.html) pre-built for hadoop 3.2 and later version (with Scala 2.12 compatibility); then add _env_ variables to `~/.bash_profile` as  
+
 ```
 export SPARK_HOME="/<path_to_installation_dir>/spark-3.0.0-bin-hadoop3.2"  
 export PATH="$PATH:$SPARK_HOME/bin"  
 ```
 
-Once the right package of Spark is unpacked, your will need to add the following jars in the `$SPARK_HOME/jars` directory. It's important to choose the right package depending upon the broker available and features desired. We can pull the following dependencies from Maven Central:  
+Once the right package of Spark is unpacked, your will need to add the following jars in the `$SPARK_HOME/jars` directory. It's important to choose the right package depending upon the broker available (eg. Kafka) and features desired. We can pull the following dependencies from Maven Central:  
 
 ```
 1. commons-pool2-2.8.0.jar  
@@ -56,17 +61,16 @@ Once the right package of Spark is unpacked, your will need to add the following
 6. kafka_2.12-2.5.0.jar  
 ```
 
-Start the spark-shell using the following command   
+*Scala Application*  
+
+Start the spark-shell (for Scala) using the following command   
 
 ```  
 $spark-shell  
 ```  
+In case the installation happened successfully, the above command will start Apache Spark in Scala. Create a simple application in Scala using Spark which will integrate with the Kafka topic we created earlier. The application will read the messages as posted.  
 
-Create a simple application in Scala using Spark which will integrate with the Kafka topic we created earlier. The application will read the messages as posted.  
-
-We need to initialize the *StreamingContext* which is the entry point for all Spark Streaming applications:  
-
-Stop `SparkContext` and create `StreamingContext`. You can create a *StreamingContext* by using an existing *SparkContext* or by providing the configuration (conf) necessary for a new one   
+In the Spark shell, a special interpreter-aware SparkContext is already created for you, in the variable called *sc*. Stop `SparkContext` and create `StreamingContext`. You can create a *StreamingContext* by using an existing *SparkContext* or by providing the configuration (conf) necessary for a new one   
 
 ```  
 sc.stop  

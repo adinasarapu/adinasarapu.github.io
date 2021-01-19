@@ -1,5 +1,5 @@
 ---
-title: 'Building a real-time big data pipeline (part 7: Spark MLlib, Java, Regression)'
+title: 'Building a real-time big data pipeline (7: Spark MLlib, Regression, Java)'
 date: 2020-08-24
 permalink: /posts/2020/08/blog-post-spark-mllib/
 tags:

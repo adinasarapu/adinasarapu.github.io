@@ -19,7 +19,7 @@
 
 
 
-<title>Building a real-time big data pipeline (4: Spark Streaming, Kafka, Scala) - Ashok R. Dinasarapu Ph.D</title>
+<title>Building a real-time big data pipeline (10: Spark Streaming, Kafka, Java) - Ashok R. Dinasarapu Ph.D</title>
 
 
 
@@ -29,11 +29,11 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
-<meta property="og:title" content="Building a real-time big data pipeline (4: Spark Streaming, Kafka, Scala)">
+<meta property="og:title" content="Building a real-time big data pipeline (10: Spark Streaming, Kafka, Java)">
 
 
-  <link rel="canonical" href="https://adinasarapu.github.io/posts/2020/07/blog-post-kafka-spark-streaming/">
-  <meta property="og:url" content="https://adinasarapu.github.io/posts/2020/07/blog-post-kafka-spark-streaming/">
+  <link rel="canonical" href="https://adinasarapu.github.io/posts/2021/01/blog-post-kafka-spark-streaming/">
+  <meta property="og:url" content="https://adinasarapu.github.io/posts/2021/01/blog-post-kafka-spark-streaming/">
 
 
 
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-07-04T00:00:00-04:00">
+  <meta property="article:published_time" content="2021-01-19T00:00:00-05:00">
 
 
 
@@ -264,21 +264,21 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Building a real-time big data pipeline (4: Spark Streaming, Kafka, Scala)">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (10: Spark Streaming, Kafka, Java)">
     <meta itemprop="description" content="Updated on January 19, 2021">
-    <meta itemprop="datePublished" content="July 04, 2020">
+    <meta itemprop="datePublished" content="January 19, 2021">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (4: Spark Streaming, Kafka, Scala)
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (10: Spark Streaming, Kafka, Java)
 </h1>
           
         
         
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-07-04T00:00:00-04:00">July 04, 2020</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2021-01-19T00:00:00-05:00">January 19, 2021</time></p>
         
         
              
@@ -294,7 +294,7 @@
 
 <p>Kafka requires <a href="https://zookeeper.apache.org/">Apache Zookeeper</a> to run. Kafka v2.5.0 (scala v2.12 build) and zookeeper (v3.4.13) were installed using docker.</p>
 
-<p>See my other blogs for installations <a href="https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/">Kafka and Zookeeper with Docker</a>; <a href="https://adinasarapu.github.io/posts/2020/08/blog-post-spark-sbt/">The Scala Build Tool (SBT) on macOS</a></p>
+<p>See my other blogs for installations <a href="https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/">Kafka and Zookeeper with Docker</a>.</p>
 
 <p>Once we start Zookeeper and Kafka locally, we can proceed to create our first topic, named “mytopic”:</p>
 
@@ -308,86 +308,107 @@
 
 <p><em>Spark Streaming</em> is an extension of the core <em>Apache Spark</em> platform that enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Scala, Java, R and Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. This data can be further processed using complex algorithms. The final output, which is the processed data can be pushed out to destinations such as HDFS filesystems, databases, and live dashboards. Spark Streaming allows you to use <em>Machine Learning</em> applications to the data streams for advanced data processing. Spark uses Hadoop’s client libraries for distributed storage (HDFS) and resource management (YARN).</p>
 
-<p>See my other blog for <a href="https://adinasarapu.github.io/big-data/2020/02/blog-post-spark/">Hadoop installation</a> and moving files from local to Hadoop Distributed File System (HDFS).</p>
-
 <p>Figure source <a href="https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka">https://www.cuelogic.com</a><br />
-<img src="/images/spark-streaming.png" alt="spark-streaming" /><br />
-It’s very important to assemble the compatible versions of all of these. Download, and unzip, <a href="https://spark.apache.org/downloads.html">Spark 3.0.0</a> pre-built for hadoop 3.2 and later version (with Scala 2.12 compatibility); then add <em>env</em> variables to <code class="language-plaintext highlighter-rouge">~/.bash_profile</code> as</p>
+<img src="/images/spark-streaming.png" alt="spark-streaming" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export SPARK_HOME="/&lt;path_to_installation_dir&gt;/spark-3.0.0-bin-hadoop3.2"  
-export PATH="$PATH:$SPARK_HOME/bin"  
-</code></pre></div></div>
-
-<p>Once the right package of Spark is unpacked, your will need to add the following jars in the <code class="language-plaintext highlighter-rouge">$SPARK_HOME/jars</code> directory. It’s important to choose the right package depending upon the broker available (eg. Kafka) and features desired. We can pull the following dependencies from Maven Central:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. commons-pool2-2.8.0.jar  
-2. kafka-clients-2.5.0.jar  
-3. spark-sql-kafka-0-10_2.12-3.0.0-preview2.jar  
-4. spark-token-provider-kafka-0-10_2.12-3.0.0-preview2.jar  
-5. spark-streaming-kafka-0-10_2.12-3.0.0-preview2.jar  
-6. kafka_2.12-2.5.0.jar  
-</code></pre></div></div>
-
-<p><em>Scala Application</em></p>
-
-<p>Start the spark-shell (for Scala) using the following command</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$spark-shell  
-</code></pre></div></div>
-<p>In case the installation happened successfully, the above command will start Apache Spark in Scala. Create a simple application in Scala using Spark which will integrate with the Kafka topic we created earlier. The application will read the messages as posted.</p>
-
-<p>In the Spark shell, a special interpreter-aware SparkContext is already created for you, in the variable called <em>sc</em>. Stop <code class="language-plaintext highlighter-rouge">SparkContext</code> and create <code class="language-plaintext highlighter-rouge">StreamingContext</code>. You can create a <em>StreamingContext</em> by using an existing <em>SparkContext</em> or by providing the configuration (conf) necessary for a new one</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sc.stop  
-
-import org.apache.spark.SparkConf  
-import org.apache.spark.streaming.StreamingContext  
-import org.apache.spark.streaming.Seconds  
-
-val conf = new SparkConf().setMaster("local[*]").setAppName("kafkaReceiver")  
-
-val streamingContext = new StreamingContext(conf, Seconds(10))  
-</code></pre></div></div>
-
-<p>Now, we can connect to the Kafka topic from the StreamingContext. Please note that we’ve to provide deserializers for key and value here. For common data types like String, the deserializer is available by default. However, if we wish to retrieve custom data types, we’ll have to provide custom deserializers.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import org.apache.kafka.clients.consumer.ConsumerRecord  
-import org.apache.kafka.common.serialization.StringDeserializer  
-import org.apache.spark.streaming.kafka010._  
-import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent  
-import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe  
-
-val kafkaParams = Map[String, Object](  
-	"bootstrap.servers" -&gt; "localhost:9092",  
-	"key.deserializer" -&gt; classOf[StringDeserializer],  
-	"value.deserializer" -&gt; classOf[StringDeserializer],  
-	"group.id" -&gt; "spark-streaming-consumer-group",  
-	"auto.offset.reset" -&gt; "latest",  
-	"enable.auto.commit" -&gt; (false: java.lang.Boolean))  
-
-val topics = Array("mytopic")  
-
-val stream = KafkaUtils.createDirectStream[String, String](  
-	streamingContext,  
-	PreferConsistent,  
-	Subscribe[String, String](topics, kafkaParams))  
-</code></pre></div></div>
+<p><em>Java Application</em></p>
 
 <p>Spark Streaming provides a high-level abstraction that represents a continuous data stream. This abstraction of the data stream is called discretized stream or DStream. This DStream can either be created from the data streams from the sources such as Kafka, Flume, and Kinesis or other DStreams by applying high-level operations on them.</p>
-
-<p>Here, we’ve obtained InputDStream which is an implementation of Discretized Streams or DStreams, the basic abstraction provided by Spark Streaming. Internally DStreams is nothing but a continuous series of RDDs (Resilient Distributed Dataset).</p>
 
 <p>Figure source <a href="https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka">https://www.cuelogic.com</a><br />
 <img src="/images/DStreams-sequences.png" alt="DStreams-sequences" /></p>
 
-<p>We’ll now perform a series of operations on the InputDStream to obtain our messages. As this is a stream processing application, we would want to keep this running:</p>
+<p>Create a new Maven enabled project in Eclipse IDE.<br />
+Update pom.xml file</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stream.map(record=&gt;(record.value().toString)).print  
-streamingContext.start  
-streamingContext.awaitTermination()  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependencies&gt;
+ &lt;dependency&gt;  
+  &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;  
+  &lt;artifactId&gt;spark-core_2.12&lt;/artifactId&gt;  
+  &lt;version&gt;3.0.0&lt;/version&gt;  
+ &lt;/dependency&gt;  
+ &lt;dependency&gt;  
+  &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;  
+  &lt;artifactId&gt;spark-streaming_2.12&lt;/artifactId&gt;  
+  &lt;version&gt;3.0.0&lt;/version&gt;  
+  &lt;scope&gt;provided&lt;/scope&gt;  
+ &lt;/dependency&gt;  
+  &lt;dependency&gt;  
+  &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;  
+  &lt;artifactId&gt;spark-streaming-kafka-0-10_2.12&lt;/artifactId&gt;  
+  &lt;version&gt;3.0.0&lt;/version&gt;  
+ &lt;/dependency&gt;  
+ &lt;dependency&gt;  
+  &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;  
+  &lt;artifactId&gt;spark-sql_2.12&lt;/artifactId&gt;  
+  &lt;version&gt;3.0.0&lt;/version&gt;  
+ &lt;/dependency&gt;  
+&lt;/dependencies&gt;
 </code></pre></div></div>
 
-<p>Once we start this application and post some messages in the Kafka topic we created earlier,</p>
+<p>Create the following Java class</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.example.spark;  
+
+import java.util.Arrays;  
+import java.util.Collection;  
+import java.util.HashMap;  
+import java.util.Map;  
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;  
+import org.apache.spark.SparkConf;  
+import org.apache.spark.streaming.Durations;  
+import org.apache.spark.streaming.api.java.JavaDStream;  
+import org.apache.spark.streaming.api.java.JavaInputDStream;  
+import org.apache.spark.streaming.api.java.JavaStreamingContext;  
+import org.apache.spark.streaming.kafka010.ConsumerStrategies;  
+import org.apache.spark.streaming.kafka010.KafkaUtils;  
+import org.apache.spark.streaming.kafka010.LocationStrategies;  
+
+import org.apache.kafka.common.serialization.StringDeserializer;  
+
+import org.apache.log4j.Level;  
+import org.apache.log4j.Logger;  
+
+public class JavaSparkApp {  
+	public static void main(String[] args) throws InterruptedException {  
+		// Firstly, we'll begin by initializing the JavaStreamingContext which is the entry point for all Spark Streaming applications:  
+		Logger.getLogger("org").setLevel(Level.ALL);  
+		Logger.getLogger("akka").setLevel(Level.ALL);  
+
+		SparkConf sparkConf = new SparkConf();  
+		sparkConf.setMaster("local");  
+		sparkConf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer");  
+		sparkConf.setAppName("WordCountingApp");  
+
+		JavaStreamingContext streamingContext = new JavaStreamingContext(sparkConf, Durations.seconds(1));  
+
+		// Now, we can connect to the Kafka topic from the JavaStreamingContext.  
+	
+		Map&lt;String, Object&gt; kafkaParams = new HashMap&lt;&gt;();  
+		kafkaParams.put("bootstrap.servers", "localhost:9092");  
+		kafkaParams.put("key.deserializer", StringDeserializer.class);  
+		kafkaParams.put("value.deserializer", StringDeserializer.class);  
+		kafkaParams.put("group.id", "group_test2");  
+		kafkaParams.put("auto.offset.reset", "latest");  
+		kafkaParams.put("enable.auto.commit", false);  
+
+		Collection&lt;String&gt; topics = Arrays.asList("mytopic");  
+
+		JavaInputDStream&lt;ConsumerRecord&lt;String, String&gt;&gt; messages = KafkaUtils.createDirectStream(streamingContext, 
+			LocationStrategies.PreferConsistent(),  
+			ConsumerStrategies.&lt;String, String&gt;Subscribe(topics, kafkaParams));  
+		JavaDStream&lt;String&gt; data = messages.map(v -&gt; { return v.value(); });  
+		
+		data.print();  
+		
+		streamingContext.start();  
+		streamingContext.awaitTermination();  
+	}  
+}  
+</code></pre></div></div>
+
+<p>Compile/run the above cretaed Java application and run the console producer client to write a few events into your topic.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;bash-4.4# ./kafka-console-producer.sh  
 	--broker-list localhost:9092  
@@ -408,18 +429,12 @@ Time: 1593889670000 ms
 here is my message  
 </code></pre></div></div>
 
-<p>Finally, to exit from scala shell</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scala&gt; :q  
-</code></pre></div></div>
-
 <p>You can shut down docker-compose by executing the following command in another terminal.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# exit  
 
 $docker-compose down  
 </code></pre></div></div>
-
 
         
       </section>
@@ -452,7 +467,7 @@ $docker-compose down
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">Bioinformatics</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">bioinformatics</a><span class="sep">, </span>
     
       
       
@@ -460,11 +475,15 @@ $docker-compose down
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#emory-university" class="page__taxonomy-item" rel="tag">Emory University</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#emory-university" class="page__taxonomy-item" rel="tag">emory University</a><span class="sep">, </span>
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#hdfs" class="page__taxonomy-item" rel="tag">HDFS</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#java" class="page__taxonomy-item" rel="tag">java</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#kafka" class="page__taxonomy-item" rel="tag">kafka</a><span class="sep">, </span>
     
       
       
@@ -472,11 +491,7 @@ $docker-compose down
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#scala" class="page__taxonomy-item" rel="tag">Scala</a><span class="sep">, </span>
-    
-      
-      
-      <a href="https://adinasarapu.github.io/tags/#spark-streaming" class="page__taxonomy-item" rel="tag">Spark Streaming</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#spark-streaming" class="page__taxonomy-item" rel="tag">spark streaming</a><span class="sep">, </span>
     
       
       
@@ -484,7 +499,7 @@ $docker-compose down
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#zookeeper" class="page__taxonomy-item" rel="tag">Zookeeper</a>
+      <a href="https://adinasarapu.github.io/tags/#zookeeper" class="page__taxonomy-item" rel="tag">zookeeper</a>
     
     </span>
   </p>
@@ -501,11 +516,11 @@ $docker-compose down
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2020/07/blog-post-kafka-spark-streaming/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2021/01/blog-post-kafka-spark-streaming/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2020/07/blog-post-kafka-spark-streaming/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2021/01/blog-post-kafka-spark-streaming/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2020/07/blog-post-kafka-spark-streaming/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2021/01/blog-post-kafka-spark-streaming/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
@@ -513,12 +528,11 @@ $docker-compose down
 
   <nav class="pagination">
     
-      <a href="https://adinasarapu.github.io/posts/2020/02/blog-post-spark-sql/" class="pagination--pager" title="Building a real-time big data pipeline (3: Spark SQL, Hadoop, Scala)
+      <a href="https://adinasarapu.github.io/posts/2020/12/blog-post-pyspark-mllib/" class="pagination--pager" title="Building a real-time big data pipeline (9: Spark MLlib, Regression, Python)
 ">Previous</a>
     
     
-      <a href="https://adinasarapu.github.io/posts/2020/08/blog-post-cassandra-java/" class="pagination--pager" title="Building a real-time big data pipeline (5: NoSQL, Java)
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 

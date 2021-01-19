@@ -1,21 +1,22 @@
 ---
-title: 'Building a real-time big data pipeline (part 1: Kafka, Spring Boot)'
+title: 'Building a real-time big data pipeline (1: Kafka, RESTful, Java)'
 date: 2020-04-05
 permalink: /posts/2020/01/blog-post-kafka/
 tags:
   - big data
   - apache kafka
   - real time data pipeline
-  - java
+  - Java
   - docker
-  - Spring Boot 
+  - Spring Boot
+  - RESTful services 
   - YAML
   - Zookeeper
   - Bioinformatics
   - Emory University 
 
 ---  
-*Updated on August 01, 2020*  
+*Updated on January 19, 2021*  
 
 [Kafka](https://kafka.apache.org) is used for building real-time data pipelines and streaming apps.  
 
@@ -28,7 +29,7 @@ There are multiple ways of running Kafka locally for development of apps but the
 Docker compose facilitates installing `Kafka` and `Zookeeper` with the help of `docker-compose.yml` file.  
 
 ```
-version: '2'  
+version: '3'  
 services:  
   zookeeper:  
     image: wurstmeister/zookeeper  
@@ -142,11 +143,11 @@ bash-4.4# ./kafka-topics.sh \
  --bootstrap-server localhost:9092  
 ```  
 
-**3. Kafka Producer and Consumer**  
+**3a. Kafka Producer and Consumer** - kafka from command line  
 
 A Kafka producer is an object that consists of a pool of buffer space that holds records that haven't yet been transmitted to the server.  
 
-<b>Figure 2</b>. Relationship between [Kafka Components](https://medium.com/@kavimaluskam/start-your-real-time-pipeline-with-apache-kafka-39e30129892a).  
+<b>Figure 2</b>. Relationship between kafka components. Source (https://medium.com)(https://medium.com/@kavimaluskam/start-your-real-time-pipeline-with-apache-kafka-39e30129892a).  
 
 ![Producer](/images/kafka-producer-consumer.png)  
 
@@ -176,12 +177,13 @@ Hello
 World  
 ^CProcessed a total of 2 messages  
 ```  
+**3b. Kafka Producer and Consumer** - kafka from java web application  
 
-Another way of reading data from a Kafka topic is by simply using a **Spring Boot application**.  
+Another way of reading data from a Kafka topic is by simply using a *Java Spring Boot*.  
 
 The following demonstrates how to receive messages from Kafka Topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka Topic. Then I create a Spring Kafka Producer, which is able to send messages to a Kafka Topic.  
 
-<b>Figure 3</b>. Kafka Producer and Consumer in Java ([blog.clairvoyantsoft.com](https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d)).
+<b>Figure 3</b>. Kafka Producer and Consumer in Java (Source [blog.clairvoyantsoft.com](https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d)).
 
 ![Java](/images/kafka-producer-consumer-java.png)  
 
@@ -211,12 +213,12 @@ In Spring Boot, properties are kept in the `application.properties` file under t
 ```  
 spring:  
   kafka:  
-consumer:  
-  bootstrap-servers: localhost:9092  
-  group-id: group_test1  
-  auto-offset-reset: earliest  
-  key-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
-  value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+   consumer:  
+    bootstrap-servers: localhost:9092  
+    group-id: group_test1  
+    auto-offset-reset: earliest  
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
 ```  
 
 **Create a Spring Kafka Consumer class**  
@@ -275,7 +277,7 @@ o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupI
 2020-01-26 14:26:56.477  INFO 11137 --- [econsumer-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : simpleconsumer: partitions assigned: [test1-0]  
 Got message: hello  
 Got message: world  
-```  
+```    
 
 The following code demonstrates how to send and receive messages from Kafka Topic. The above `KafkaConsumer.java` receives messages that were sent to a Kafka Topic. The followng `KafkaProducer.java` send messages to a Kafka Topic.  
           
@@ -342,8 +344,7 @@ spring:
     value-serializer: org.apache.kafka.common.serialization.StringSerializer  
 ```
 
-Run Spring Boot web application (see How to run Spring Boot web application in Eclipse?)
-
+Run Spring Boot Web application (see How to run Spring Boot Web application in Eclipse?)  
 
 Make POST request using [Postman](https://www.getpostman.com).  
 

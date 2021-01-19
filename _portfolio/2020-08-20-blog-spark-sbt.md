@@ -1,5 +1,5 @@
 ---
-title: 'Building a real-time big data pipeline (part 6: Hadoop, Spark, Scala)'
+title: 'Building a real-time big data pipeline (6: Spark Core, Hadoop, SBT)'
 date: 2020-08-18
 permalink: /posts/2020/08/blog-post-spark-sbt/
 tags:

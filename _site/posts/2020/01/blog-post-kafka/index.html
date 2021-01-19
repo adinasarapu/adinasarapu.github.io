@@ -19,7 +19,7 @@
 
 
 
-<title>Building a real-time big data pipeline (part 1: Kafka, Spring Boot) - Ashok R. Dinasarapu Ph.D</title>
+<title>Building a real-time big data pipeline (1: Kafka, RESTful, Java) - Ashok R. Dinasarapu Ph.D</title>
 
 
 
@@ -29,7 +29,7 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
-<meta property="og:title" content="Building a real-time big data pipeline (part 1: Kafka, Spring Boot)">
+<meta property="og:title" content="Building a real-time big data pipeline (1: Kafka, RESTful, Java)">
 
 
   <link rel="canonical" href="https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/">
@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on August 01, 2020">
+  <meta property="og:description" content="Updated on January 19, 2021">
 
 
 
@@ -264,15 +264,15 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Building a real-time big data pipeline (part 1: Kafka, Spring Boot)">
-    <meta itemprop="description" content="Updated on August 01, 2020">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (1: Kafka, RESTful, Java)">
+    <meta itemprop="description" content="Updated on January 19, 2021">
     <meta itemprop="datePublished" content="April 05, 2020">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (part 1: Kafka, Spring Boot)
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (1: Kafka, RESTful, Java)
 </h1>
           
         
@@ -288,7 +288,7 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on August 01, 2020</em></p>
+        <p><em>Updated on January 19, 2021</em></p>
 
 <p><a href="https://kafka.apache.org">Kafka</a> is used for building real-time data pipelines and streaming apps.</p>
 
@@ -300,7 +300,7 @@
 
 <p>Docker compose facilitates installing <code class="language-plaintext highlighter-rouge">Kafka</code> and <code class="language-plaintext highlighter-rouge">Zookeeper</code> with the help of <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: '2'  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: '3'  
 services:  
   zookeeper:  
     image: wurstmeister/zookeeper  
@@ -402,11 +402,11 @@ Removing network kafka_example_default
  --bootstrap-server localhost:9092  
 </code></pre></div></div>
 
-<p><strong>3. Kafka Producer and Consumer</strong></p>
+<p><strong>3a. Kafka Producer and Consumer</strong> - kafka from command line</p>
 
 <p>A Kafka producer is an object that consists of a pool of buffer space that holds records that haven’t yet been transmitted to the server.</p>
 
-<p><b>Figure 2</b>. Relationship between <a href="https://medium.com/@kavimaluskam/start-your-real-time-pipeline-with-apache-kafka-39e30129892a">Kafka Components</a>.</p>
+<p><b>Figure 2</b>. Relationship between kafka components. Source (https://medium.com)(https://medium.com/@kavimaluskam/start-your-real-time-pipeline-with-apache-kafka-39e30129892a).</p>
 
 <p><img src="/images/kafka-producer-consumer.png" alt="Producer" /></p>
 
@@ -434,12 +434,13 @@ Hello
 World  
 ^CProcessed a total of 2 messages  
 </code></pre></div></div>
+<p><strong>3b. Kafka Producer and Consumer</strong> - kafka from java web application</p>
 
-<p>Another way of reading data from a Kafka topic is by simply using a <strong>Spring Boot application</strong>.</p>
+<p>Another way of reading data from a Kafka topic is by simply using a <em>Java Spring Boot</em>.</p>
 
 <p>The following demonstrates how to receive messages from Kafka Topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka Topic. Then I create a Spring Kafka Producer, which is able to send messages to a Kafka Topic.</p>
 
-<p><b>Figure 3</b>. Kafka Producer and Consumer in Java (<a href="https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d">blog.clairvoyantsoft.com</a>).</p>
+<p><b>Figure 3</b>. Kafka Producer and Consumer in Java (Source <a href="https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d">blog.clairvoyantsoft.com</a>).</p>
 
 <p><img src="/images/kafka-producer-consumer-java.png" alt="Java" /></p>
 
@@ -467,12 +468,12 @@ public class SpringBootKafkaApplication {
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spring:  
   kafka:  
-consumer:  
-  bootstrap-servers: localhost:9092  
-  group-id: group_test1  
-  auto-offset-reset: earliest  
-  key-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
-  value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+   consumer:  
+    bootstrap-servers: localhost:9092  
+    group-id: group_test1  
+    auto-offset-reset: earliest  
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  
 </code></pre></div></div>
 
 <p><strong>Create a Spring Kafka Consumer class</strong></p>
@@ -591,7 +592,7 @@ spring:
     value-serializer: org.apache.kafka.common.serialization.StringSerializer  
 </code></pre></div></div>
 
-<p>Run Spring Boot web application (see How to run Spring Boot web application in Eclipse?)</p>
+<p>Run Spring Boot Web application (see How to run Spring Boot Web application in Eclipse?)</p>
 
 <p>Make POST request using <a href="https://www.getpostman.com">Postman</a>.</p>
 
@@ -663,11 +664,15 @@ $docker-compose down
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#java" class="page__taxonomy-item" rel="tag">java</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#java" class="page__taxonomy-item" rel="tag">Java</a><span class="sep">, </span>
     
       
       
       <a href="https://adinasarapu.github.io/tags/#real-time-data-pipeline" class="page__taxonomy-item" rel="tag">real time data pipeline</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#restful-services" class="page__taxonomy-item" rel="tag">RESTful services</a><span class="sep">, </span>
     
       
       
@@ -711,7 +716,7 @@ $docker-compose down
       <a href="#" class="pagination--pager disabled">Previous</a>
     
     
-      <a href="https://adinasarapu.github.io/big-data/2020/02/blog-post-spark/" class="pagination--pager" title="Building a real-time big data pipeline (part 2: Hadoop, Spark Core)
+      <a href="https://adinasarapu.github.io/big-data/2020/02/blog-post-spark/" class="pagination--pager" title="Building a real-time big data pipeline (2: Spark Core, Hadoop, Scala)
 ">Next</a>
     
   </nav>
