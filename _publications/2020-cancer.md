@@ -14,7 +14,7 @@ tags:
   - Emory Uiversity
 venue: 'PLOS ONE'
 paperurl: 'https://doi.org/10.1371/journal.pone.0238497'  
-citation: 'Nabil F. Saba NF<sup>*</sup>, Dinasarapu AR<sup>*</sup>, Magliocca KR, Dwivedi B, Seby S, Qin ZS, Patel M, Griffith CC, Wang X, El-Deiry M, Steuer CE, Kowalski J, Shin DM, Zwick ME, Chen ZG (2020). &quot;Signatures of somatic mutations and gene expression from p16<sup>INK4A</sup> positive head and neck squamous cell carcinomas (HNSCC).&quot; <i>PLOS ONE</i> 15(9): e0238497.'  
+citation: 'Nabil F. Saba NF<sup>*</sup>, <i style="color:DodgerBlue;">Dinasarapu AR</i><sup>*</sup>, Magliocca KR, Dwivedi B, Seby S, Qin ZS, Patel M, Griffith CC, Wang X, El-Deiry M, Steuer CE, Kowalski J, Shin DM, Zwick ME, Chen ZG (2020). &quot;Signatures of somatic mutations and gene expression from p16<sup>INK4A</sup> positive head and neck squamous cell carcinomas (HNSCC).&quot; <i>PLOS ONE</i> 15(9): e0238497.'  
 ---  
 
 (*) These authors contributed equally to this work. 
