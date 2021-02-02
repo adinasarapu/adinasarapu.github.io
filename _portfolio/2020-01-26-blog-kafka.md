@@ -383,5 +383,4 @@ $docker-compose down
 
 Further reading…  
 
-The Power of Kafka Partitions : How to Get the Most out of Your Kafka Cluster](https://www.instaclustr.com/the-power-of-kafka-partitions-how-to-get-the-most-out-of-your-kafka-cluster/)
-
+[The Power of Kafka Partitions : How to Get the Most out of Your Kafka Cluster](https://www.instaclustr.com/the-power-of-kafka-partitions-how-to-get-the-most-out-of-your-kafka-cluster/)

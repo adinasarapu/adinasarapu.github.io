@@ -18,17 +18,50 @@ tags:
   - emory University 
 
 ---  
-*Updated on January 19, 2021*  
+*Updated on February 02, 2021*  
 
 [Apache Kafka](https://kafka.apache.org/) is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java.  
 
-Kafka requires [Apache Zookeeper](https://zookeeper.apache.org/) to run. Kafka v2.5.0 (scala v2.12 build) and zookeeper (v3.4.13) were installed using docker.  
+Kafka requires [Apache Zookeeper](https://zookeeper.apache.org/) which is a coordination service that gives you the tools you need to write correct distributed applications. You need to have Java installed before running ZooKeeper. Kafka v2.5.0 (scala v2.12 build) and zookeeper (v3.4.13) were installed using docker.  
 
-See my other blogs for installations [Kafka and Zookeeper with Docker](https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/).  
- 
-Once we start Zookeeper and Kafka locally, we can proceed to create our first topic, named “mytopic”:  
+See my other blogs for installation and on how to start kafka service [Kafka and Zookeeper with Docker](https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/). The Kafka cluster stores streams of records in categories called topics. Once we start Zookeeper and Kafka locally, we can proceed to create our first topic, named “mytopic”:  
 
+Install Docker Desktop and create docker-compose.yml file for Zookeeper and Kafka services. The first image is zookeeper (the service listens to port 2181). Kafka requires zookeeper to keep track of various brokers. The second service is kafka itself and here we are just running a single instance of it i.e one broker. Ideally, you would want to use multiple brokers in order to leverage the distributed architecture of Kafka.  
 ```
+version: '3'  
+services:  
+  zookeeper:  
+    image: wurstmeister/zookeeper  
+    ports:  
+      - "2181:2181"  
+  kafka:  
+   image: wurstmeister/kafka  
+    ports:  
+      - "9092:9092"  
+    environment:  
+     KAFKA_ADVERTISED_HOST_NAME: localhost  
+     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181  
+     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"  
+    volumes:  
+     - /var/run/docker.sock:/var/run/docker.sock
+```  
+
+The second service (kafka) also has a couple of environment variables.  
+
+`KAFKA_ADVERTISED_HOST_NAME: localhost` (this is the address at which Kafka is running, and where producers and consumers can find it).  
+`KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 (this is for the hostname and port number of your zookeeper service. We named hostname as `zookeeper`).  
+
+Run the following commands in the directory where docker-compose.yml file is present.  
+``` 
+docker-compose up -d 
+docker-compose exec kafka bash  
+```  
+
+Change the directory to /opt/kafka/bin where you find scripts such as kafka-topics.sh  
+
+In order for Kafka to start working, we need to create a topic within it. The producer clients can then publish streams of data (messages) to the said topic (mytopic) and consumers can read the said datastream, if they are subscribed to that particular topic.
+
+```  
 bash-4.4# ./kafka-topics.sh \  
    --create \  
    --topic mytopic \  
@@ -151,7 +184,7 @@ Compile/run the above cretaed Java application and run the console producer clie
 >here is my message  
 ```  
 
-we should see the messages like ...  
+The above (producer) messages will be published in consumer (Eclipse console) as ...  
 ```  
 -------------------------------------------  
 Time: 1593889650000 ms  
@@ -164,10 +197,16 @@ Time: 1593889670000 ms
 here is my message  
 ```
 
+You now have a rough picture of how Kafka and Spark Streaming works. For your own use case, you need to set a hostname which is not localhost, you need multiple such brokers to be a part of your kafka cluster and finally you need to set up a producer client application like the above java consumer client application.  
+
 You can shut down docker-compose by executing the following command in another terminal.  
 
 ```  
 bash-4.4# exit  
 
 $docker-compose down  
-```
+```  
+
+## Useful links  
+[The Power of Kafka Partitions : How to Get the Most out of Your Kafka Cluster](https://www.instaclustr.com/the-power-of-kafka-partitions-how-to-get-the-most-out-of-your-kafka-cluster/) by Paul Brebner  
+[Deploy Apache Kafka using Docker Compose](https://linuxhint.com/docker_compose_kafka/) by Ranvir Singh
