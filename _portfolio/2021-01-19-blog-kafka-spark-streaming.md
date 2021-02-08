@@ -18,15 +18,25 @@ tags:
   - emory University 
 
 ---  
-*Updated on February 02, 2021*  
+*Updated on February 07, 2021*  
 
-[Apache Kafka](https://kafka.apache.org/) is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java.  
+[Apache Kafka](https://kafka.apache.org/) is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java. Kafka requires [Apache Zookeeper](https://zookeeper.apache.org/) which is a coordination service that gives you the tools you need to write correct distributed applications. You need to have Java installed before running ZooKeeper. Kafka v2.5.0 (scala v2.12 build) and zookeeper (v3.4.13) were installed using docker.  
 
-Kafka requires [Apache Zookeeper](https://zookeeper.apache.org/) which is a coordination service that gives you the tools you need to write correct distributed applications. You need to have Java installed before running ZooKeeper. Kafka v2.5.0 (scala v2.12 build) and zookeeper (v3.4.13) were installed using docker.  
+[Spark Streaming](https://spark.apache.org/docs/latest/streaming-programming-guide.html) is an extension of the core Apache Spark platform that enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Scala, Java, R and Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. This data can be further processed using complex algorithms. The final output, which is the processed data can be pushed out to destinations such as HDFS filesystems, databases, and live dashboards. Spark Streaming allows you to use *Machine Learning* applications to the data streams for advanced data processing. Spark uses Hadoop's client libraries for distributed storage (HDFS) and resource management (YARN).  
 
-See my other blogs for installation and on how to start kafka service [Kafka and Zookeeper with Docker](https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/). The Kafka cluster stores streams of records in categories called topics. Once we start Zookeeper and Kafka locally, we can proceed to create our first topic, named “mytopic”:  
+Figure source [https://www.cuelogic.com](https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka)  
+![spark-streaming](/images/spark-streaming.png)  
 
-Install Docker Desktop and create docker-compose.yml file for Zookeeper and Kafka services. The first image is zookeeper (the service listens to port 2181). Kafka requires zookeeper to keep track of various brokers. The second service is kafka itself and here we are just running a single instance of it i.e one broker. Ideally, you would want to use multiple brokers in order to leverage the distributed architecture of Kafka.  
+Spark Streaming provides a high-level abstraction that represents a continuous data stream. This abstraction of the data stream is called discretized stream or DStream. This DStream can either be created from the data streams from the sources such as Kafka, Flume, and Kinesis or other DStreams by applying high-level operations on them.
+
+Figure source [https://www.cuelogic.com](https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka)  
+![DStreams-sequences](/images/DStreams-sequences.png)  
+
+### Kafka installation  
+
+See my other blog for installation and starting kafka service [Kafka and Zookeeper with Docker](https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/).
+
+First install docker desktop and create docker-compose.yml file for Zookeeper and Kafka services. The first image is zookeeper (this service listens to port 2181). Kafka requires zookeeper to keep track of various brokers. The second service is kafka itself and here we are just running a single instance of it i.e one broker. Ideally, you would want to use multiple brokers in order to leverage the distributed architecture of Kafka.  
 ```
 version: '3'  
 services:  
@@ -46,10 +56,15 @@ services:
      - /var/run/docker.sock:/var/run/docker.sock
 ```  
 
-The second service (kafka) also has a couple of environment variables.  
+The kafka service environment variables.  
 
-`KAFKA_ADVERTISED_HOST_NAME: localhost` (this is the address at which Kafka is running, and where producers and consumers can find it).  
-`KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 (this is for the hostname and port number of your zookeeper service. We named hostname as `zookeeper`).  
+`KAFKA_ADVERTISED_HOST_NAME: localhost`  
+This is the address at which Kafka is running, and where producers and consumers can find it).  
+
+
+`KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181`  
+This is for the hostname and port number of your zookeeper service. We named hostname as `zookeeper`.  
+
 
 Run the following commands in the directory where docker-compose.yml file is present.  
 ``` 
@@ -57,9 +72,9 @@ docker-compose up -d
 docker-compose exec kafka bash  
 ```  
 
-Change the directory to /opt/kafka/bin where you find scripts such as kafka-topics.sh  
+Change the directory to `/opt/kafka/bin` where you find scripts such as `kafka-topics.sh`.  
 
-In order for Kafka to start working, we need to create a topic within it. The producer clients can then publish streams of data (messages) to the said topic (mytopic) and consumers can read the said datastream, if they are subscribed to that particular topic.
+The Kafka cluster stores streams of records in categories called topics. Once we start zookeeper and kafka locally, we can proceed to create our first topic, named `mytopic`. The producer clients can then publish streams of data (messages) to the said topic (mytopic) and consumers can read the said datastream, if they are subscribed to that particular topic.
 
 ```  
 bash-4.4# ./kafka-topics.sh \  
@@ -70,20 +85,10 @@ bash-4.4# ./kafka-topics.sh \
    --bootstrap-server localhost:9092  
 ```  
 
-*Spark Streaming* is an extension of the core *Apache Spark* platform that enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Scala, Java, R and Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. This data can be further processed using complex algorithms. The final output, which is the processed data can be pushed out to destinations such as HDFS filesystems, databases, and live dashboards. Spark Streaming allows you to use *Machine Learning* applications to the data streams for advanced data processing. Spark uses Hadoop's client libraries for distributed storage (HDFS) and resource management (YARN).  
-
-Figure source [https://www.cuelogic.com](https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka)  
-![spark-streaming](/images/spark-streaming.png)  
-
-*Java Application*  
-
-Spark Streaming provides a high-level abstraction that represents a continuous data stream. This abstraction of the data stream is called discretized stream or DStream. This DStream can either be created from the data streams from the sources such as Kafka, Flume, and Kinesis or other DStreams by applying high-level operations on them.
-
-Figure source [https://www.cuelogic.com](https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka)  
-![DStreams-sequences](/images/DStreams-sequences.png)  
+### Java Application  
 
 Create a new Maven enabled project in Eclipse IDE.  
-Update pom.xml file  
+Update the `pom.xml` file for `spark-core and spark-streaming` libraries.  
 
 ```  
 <dependencies>
@@ -111,7 +116,7 @@ Update pom.xml file
 </dependencies>
 ```
 
-Create the following Java class  
+Create a Java class with the following content    
 
 ```
 package com.example.spark;  
@@ -174,7 +179,7 @@ public class JavaSparkApp {
 }  
 ```  
 
-Compile/run the above cretaed Java application and run the console producer client to write a few events into your topic.  
+Compile/run the above cretaed Java class and then run the console producer client to write a few events into your topic.  
 
 ```  
 >bash-4.4# ./kafka-console-producer.sh  
@@ -184,7 +189,7 @@ Compile/run the above cretaed Java application and run the console producer clie
 >here is my message  
 ```  
 
-The above (producer) messages will be published in consumer (Eclipse console) as ...  
+The above (producer) messages will be published in Eclipse console as ...  
 ```  
 -------------------------------------------  
 Time: 1593889650000 ms  

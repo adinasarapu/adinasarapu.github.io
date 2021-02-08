@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on December 26, 2020">
+  <meta property="og:description" content="Updated on February 07, 2021">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (9: Spark MLlib, Regression, Python)">
-    <meta itemprop="description" content="Updated on December 26, 2020">
+    <meta itemprop="description" content="Updated on February 07, 2021">
     <meta itemprop="datePublished" content="December 21, 2020">
     
 
@@ -288,27 +288,20 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on December 26, 2020</em></p>
+        <p><em>Updated on February 07, 2021</em></p>
 
-<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: classification, regression, clustering, dimentionality reduction and, linear algebra and statistics. Python is a general purpose popular programming language with a number of packages that support data processing and machine learning tasks. The Spark Python API (PySpark) exposes the Spark programming model to Python.</p>
+<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: classification, regression, clustering and dimentionality reduction. The PySpark (Spark Python API) exposes the Spark programming model to Python.</p>
 
 <p><a href="https://spark.apache.org/docs/latest/api/python/index.html">PySpark (Python on Spark)</a></p>
 
-<p>Python, or R, DataFrame exists on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark dataframes, and not using Python or R dataframe. This has been achieved by taking advantage of the SparkR<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> or PySpark APIs. Spark’s dataframe object can be thought of as a table distributed across a cluster and has functionality that is similar to dataframe in R or python.</p>
+<p>Python, or R, data frame exists on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark data frames. This has been achieved by taking advantage of the SparkR<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> or PySpark APIs. Spark’s dataframe object can be thought of as a table distributed across a cluster and has functionality that is similar to dataframe in R or Python.</p>
 
-<h2 id="1-start-hadoophdfs">1. Start Hadoop/HDFS</h2>
+<h3 id="1-hadoophdfs">1. Hadoop/HDFS</h3>
 
-<p>The following command will start the namenode as well as the data nodes as cluster <sup id="fnref:3:1"><a href="#fn:3" class="footnote">3</a></sup>.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /Users/adinasa/bigdata/hadoop-3.2.1  
-$bash sbin/start-dfs.sh  
-</code></pre></div></div>
+<p>See for <a href="https://adinasarapu.github.io/big-data/2020/02/blog-post-spark/">How to install, start and stop hadoop ecosystem</a>.</p>
 
-<p>Create a directory</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$source ~/.bash_profile  
-$hadoop fs -mkdir -p /user/adinasarapu
-</code></pre></div></div>
+<h3 id="2-copy-data-to-hdfs">2. Copy data to HDFS</h3>
 
-<p>Insert data into HDFS: Use <code class="language-plaintext highlighter-rouge">-copyFromLocal</code> command to move one or more files from local location to HDFS.</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hadoop fs -copyFromLocal *.csv /user/adinasarapu
 </code></pre></div></div>
 
@@ -318,41 +311,87 @@ $hadoop fs -mkdir -p /user/adinasarapu
 -rw-r--r--   1 adinasa supergroup        786 2020-08-18 17:39 /user/adinasarapu/samples_proteomics.csv  
 </code></pre></div></div>
 
-<p>Start YARN with the script: <code class="language-plaintext highlighter-rouge">start-yarn.sh</code></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$bash start-yarn.sh  
-Starting resourcemanager  
-Starting nodemanagers  
-</code></pre></div></div>
-
-<p>Check the list of Java processes running in your system by using the command <code class="language-plaintext highlighter-rouge">jps</code>. If you are able to see the Hadoop daemons running after executing the jps command, we can safely assume that the Hadoop cluster is running.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$jps  
-96899 NodeManager  
-91702 SecondaryNameNode  
-96790 ResourceManager  
-97240 Jps  
-91437 NameNode  
-91550 DataNode  
-</code></pre></div></div>
-
 <p>Open a web browser to see your configurations for the current session.</p>
 
 <p><em>Web UI</em><br />
 for HDFS: http://localhost:9870<br />
 for YARN Resource Manager: http://localhost:8088</p>
 
-<h2 id="2-pyspark-spark-session-in-python-environment">2. PySpark, spark session in Python environment</h2>
-
-<p>Here are the instructions for <a href="https://enahwe.wordpress.com">Configuring Eclipse with Python and Spark on Hadoop</a></p>
+<h3 id="3-pyspark-installation">3. PySpark installation</h3>
 
 <p>PySpark communicates with the Scala-based Spark via the <a href="https://www.py4j.org">Py4J library</a>. Py4J isn’t specific to PySpark or Spark. Py4J allows any Python program to talk to JVM-based code.</p>
 
-<p>Creating a spark context: <em>“The entry-point of any PySpark program is a SparkContext object. This object allows you to connect to a Spark cluster and create RDDs. The local[*] string is a special string denoting that you’re using a local cluster, which is another way of saying you’re running in single-machine mode. The * tells Spark to create as many worker threads as logical cores on your machine. Creating a SparkContext can be more involved when you’re using a cluster. To connect to a Spark cluster, you might need to handle authentication and a few other pieces of information specific to your cluster”</em> <em>Source https://realpython.com</em></p>
+<p><a href="https://enahwe.wordpress.com">Configuring Eclipse with Python and Spark on Hadoop</a></p>
+
+<h3 id="installing-pydev-httpwwwpydevorgupdates">Installing PyDev. (http://www.pydev.org/updates)</h3>
+
+<p>From the Eclipse IDE:</p>
+
+<p>Go to the menu Help &gt; Install New Software…</p>
+
+<h3 id="configuring-pydev-with-a-python-interpreter">Configuring PyDev with a Python interpreter</h3>
+
+<p>Go to the menu Eclipse &gt; Preferences… (on Mac)<br />
+Go to PyDev &gt; Interpreters &gt; Python Interpreter</p>
+
+<p>Selected a Python interpreter version v3.9: <code class="language-plaintext highlighter-rouge">/usr/local/bin/python3.9</code></p>
+
+<p>Now PyDev is configured in Eclipse. You can develop in Python but not with Spark yet.</p>
+
+<h3 id="configuring-pydev-with-sparks-variables-and-py4j">Configuring PyDev with Spark’s variables and Py4J</h3>
+
+<p>Check out that you are on the PyDev perspective.<br />
+Go to the menu Eclipse &gt; Preferences… (on Mac),<br />
+Go to PyDev &gt; Interpreters &gt; Python Interpreter</p>
+
+<p>Click on the tab [Environment].<br />
+Click on the button [Add…] to add new variable.</p>
+
+<p>Add the following variables as shown in the examples below then validate:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PYSPARK_PYTHON /Library/Frameworks/Python.framework/Versions/3.9/bin  
+HADOOP_HOME	/Users/adinasa/bigdata/hadoop-3.2.1  
+SPARK_CONF_DIR	${project_loc}/conf  
+SPARK_HOME	/Users/adinasa/bigdata/spark-3.0.0-bin-hadoop3.2  
+SPARK_LOCAL_IP	127.0.0.1  
+TERM	xterm-256color  
+</code></pre></div></div>
+
+<p>You are now going to configure PyDev with Py4J (the bridge between Python and Java), this package is already included in PySpark.</p>
+
+<p>Click on the tab [Libraries].<br />
+Click on the button [New Egg/Zip(2)…] to add new library.<br />
+Choose the file py4j-0.8.2.1-src.zip just under your Spark folder python/lib and validate.</p>
+
+<h3 id="4-create-a-python-project">4. Create a Python project</h3>
+
+<p>Create a source folder:<br />
+To add a source folder in order to create your Python source, right-click on the project icon and do: New &gt; Folder<br />
+Name the new folder “src”, then click on the button [Finish].</p>
+
+<p>Create a conf folder:<br />
+To add a source folder in order to create your Python source, right-click on the project icone and do: New &gt; Folder<br />
+Name the new folder “conf”, then click on the button [Finish].</p>
+
+<p>Create the new project:<br />
+Check that you are on the PyDev perspective.<br />
+Go to the Eclipse menu File &gt; New &gt; PyDev project<br />
+Name your new project “PySparkProject”, then click on the button [Finish].</p>
+
+<p>Create your source code:<br />
+To add your new Python source, right-click on the source folder icon and do: New &gt; PyDev Module.<br />
+Name the new Python source “PySparkML”, then click on the button [Finish], then click on the button [OK].</p>
+
+<p>To execute your code, right-click on the Python module “PySparkML.py”, then choose Run As &gt; 1 Python Run.</p>
+
+<p>“The entry-point of any PySpark program is a SparkContext object. This object allows you to connect to a Spark cluster and create RDDs. The local[*] string is a special string denoting that you’re using a local cluster, which is another way of saying you’re running in single-machine mode. The * tells Spark to create as many worker threads as logical cores on your machine. Creating a SparkContext can be more involved when you’re using a cluster. To connect to a Spark cluster, you might need to handle authentication and a few other pieces of information specific to your cluster”_ <em>Source https://realpython.com</em></p>
 
 <p>Since Spark 2.x, a new entry point called <em>SparkSession</em> has been introduced that essentially combined all functionalities available in Spark 1.x (entry ponits SparkContext, SQLContext and HiveContext).</p>
 
 <p><img src="/images/spark-context.png" alt="spark-context" /><br />
 <em>Image source https://www.tutorialspoint.com</em></p>
+
+<h3 id="contents-from-pysparkmlpy-file-with-details">Contents from PySparkML.py file with details</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
@@ -369,7 +408,7 @@ conf.set('spark.cores.max', '1')
 conf.set("spark.driver.memory",'4g')
 </code></pre></div></div>
 
-<h3 id="sparkcontext-is-available-as-sc-by-default">SparkContext is available as <code class="language-plaintext highlighter-rouge">sc</code> by default.</h3>
+<p>SparkContext is available as <code class="language-plaintext highlighter-rouge">sc</code> by default.</p>
 
 <p>If you are using the spark-shell, SparkContext is already available through the variable called <em>sc</em>. To create a new SparkContext, first you need to stop the default SparkContext.</p>
 
@@ -377,7 +416,7 @@ conf.set("spark.driver.memory",'4g')
 SparkContext().stop()
 </code></pre></div></div>
 
-<h3 id="sparksession-gives-access-to-sparkcontext"><code class="language-plaintext highlighter-rouge">SparkSession</code> gives access to <code class="language-plaintext highlighter-rouge">SparkContext</code>.</h3>
+<p><code class="language-plaintext highlighter-rouge">SparkSession</code> gives access to <code class="language-plaintext highlighter-rouge">SparkContext</code>.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sc = SparkContext(conf=conf)
 
@@ -388,14 +427,14 @@ txt = sc.textFile('hdfs://localhost:9000/user/adinasarapu/samples_proteomics.csv
 print(txt.collect())
 </code></pre></div></div>
 
-<h3 id="you-can-start-creating-resilient-distributed-datasets-rdds-once-you-have-a-sparkcontext">You can start creating <code class="language-plaintext highlighter-rouge">Resilient Distributed Datasets (RDDs)</code> once you have a <code class="language-plaintext highlighter-rouge">SparkContext</code>.</h3>
+<p>You can start creating <code class="language-plaintext highlighter-rouge">Resilient Distributed Datasets (RDDs)</code> once you have a <code class="language-plaintext highlighter-rouge">SparkContext</code>.</p>
 
 <p>One way to create RDDs is to read a file with textFile() method. RDDs are one of the foundational data structures in Spark. A single RDD can be divided into multiple logical partitions so that these partitions can be stored and processed on different machines of a cluster. RDDs are immutable (read-only) in nature. You cannot change an original RDD, but you can create new RDDs by performing operations, like transformations, on an existing RDD. An RDD in Spark can be cached and used again for future transformations. RDDs are said to be lazily evaluated, i.e., they delay the evaluation until it is really needed.</p>
 
 <p><a href="https://techvidvan.com/tutorials/spark-rdd-features/">What are the limitations of RDD in Apache Spark?</a><br />
 RDD does not provide schema view of data. It has no provision for handling structured data. Dataset and DataFrame provide the Schema view of data. DataFrame is a distributed collection of data organized into named columns. Spark DataFrames can be created from various sources, such as external files or databases, or the existing RDDs. DataFrames allow the processing of huge amounts of data. Datasets are an extension of the DataFrame APIs in Spark. In addition to the features of DataFrames and RDDs, datasets provide various other functionalities. They provide an object-oriented programming interface, which includes the concepts of classes and objects.</p>
 
-<h3 id="you-can-start-creating-a-dataframe-once-you-have-a-sparksession">You can start creating a <code class="language-plaintext highlighter-rouge">DataFrame</code> once you have a <code class="language-plaintext highlighter-rouge">SparkSession</code>.</h3>
+<p>You can start creating a <code class="language-plaintext highlighter-rouge">DataFrame</code> once you have a <code class="language-plaintext highlighter-rouge">SparkSession</code>.</p>
 
 <p>A <code class="language-plaintext highlighter-rouge">SparkSession</code> can be used create DataFrame, register DataFrame as tables, execute SQL over tables, cache tables <em>etc</em>.<br />
 Creating Spark DataFrame from CSV file:</p>
@@ -434,7 +473,7 @@ only showing top 20 rows
 DataFrame[SampleID: string, Disease: string, Genetic: string, Age: string, Sex: string]  
 </code></pre></div></div>
 
-<h3 id="replacing-yes-or-no-with-1-or-0">Replacing <code class="language-plaintext highlighter-rouge">Yes</code> or <code class="language-plaintext highlighter-rouge">No</code> with <code class="language-plaintext highlighter-rouge">1</code> or <code class="language-plaintext highlighter-rouge">0</code></h3>
+<p>Replacing <code class="language-plaintext highlighter-rouge">Yes</code> or <code class="language-plaintext highlighter-rouge">No</code> with <code class="language-plaintext highlighter-rouge">1</code> or <code class="language-plaintext highlighter-rouge">0</code></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>newDf = df.withColumn('Disease', when(df['Disease'] == 'Yes', 1).otherwise(0))  
 newDf = newDf.withColumn('Genetic', when(df['Genetic'] == 'Yes', 1).otherwise(0))  
@@ -502,7 +541,7 @@ newDf = newDf.withColumn("Age",newDf["Age"].cast('double'))
 only showing top 20 rows  
 </code></pre></div></div>
 
-<h3 id="prepare-data-for-machine-learning">Prepare data for Machine Learning.</h3>
+<p>Preparing data for Machine Learning.</p>
 
 <p><em>In statistical modeling</em>, regression analysis focuses on investigating the relationship between a dependent variable and one or more independent variables.</p>
 
@@ -531,7 +570,8 @@ print("Coefficients: " + str(lr_model.coefficients))
 print("Intercept: " + str(lr_model.intercept))
 </code></pre></div></div>
 
-<p>Results</p>
+<h3 id="5-results">5. Results</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coefficients: [0.2797034064149404,0.008458887145555321]  
 Intercept: 0.04080427059655318
 </code></pre></div></div>
@@ -547,8 +587,8 @@ Stopping nodemanagers
 Stopping resourcemanager
 </code></pre></div></div>
 
-<p>Further reading…<br />
-<a href="https://medium.com/@dhiraj.p.rai/logistic-regression-in-spark-ml-8a95b5f5434c">Logistic Regression in Spark ML</a><br />
+<h3 id="further-reading">Further reading…</h3>
+<p><a href="https://medium.com/@dhiraj.p.rai/logistic-regression-in-spark-ml-8a95b5f5434c">Logistic Regression in Spark ML</a><br />
 <a href="https://medium.com/rahasak/logistic-regression-with-apache-spark-b7ec4c98cfcd">Logistic Regression with Apache Spark</a><br />
 <a href="https://towardsdatascience.com/apache-spark-mllib-tutorial-7aba8a1dce6e">Feature Transformation</a><br />
 <a href="https://intellipaat.com/blog/tutorial/spark-tutorial/pyspark-tutorial/#_SparkContext">PySpark: Apache Spark with Python</a><br />
@@ -569,7 +609,7 @@ Stopping resourcemanager
       <p><a href="https://spark.apache.org/docs/3.0.0/mllib-guide.html">Spark MLlib: RDD-based API</a> <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:3">
-      <p><a href="https://medium.com/@achilleus/spark-session-10d0d66d1d24">A tale of Spark Session and Spark Context</a> <a href="#fnref:3" class="reversefootnote">&#8617;</a> <a href="#fnref:3:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+      <p><a href="https://medium.com/@achilleus/spark-session-10d0d66d1d24">A tale of Spark Session and Spark Context</a> <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:4">
       <p><a href="https://cs.stanford.edu/~matei/papers/2016/sigmod_sparkr.pdf">SparkR: Scaling R Programs with Spark</a> <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>

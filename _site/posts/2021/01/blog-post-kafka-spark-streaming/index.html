@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on February 02, 2021">
+  <meta property="og:description" content="Updated on February 07, 2021">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (10: Spark Streaming, Kafka, Java)">
-    <meta itemprop="description" content="Updated on February 02, 2021">
+    <meta itemprop="description" content="Updated on February 07, 2021">
     <meta itemprop="datePublished" content="January 19, 2021">
     
 
@@ -288,15 +288,25 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on February 02, 2021</em></p>
+        <p><em>Updated on February 07, 2021</em></p>
 
-<p><a href="https://kafka.apache.org/">Apache Kafka</a> is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java.</p>
+<p><a href="https://kafka.apache.org/">Apache Kafka</a> is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java. Kafka requires <a href="https://zookeeper.apache.org/">Apache Zookeeper</a> which is a coordination service that gives you the tools you need to write correct distributed applications. You need to have Java installed before running ZooKeeper. Kafka v2.5.0 (scala v2.12 build) and zookeeper (v3.4.13) were installed using docker.</p>
 
-<p>Kafka requires <a href="https://zookeeper.apache.org/">Apache Zookeeper</a> which is a coordination service that gives you the tools you need to write correct distributed applications. You need to have Java installed before running ZooKeeper. Kafka v2.5.0 (scala v2.12 build) and zookeeper (v3.4.13) were installed using docker.</p>
+<p><a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html">Spark Streaming</a> is an extension of the core Apache Spark platform that enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Scala, Java, R and Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. This data can be further processed using complex algorithms. The final output, which is the processed data can be pushed out to destinations such as HDFS filesystems, databases, and live dashboards. Spark Streaming allows you to use <em>Machine Learning</em> applications to the data streams for advanced data processing. Spark uses Hadoop’s client libraries for distributed storage (HDFS) and resource management (YARN).</p>
 
-<p>See my other blogs for installation and on how to start kafka service <a href="https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/">Kafka and Zookeeper with Docker</a>. The Kafka cluster stores streams of records in categories called topics. Once we start Zookeeper and Kafka locally, we can proceed to create our first topic, named “mytopic”:</p>
+<p>Figure source <a href="https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka">https://www.cuelogic.com</a><br />
+<img src="/images/spark-streaming.png" alt="spark-streaming" /></p>
 
-<p>Install Docker Desktop and create docker-compose.yml file for Zookeeper and Kafka services. The first image is zookeeper (the service listens to port 2181). Kafka requires zookeeper to keep track of various brokers. The second service is kafka itself and here we are just running a single instance of it i.e one broker. Ideally, you would want to use multiple brokers in order to leverage the distributed architecture of Kafka.</p>
+<p>Spark Streaming provides a high-level abstraction that represents a continuous data stream. This abstraction of the data stream is called discretized stream or DStream. This DStream can either be created from the data streams from the sources such as Kafka, Flume, and Kinesis or other DStreams by applying high-level operations on them.</p>
+
+<p>Figure source <a href="https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka">https://www.cuelogic.com</a><br />
+<img src="/images/DStreams-sequences.png" alt="DStreams-sequences" /></p>
+
+<h3 id="kafka-installation">Kafka installation</h3>
+
+<p>See my other blog for installation and starting kafka service <a href="https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/">Kafka and Zookeeper with Docker</a>.</p>
+
+<p>First install docker desktop and create docker-compose.yml file for Zookeeper and Kafka services. The first image is zookeeper (this service listens to port 2181). Kafka requires zookeeper to keep track of various brokers. The second service is kafka itself and here we are just running a single instance of it i.e one broker. Ideally, you would want to use multiple brokers in order to leverage the distributed architecture of Kafka.</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: '3'  
 services:  
   zookeeper:  
@@ -315,19 +325,22 @@ services:
      - /var/run/docker.sock:/var/run/docker.sock
 </code></pre></div></div>
 
-<p>The second service (kafka) also has a couple of environment variables.</p>
+<p>The kafka service environment variables.</p>
 
-<p><code class="language-plaintext highlighter-rouge">KAFKA_ADVERTISED_HOST_NAME: localhost</code> (this is the address at which Kafka is running, and where producers and consumers can find it).<br />
-<code class="language-plaintext highlighter-rouge">KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 (this is for the hostname and port number of your zookeeper service. We named hostname as </code>zookeeper`).</p>
+<p><code class="language-plaintext highlighter-rouge">KAFKA_ADVERTISED_HOST_NAME: localhost</code><br />
+This is the address at which Kafka is running, and where producers and consumers can find it).</p>
+
+<p><code class="language-plaintext highlighter-rouge">KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181</code><br />
+This is for the hostname and port number of your zookeeper service. We named hostname as <code class="language-plaintext highlighter-rouge">zookeeper</code>.</p>
 
 <p>Run the following commands in the directory where docker-compose.yml file is present.</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up -d 
 docker-compose exec kafka bash  
 </code></pre></div></div>
 
-<p>Change the directory to /opt/kafka/bin where you find scripts such as kafka-topics.sh</p>
+<p>Change the directory to <code class="language-plaintext highlighter-rouge">/opt/kafka/bin</code> where you find scripts such as <code class="language-plaintext highlighter-rouge">kafka-topics.sh</code>.</p>
 
-<p>In order for Kafka to start working, we need to create a topic within it. The producer clients can then publish streams of data (messages) to the said topic (mytopic) and consumers can read the said datastream, if they are subscribed to that particular topic.</p>
+<p>The Kafka cluster stores streams of records in categories called topics. Once we start zookeeper and kafka locally, we can proceed to create our first topic, named <code class="language-plaintext highlighter-rouge">mytopic</code>. The producer clients can then publish streams of data (messages) to the said topic (mytopic) and consumers can read the said datastream, if they are subscribed to that particular topic.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \  
    --create \  
@@ -337,20 +350,10 @@ docker-compose exec kafka bash
    --bootstrap-server localhost:9092  
 </code></pre></div></div>
 
-<p><em>Spark Streaming</em> is an extension of the core <em>Apache Spark</em> platform that enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Scala, Java, R and Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. This data can be further processed using complex algorithms. The final output, which is the processed data can be pushed out to destinations such as HDFS filesystems, databases, and live dashboards. Spark Streaming allows you to use <em>Machine Learning</em> applications to the data streams for advanced data processing. Spark uses Hadoop’s client libraries for distributed storage (HDFS) and resource management (YARN).</p>
-
-<p>Figure source <a href="https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka">https://www.cuelogic.com</a><br />
-<img src="/images/spark-streaming.png" alt="spark-streaming" /></p>
-
-<p><em>Java Application</em></p>
-
-<p>Spark Streaming provides a high-level abstraction that represents a continuous data stream. This abstraction of the data stream is called discretized stream or DStream. This DStream can either be created from the data streams from the sources such as Kafka, Flume, and Kinesis or other DStreams by applying high-level operations on them.</p>
-
-<p>Figure source <a href="https://www.cuelogic.com/blog/analyzing-data-streaming-using-spark-vs-kafka">https://www.cuelogic.com</a><br />
-<img src="/images/DStreams-sequences.png" alt="DStreams-sequences" /></p>
+<h3 id="java-application">Java Application</h3>
 
 <p>Create a new Maven enabled project in Eclipse IDE.<br />
-Update pom.xml file</p>
+Update the <code class="language-plaintext highlighter-rouge">pom.xml</code> file for <code class="language-plaintext highlighter-rouge">spark-core and spark-streaming</code> libraries.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependencies&gt;
  &lt;dependency&gt;  
@@ -377,7 +380,7 @@ Update pom.xml file</p>
 &lt;/dependencies&gt;
 </code></pre></div></div>
 
-<p>Create the following Java class</p>
+<p>Create a Java class with the following content</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.example.spark;  
 
@@ -439,7 +442,7 @@ public class JavaSparkApp {
 }  
 </code></pre></div></div>
 
-<p>Compile/run the above cretaed Java application and run the console producer client to write a few events into your topic.</p>
+<p>Compile/run the above cretaed Java class and then run the console producer client to write a few events into your topic.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;bash-4.4# ./kafka-console-producer.sh  
 	--broker-list localhost:9092  
@@ -448,7 +451,7 @@ public class JavaSparkApp {
 &gt;here is my message  
 </code></pre></div></div>
 
-<p>The above (producer) messages will be published in consumer (Eclipse console) as …</p>
+<p>The above (producer) messages will be published in Eclipse console as …</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-------------------------------------------  
 Time: 1593889650000 ms  
 -------------------------------------------  
