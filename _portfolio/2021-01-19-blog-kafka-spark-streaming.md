@@ -18,7 +18,7 @@ tags:
   - emory University 
 
 ---  
-*Updated on February 07, 2021*  
+*Updated on February 08, 2021*  
 
 [Apache Kafka](https://kafka.apache.org/) is a scalable, high performance and low latency platform for handling of real-time data feeds. Kafka allows reading and writing streams of data like a messaging system; written in Scala and Java. Kafka requires [Apache Zookeeper](https://zookeeper.apache.org/) which is a coordination service that gives you the tools you need to write correct distributed applications. You need to have Java installed before running ZooKeeper. Kafka v2.5.0 (scala v2.12 build) and zookeeper (v3.4.13) were installed using docker.  
 
@@ -85,10 +85,18 @@ bash-4.4# ./kafka-topics.sh \
    --bootstrap-server localhost:9092  
 ```  
 
+A Kafka topic is divided into one or more partitions. A partition contains an unchangeable sequence of records/messages. Each record/message in a partition is assigned and identified by its unique offset. If you set replication factor of a topic as 3, i.e., there will always be three copies of your data. This replication is performed at the level of topic-partitions.  
+
+
+To verify a topic's partitions and  replication factor:  
+```  
+bash-4.4# ./kafka-topic.sh --zookeeper localhost:2181 --topic mytopic --describe
+```
+  
+
 ### Java Application  
 
-Create a new Maven enabled project in Eclipse IDE.  
-Update the `pom.xml` file for `spark-core and spark-streaming` libraries.  
+Create a new Maven enabled project in Eclipse IDE and update the `pom.xml` file for `spark-core, spark-streaming, spark-streaming-kafka and spark-sql` libraries.  
 
 ```  
 <dependencies>
@@ -179,7 +187,7 @@ public class JavaSparkApp {
 }  
 ```  
 
-Compile/run the above cretaed Java class and then run the console producer client to write a few events into your topic.  
+Compile/run the above cretaed Java class and then run the console producer to write a few events into your topic.  
 
 ```  
 >bash-4.4# ./kafka-console-producer.sh  

@@ -13,20 +13,26 @@ tags:
   - Emory Uiversity
 
 ---  
-*Updated on February 07, 2021*  
+*Updated on February 08, 2021*  
 
-Apache Spark MLlib [^1] [^2] [^3] is a distributed framework that provides many utilities useful for **machine learning** tasks, such as: classification, regression, clustering and dimentionality reduction. The PySpark (Spark Python API) exposes the Spark programming model to Python.  
+Apache Spark expresses parallelism by three sets of APIs - DataFrames, DataSets and RDDs (Resilient Distributed Dataset); [why and when you should use each set](https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html). 
+
+Originally, spark was designed to read and write data from and to Hadoop Distributed File System (HDFS). A Hadoop cluster is composed of a network of master, worker and client nodes that orchestrate and execute the various jobs across the HDFS. The master nodes include a NameNode, Secondary NameNode, and JobTracker while the workers consist of virtual machines, running both DataNode and TaskTracker services, and do the actual work of storing and processing the jobs as directed by the master nodes. The Client Nodes are responsible for loading the data and fetching the results.
+
+MLlib is Apache Spark's machine learning library, with APIs in Java, Scala, Python, and R[^1] [^2] [^3]. MLlib provides many utilities useful for **machine learning** tasks, such as: classification, regression, clustering and dimentionality reduction. 
+
+The PySpark (Spark Python API) exposes the Spark programming model to Python.  
 
 [PySpark (Python on Spark)](https://spark.apache.org/docs/latest/api/python/index.html)  
 
 Python, or R, data frame exists on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark data frames. This has been achieved by taking advantage of the SparkR[^4] or PySpark APIs. Spark's dataframe object can be thought of as a table distributed across a cluster and has functionality that is similar to dataframe in R or Python.  
 
-### 1. Hadoop/HDFS  
+### 1. Hadoop/HDFS installation 
 
 See for [How to install, start and stop hadoop ecosystem](https://adinasarapu.github.io/big-data/2020/02/blog-post-spark/).  
-  
 
-### 2. Copy data to HDFS  
+
+### 2. Copying data to HDFS  
 
 ```
 $hadoop fs -copyFromLocal *.csv /user/adinasarapu

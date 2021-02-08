@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on February 07, 2021">
+  <meta property="og:description" content="Updated on February 08, 2021">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (9: Spark MLlib, Regression, Python)">
-    <meta itemprop="description" content="Updated on February 07, 2021">
+    <meta itemprop="description" content="Updated on February 08, 2021">
     <meta itemprop="datePublished" content="December 21, 2020">
     
 
@@ -288,19 +288,25 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on February 07, 2021</em></p>
+        <p><em>Updated on February 08, 2021</em></p>
 
-<p>Apache Spark MLlib <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is a distributed framework that provides many utilities useful for <strong>machine learning</strong> tasks, such as: classification, regression, clustering and dimentionality reduction. The PySpark (Spark Python API) exposes the Spark programming model to Python.</p>
+<p>Apache Spark expresses parallelism by three sets of APIs - DataFrames, DataSets and RDDs (Resilient Distributed Dataset); <a href="https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html">why and when you should use each set</a>.</p>
+
+<p>Originally, spark was designed to read and write data from and to Hadoop Distributed File System (HDFS). A Hadoop cluster is composed of a network of master, worker and client nodes that orchestrate and execute the various jobs across the HDFS. The master nodes include a NameNode, Secondary NameNode, and JobTracker while the workers consist of virtual machines, running both DataNode and TaskTracker services, and do the actual work of storing and processing the jobs as directed by the master nodes. The Client Nodes are responsible for loading the data and fetching the results.</p>
+
+<p>MLlib is Apache Spark’s machine learning library, with APIs in Java, Scala, Python, and R<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>. MLlib provides many utilities useful for <strong>machine learning</strong> tasks, such as: classification, regression, clustering and dimentionality reduction.</p>
+
+<p>The PySpark (Spark Python API) exposes the Spark programming model to Python.</p>
 
 <p><a href="https://spark.apache.org/docs/latest/api/python/index.html">PySpark (Python on Spark)</a></p>
 
 <p>Python, or R, data frame exists on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark data frames. This has been achieved by taking advantage of the SparkR<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> or PySpark APIs. Spark’s dataframe object can be thought of as a table distributed across a cluster and has functionality that is similar to dataframe in R or Python.</p>
 
-<h3 id="1-hadoophdfs">1. Hadoop/HDFS</h3>
+<h3 id="1-hadoophdfs-installation">1. Hadoop/HDFS installation</h3>
 
 <p>See for <a href="https://adinasarapu.github.io/big-data/2020/02/blog-post-spark/">How to install, start and stop hadoop ecosystem</a>.</p>
 
-<h3 id="2-copy-data-to-hdfs">2. Copy data to HDFS</h3>
+<h3 id="2-copying-data-to-hdfs">2. Copying data to HDFS</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$hadoop fs -copyFromLocal *.csv /user/adinasarapu
 </code></pre></div></div>
