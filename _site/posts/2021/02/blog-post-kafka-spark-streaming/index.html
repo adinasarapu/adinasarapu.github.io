@@ -1,0 +1,581 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Building a real-time big data pipeline (11: Spark SQL Streaming, Kafka, Python) - Ashok R. Dinasarapu Ph.D</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
+<meta property="og:title" content="Building a real-time big data pipeline (11: Spark SQL Streaming, Kafka, Python)">
+
+
+  <link rel="canonical" href="https://adinasarapu.github.io/posts/2021/02/blog-post-kafka-spark-streaming/">
+  <meta property="og:url" content="https://adinasarapu.github.io/posts/2021/02/blog-post-kafka-spark-streaming/">
+
+
+
+  <meta property="og:description" content="Updated on February 16, 2021">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2021-02-16T00:00:00-05:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Ashok R. Dinasarapu",
+      "url" : "https://adinasarapu.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://adinasarapu.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Ashok R. Dinasarapu Ph.D Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://adinasarapu.github.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="https://adinasarapu.github.io/images/apple-touch-icon-57x57.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="60x60" href="https://adinasarapu.github.io/images/apple-touch-icon-60x60.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="72x72" href="https://adinasarapu.github.io/images/apple-touch-icon-72x72.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="76x76" href="https://adinasarapu.github.io/images/apple-touch-icon-76x76.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="114x114" href="https://adinasarapu.github.io/images/apple-touch-icon-114x114.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="120x120" href="https://adinasarapu.github.io/images/apple-touch-icon-120x120.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="144x144" href="https://adinasarapu.github.io/images/apple-touch-icon-144x144.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="152x152" href="https://adinasarapu.github.io/images/apple-touch-icon-152x152.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="180x180" href="https://adinasarapu.github.io/images/apple-touch-icon-180x180.png?v=M44lzPylqQ">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/favicon-32x32.png?v=M44lzPylqQ" sizes="32x32">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/android-chrome-192x192.png?v=M44lzPylqQ" sizes="192x192">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/favicon-96x96.png?v=M44lzPylqQ" sizes="96x96">
+<link rel="icon" type="image/png" href="https://adinasarapu.github.io/images/favicon-16x16.png?v=M44lzPylqQ" sizes="16x16">
+<link rel="manifest" href="https://adinasarapu.github.io/images/manifest.json?v=M44lzPylqQ">
+<link rel="mask-icon" href="https://adinasarapu.github.io/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=M44lzPylqQ">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="https://adinasarapu.github.io/images/mstile-144x144.png?v=M44lzPylqQ">
+<meta name="msapplication-config" content="https://adinasarapu.github.io/images/browserconfig.xml?v=M44lzPylqQ">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="https://adinasarapu.github.io/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://adinasarapu.github.io/">Ashok R. Dinasarapu Ph.D</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/portfolio/">Big Data</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/year-archive/">NGS | Proteomics</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://adinasarapu.github.io/cv/">Résumé</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://adinasarapu.github.io/images/profile.png" class="author__avatar" alt="Scientist, Bioinformatics">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Scientist, Bioinformatics</h3>
+    <p class="author__bio">Bridging the gap between Genomics and Data Science</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Atlanta, GA</li>
+      
+      
+      
+      
+        <li><a href="mailto:ashok.reddy.dinasarapu@emory.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i> Email</a></li>
+      
+      
+       
+        <li><a href="https://www.researchgate.net/profile/Ashok_Dinasarapu"><i class="fab fa-fw fa-researchgate" aria-hidden="true"></i> ResearchGate</a></li>
+      
+      
+        <li><a href="https://twitter.com/adinasarapu"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/dareddy"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+      
+      
+        <li><a href="https://bitbucket.org/adinasarapu"><i class="fab fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+      
+      
+        <li><a href="https://github.com/adinasarapu"><i class="fab fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=b6GBykAAAAAJ"><i class="fas fa-fw fa-graduation-cap"></i> Google Scholar</a></li>
+      
+      
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=dinasarapu+ashok+OR+D+ashok+reddy&sort=pubdate"><i class="ai ai-pubmed-square ai-fw"></i> PubMed</a></li>
+      
+      
+        <li><a href="http://orcid.org/0000-0002-1423-1518"><i class="ai ai-orcid-square ai-fw"></i> ORCID</a></li>
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Building a real-time big data pipeline (11: Spark SQL Streaming, Kafka, Python)">
+    <meta itemprop="description" content="Updated on February 16, 2021">
+    <meta itemprop="datePublished" content="February 16, 2021">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Building a real-time big data pipeline (11: Spark SQL Streaming, Kafka, Python)
+</h1>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2021-02-16T00:00:00-05:00">February 16, 2021</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p><em>Updated on February 16, 2021</em></p>
+
+<p><em>Apache Spark</em> is a general-purpose, in-memory cluster computing engine for large scale data processing. Spark can also work with Hadoop and it’s modules. Spark uses Hadoop’s client libraries for distributed storage (HDFS) and resource management (YARN). The real-time data processing capability makes Spark a top choice for big data analytics. Spark provides APIs in Java, Scala, Python and R. It also supports libraries such as <em>Spark SQL</em> for structured data processing, <em>MLlib</em> for machine learning, <em>GraphX</em> for computing graphs, and <em>Spark Streaming</em> for stream computing.</p>
+
+<p><em>Apache Spark Streaming</em>, a separate library from the core Apache Spark platform, enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Scala, Java, R and Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. It utilizes the DStream API, powered by Spark RDDs (Resilient Data Sets), to divide the data into chunks before processing it.</p>
+
+<p><em>Spark Structured Streaming</em> is a scalable and fault-tolerant stream processing engine built on the <em>Spark SQL engine</em> library. This streaming model is based on the Dataset and DataFrame APIs, consumable in Java, Scala, Python, and R.</p>
+
+<h3 id="apache-spark-streaming-vs-spark-structured-streaming">Apache Spark Streaming vs Spark Structured Streaming</h3>
+<p>Apache Spark streaming uses DStreams, while Spark structured streaming uses DataFrames to process the streams of data pouring into the analytics engine. Since Spark’s structured streaming model is an extension built on top of the Apache Spark’s DStreams construct, no need to access the RDD blocks directly.</p>
+
+<p>Python or R data frames exist on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark data frames. This has been achieved by taking advantage of the SparkR or PySpark APIs. Spark’s data frame object can be thought of as a table distributed across a cluster and has functionality that is similar to data frame in R or Python.</p>
+
+<h3 id="streaming-from-kafka">Streaming from Kafka</h3>
+
+<p>The Kafka cluster stores streams of records in categories called topics. See my other blog for installation and starting kafka service <a href="https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/">Kafka and Zookeeper with Docker</a>.</p>
+
+<p>Once we start zookeeper and kafka locally, we can proceed to create our first topic, named <em>mytopic</em>. The producer clients can then publish streams of data (messages) to the said topic (mytopic) and consumers can read the said datastream, if they are subscribed to that particular topic.</p>
+
+<p>Run the following commands in the directory where docker-compose.yml file is present.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up -d
+docker-compose exec kafka bash
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /opt/kafka/bin/
+
+bash-4.4# ./kafka-topics.sh \  
+   --create \  
+   --topic mytopic \  
+   --partitions 1 \  
+   --replication-factor 1 \  
+   --bootstrap-server localhost:9092  
+</code></pre></div></div>
+
+<h3 id="python-application">Python Application:</h3>
+
+<p>See <a href="https://enahwe.wordpress.com">Configuring Eclipse IDE for Python and Spark</a></p>
+
+<p><em>Create a Eclipse Python project</em></p>
+
+<p>Create a src folder:<br />
+To add a source folder in order to create your Python source, right-click on the project icon and do: New &gt; Folder <br />
+Name the new folder “src”, then click on the button [Finish].</p>
+
+<p>Create a conf folder:<br />
+To add a source folder in order to create your Python source, right-click on the project icone and do: New &gt; Folder<br />
+Name the new folder “conf”, then click on the button [Finish].</p>
+
+<p>Create the new project:<br />
+Check that you are on the PyDev perspective.<br />
+Go to the Eclipse menu File &gt; New &gt; PyDev project<br />
+Name your new project “PySparkProject”, then click on the button [Finish].</p>
+
+<p>Create your source code:<br />
+To add your new Python source, right-click on the source folder icon and do: New &gt; PyDev Module.<br />
+Name the new Python source “PySparkStreaming”, then click on the button [Finish], then click on the button [OK].</p>
+
+<p>Execute the code:<br />
+To execute the following code, right-click on the Python module “PySparkStreaming.py”, then choose Run As &gt; 1 Python Run.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from pyspark.sql import SparkSession
+from pyspark.sql.functions import explode
+from pyspark.sql.functions import split
+
+spark = SparkSession.builder.appName('SparkStreamApp').getOrCreate()
+
+# default for startingOffsets is "latest", but "earliest" allows rewind for missed alerts  
+df = spark.readStream \
+    .format("kafka") \
+    .option("kafka.bootstrap.servers", "localhost:9092") \
+    .option("subscribe", "mytopic") \
+    .option("startingOffsets", "earliest") \
+    .load()
+
+# df is the raw data stream, in "kafka" format.
+
+ds = df.selectExpr("CAST(value AS STRING)")
+
+# Split the lines into words
+words = df.select(
+   explode(
+       split(df.value, " ")
+   ).alias("word")
+)
+
+# Generate running word count
+wordCounts = words.groupBy("word").count()
+
+query = wordCounts \
+    .writeStream \
+    .outputMode("complete") \
+    .format("console") \
+    .start()
+
+query.awaitTermination()
+</code></pre></div></div>
+
+<p>Once you compile/run the above created simple Python code; run the following console producer to write a few events into your topic.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic mytopic
+&gt;Apache Spark Streaming computing
+&gt;Apache Spark Streaming computing
+&gt;Apache Spark Streaming computing
+&gt;Apache Spark Streaming
+&gt;Apache Streaming computing
+</code></pre></div></div>
+
+<h3 id="results">Results:</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------+-----+
+|     word|count|
++---------+-----+
+|   Apache|    5|
+|computing|    4|
+|   Spark |    4|
+|Streaming|    5|
++---------+-----+  
+only showing top 20 rows
+</code></pre></div></div>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#apache-kafka" class="page__taxonomy-item" rel="tag">apache kafka</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#big-data" class="page__taxonomy-item" rel="tag">big data</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">bioinformatics</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#docker" class="page__taxonomy-item" rel="tag">docker</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#emory-university" class="page__taxonomy-item" rel="tag">emory University</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#kafka" class="page__taxonomy-item" rel="tag">kafka</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#python" class="page__taxonomy-item" rel="tag">Python</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#real-time-data-pipelines" class="page__taxonomy-item" rel="tag">real time data pipelines</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#spark-sql" class="page__taxonomy-item" rel="tag">spark sql</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#spark-streaming" class="page__taxonomy-item" rel="tag">spark streaming</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#yaml" class="page__taxonomy-item" rel="tag">YAML</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://adinasarapu.github.io/tags/#zookeeper" class="page__taxonomy-item" rel="tag">zookeeper</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2021/02/blog-post-kafka-spark-streaming/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2021/02/blog-post-kafka-spark-streaming/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2021/02/blog-post-kafka-spark-streaming/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://adinasarapu.github.io/posts/2021/01/blog-post-kafka-spark-streaming/" class="pagination--pager" title="Building a real-time big data pipeline (10: Spark Streaming, Kafka, Java)
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<!-- <a href="/sitemap/">Sitemap</a> -->
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/adinasarapu"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+      <li><a href="http://bitbucket.org/adinasarapu"><i class="fab fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+    
+    <!--<li><a href="https://adinasarapu.github.io/feed.xml">
+	<i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>-->
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Ashok R. Dinasarapu. 350 Whitehead Biomedical Research Building,
+Emory University, Atlanta, GA 30322.</div>
+
+      </footer>
+    </div>
+
+    <script src="https://adinasarapu.github.io/assets/js/main.min.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-68614074-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
