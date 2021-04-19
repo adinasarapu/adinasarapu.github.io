@@ -1,4 +1,207 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://adinasarapu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://adinasarapu.github.io/" rel="alternate" type="text/html" /><updated>2021-03-24T09:35:16-04:00</updated><id>https://adinasarapu.github.io/feed.xml</id><title type="html">Ashok R. Dinasarapu Ph.D</title><subtitle></subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Quantitative proteomics: label-free quantitation of proteins</title><link href="https://adinasarapu.github.io/posts/2018/04/blog-post-lfq/" rel="alternate" type="text/html" title="Quantitative proteomics: label-free quantitation of proteins" /><published>2020-04-04T00:00:00-04:00</published><updated>2020-04-04T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2018/04/blog-lfq</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2018/04/blog-post-lfq/">&lt;p&gt;Updated on September 21, 2020&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://adinasarapu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://adinasarapu.github.io/" rel="alternate" type="text/html" /><updated>2021-04-19T09:45:14-04:00</updated><id>https://adinasarapu.github.io/feed.xml</id><title type="html">Ashok R. Dinasarapu Ph.D</title><subtitle></subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Annotation of genetic variants</title><link href="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/" rel="alternate" type="text/html" title="Annotation of genetic variants" /><published>2021-04-13T00:00:00-04:00</published><updated>2021-04-13T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2021/04/blog-vep</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/">&lt;p&gt;Tools such as ANNOVAR, Variant Effect Predictor (VEP) and SnpEff exist to annotate genetic variants (SNPs, INDELS, CNVs etc). These tools focused either on non-coding regions or coding regions, and predict the effects of single amino acid variants on protein structure, stability, binding affinity, and function.&lt;/p&gt;
+
+&lt;p&gt;Ensembl VEP is one of those annotattion tools and is useful to annotate&lt;br /&gt;
+• location of the variants on genome&lt;br /&gt;
+• known variants based on database matching&lt;br /&gt;
+• gene and transcript names affected by the variants&lt;br /&gt;
+• consequence of variation on the protein sequence (stop gain/lost, missense, frameshift)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;STEP 1&lt;/strong&gt;: &lt;a href=&quot;https://docs.docker.com/engine/install/&quot;&gt;Install Docker Engine&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;“Docker Engine is available on a variety of Linux platforms, macOS and Windows 10 through Docker Desktop, and as a static binary installation”.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;STEP 2&lt;/strong&gt;: Pull and run a docker image&lt;/p&gt;
+
+&lt;p&gt;Create a directory on your machine and make sure that the created directory on your machine has read and write access granted so that the docker container can write in the directory (VEP output).&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir $HOME/vep_data
+chmod a+rwx $HOME/vep_data    
+docker pull ensemblorg/ensembl-vep   
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Pre-configure the volume &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vep_data&lt;/code&gt; for the container; this is required if you wish to download data (e.g. cache files) that persists across sessions. The following example mounts the volume &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$HOME/vep_data&lt;/code&gt; into &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/opt/vep/.vep&lt;/code&gt; in the container. If you copy your data to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$HOME/vep_data&lt;/code&gt; directory, you will see that data in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/opt/vep/.vep&lt;/code&gt; directory of the container.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-t: Allocate a pseudo-TTY
+-i: Interactive / Keep STDIN open even if not attached
+-v: Bind mount a volume
+docker_image is ensemblorg/ensembl-vep
+
+docker run -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;The above command &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker run&lt;/code&gt;, allows you to enter into the container using an interactive terminal. Once you are inside do: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ls -lsa&lt;/code&gt; to list the files&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vep@56d4ccaf3e34:~/src/ensembl-vep$ ls -lsa
+total 188
+ 4 drwxr-xr-x  1 vep  vep   4096 Apr  7 15:30 .
+ 4 drwxr-xr-x  1 root root  4096 Apr  7 15:26 ..
+ 4 drwxr-xr-x 45 vep  vep   4096 Apr  7 15:27 Bio
+20 -rwxr-xr-x  1 vep  vep  16698 Apr  7 15:19 convert_cache.pl
+ 4 drwxr-xr-x  2 vep  vep   4096 Apr  7 15:19 examples
+20 -rwxr-xr-x  1 vep  vep  16620 Apr  7 15:19 filter_vep
+ 8 -rwxr-xr-x  1 vep  vep   4880 Apr  7 15:19 haplo
+56 -rwxr-xr-x  1 vep  vep  56607 Apr  7 15:19 INSTALL.pl
+12 -rw-r--r--  1 vep  vep  11478 Apr  7 15:19 LICENSE
+ 4 drwxr-xr-x  3 vep  vep   4096 Apr  7 15:19 modules
+16 -rw-r--r--  1 vep  vep  12906 Apr  7 15:19 README.md
+ 4 drwxr-xr-x  2 vep  vep   4096 Apr  7 15:19 validator
+ 4 -rw-r--r--  1 vep  vep    128 Apr  7 15:29 variant_effect_output.txt_warnings.txt
+ 8 -rwxr-xr-x  1 vep  vep   5079 Apr  7 15:19 variant_recoder
+16 -rwxr-xr-x  1 vep  vep  14462 Apr  7 15:19 vep
+ 4 drwxr-xr-x  2 vep  vep   4096 Apr  7 15:27 .version
+
+exit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Download and prepare data for plugin &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dbNSFP&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# --plugin dbNSFP,/opt/vep/.vep/Plugins/dbNSFP4.1a_grch38.gz,ALL
+
+tabix, unzip, wget and zcat are available in container at /opt/vep/.vep/ 
+
+# For release 4.1a with GRCh38/hg38 data:
+wget ftp://dbnsfp:dbnsfp@dbnsfp.softgenetics.com/dbNSFP4.1a.zip
+unzip dbNSFP4.1a.zip
+zcat dbNSFP4.1a_variant.chr1.gz | head -n1 &amp;gt; h
+zgrep -h -v ^#chr dbNSFP4.1a_variant.chr* | sort -T /path/to/tmp_folder -k1,1 -k2,2n - | cat h - | bgzip -c &amp;gt; dbNSFP4.1a_grch38.gz
+tabix -s 1 -b 2 -e 2 dbNSFP4.1a_grch38.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In a separate terminal, run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker ps&lt;/code&gt; command to list all running containers. To see all the containers both stopped and running use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-a&lt;/code&gt; flag.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker ps -a
+exit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;STEP 3&lt;/strong&gt;: Cache and Plugins installation&lt;/p&gt;
+
+&lt;p&gt;To set up the cache and corresponding FASTA for human GRCh38: our data will now download and unpack; this may take a while.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep perl INSTALL.pl -a cf -s homo_sapiens -y GRCh38
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Install all the available plugins:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep perl INSTALL.pl -a cfp -s homo_sapiens -y GRCh38 -g all
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;STEP 4&lt;/strong&gt;: Download and prepare process the data for plugin &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dbNSFP&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tabix&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unzip&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wget&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zcat&lt;/code&gt; are available in container at &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/opt/vep/.vep/&lt;/code&gt;. For release 4.1a with GRCh38/hg38 data:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget ftp://dbnsfp:dbnsfp@dbnsfp.softgenetics.com/dbNSFP4.1a.zip
+unzip dbNSFP4.1a.zip
+zcat dbNSFP4.1a_variant.chr1.gz | head -n1 &amp;gt; h
+zgrep -h -v ^#chr dbNSFP4.1a_variant.chr* | sort -T /path/to/tmp_folder -k1,1 -k2,2n - | cat h - | bgzip -c &amp;gt; dbNSFP4.1a_grch38.gz
+tabix -s 1 -b 2 -e 2 dbNSFP4.1a_grch38.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;STEP 4&lt;/strong&gt;: Create &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vep.sh&lt;/code&gt; file&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#!/bin/sh
+# Example of VEP command line:
+vep --cache --offline --format vcf --vcf --force_overwrite \
+	--dir_cache /opt/vep/.vep/ \
+	--dir_plugins /opt/vep/.vep/Plugins/ \
+	--input_file /opt/vep/.vep/input/Dystonia.gatk4.vqsr_variants.g.vcf.gz \
+	--output_file /opt/vep/.vep/output/Dystonia.gatk4.vqsr_vep.g.vcf \
+	--plugin dbNSFP,/opt/vep/.vep/Plugins/dbNSFP4.1a_grch38.gz,ALL
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;STEP 5&lt;/strong&gt;: Copy or transfer the input data i.e vcf file&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir -p /Users/adinasa/vep_data/{input,output,script}
+cp Dystonia.gatk4.vqsr_variants.g.vcf.gz ~/vep_data/input/
+cp vep.sh /Users/adinasa/vep_data/script
+co dbNSFP4.1a_grch38.gz /Users/adinasa/vep_data/Plugins 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;STEP 6&lt;/strong&gt;: Run the script&lt;/p&gt;
+
+&lt;p&gt;Finally, run the script inside container.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep
+
+vep@88d2b95cfd6a:~/src/ensembl-vep$ cd /opt/vep/.vep/script/
+
+sh vep.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Genomics" /><category term="WGS" /><category term="VCF" /><category term="Variant calling" /><category term="Genotypes" /><category term="NGS" /><category term="VEP" /><category term="Bioinformatics" /><category term="Emory University" /><summary type="html">Tools such as ANNOVAR, Variant Effect Predictor (VEP) and SnpEff exist to annotate genetic variants (SNPs, INDELS, CNVs etc). These tools focused either on non-coding regions or coding regions, and predict the effects of single amino acid variants on protein structure, stability, binding affinity, and function.</summary></entry><entry><title type="html">Quantitative proteomics: TMT-based quantitation of proteins</title><link href="https://adinasarapu.github.io/posts/2020/01/blog-post-tmt/" rel="alternate" type="text/html" title="Quantitative proteomics: TMT-based quantitation of proteins" /><published>2020-04-04T00:00:00-04:00</published><updated>2020-04-04T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2020/01/blog-tmt</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2020/01/blog-post-tmt/">&lt;p&gt;Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).&lt;/p&gt;
+
+&lt;p&gt;Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.&lt;/p&gt;
+
+&lt;p&gt;Fractionation prior to LC-MS/MS analysis effectively detects low abundance proteins (&amp;lt;100ng/mL), which is the concentration range of most clinical biomarkers.&lt;/p&gt;
+
+&lt;p&gt;TMT-based approach allows multiplexing of samples. TMT 6-plex reagents produces a series of different reporter ions with nominal masses from 126 to 131 Da at 1 Da intervals. Several TMT reagents are commercially available including TMTzero, TMT duplex, TMT 6-plex, and TMT 10-plex &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. They have the same chemical structure but contain different numbers and combinations of 13C and 15N isotopes in the reporter group. The overall calibrated intensities of reporter ions equal.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Isobaric labeling reagent (TMT) structure&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;a. An amine-specific reactive group – an N-hydroxysuccinimide ester, which reacts with primary amines i.e unblocked N-terminals and lysine side chains.&lt;br /&gt;
+b. A mass reporter group for quantification – the reporter groups are partially fragmented from the peptide during precursor fragmentation in the mass spectrometer.&lt;br /&gt;
+c. A mass normalizer group to link the reactive and reporter groups – mass normalizer group ensures that the peptide complexity in the MS1 spectra does not increase with multiplexing.&lt;/p&gt;
+
+&lt;p&gt;Unless otherwise noted, every analysis utilizes an MS3-based TMT-centric mass spectrometry method. MS2-based TMT yields the highest precision but lowest accuracy due to ratio compression, which MS3-based TMT can partly rescue &lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. To 10 precursors selected for MS2/MS3 analysis.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;What are the correction factors used for TMT?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;TMT reporter ion signals need to be adjusted to account for isotopic impurities in each TMT variant.  For TMT-10plex labeling, different batches of TMT reagents have slightly different isotope impurities that need to be included for database search to correct the reporter ion ratio. The information of isotope impurity can be found in the reagent kit. However, I do not normally correct for isotopic impurities of TMT reagents, as this is typically a «1.2% shift.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Database search for protein identification and quantification&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;The resulting TMT-MS3 data (.raw files) are processed using MaxQuant with an integrated Andromeda search engine (v.1.6.7.0). Tandem mass spectra were searched against the Uniprot database.&lt;/p&gt;
+
+&lt;p&gt;Download and install  &lt;a href=&quot;https://bitbucket.org/adinasarapu/aws_maxquant_persues/src/master/&quot;&gt;MaxQuant&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Specification of Various Parameters in MaxQuant (All the other parameters in MaxQuant are set to the default values for processing orbitrap-type data)&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Raw data&lt;/strong&gt; pane&lt;br /&gt;
+Using Load, select all raw files from all batches. Update Experiment (a unique value for each of the samples) and Fraction (if available) column values using set experiment and set fractions buttons.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Group-specific parameters&lt;/strong&gt; pane&lt;br /&gt;
+Change Type as Reporter ion MS3 and then select “10plex TMT”. Update isobaric impurities values, if available. For Modifications, select Variable modifications as Oxidation (M), Acetyl (Protein N-term); Deamidation (NQ) and Fixed Modifications as Carbamidomethyl© and, TMT labeled N- terminus and lysine residue. Specify Trypsin/P as a cleavage enzyme using Digestion and allow up to 2 missing cleavages. Set Label-free quantification as None.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Global parameters&lt;/strong&gt; pane&lt;br /&gt;
+For Sequences select a reference proteome database Uniprot FASTA file and update Max. peptide mass [Da] as 6000. For Protein quantification select Use only unmodified peptides and a list of modifications such as Oxidation (M), Acetyl (Protein N-term) and Deamidation. Select Match between runs in Identification tab.&lt;/p&gt;
+
+&lt;p&gt;Update the following two parameters for MS/MS analyzer:&lt;br /&gt;
+a. FTMS MS/MS match tolerance: 0.05 Da&lt;br /&gt;
+b. ITMS MS/MS match tolerance: 0.6 Da&lt;/p&gt;
+
+&lt;p&gt;For Folder location select tmp directory (optional).&lt;/p&gt;
+
+&lt;p&gt;Further data processing is performed using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Perseus v1.6.12.0&lt;/code&gt; &lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. The search results in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ProteinGroups.txt&lt;/code&gt; generated by MaxQuant are directly processed by Perseus software. MaxQuant reports the TMT-MS3 quantitative relative abundance metrics in the columns titled “Reporter intensity corrected”.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Further reading&lt;/strong&gt;:&lt;br /&gt;
+Data normalization and analysis in multiple TMT experimental designs &lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;br /&gt;
+Multiplexed Protein Quantification Using the Isobaric TMT … &lt;sup id=&quot;fnref:6&quot;&gt;&lt;a href=&quot;#fn:6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;&lt;br /&gt;
+Isobaric matching between runs and novel PSM-level normalization in MaxQuant … &lt;sup id=&quot;fnref:7&quot;&gt;&lt;a href=&quot;#fn:7&quot; class=&quot;footnote&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;AWS Windows instance for &lt;a href=&quot;https://bitbucket.org/adinasarapu/aws_maxquant_persues/src&quot;&gt;MaxQuant/Perseus&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;Bąchor, R.; Waliczek, M.; Stefanowicz, P.; Szewczuk, Z. Trends in the Design of New Isobaric Labeling Reagents for Quantitative Proteomics. Molecules 2019, 24, 701. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;A. Hogrebe, L. von Stechow, D.B. Bekker-Jensen, B.T. Weinert, C.D. Kelstrup, J.V. Olsen Benchmarking common quantification strategies for large-scale phosphoproteomics Nat. Commun., 9 (2018), p. 1045. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://www.coxdocs.org/doku.php?id=maxquant:start&quot;&gt;MaxQuant&lt;/a&gt; &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://www.coxdocs.org/doku.php?id=perseus:start&quot;&gt;Perseus&lt;/a&gt; &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://pwilmart.github.io/TMT_analysis_examples/multiple_TMT_MQ.html&quot;&gt;TMT Batch Correction&lt;/a&gt; &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:6&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://assets.thermofisher.com/TFS-Assets/CMD/Reference-Materials/PP-TMT-Multiplexed-Protein-Quantification-HUPO2015-EN.pdf&quot;&gt;TMT analysis using Proteome Discoverer&lt;/a&gt; &lt;a href=&quot;#fnref:6&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:7&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://doi.org/10.1101/2020.03.30.015487&quot;&gt;Isobaric matching between runs and novel PSM-level normalization&lt;/a&gt; &lt;a href=&quot;#fnref:7&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="TMT" /><category term="tandem mass tag" /><category term="MS3 spectra" /><category term="MaxQuant" /><category term="isobaric labeling" /><category term="Perseus" /><category term="TMT 10plex" /><category term="10plex" /><category term="Bioinformatics" /><category term="Emory University" /><summary type="html">Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).</summary></entry><entry><title type="html">Quantitative proteomics: label-free quantitation of proteins</title><link href="https://adinasarapu.github.io/posts/2018/04/blog-post-lfq/" rel="alternate" type="text/html" title="Quantitative proteomics: label-free quantitation of proteins" /><published>2020-04-04T00:00:00-04:00</published><updated>2020-04-04T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2018/04/blog-lfq</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2018/04/blog-post-lfq/">&lt;p&gt;Updated on September 21, 2020&lt;/p&gt;
 
 &lt;p&gt;Liquid chromatography (LC) coupled with mass spectrometry (MS) has been widely used for protein expression quantification. Protein quantification by tandem-MS (MS/MS) uses integrated peak intensity from the parent-ion mass (MS1) or features from fragment-ions (MS2).&lt;/p&gt;
 
@@ -101,88 +304,7 @@ PTXQC::createReport(&quot;path_to_txt_directory&quot;)
       &lt;p&gt;&lt;a href=&quot;http://www.coxdocs.org/doku.php?id=perseus:start&quot;&gt;Perseus&lt;/a&gt; is software package for shotgun proteomics data analyses &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="LFQ" /><category term="label free quantitation" /><category term="iBAC" /><category term="MaxQuant" /><category term="Perseus" /><category term="Amazon Web Services" /><category term="Emory University" /><category term="Bioinformatics" /><summary type="html">Updated on September 21, 2020</summary></entry><entry><title type="html">Quantitative proteomics: TMT-based quantitation of proteins</title><link href="https://adinasarapu.github.io/posts/2020/01/blog-post-tmt/" rel="alternate" type="text/html" title="Quantitative proteomics: TMT-based quantitation of proteins" /><published>2020-04-04T00:00:00-04:00</published><updated>2020-04-04T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2020/01/blog-tmt</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2020/01/blog-post-tmt/">&lt;p&gt;Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).&lt;/p&gt;
-
-&lt;p&gt;Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.&lt;/p&gt;
-
-&lt;p&gt;Fractionation prior to LC-MS/MS analysis effectively detects low abundance proteins (&amp;lt;100ng/mL), which is the concentration range of most clinical biomarkers.&lt;/p&gt;
-
-&lt;p&gt;TMT-based approach allows multiplexing of samples. TMT 6-plex reagents produces a series of different reporter ions with nominal masses from 126 to 131 Da at 1 Da intervals. Several TMT reagents are commercially available including TMTzero, TMT duplex, TMT 6-plex, and TMT 10-plex &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. They have the same chemical structure but contain different numbers and combinations of 13C and 15N isotopes in the reporter group. The overall calibrated intensities of reporter ions equal.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Isobaric labeling reagent (TMT) structure&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;p&gt;a. An amine-specific reactive group – an N-hydroxysuccinimide ester, which reacts with primary amines i.e unblocked N-terminals and lysine side chains.&lt;br /&gt;
-b. A mass reporter group for quantification – the reporter groups are partially fragmented from the peptide during precursor fragmentation in the mass spectrometer.&lt;br /&gt;
-c. A mass normalizer group to link the reactive and reporter groups – mass normalizer group ensures that the peptide complexity in the MS1 spectra does not increase with multiplexing.&lt;/p&gt;
-
-&lt;p&gt;Unless otherwise noted, every analysis utilizes an MS3-based TMT-centric mass spectrometry method. MS2-based TMT yields the highest precision but lowest accuracy due to ratio compression, which MS3-based TMT can partly rescue &lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. To 10 precursors selected for MS2/MS3 analysis.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;What are the correction factors used for TMT?&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;TMT reporter ion signals need to be adjusted to account for isotopic impurities in each TMT variant.  For TMT-10plex labeling, different batches of TMT reagents have slightly different isotope impurities that need to be included for database search to correct the reporter ion ratio. The information of isotope impurity can be found in the reagent kit. However, I do not normally correct for isotopic impurities of TMT reagents, as this is typically a «1.2% shift.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Database search for protein identification and quantification&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;p&gt;The resulting TMT-MS3 data (.raw files) are processed using MaxQuant with an integrated Andromeda search engine (v.1.6.7.0). Tandem mass spectra were searched against the Uniprot database.&lt;/p&gt;
-
-&lt;p&gt;Download and install  &lt;a href=&quot;https://bitbucket.org/adinasarapu/aws_maxquant_persues/src/master/&quot;&gt;MaxQuant&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Specification of Various Parameters in MaxQuant (All the other parameters in MaxQuant are set to the default values for processing orbitrap-type data)&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Raw data&lt;/strong&gt; pane&lt;br /&gt;
-Using Load, select all raw files from all batches. Update Experiment (a unique value for each of the samples) and Fraction (if available) column values using set experiment and set fractions buttons.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Group-specific parameters&lt;/strong&gt; pane&lt;br /&gt;
-Change Type as Reporter ion MS3 and then select “10plex TMT”. Update isobaric impurities values, if available. For Modifications, select Variable modifications as Oxidation (M), Acetyl (Protein N-term); Deamidation (NQ) and Fixed Modifications as Carbamidomethyl© and, TMT labeled N- terminus and lysine residue. Specify Trypsin/P as a cleavage enzyme using Digestion and allow up to 2 missing cleavages. Set Label-free quantification as None.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Global parameters&lt;/strong&gt; pane&lt;br /&gt;
-For Sequences select a reference proteome database Uniprot FASTA file and update Max. peptide mass [Da] as 6000. For Protein quantification select Use only unmodified peptides and a list of modifications such as Oxidation (M), Acetyl (Protein N-term) and Deamidation. Select Match between runs in Identification tab.&lt;/p&gt;
-
-&lt;p&gt;Update the following two parameters for MS/MS analyzer:&lt;br /&gt;
-a. FTMS MS/MS match tolerance: 0.05 Da&lt;br /&gt;
-b. ITMS MS/MS match tolerance: 0.6 Da&lt;/p&gt;
-
-&lt;p&gt;For Folder location select tmp directory (optional).&lt;/p&gt;
-
-&lt;p&gt;Further data processing is performed using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Perseus v1.6.12.0&lt;/code&gt; &lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. The search results in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ProteinGroups.txt&lt;/code&gt; generated by MaxQuant are directly processed by Perseus software. MaxQuant reports the TMT-MS3 quantitative relative abundance metrics in the columns titled “Reporter intensity corrected”.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Further reading&lt;/strong&gt;:&lt;br /&gt;
-Data normalization and analysis in multiple TMT experimental designs &lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;br /&gt;
-Multiplexed Protein Quantification Using the Isobaric TMT … &lt;sup id=&quot;fnref:6&quot;&gt;&lt;a href=&quot;#fn:6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;&lt;br /&gt;
-Isobaric matching between runs and novel PSM-level normalization in MaxQuant … &lt;sup id=&quot;fnref:7&quot;&gt;&lt;a href=&quot;#fn:7&quot; class=&quot;footnote&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;AWS Windows instance for &lt;a href=&quot;https://bitbucket.org/adinasarapu/aws_maxquant_persues/src&quot;&gt;MaxQuant/Perseus&lt;/a&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;Bąchor, R.; Waliczek, M.; Stefanowicz, P.; Szewczuk, Z. Trends in the Design of New Isobaric Labeling Reagents for Quantitative Proteomics. Molecules 2019, 24, 701. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;A. Hogrebe, L. von Stechow, D.B. Bekker-Jensen, B.T. Weinert, C.D. Kelstrup, J.V. Olsen Benchmarking common quantification strategies for large-scale phosphoproteomics Nat. Commun., 9 (2018), p. 1045. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://www.coxdocs.org/doku.php?id=maxquant:start&quot;&gt;MaxQuant&lt;/a&gt; &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:4&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://www.coxdocs.org/doku.php?id=perseus:start&quot;&gt;Perseus&lt;/a&gt; &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:5&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://pwilmart.github.io/TMT_analysis_examples/multiple_TMT_MQ.html&quot;&gt;TMT Batch Correction&lt;/a&gt; &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:6&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://assets.thermofisher.com/TFS-Assets/CMD/Reference-Materials/PP-TMT-Multiplexed-Protein-Quantification-HUPO2015-EN.pdf&quot;&gt;TMT analysis using Proteome Discoverer&lt;/a&gt; &lt;a href=&quot;#fnref:6&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:7&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://doi.org/10.1101/2020.03.30.015487&quot;&gt;Isobaric matching between runs and novel PSM-level normalization&lt;/a&gt; &lt;a href=&quot;#fnref:7&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="TMT" /><category term="tandem mass tag" /><category term="MS3 spectra" /><category term="MaxQuant" /><category term="isobaric labeling" /><category term="Perseus" /><category term="TMT 10plex" /><category term="10plex" /><category term="Bioinformatics" /><category term="Emory University" /><summary type="html">Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).</summary></entry><entry><title type="html">Spatial gene expression data analysis on Cluster (10X Genomics, Space Ranger)</title><link href="https://adinasarapu.github.io/posts/2020/03/blog-spatial-gene-expression/" rel="alternate" type="text/html" title="Spatial gene expression data analysis on Cluster (10X Genomics, Space Ranger)" /><published>2020-03-06T00:00:00-05:00</published><updated>2020-03-06T00:00:00-05:00</updated><id>https://adinasarapu.github.io/posts/2020/03/blog-spatial-expression</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2020/03/blog-spatial-gene-expression/">&lt;p&gt;Running &lt;a href=&quot;https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/what-is-space-ranger&quot;&gt;spaceranger&lt;/a&gt; as cluster mode that uses Sun Grid Engine (SGE) as queuing.&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Proteomics" /><category term="LFQ" /><category term="label free quantitation" /><category term="iBAC" /><category term="MaxQuant" /><category term="Perseus" /><category term="Amazon Web Services" /><category term="Emory University" /><category term="Bioinformatics" /><summary type="html">Updated on September 21, 2020</summary></entry><entry><title type="html">Spatial gene expression data analysis on Cluster (10X Genomics, Space Ranger)</title><link href="https://adinasarapu.github.io/posts/2020/03/blog-spatial-gene-expression/" rel="alternate" type="text/html" title="Spatial gene expression data analysis on Cluster (10X Genomics, Space Ranger)" /><published>2020-03-06T00:00:00-05:00</published><updated>2020-03-06T00:00:00-05:00</updated><id>https://adinasarapu.github.io/posts/2020/03/blog-spatial-expression</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2020/03/blog-spatial-gene-expression/">&lt;p&gt;Running &lt;a href=&quot;https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/what-is-space-ranger&quot;&gt;spaceranger&lt;/a&gt; as cluster mode that uses Sun Grid Engine (SGE) as queuing.&lt;/p&gt;
 
 &lt;p&gt;There are 2 steps to analyze Spatial RNA-seq data&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
@@ -660,23 +782,4 @@ HUMAnN2 utilizes the MetaCyc database as well as the UniRef gene family catalog 
   &lt;li&gt;Variant calling with GATK’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HaplotypeCaller&lt;/code&gt;, and finally filtering the variants with GATK’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VariantFiltration&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;My qsub-based pipeline is available at &lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/3e9a2b3881ea0e2afbe58df325ca693ecfac4fbc/job_rnaseq_variant_caller.sh&quot;&gt;bitbucket.org&lt;/a&gt;&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="GATK" /><category term="RNA-Seq" /><category term="STAR" /><category term="SNP" /><category term="Indel" /><summary type="html">RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.</summary></entry><entry><title type="html">eQTL analysis of RNA-Seq data</title><link href="https://adinasarapu.github.io/posts/2017/12/blog-post-eqtl/" rel="alternate" type="text/html" title="eQTL analysis of RNA-Seq data" /><published>2017-12-17T00:00:00-05:00</published><updated>2017-12-17T00:00:00-05:00</updated><id>https://adinasarapu.github.io/posts/2017/12/blog-eqtl</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2017/12/blog-post-eqtl/">&lt;p&gt;Genetic locus that affects gene expression is often referred to as expression quantitative trait locus (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels.&lt;br /&gt;
-Based on the hg38 reference genome, paired-end reads are mapped by &lt;a href=&quot;https://academic.oup.com/bioinformatics/article/29/1/15/272537&quot;&gt;STAR&lt;/a&gt; aligner. The mapped reads are used for expression quantification without assembling transcripts by counting the number of reads that map to an exon by &lt;a href=&quot;https://htseq.readthedocs.io/en/release_0.9.1/&quot;&gt;HTSeq&lt;/a&gt; that uses Refseq gene annotations. Then, to correct for systematic variability such as library fragment size, sequence composition bias, and read depth the raw counts are normalized as trimmed mean of M-values (TMM) through &lt;a href=&quot;https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2796818/&quot;&gt;edgeR&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Beyond quantifying gene expression, the data generated by RNA-Seq facilitate the integration of expression data with genotyping data also known as expression quantitative trait loci (eQTLs) analysis. Infinium CytoSNP-850K v1.2 arrays are used to identify genetic and structural variations. 
-The array data is analyzed using GenomeStudioR or BlueFuse Multi software based on the reference human genome (hg38/GRCh38). After loading the raw array data, the SNP manifest file (&lt;em&gt;.bpm), and standard cluster file (&lt;/em&gt;.egt) are imported into GenomeStudio and clustering of intensities for SNPs are performed. Genotyping calls for a specific DNA made by the calling algorithm (GenCall) which relies on information provided by the GenTrain clustering algorithm.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.bios.unc.edu/research/genomic_software/Matrix_eQTL/&quot;&gt;Matrix eQTL&lt;/a&gt; was used to efficiently test the associations by modeling the effect of genotype as additive linear.&lt;br /&gt;
-&lt;img src=&quot;/images/DEG.png&quot; alt=&quot;eqtl_figure&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Data analysis pipeline for RNA-Seq based eQTL mapping:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6bad66b2e4ce1f98d3392cb4af7cbf37bb08f73f/job_fastqc.sh&quot;&gt;Quality control&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/6bad66b2e4ce1f98d3392cb4af7cbf37bb08f73f/job_star_mapping.sh&quot;&gt;Read mapping&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/job_post_mapping_qc.sh&quot;&gt;Post mapping QC&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/job_htseq_count.sh&quot;&gt;HTSeq-count&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a9ecd1df38811b6078c2397476dd12a48ac18a50/HTseqCountToANOVA.R&quot;&gt;Normalization, Differential expression&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/8a3ba3ef7eaa3937b04b101a843e2a5fed88e52b/ExtractMultiSampleGenotype.R&quot;&gt;Create SNP Matrix&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/a1e0bf858af1619edae4816b03735aea9ab215aa/MatrixEQTL_CisTrans.R&quot;&gt;Matrix eQTL&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/dd0755abdece34f8e1f8f46329f2bd570bfd0318/ManhattanPlot_GWAS.R&quot;&gt;Manhattan plot&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="eQTL" /><category term="RNA-Seq" /><category term="htseq" /><category term="MatrixEqtl" /><category term="edgeR" /><summary type="html">Genetic locus that affects gene expression is often referred to as expression quantitative trait locus (eQTL). eQTL mapping studies assesses the association of SNPs with genome-wide expression levels. Based on the hg38 reference genome, paired-end reads are mapped by STAR aligner. The mapped reads are used for expression quantification without assembling transcripts by counting the number of reads that map to an exon by HTSeq that uses Refseq gene annotations. Then, to correct for systematic variability such as library fragment size, sequence composition bias, and read depth the raw counts are normalized as trimmed mean of M-values (TMM) through edgeR.</summary></entry></feed>
+&lt;p&gt;My qsub-based pipeline is available at &lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/3e9a2b3881ea0e2afbe58df325ca693ecfac4fbc/job_rnaseq_variant_caller.sh&quot;&gt;bitbucket.org&lt;/a&gt;&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="GATK" /><category term="RNA-Seq" /><category term="STAR" /><category term="SNP" /><category term="Indel" /><summary type="html">RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.</summary></entry></feed>
