@@ -1,6 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://adinasarapu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://adinasarapu.github.io/" rel="alternate" type="text/html" /><updated>2021-04-19T09:45:14-04:00</updated><id>https://adinasarapu.github.io/feed.xml</id><title type="html">Ashok R. Dinasarapu Ph.D</title><subtitle></subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Annotation of genetic variants</title><link href="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/" rel="alternate" type="text/html" title="Annotation of genetic variants" /><published>2021-04-13T00:00:00-04:00</published><updated>2021-04-13T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2021/04/blog-vep</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/">&lt;p&gt;Tools such as ANNOVAR, Variant Effect Predictor (VEP) and SnpEff exist to annotate genetic variants (SNPs, INDELS, CNVs etc). These tools focused either on non-coding regions or coding regions, and predict the effects of single amino acid variants on protein structure, stability, binding affinity, and function.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://adinasarapu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://adinasarapu.github.io/" rel="alternate" type="text/html" /><updated>2021-04-19T17:44:55-04:00</updated><id>https://adinasarapu.github.io/feed.xml</id><title type="html">Ashok R. Dinasarapu Ph.D</title><subtitle></subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Annotation of genetic variants</title><link href="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/" rel="alternate" type="text/html" title="Annotation of genetic variants" /><published>2021-04-13T00:00:00-04:00</published><updated>2021-04-13T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2021/04/blog-vep</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/">&lt;p&gt;Tools such as ANNOVAR, Variant Effect Predictor (VEP) or SnpEff annotate genetic variants (SNPs, INDELS, CNVs etc) present in VCF file. These tools integrate the annotations within the INFO column of the original VCF file.&lt;/p&gt;
 
-&lt;p&gt;Ensembl VEP is one of those annotattion tools and is useful to annotate&lt;br /&gt;
+&lt;p&gt;Variant Call Format or VCF is a text file with multiple lines of meta-information, a header line, and data rows each containing information about a loci or sequence variant in the genome. Aside from the chromosomal location and observed alleles, these loci are basically anonymous. VCF is the primary (and only well-supported) format used by the GATK for variant calls. A GVCF or Genomic VCF is a kind of VCF, so the basic format specification is the same as for a regular VCF, but a Genomic VCF contains extra information.&lt;/p&gt;
+
+&lt;p&gt;The Ensembl Variant Effect Predictor (VEP) annotates&lt;br /&gt;
 • location of the variants on genome&lt;br /&gt;
 • known variants based on database matching&lt;br /&gt;
 • gene and transcript names affected by the variants&lt;br /&gt;
@@ -10,9 +12,10 @@
 
 &lt;p&gt;“Docker Engine is available on a variety of Linux platforms, macOS and Windows 10 through Docker Desktop, and as a static binary installation”.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;STEP 2&lt;/strong&gt;: Pull and run a docker image&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;STEP 2&lt;/strong&gt;: Clone or Pull the VEP docker image&lt;/p&gt;
 
 &lt;p&gt;Create a directory on your machine and make sure that the created directory on your machine has read and write access granted so that the docker container can write in the directory (VEP output).&lt;/p&gt;
+
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir $HOME/vep_data
 chmod a+rwx $HOME/vep_data    
 docker pull ensemblorg/ensembl-vep   
@@ -45,14 +48,11 @@ total 188
  8 -rwxr-xr-x  1 vep  vep   5079 Apr  7 15:19 variant_recoder
 16 -rwxr-xr-x  1 vep  vep  14462 Apr  7 15:19 vep
  4 drwxr-xr-x  2 vep  vep   4096 Apr  7 15:27 .version
-
-exit
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Download and prepare data for plugin &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dbNSFP&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If necessary, download and prepare data for plugin &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dbNSFP&lt;/code&gt;.&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# --plugin dbNSFP,/opt/vep/.vep/Plugins/dbNSFP4.1a_grch38.gz,ALL
-
 tabix, unzip, wget and zcat are available in container at /opt/vep/.vep/ 
 
 # For release 4.1a with GRCh38/hg38 data:
@@ -71,7 +71,7 @@ exit
 
 &lt;p&gt;&lt;strong&gt;STEP 3&lt;/strong&gt;: Cache and Plugins installation&lt;/p&gt;
 
-&lt;p&gt;To set up the cache and corresponding FASTA for human GRCh38: our data will now download and unpack; this may take a while.&lt;/p&gt;
+&lt;p&gt;Use the following commands to set up the cache and corresponding FASTA for human GRCh38 genome.&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep perl INSTALL.pl -a cf -s homo_sapiens -y GRCh38
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -79,17 +79,6 @@ exit
 &lt;p&gt;Install all the available plugins:&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep perl INSTALL.pl -a cfp -s homo_sapiens -y GRCh38 -g all
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;STEP 4&lt;/strong&gt;: Download and prepare process the data for plugin &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dbNSFP&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tabix&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unzip&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wget&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zcat&lt;/code&gt; are available in container at &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/opt/vep/.vep/&lt;/code&gt;. For release 4.1a with GRCh38/hg38 data:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget ftp://dbnsfp:dbnsfp@dbnsfp.softgenetics.com/dbNSFP4.1a.zip
-unzip dbNSFP4.1a.zip
-zcat dbNSFP4.1a_variant.chr1.gz | head -n1 &amp;gt; h
-zgrep -h -v ^#chr dbNSFP4.1a_variant.chr* | sort -T /path/to/tmp_folder -k1,1 -k2,2n - | cat h - | bgzip -c &amp;gt; dbNSFP4.1a_grch38.gz
-tabix -s 1 -b 2 -e 2 dbNSFP4.1a_grch38.gz
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;STEP 4&lt;/strong&gt;: Create &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vep.sh&lt;/code&gt; file&lt;/p&gt;
@@ -109,7 +98,7 @@ vep --cache --offline --format vcf --vcf --force_overwrite \
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir -p /Users/adinasa/vep_data/{input,output,script}
 cp Dystonia.gatk4.vqsr_variants.g.vcf.gz ~/vep_data/input/
 cp vep.sh /Users/adinasa/vep_data/script
-co dbNSFP4.1a_grch38.gz /Users/adinasa/vep_data/Plugins 
+cp dbNSFP4.1a_grch38.gz /Users/adinasa/vep_data/Plugins 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;STEP 6&lt;/strong&gt;: Run the script&lt;/p&gt;
@@ -120,7 +109,7 @@ co dbNSFP4.1a_grch38.gz /Users/adinasa/vep_data/Plugins
 vep@88d2b95cfd6a:~/src/ensembl-vep$ cd /opt/vep/.vep/script/
 
 sh vep.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Genomics" /><category term="WGS" /><category term="VCF" /><category term="Variant calling" /><category term="Genotypes" /><category term="NGS" /><category term="VEP" /><category term="Bioinformatics" /><category term="Emory University" /><summary type="html">Tools such as ANNOVAR, Variant Effect Predictor (VEP) and SnpEff exist to annotate genetic variants (SNPs, INDELS, CNVs etc). These tools focused either on non-coding regions or coding regions, and predict the effects of single amino acid variants on protein structure, stability, binding affinity, and function.</summary></entry><entry><title type="html">Quantitative proteomics: TMT-based quantitation of proteins</title><link href="https://adinasarapu.github.io/posts/2020/01/blog-post-tmt/" rel="alternate" type="text/html" title="Quantitative proteomics: TMT-based quantitation of proteins" /><published>2020-04-04T00:00:00-04:00</published><updated>2020-04-04T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2020/01/blog-tmt</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2020/01/blog-post-tmt/">&lt;p&gt;Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Genomics" /><category term="WGS" /><category term="VCF" /><category term="Variant calling" /><category term="Genotypes" /><category term="NGS" /><category term="VEP" /><category term="Bioinformatics" /><category term="Emory University" /><summary type="html">Tools such as ANNOVAR, Variant Effect Predictor (VEP) or SnpEff annotate genetic variants (SNPs, INDELS, CNVs etc) present in VCF file. These tools integrate the annotations within the INFO column of the original VCF file.</summary></entry><entry><title type="html">Quantitative proteomics: TMT-based quantitation of proteins</title><link href="https://adinasarapu.github.io/posts/2020/01/blog-post-tmt/" rel="alternate" type="text/html" title="Quantitative proteomics: TMT-based quantitation of proteins" /><published>2020-04-04T00:00:00-04:00</published><updated>2020-04-04T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2020/01/blog-tmt</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2020/01/blog-post-tmt/">&lt;p&gt;Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).&lt;/p&gt;
 
 &lt;p&gt;Alkylation with iodoacetamide (IAA) after cystine reduction results in the covalent addition of a carbamidomethyl group that prevents the formation of disulfide bonds. Then, overnight digestion of the proteins using trypsin or trypsin/LyC mixture, Tandem Mass Tag (TMT) labeling on Lysine residues, pooling of all samples and the fractionation of peptide mixture. Finally, LC-MS/MS data acquisition and database search for protein identification and quantification.&lt;/p&gt;
 
