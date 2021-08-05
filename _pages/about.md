@@ -15,7 +15,7 @@ My research is focused on genomics and computing, with emphasis on variant and c
 Previously, at Emory Vaccine Center, I worked in [Human Immunology Project Consortium](https://www.immuneprofiling.org/) projects with emphasis in understanding the effects of adjuvanted seasonal flu vaccination in healthy as well as in HIV-infected individuals. At University of Florida, I applied systems biology approaches to study the effects of recreational marijuana and/or tobacco use in HIV-infected young adults. At University of California San Diego, I worked for [LIPID MAPS](http://www.lipidmaps.org) and UCSD [Signaling Gateway consortium](http://www.signalinggateway.org/molecule/) projects.  
 {% endcomment %}  
 
-Ongoing projects in this area include disease modeling using Induced pluripotent stem cells (iPSCs) of Lesch-Nyhan disease and DYT1 dystonia.  
+Ongoing projects in this area include disease modeling using Induced pluripotent stem cells (iPSCs) of Lesch-Nyhan disease and DYT1 dystonia (<a href="http://pharmacology.emory.edu/hess-jinnah/index.html" target="_blank">HESS-JINNAH RESEARCH GROUP</a>).  
 
 Lesch-Nyhan disease (LND) is an inherited disorder caused by pathogenic variants in the HPRT1 gene, which encodes the purine recycling enzyme hypoxanthine-guanine phosphoribosyltransferase (HGprt).  
 
@@ -30,4 +30,3 @@ Human papilloma virus (HPV) causes a subset of HNSCC of the oropharynx. We combi
 We assessed the longitudinal changes in vaginal and rectal microbiome profiles following intradermal immunization with an HIV-1 DNA vaccine in adult rhesus macaques that received two prior DNA primes. The rectal and vaginal (CVL) microbiota showed compositional differences at lower taxonomic levels. As demonstrated by the linear discriminant analysis effect size (LEfSe) plot, microbiome in vaginal and rectal compartments demonstrated characteristic phylotype abundances.
 ![/cladogram](/images/illustration3.png)  
 {% endcomment %}
-<a href="http://pharmacology.emory.edu/hess-jinnah/index.html" target="_blank">HESS-JINNAH RESEARCH GROUP</a>
