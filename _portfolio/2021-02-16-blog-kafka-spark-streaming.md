@@ -19,22 +19,22 @@ tags:
   - emory University 
 
 ---  
-*Updated on February 16, 2021*  
+*Updated on August 06, 2021*  
 
 *Apache Spark* is a general-purpose, in-memory cluster computing engine for large scale data processing. Spark can also work with Hadoop and it's modules. Spark uses Hadoop’s client libraries for distributed storage (HDFS) and resource management (YARN). The real-time data processing capability makes Spark a top choice for big data analytics. Spark provides APIs in Java, Scala, Python and R. It also supports libraries such as *Spark SQL* for structured data processing, *MLlib* for machine learning, *GraphX* for computing graphs, and *Spark Streaming* for stream computing.  
 
-*Apache Spark Streaming*, a separate library from the core Apache Spark platform, enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Scala, Java, R and Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. It utilizes the DStream API, powered by Spark RDDs (Resilient Data Sets), to divide the data into chunks before processing it.  
+*Apache Spark Streaming*, a separate library from the core Apache Spark platform, enables scalable, high-throughput, fault-tolerant processing of data streams; written in Scala but offers Scala, Java, R and Python APIs to work with. It takes data from the sources like Kafka, Flume, Kinesis, HDFS, S3 or Twitter. Spark Streaming utilizes the discretized streams or DStream to divide the data into chunks before processing it. A DStream is a sequence of Resilient Data Sets or RDDs.  
 
 *Spark Structured Streaming* is a scalable and fault-tolerant stream processing engine built on the *Spark SQL engine* library. This streaming model is based on the Dataset and DataFrame APIs, consumable in Java, Scala, Python, and R.  
 
 ### Apache Spark Streaming vs Spark Structured Streaming   
-Apache Spark streaming uses DStreams, while Spark structured streaming uses DataFrames to process the streams of data pouring into the analytics engine. Since Spark’s structured streaming model is an extension built on top of the Apache Spark’s DStreams construct, no need to access the RDD blocks directly.  
+Apache Spark Streaming uses DStreams, while Spark Structured Streaming uses DataFrames to process the streams of data pouring into the analytics engine. Since Spark’s Structured Streaming model is an extension built on top of the Apache Spark’s DStreams construct, no need to access the RDD blocks directly.  
 
-Python or R data frames exist on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark data frames. This has been achieved by taking advantage of the SparkR or PySpark APIs. Spark’s data frame object can be thought of as a table distributed across a cluster and has functionality that is similar to data frame in R or Python.  
+Python or R data frames exist on one machine rather than multiple machines. If you want to do distributed computation, then you’ll need to perform operations on Spark data frames. Spark’s data frame object can be thought of as a table distributed across a cluster and has functionality that is similar to a TABLE in relational database or, a data frame in R/Python. This has been achieved by taking advantage of the SparkR (R on Spark) or PySpark (Python on Spark) APIs.  
 
 ### Streaming from Kafka  
 
-The Kafka cluster stores streams of records in categories called topics. See my other blog for installation and starting kafka service [Kafka and Zookeeper with Docker](https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/).  
+The Kafka cluster stores streams of records in categories called *topics*. See my other blog for installation and starting a kafka service [Kafka and Zookeeper with Docker](https://adinasarapu.github.io/posts/2020/01/blog-post-kafka/).  
 
 Once we start zookeeper and kafka locally, we can proceed to create our first topic, named *mytopic*. The producer clients can then publish streams of data (messages) to the said topic (mytopic) and consumers can read the said datastream, if they are subscribed to that particular topic.  
 
@@ -144,4 +144,8 @@ bash-4.4# ./kafka-console-producer.sh --broker-list localhost:9092 --topic mytop
 +---------+-----+  
 only showing top 20 rows
 ```  
+
+## Useful links 
+
+[DStreams vs. DataFrames: Two Flavors of Spark Streaming](https://www.qubole.com/blog/dstreams-vs-dataframes-two-flavors-of-spark-streaming/)  
 

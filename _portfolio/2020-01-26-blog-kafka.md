@@ -16,17 +16,19 @@ tags:
   - Emory University 
 
 ---  
-*Updated on January 19, 2021*  
+*Updated on August 06, 2021*  
 
-[Kafka](https://kafka.apache.org) is used for building real-time data pipelines and streaming apps.  
+[Apache Kafka](https://kafka.apache.org) is used for building real-time data pipelines and streaming apps. Kafka helps transmit messages from one system to another (a Message broker). *Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo 'data' >> file.dat), and consumers subscribe to a certain file (tail -f file.dat)*.  
 
-What is Kafka? [Getting started with kafka](https://success.docker.com/article/getting-started-with-kafka) says *Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo 'data' >> file.dat), and consumers subscribe to a certain file (tail -f file.dat)*. In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper to store metadata about producers, topics and partitions.  
+Zookeeper is required to run a Kafka Cluster. When working with Apache Kafka, ZooKeeper is primarily used to track the status of nodes in the Kafka cluster and maintain a list of Kafka topics and messages. Starting with v2.8, Kafka can be run without ZooKeeper. However, this update isn’t ready for use in production.  
 
 **Kafka for local development of applications**:  
   
 There are multiple ways of running Kafka locally for development of apps but the easiest method is by `docker-compose`. To download Docker Desktop, go to [Docker Hub](https://hub.docker.com/) and Sign In with your Docker ID.  
 
-Docker compose facilitates installing `Kafka` and `Zookeeper` with the help of `docker-compose.yml` file.  
+`docker-compose` facilitates installing `Kafka` and `Zookeeper` with the help of `docker-compose.yml` file.  
+
+Create a file called `docker-compose.yml` in your project directory and paste the following:
 
 ```
 version: '3'  
@@ -46,13 +48,17 @@ services:
     volumes:  
      - /var/run/docker.sock:/var/run/docker.sock
 ```  
+The above Compose file defines two services: `zookeeper` and `kafka`.  
+
+The `zookeeper` service uses a public `zookeeper` image pulled from the Docker Hub registry.  
+The `kafka` service uses a public `kafka` image pulled from the Docker Hub registry.  
 
 **1. Start the Kafka service**  
 
 Open a terminal, go to the directory where you have the `docker-compose.yml` file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.  
 
 ```
-$docker-compose up -d  
+$docker compose up -d  
 ```   
 
 ```
@@ -60,10 +66,10 @@ Starting kafka_example_zookeeper_1 ... done
 Starting kafka_example_kafka_1     ... done  
 ```  
 
-To list running docker containers, run the following command  
+To list all running docker containers, run the following command  
 
 ```  
-$docker-compose ps  
+$docker compose ps  
 ```   
 ```   
 Name				Command				State	Ports  
@@ -74,7 +80,7 @@ kafka_example_zookeeper_1	/bin/sh -c /usr/sbin/sshd  ...	Up	0.0.0.0:2181->2181/t
 You can shut down docker-compose by executing the following command in another terminal.  
 
 ```
-$docker-compose down  
+$docker compose down  
 ```  
 ```  
 Stopping kafka_example_zookeeper_1 ... done  
@@ -84,16 +90,22 @@ Removing kafka_example_kafka_1     ... done
 Removing network kafka_example_default  
 ```  
 
-Using the following command check the ZooKeeper logs to verify that ZooKeeper is working and healthy.  
+Check the ZooKeeper logs to verify that ZooKeeper is working and healthy.  
 
 ```  
-$docker-compose logs zookeeper | grep -i binding  
+$docker compose logs zookeeper | grep -i binding  
+
+zookeeper_1  | 2021-08-06 20:09:57,862 [myid:] - INFO  [main:NIOServerCnxnFactory@89] - binding to port 0.0.0.0/0.0.0.0:2181  
 ```  
 
 Next, check the Kafka logs to verify that broker is working and healthy.  
 
 ```  
-$docker-compose logs kafka | grep -i started  
+$docker compose logs kafka | grep -i started  
+
+kafka_1  | [2021-08-06 20:10:03,724] INFO [SocketServer brokerId=1001] Started 1 acceptor threads for data-plane (kafka.network.SocketServer)
+kafka_1  | [2021-08-06 20:10:04,309] INFO [SocketServer brokerId=1001] Started data-plane processors for 1 acceptors (kafka.network.SocketServer)
+kafka_1  | [2021-08-06 20:10:04,323] INFO [KafkaServer id=1001] started (kafka.server.KafkaServer) 
 ```  
 
 Two fundamental concepts in Apache Kafka are Topics and Partitions. 
@@ -102,18 +114,20 @@ Two fundamental concepts in Apache Kafka are Topics and Partitions.
 
 The Kafka cluster stores streams of records in categories called topics. Each record in a topic consists of a key, a value, and a timestamp. A topic can have zero, one, or many consumers that subscribe to the data written to it.  
  
-Use `docker-compose exec` to execute a command in a running container. For example, `docker-compose exec` command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where `docker-compose.yml` file present, and execute it as  
+Use `docker compose exec` to execute a command in a running container. For example, `docker compose exec` command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where `docker-compose.yml` file present, and execute it as  
 
 ```  
-$docker-compose exec kafka bash  
+$docker compose exec kafka bash  
 ```  
 
-(for zookeeper `$docker-compose exec zookeeper bash`)  
+(for zookeeper `$docker compose exec zookeeper bash`)  
 
 Change the directory to /opt/kafka/bin where you find scripts such as `kafka-topics.sh`.  
-`cd /opt/kafka/bin`  
+```
+cd /opt/kafka/bin
+```
 
-**Create, list or delete** existing topics:  
+**Create a new topic or, list or delete existing topics**:  
 
 ```
 bash-4.4# ./kafka-topics.sh \  
@@ -126,11 +140,8 @@ bash-4.4# ./kafka-topics.sh \
 
 <b>Figure 1</b>. Kafka topic partitions layout (Image source [cloudblogs.microsoft.com](https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/)).  
 
-Kafka topics are divided into a number of partitions.  
-![Partitions](/images/kafka-partitions.png)  
-
-Each partition in a topic is an ordered, immutable sequence of records that continually appended.  
-![Partition](/images/kafka-partition.png)
+Kafka topics are divided into a number of partitions.  Each partition in a topic is an ordered, immutable sequence of records that continually appended.  
+![Partitions](/images/kafka-partitions-combined.png)  
 
 ```
 bash-4.4# ./kafka-topics.sh \
@@ -147,7 +158,7 @@ bash-4.4# ./kafka-topics.sh \
  --bootstrap-server localhost:9092  
 ```  
 
-**3a. Kafka Producer and Consumer** - kafka from command line  
+**3a. Kafka Producer and Consumer**  
 
 A Kafka producer is an object that consists of a pool of buffer space that holds records that haven't yet been transmitted to the server. Kafka consumers subscribe to one or more topics of interest and receive messages that are sent to those topics by producers.  
 
@@ -383,4 +394,5 @@ $docker-compose down
 
 Further reading…  
 
-[The Power of Kafka Partitions : How to Get the Most out of Your Kafka Cluster](https://www.instaclustr.com/the-power-of-kafka-partitions-how-to-get-the-most-out-of-your-kafka-cluster/)
+[What is ZooKeeper & How Does it Support Kafka?](https://dattell.com/data-architecture-blog/what-is-zookeeper-how-does-it-support-kafka/)
+[The Power of Kafka Partitions : How to Get the Most out of Your Kafka Cluster?](https://www.instaclustr.com/the-power-of-kafka-partitions-how-to-get-the-most-out-of-your-kafka-cluster/)

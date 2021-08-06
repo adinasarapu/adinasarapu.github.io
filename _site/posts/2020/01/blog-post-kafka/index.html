@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on January 19, 2021">
+  <meta property="og:description" content="Updated on August 06, 2021">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (1: Kafka, RESTful, Java)">
-    <meta itemprop="description" content="Updated on January 19, 2021">
+    <meta itemprop="description" content="Updated on August 06, 2021">
     <meta itemprop="datePublished" content="April 05, 2020">
     
 
@@ -288,17 +288,19 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on January 19, 2021</em></p>
+        <p><em>Updated on August 06, 2021</em></p>
 
-<p><a href="https://kafka.apache.org">Kafka</a> is used for building real-time data pipelines and streaming apps.</p>
+<p><a href="https://kafka.apache.org">Apache Kafka</a> is used for building real-time data pipelines and streaming apps. Kafka helps transmit messages from one system to another (a Message broker). <em>Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo ‘data’ » file.dat), and consumers subscribe to a certain file (tail -f file.dat)</em>.</p>
 
-<p>What is Kafka? <a href="https://success.docker.com/article/getting-started-with-kafka">Getting started with kafka</a> says <em>Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo ‘data’ » file.dat), and consumers subscribe to a certain file (tail -f file.dat)</em>. In addition, Kafka provides an ever-increasing counter and a timestamp for each consumed message. Kafka uses Zookeeper to store metadata about producers, topics and partitions.</p>
+<p>Zookeeper is required to run a Kafka Cluster. When working with Apache Kafka, ZooKeeper is primarily used to track the status of nodes in the Kafka cluster and maintain a list of Kafka topics and messages. Starting with v2.8, Kafka can be run without ZooKeeper. However, this update isn’t ready for use in production.</p>
 
 <p><strong>Kafka for local development of applications</strong>:</p>
 
 <p>There are multiple ways of running Kafka locally for development of apps but the easiest method is by <code class="language-plaintext highlighter-rouge">docker-compose</code>. To download Docker Desktop, go to <a href="https://hub.docker.com/">Docker Hub</a> and Sign In with your Docker ID.</p>
 
-<p>Docker compose facilitates installing <code class="language-plaintext highlighter-rouge">Kafka</code> and <code class="language-plaintext highlighter-rouge">Zookeeper</code> with the help of <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file.</p>
+<p><code class="language-plaintext highlighter-rouge">docker-compose</code> facilitates installing <code class="language-plaintext highlighter-rouge">Kafka</code> and <code class="language-plaintext highlighter-rouge">Zookeeper</code> with the help of <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file.</p>
+
+<p>Create a file called <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> in your project directory and paste the following:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: '3'  
 services:  
@@ -317,21 +319,25 @@ services:
     volumes:  
      - /var/run/docker.sock:/var/run/docker.sock
 </code></pre></div></div>
+<p>The above Compose file defines two services: <code class="language-plaintext highlighter-rouge">zookeeper</code> and <code class="language-plaintext highlighter-rouge">kafka</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">zookeeper</code> service uses a public <code class="language-plaintext highlighter-rouge">zookeeper</code> image pulled from the Docker Hub registry.<br />
+The <code class="language-plaintext highlighter-rouge">kafka</code> service uses a public <code class="language-plaintext highlighter-rouge">kafka</code> image pulled from the Docker Hub registry.</p>
 
 <p><strong>1. Start the Kafka service</strong></p>
 
 <p>Open a terminal, go to the directory where you have the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose up -d  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker compose up -d  
 </code></pre></div></div>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting kafka_example_zookeeper_1 ... done  
 Starting kafka_example_kafka_1     ... done  
 </code></pre></div></div>
 
-<p>To list running docker containers, run the following command</p>
+<p>To list all running docker containers, run the following command</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose ps  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker compose ps  
 </code></pre></div></div>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Name				Command				State	Ports  
 kafka_example_kafka_1		start-kafka.sh			Up	0.0.0.0:9092-&gt;9092/tcp                              
@@ -340,7 +346,7 @@ kafka_example_zookeeper_1	/bin/sh -c /usr/sbin/sshd  ...	Up	0.0.0.0:2181-&gt;218
 
 <p>You can shut down docker-compose by executing the following command in another terminal.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose down  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker compose down  
 </code></pre></div></div>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stopping kafka_example_zookeeper_1 ... done  
 Stopping kafka_example_kafka_1     ... done  
@@ -349,14 +355,20 @@ Removing kafka_example_kafka_1     ... done
 Removing network kafka_example_default  
 </code></pre></div></div>
 
-<p>Using the following command check the ZooKeeper logs to verify that ZooKeeper is working and healthy.</p>
+<p>Check the ZooKeeper logs to verify that ZooKeeper is working and healthy.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose logs zookeeper | grep -i binding  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker compose logs zookeeper | grep -i binding  
+
+zookeeper_1  | 2021-08-06 20:09:57,862 [myid:] - INFO  [main:NIOServerCnxnFactory@89] - binding to port 0.0.0.0/0.0.0.0:2181  
 </code></pre></div></div>
 
 <p>Next, check the Kafka logs to verify that broker is working and healthy.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose logs kafka | grep -i started  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker compose logs kafka | grep -i started  
+
+kafka_1  | [2021-08-06 20:10:03,724] INFO [SocketServer brokerId=1001] Started 1 acceptor threads for data-plane (kafka.network.SocketServer)
+kafka_1  | [2021-08-06 20:10:04,309] INFO [SocketServer brokerId=1001] Started data-plane processors for 1 acceptors (kafka.network.SocketServer)
+kafka_1  | [2021-08-06 20:10:04,323] INFO [KafkaServer id=1001] started (kafka.server.KafkaServer) 
 </code></pre></div></div>
 
 <p>Two fundamental concepts in Apache Kafka are Topics and Partitions.</p>
@@ -365,17 +377,18 @@ Removing network kafka_example_default
 
 <p>The Kafka cluster stores streams of records in categories called topics. Each record in a topic consists of a key, a value, and a timestamp. A topic can have zero, one, or many consumers that subscribe to the data written to it.</p>
 
-<p>Use <code class="language-plaintext highlighter-rouge">docker-compose exec</code> to execute a command in a running container. For example, <code class="language-plaintext highlighter-rouge">docker-compose exec</code> command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file present, and execute it as</p>
+<p>Use <code class="language-plaintext highlighter-rouge">docker compose exec</code> to execute a command in a running container. For example, <code class="language-plaintext highlighter-rouge">docker compose exec</code> command by default allocates a TTY, so that you can use such a command to get an interactive prompt. Go into directory where <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file present, and execute it as</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker-compose exec kafka bash  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker compose exec kafka bash  
 </code></pre></div></div>
 
-<p>(for zookeeper <code class="language-plaintext highlighter-rouge">$docker-compose exec zookeeper bash</code>)</p>
+<p>(for zookeeper <code class="language-plaintext highlighter-rouge">$docker compose exec zookeeper bash</code>)</p>
 
-<p>Change the directory to /opt/kafka/bin where you find scripts such as <code class="language-plaintext highlighter-rouge">kafka-topics.sh</code>.<br />
-<code class="language-plaintext highlighter-rouge">cd /opt/kafka/bin</code></p>
+<p>Change the directory to /opt/kafka/bin where you find scripts such as <code class="language-plaintext highlighter-rouge">kafka-topics.sh</code>.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /opt/kafka/bin
+</code></pre></div></div>
 
-<p><strong>Create, list or delete</strong> existing topics:</p>
+<p><strong>Create a new topic or, list or delete existing topics</strong>:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \  
  --create \  
@@ -387,11 +400,8 @@ Removing network kafka_example_default
 
 <p><b>Figure 1</b>. Kafka topic partitions layout (Image source <a href="https://cloudblogs.microsoft.com/opensource/2018/07/09/how-to-data-processing-apache-kafka-spark/">cloudblogs.microsoft.com</a>).</p>
 
-<p>Kafka topics are divided into a number of partitions.<br />
-<img src="/images/kafka-partitions.png" alt="Partitions" /></p>
-
-<p>Each partition in a topic is an ordered, immutable sequence of records that continually appended.<br />
-<img src="/images/kafka-partition.png" alt="Partition" /></p>
+<p>Kafka topics are divided into a number of partitions.  Each partition in a topic is an ordered, immutable sequence of records that continually appended.<br />
+<img src="/images/kafka-partitions-combined.png" alt="Partitions" /></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh \
  --list \
@@ -628,7 +638,8 @@ $docker-compose down
 
 <p>Further reading…</p>
 
-<p><a href="https://www.instaclustr.com/the-power-of-kafka-partitions-how-to-get-the-most-out-of-your-kafka-cluster/">The Power of Kafka Partitions : How to Get the Most out of Your Kafka Cluster</a></p>
+<p><a href="https://dattell.com/data-architecture-blog/what-is-zookeeper-how-does-it-support-kafka/">What is ZooKeeper &amp; How Does it Support Kafka?</a>
+<a href="https://www.instaclustr.com/the-power-of-kafka-partitions-how-to-get-the-most-out-of-your-kafka-cluster/">The Power of Kafka Partitions : How to Get the Most out of Your Kafka Cluster?</a></p>
 
         
       </section>
