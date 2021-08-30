@@ -16,17 +16,13 @@ tags:
   - Emory University 
 
 ---  
-*Updated on August 06, 2021*  
+*Updated on August 30, 2021*  
 
-[Apache Kafka](https://kafka.apache.org) is used for building real-time data pipelines and streaming apps. Kafka helps transmit messages from one system to another (a Message broker). *Kafka is a distributed append log; in a simplistic view it is like a file on a filesystem. Producers can append data (echo 'data' >> file.dat), and consumers subscribe to a certain file (tail -f file.dat)*.  
-
-Zookeeper is required to run a Kafka Cluster. When working with Apache Kafka, ZooKeeper is primarily used to track the status of nodes in the Kafka cluster and maintain a list of Kafka topics and messages. Starting with v2.8, Kafka can be run without ZooKeeper. However, this update isn’t ready for use in production.  
+[Apache Kafka](https://kafka.apache.org) is used for building real-time data pipelines and streaming *apps*. Kafka helps transmit messages from one system to another (a message broker). Zookeeper is required to run a Kafka Cluster. [Apache ZooKeeper](https://zookeeper.apache.org) is primarily used to track the status of nodes in the Kafka Cluster and maintain a list of Kafka *topics* and *messages*. Starting with v2.8, Kafka can be run without ZooKeeper. However, this update isn’t ready for use in production.  
 
 **Kafka for local development of applications**:  
   
-There are multiple ways of running Kafka locally for development of apps but the easiest method is by `docker-compose`. To download Docker Desktop, go to [Docker Hub](https://hub.docker.com/) and Sign In with your Docker ID.  
-
-`docker-compose` facilitates installing `Kafka` and `Zookeeper` with the help of `docker-compose.yml` file.  
+There are multiple ways of running Kafka locally for development of *apps* but the easiest method is by `docker-compose`. First download *Docker Desktop*, [Docker Hub](https://hub.docker.com/) and SignIn with Docker ID. Docker Compose is included as part of this desktop. `docker-compose` facilitates installing `Kafka` and `Zookeeper` with the help of `docker-compose.yml` file.  
 
 Create a file called `docker-compose.yml` in your project directory and paste the following:
 
@@ -48,10 +44,7 @@ services:
     volumes:  
      - /var/run/docker.sock:/var/run/docker.sock
 ```  
-The above Compose file defines two services: `zookeeper` and `kafka`.  
-
-The `zookeeper` service uses a public `zookeeper` image pulled from the Docker Hub registry.  
-The `kafka` service uses a public `kafka` image pulled from the Docker Hub registry.  
+The above Compose file defines two services: `zookeeper` and `kafka`. The `zookeeper` service uses a public `zookeeper` image pulled from the Docker Hub registry. The `kafka` service uses a public `kafka` image pulled from the Docker Hub registry.  
 
 **1. Start the Kafka service**  
 
@@ -62,8 +55,10 @@ $docker compose up -d
 ```   
 
 ```
-Starting kafka_example_zookeeper_1 ... done  
-Starting kafka_example_kafka_1     ... done  
+[+] Running 3/3
+ ⠿ Network "kafka_default"      Created			4.1s
+ ⠿ Container kafka_kafka_1      Started			4.6s
+ ⠿ Container kafka_zookeeper_1  Started			5.5s 
 ```  
 
 To list all running docker containers, run the following command  
@@ -71,10 +66,10 @@ To list all running docker containers, run the following command
 ```  
 $docker compose ps  
 ```   
-```   
-Name				Command				State	Ports  
-kafka_example_kafka_1		start-kafka.sh			Up	0.0.0.0:9092->9092/tcp                              
-kafka_example_zookeeper_1	/bin/sh -c /usr/sbin/sshd  ...	Up	0.0.0.0:2181->2181/tcp, 22/tcp, 2888/tcp, 3888/tcp  
+``` 
+NAME                SERVICE             STATUS              PORTS
+kafka_kafka_1       kafka               running             0.0.0.0:9092->9092/tcp
+kafka_zookeeper_1   zookeeper           running             0.0.0.0:2181->2181/tcp, 22/tcp, 2888/tcp, 3888/tcp  
 ```  
 
 You can shut down docker-compose by executing the following command in another terminal.  
@@ -82,33 +77,35 @@ You can shut down docker-compose by executing the following command in another t
 ```
 $docker compose down  
 ```  
-```  
-Stopping kafka_example_zookeeper_1 ... done  
-Stopping kafka_example_kafka_1     ... done  
-Removing kafka_example_zookeeper_1 ... done  
-Removing kafka_example_kafka_1     ... done  
-Removing network kafka_example_default  
+``` 
+[+] Running 3/3
+ ⠿ Container kafka_kafka_1      Removed			6.0s
+ ⠿ Container kafka_zookeeper_1  Removed			11.2s
+ ⠿ Network "kafka_default"      Removed			2.7s    
 ```  
 
-Check the ZooKeeper logs to verify that ZooKeeper is working and healthy.  
+Start the kafka service and check the ZooKeeper logs to verify that ZooKeeper is working and healthy.  
 
 ```  
+$docker compose up -d
 $docker compose logs zookeeper | grep -i binding  
-
-zookeeper_1  | 2021-08-06 20:09:57,862 [myid:] - INFO  [main:NIOServerCnxnFactory@89] - binding to port 0.0.0.0/0.0.0.0:2181  
 ```  
+```
+zookeeper_1  | 2021-08-30 16:11:37,821 [myid:] - INFO  [main:NIOServerCnxnFactory@89] - binding to port 0.0.0.0/0.0.0.0:2181
+```
 
 Next, check the Kafka logs to verify that broker is working and healthy.  
 
 ```  
 $docker compose logs kafka | grep -i started  
-
-kafka_1  | [2021-08-06 20:10:03,724] INFO [SocketServer brokerId=1001] Started 1 acceptor threads for data-plane (kafka.network.SocketServer)
-kafka_1  | [2021-08-06 20:10:04,309] INFO [SocketServer brokerId=1001] Started data-plane processors for 1 acceptors (kafka.network.SocketServer)
-kafka_1  | [2021-08-06 20:10:04,323] INFO [KafkaServer id=1001] started (kafka.server.KafkaServer) 
 ```  
+```
+kafka_1  | [2021-08-30 16:11:43,780] INFO [SocketServer brokerId=1001] Started 1 acceptor threads for data-plane (kafka.network.SocketServer)
+kafka_1  | [2021-08-30 16:11:44,493] INFO [SocketServer brokerId=1001] Started data-plane processors for 1 acceptors (kafka.network.SocketServer)
+kafka_1  | [2021-08-30 16:11:44,518] INFO [KafkaServer id=1001] started (kafka.server.KafkaServer)
+```
 
-Two fundamental concepts in Apache Kafka are Topics and Partitions. 
+Two fundamental concepts in Kafka are Topics and Partitions. Kafka topics are divided into a number of partitions. While the topic is a logical concept in Kafka, a partition is the smallest storage unit that holds a subset of records owned by a topic. Each partition is a single log file where records are written to it in an append-only fashion.   
 
 **2. Create a Kafka topic**  
 
@@ -144,31 +141,26 @@ Kafka topics are divided into a number of partitions.  Each partition in a topic
 ![Partitions](/images/kafka-partitions-combined.png)  
 
 ```
-bash-4.4# ./kafka-topics.sh \
- --list \
- --bootstrap-server localhost:9092  
+bash-4.4# ./kafka-topics.sh --list --bootstrap-server localhost:9092  
 ```
 
 If necessary, delete a topic using the following command.  
 
 ```
-bash-4.4# ./kafka-topics.sh \
- --delete \
- --topic mytopic \
- --bootstrap-server localhost:9092  
+bash-4.4# ./kafka-topics.sh --delete --topic mytopic --bootstrap-server localhost:9092  
 ```  
 
-**3a. Kafka Producer and Consumer**  
+**3. Kafka Producer and Consumer** - how to produce and consume messages from the command line?  
 
-A Kafka producer is an object that consists of a pool of buffer space that holds records that haven't yet been transmitted to the server. Kafka consumers subscribe to one or more topics of interest and receive messages that are sent to those topics by producers.  
+Kafka producers are those client applications that publish (write) events to Kafka, and Kafka consumers are those that subscribe to (read and process) these events. A producer can use a partition key to direct messages to a specific partition. If a producer doesn’t specify a partition key when producing a record, Kafka will use a round-robin partition assignment.  
 
-<b>Figure 2</b>. Relationship between kafka components. Image source [https://medium.com](https://medium.com/@kavimaluskam/start-your-real-time-pipeline-with-apache-kafka-39e30129892a).  
+<b>Figure 2</b>. Relationship between kafka components (Image source [https://medium.com](https://medium.com/@kavimaluskam/start-your-real-time-pipeline-with-apache-kafka-39e30129892a)).  
 
 ![Producer](/images/kafka-producer-consumer.png)  
 
-Kafka broker (a.k.a Kafka server/node) is the server node in the cluster, mainly responsible for hosting partitions of Kafka Topics, transferring messages from Kafka Producer to Kafka Consumer and, providing data replication and partitioning within a Kafka Cluster.  
+Kafka broker (a.k.a Kafka server/node) is the server node in the cluster, mainly responsible for hosting partitions of Kafka topics, transferring messages from Kafka producer to Kafka consumer and, providing data replication and partitioning within a Kafka Cluster.  
 
-The following is a producer command line to read data from standard input and write it to a Kafka Topic.  
+The following is a producer command line to read data from standard input and write it to a Kafka topic.  
 
 ```
 bash-4.4# ./kafka-console-producer.sh \
@@ -178,9 +170,9 @@ bash-4.4# ./kafka-console-producer.sh \
 >Hello  
 >World  
 ^C
-```
+```  
 
-**Reading data from a Kafka topic**  The following is a command line to read data from a Kafka topic and write it to standard output.  
+The following is a command line to read data from a Kafka topic and write it to standard output.  
 
 ```  
 bash-4.4# ./kafka-console-consumer.sh \
@@ -193,11 +185,11 @@ World
 ^CProcessed a total of 2 messages  
 ```  
 
-**3b. Kafka Producer and Consumer** - kafka from java web application  
+**4. Kafka Producer and Consumer** - how to produce and consume messages using java web application?    
 
 Another way of reading data from a Kafka topic is by simply using a *Java Spring Boot*.  
 
-The following demonstrates how to receive messages from Kafka Topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka Topic. Then I create a Spring Kafka Producer, which is able to send messages to a Kafka Topic.  
+The following demonstrates how to receive messages from Kafka topic. First in this blog I create a Spring Kafka Consumer, which is able to listen the messages sent to a Kafka topic using the above commandline. Then I create a Spring Kafka Producer, which is able to send messages to a Kafka topic.  
 
 <b>Figure 3</b>. Kafka Producer and Consumer in Java (Source [blog.clairvoyantsoft.com](https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d)).
 
@@ -274,28 +266,28 @@ bash-4.4# ./kafka-console-producer.sh \
 Try sending a few messages like above (Hello, World etc) and watch the application standard output in the Eclipse shell where you are running your Spring Boot application.  
 
 Eclipse Console:  
-```  
-  .   ____          _            __ _ _  
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \  
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \  
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )  
-  '  |____| .__|_| |_|_| |_\__, | / / / /  
- =========|_|==============|___/=/_/_/_/  
 
-:: Spring Boot ::        (v2.2.4.RELEASE)  
-2020-01-26 14:26:55.205  INFO 11137 --- [           main] c.e.d.SpringBootKafkaConsumerApplication : Starting   
-…  
-…  
-…
-o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupId=simpleconsumer] Setting newly assigned partitions: test1-0  
-2020-01-26 14:26:56.384  INFO 11137 --- [econsumer-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-1, groupId=simpleconsumer] Found no committed offset for partition test1-0  
-2020-01-26 14:26:56.408  INFO 11137 --- [econsumer-0-C-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumer-1, groupId=simpleconsumer] Resetting offset for partition test1-0 to offset 2.  
-2020-01-26 14:26:56.477  INFO 11137 --- [econsumer-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : simpleconsumer: partitions assigned: [test1-0]  
-Got message: hello  
-Got message: world  
-```    
 
-The following code demonstrates how to send and receive messages from Kafka Topic. The above `KafkaConsumer.java` receives messages that were sent to a Kafka Topic. The followng `KafkaProducer.java` send messages to a Kafka Topic.  
+```
+ .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.4)
+
+...
+...
+...
+
+Consumed message: Hello
+Consumed message: World 
+```
+
+How to send and receive messages from Kafka Topic. 
+
+The above `KafkaConsumer.java` receives messages that were sent to a Kafka Topic. The followng `KafkaProducer.java` send messages to a Kafka Topic.  
           
 Make sure to have spring-web dependency to `pom.xml`.
 
@@ -376,10 +368,11 @@ See Eclipse Console for messages:
 ...  
 ...  
 ...  
-2020-01-27 13:12:06.911  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.3.1  
-2020-01-27 13:12:06.912  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 18a913733fb71c01  
-2020-01-27 13:12:06.912  INFO 31822 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1580148726911  
-2020-01-27 13:12:06.947  INFO 31822 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: 6R8O95IPSfGoifR4zzwM6g  
+2021-08-30 17:34:14.022  INFO 3851 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.7.1
+2021-08-30 17:34:14.023  INFO 3851 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 61dbce85d0d41457
+2021-08-30 17:34:14.023  INFO 3851 --- [nio-8080-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1630359254022
+2021-08-30 17:34:14.033  INFO 3851 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: mzjgWnhAS5GIknFkngu7qw
+
 Produced message: hello  
 Consumed message: hello
 ```  
@@ -389,10 +382,18 @@ You can shut down docker-compose by executing the following command in another t
 ```  
 bash-4.4# exit  
 
-$docker-compose down  
+$docker compose down  
 ```    
+
+```
+[+] Running 3/3
+ ⠿ Container kafka_kafka_1      Removed                                                                                                                    5.2s
+ ⠿ Container kafka_zookeeper_1  Removed                                                                                                                   11.2s
+ ⠿ Network "kafka_default"      Removed    
+```
 
 Further reading…  
 
-[What is ZooKeeper & How Does it Support Kafka?](https://dattell.com/data-architecture-blog/what-is-zookeeper-how-does-it-support-kafka/)
+[What is ZooKeeper & How Does it Support Kafka?](https://dattell.com/data-architecture-blog/what-is-zookeeper-how-does-it-support-kafka/)  
+[Understanding Kafka Topic Partitions](https://medium.com/event-driven-utopia/understanding-kafka-topic-partitions-ae40f80552e8)  
 [The Power of Kafka Partitions : How to Get the Most out of Your Kafka Cluster?](https://www.instaclustr.com/the-power-of-kafka-partitions-how-to-get-the-most-out-of-your-kafka-cluster/)
