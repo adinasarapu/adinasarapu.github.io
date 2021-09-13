@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on September 21, 2020">
+  <meta property="og:description" content="Updated on September 13, 2021">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Quantitative proteomics: label-free quantitation of proteins">
-    <meta itemprop="description" content="Updated on September 21, 2020">
+    <meta itemprop="description" content="Updated on September 13, 2021">
     <meta itemprop="datePublished" content="April 04, 2020">
     
 
@@ -279,7 +279,7 @@
 
 
   
-	  4 minute read
+	  5 minute read
 	
 </p>
           
@@ -296,7 +296,7 @@
       
 
       <section class="page__content" itemprop="text">
-        <p>Updated on September 21, 2020</p>
+        <p>Updated on September 13, 2021</p>
 
 <p>Liquid chromatography (LC) coupled with mass spectrometry (MS) has been widely used for protein expression quantification. Protein quantification by tandem-MS (MS/MS) uses integrated peak intensity from the parent-ion mass (MS1) or features from fragment-ions (MS2).</p>
 
@@ -307,6 +307,8 @@
 <p>LFQ (label-free quantitation) intensity is a very similar to the iBAQ intensity but the protein intensities are normalized to exculde some “outliers” to best represent the ratio changes of different samples.</p>
 
 <p>Untargeted label-free quantitation (LFQ) of proteins, aims to determine the relative amount of proteins in two or more biological samples. Mass spectrometer generated <code class="language-plaintext highlighter-rouge">raw</code> files are used for label-free quantitation of proteins. Base peak chromatograms can be inspected visually using <code class="language-plaintext highlighter-rouge">RawMeat</code><sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>, which  is a data quality assessment tool designed for Thermo instruments.</p>
+
+<p><strong>1. MaxQuant Search</strong></p>
 
 <p>All raw files are processed together in a single run by <code class="language-plaintext highlighter-rouge">MaxQuant v1.6.15.0</code> <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> with default parameters except the following</p>
 
@@ -366,6 +368,8 @@
 
 <p>Proteins that share all identified peptides are combined into a single protein group. Peptides that match multiple protein groups (“razor” peptides) are assigned to the protein group with the most unique peptides. MaxQuant employs the MaxLFQ algorithm for label-free quantitation (LFQ). Quantification will be performed using razor and unique peptides, including those modified by acetylation (protein N-terminal), oxidation (Met) and deamidation (NQ).</p>
 
+<p><strong>2. Quality Control of MaxQuant Search</strong> (optional)</p>
+
 <p><code class="language-plaintext highlighter-rouge">PTXQC</code><sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> is an R package used for general quality control of proteomics data, which takes MaxQuant result files.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library("devtools")  
@@ -377,7 +381,50 @@ PTXQC::createReport("path_to_txt_directory")
 <p>Open final report file <code class="language-plaintext highlighter-rouge">report_v1.0.5_combined.pdf</code><br />
 <img src="/images/proteomics-qc.png" alt="proteomics-qc" /></p>
 
-<p>Further, data processing is performed using `Perseus v1.6.14.0)<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>. In brief, protein group LFQ intensities are log2-transformed to reduce the effect of outliers. To overcome the obstacle of missing LFQ values, missing values are imputed before fit the models. Hierarchical clustering is performed on Z-score normalized, log2-transformed LFQ intensities. Log ratios are calculated as the difference in average log2 LFQ intensity values between experimental and control groups. Two-tailed, Student’s t test calculations are used in statistical tests. A protein is considered statistically significant if its fold change is ≥ 2 and FDR ≤ 0.01. All the identified differentially expressed proteins are used in protein network or pathway analysis. In addition to the above analytical considerations, good experimental design helps effectively identify true differences in the presence of variability from various sources and also avoids bias during data acquisition.</p>
+<p><strong>3. Post processing of MaxQuant Search results</strong></p>
+
+<p>Further data processing is performed using `Perseus v1.6.14.0)<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>. In brief, protein group LFQ intensities are log2-transformed to reduce the effect of outliers. To overcome the obstacle of missing LFQ values, missing values are imputed before fit the models. Hierarchical clustering is performed on Z-score normalized, log2-transformed LFQ intensities. Log ratios are calculated as the difference in average log2 LFQ intensity values between experimental and control groups. Two-tailed, Student’s t test calculations are used in statistical tests. A protein is considered statistically significant if its fold change is ≥ 2 and FDR ≤ 0.01. Please refer to its <a href="http://www.coxdocs.org/doku.php?id=perseus:start">documentation</a> for more details.</p>
+
+<p>Export Perseus processed LFQ data as a text file <code class="language-plaintext highlighter-rouge">Perseus_filtered_transformed_valid_values_imputed_ttest.txt</code></p>
+
+<p><strong>4. Perseus exported file processing</strong></p>
+
+<p><a href="https://github.com/cox-labs/PerseusR">PerseusR</a> enables the interoperability between the Perseus platform for omics data analysis (Tyanova et al. 2016). If you select “Write quality and imputed matrices” when you save Perseus processed data as a text file, inlude <code class="language-plaintext highlighter-rouge">additionalMatrices=TRUE</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(PerseusR)
+
+setwd("/Users/Documents/Proteomics/Perseus")
+
+inFile &lt;- "Perseus_filtered_transformed_valid_values_imputed_ttest.txt"
+mdata &lt;- PerseusR::read.perseus.as.matrixData(inFile,additionalMatrices=TRUE,check = FALSE)
+
+# 1. log(LFQ) data with imputed values 
+data &lt;- main(mdata) # head(data)
+
+# 2. Gene/Protein names, p-value, FDR and fold change
+annotations &lt;- annotCols(mdata) # colnames(annotations)
+
+# Select first annotation in Protein.ID "sp|P31943|HNRH1_HUMAN;sp|Q9NQA5|TRPV5_HUMAN"    
+annotations$Protein.IDs &lt;- sub(";.*","", annotations$Protein.IDs)
+
+# Select Protein ID as HNRH1_HUMAN from sp|P31943|HNRH1_HUMAN;
+annotations$Protein.IDs &lt;- as.character(lapply(strsplit(as.character(annotations$Protein.IDs), split="\\|"),tail, n=1))
+
+# Remove "_HUMAN" part HNRH1_HUMAN
+annotations$Protein.IDs &lt;- sub("_HUMAN","",annotations$Protein.IDs)
+
+# Select Columns; write complete column name. 
+annotations &lt;- annotations[,c("Protein.IDs","Student.s.T.test.p.value....", "Student.s.T.test.Difference...")]
+
+# Save the data 
+write.table(annotations, file = "Volcano_plot_data.txt", col.names = TRUE, row.names = FALSE, quote = FALSE)
+</code></pre></div></div>
+<p><strong>5. Data visualization</strong></p>
+
+<p>Volcano plot illustrates significantly differentially abundant proteins. The following plot is generated using GraphPad Prism.<br />
+<img src="/images/proteomics-volcano.png" alt="volcano_plot" /></p>
+
+<p>In addition to the above analytical considerations, good experimental design helps effectively identify true differences in the presence of variability from various sources and also avoids bias during data acquisition.</p>
 
 <p>Further reading…<br />
 <a href="https://pharmazie.uni-greifswald.de/storages/uni-greifswald/fakultaet/mnf/pharma/biotechno/dokumente/MaxQuant_Infos_and_Tutorial_07.pdf">MaxQuant – Information and Tutorial</a><br />
