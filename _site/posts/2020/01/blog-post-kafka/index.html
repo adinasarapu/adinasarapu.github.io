@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="Updated on August 30, 2021">
+  <meta property="og:description" content="Updated on September 20, 2021">
 
 
 
@@ -265,7 +265,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Building a real-time big data pipeline (1: Kafka, RESTful, Java)">
-    <meta itemprop="description" content="Updated on August 30, 2021">
+    <meta itemprop="description" content="Updated on September 20, 2021">
     <meta itemprop="datePublished" content="April 05, 2020">
     
 
@@ -288,7 +288,7 @@
       
 
       <section class="page__content" itemprop="text">
-        <p><em>Updated on August 30, 2021</em></p>
+        <p><em>Updated on September 20, 2021</em></p>
 
 <p><a href="https://kafka.apache.org">Apache Kafka</a> is used for building real-time data pipelines and streaming <em>apps</em>. Kafka helps transmit messages from one system to another (a message broker). Zookeeper is required to run a Kafka Cluster. <a href="https://zookeeper.apache.org">Apache ZooKeeper</a> is primarily used to track the status of nodes in the Kafka Cluster and maintain a list of Kafka <em>topics</em> and <em>messages</em>. Starting with v2.8, Kafka can be run without ZooKeeper. However, this update isn’t ready for use in production.</p>
 
@@ -315,11 +315,11 @@ services:
     volumes:  
      - /var/run/docker.sock:/var/run/docker.sock
 </code></pre></div></div>
-<p>The above Compose file defines two services: <code class="language-plaintext highlighter-rouge">zookeeper</code> and <code class="language-plaintext highlighter-rouge">kafka</code>. The <code class="language-plaintext highlighter-rouge">zookeeper</code> service uses a public <code class="language-plaintext highlighter-rouge">zookeeper</code> image pulled from the Docker Hub registry. The <code class="language-plaintext highlighter-rouge">kafka</code> service uses a public <code class="language-plaintext highlighter-rouge">kafka</code> image pulled from the Docker Hub registry.</p>
+<p>The above compose file defines two services: <code class="language-plaintext highlighter-rouge">zookeeper</code> and <code class="language-plaintext highlighter-rouge">kafka</code>. The <code class="language-plaintext highlighter-rouge">zookeeper</code> service uses a public <code class="language-plaintext highlighter-rouge">zookeeper</code> image and he <code class="language-plaintext highlighter-rouge">kafka</code> service uses a public <code class="language-plaintext highlighter-rouge">kafka</code> image pulled from the Docker Hub registry.</p>
 
 <p><strong>1. Start the Kafka service</strong></p>
 
-<p>Open a terminal, go to the directory where you have the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file, and execute the following command. This command starts the docker-compose engine, and it downloads the images and runs them.</p>
+<p>Open a terminal, go to the directory where you have the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file, and execute the following command. This command starts the docker-compose engine, and downloads the images and runs them.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker compose up -d  
 </code></pre></div></div>
@@ -351,17 +351,16 @@ kafka_zookeeper_1   zookeeper           running             0.0.0.0:2181-&gt;218
 
 <p>Start the kafka service and check the ZooKeeper logs to verify that ZooKeeper is working and healthy.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker compose up -d
-$docker compose logs zookeeper | grep -i binding  
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>zookeeper_1  | 2021-08-30 16:11:37,821 [myid:] - INFO  [main:NIOServerCnxnFactory@89] - binding to port 0.0.0.0/0.0.0.0:2181
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker compose logs zookeeper | grep -i binding  
+
+zookeeper_1  | 2021-08-30 16:11:37,821 [myid:] - INFO  [main:NIOServerCnxnFactory@89] - binding to port 0.0.0.0/0.0.0.0:2181
 </code></pre></div></div>
 
 <p>Next, check the Kafka logs to verify that broker is working and healthy.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$docker compose logs kafka | grep -i started  
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kafka_1  | [2021-08-30 16:11:43,780] INFO [SocketServer brokerId=1001] Started 1 acceptor threads for data-plane (kafka.network.SocketServer)
+
+kafka_1  | [2021-08-30 16:11:43,780] INFO [SocketServer brokerId=1001] Started 1 acceptor threads for data-plane (kafka.network.SocketServer)
 kafka_1  | [2021-08-30 16:11:44,493] INFO [SocketServer brokerId=1001] Started data-plane processors for 1 acceptors (kafka.network.SocketServer)
 kafka_1  | [2021-08-30 16:11:44,518] INFO [KafkaServer id=1001] started (kafka.server.KafkaServer)
 </code></pre></div></div>
@@ -406,7 +405,7 @@ kafka_1  | [2021-08-30 16:11:44,518] INFO [KafkaServer id=1001] started (kafka.s
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.4# ./kafka-topics.sh --delete --topic mytopic --bootstrap-server localhost:9092  
 </code></pre></div></div>
 
-<p><strong>3. Kafka Producer and Consumer</strong> - how to produce and consume messages from the command line?</p>
+<p><strong>3. How to produce and consume messages from kafka Topic using using the command line?</strong></p>
 
 <p>Kafka producers are those client applications that publish (write) events to Kafka, and Kafka consumers are those that subscribe to (read and process) these events. A producer can use a partition key to direct messages to a specific partition. If a producer doesn’t specify a partition key when producing a record, Kafka will use a round-robin partition assignment.</p>
 
@@ -439,7 +438,7 @@ World
 ^CProcessed a total of 2 messages  
 </code></pre></div></div>
 
-<p><strong>4. Kafka Producer and Consumer</strong> - how to produce and consume messages using java web application?</p>
+<p><strong>4. How to consume messages from kafka Topic using java web application?</strong></p>
 
 <p>Another way of reading data from a Kafka topic is by simply using a <em>Java Spring Boot</em>.</p>
 
@@ -452,24 +451,31 @@ World
 <p>Download <a href="https://spring.io/tools">Spring Tool Suite4</a> and install it.  <br />
 At Eclipse IDE’s Package Explorer click “Create new Spring Starter Project” and<br />
 Name: SpringBootKafka<br />
-Project type: Maven<br />
-Spring Boot Version: 2.3.2<br />
+Type: Maven project<br />
+Spring Boot Version: 2.5.4<br />
+Java Version: 8
 Search “kafka” at New Spring Starter Project Dependencies and select “Spring for Apache Kafka“<br />
 Click Finish.</p>
 
-<p><code class="language-plaintext highlighter-rouge">SpringBootKafkaApplication.java</code> class (The Spring Initializr creates the following simple application class for you)</p>
+<p>The Spring Initializr creates the following simple application class for you.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SpringBootKafkaApplication.java</code></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@SpringBootApplication  
 public class SpringBootKafkaApplication {  
-	public static void main(String[] args) {  
-		SpringApplication.run(SpringBootApplication.class, args);  
-	}  
+ public static void main(String[] args) {  
+  SpringApplication.run(SpringBootApplication.class, args);  
+ }  
 }  
 </code></pre></div></div>
 
+<p><code class="language-plaintext highlighter-rouge">@SpringBootApplication</code> annotation is equivalent to using <code class="language-plaintext highlighter-rouge">@Configuration</code>, <code class="language-plaintext highlighter-rouge">@EnableAutoConfiguration</code>, and <code class="language-plaintext highlighter-rouge">@ComponentScan</code>. As a result, when we run this Spring Boot application, it will automatically scan the components in the current package and its sub-packages. Thus it will register them in Spring’s Application Context, and allow us to inject beans using <code class="language-plaintext highlighter-rouge">@Autowired</code>.</p>
+
 <p><strong>Configure Kafka through application.yml configuration file</strong></p>
 
-<p>In Spring Boot, properties are kept in the <code class="language-plaintext highlighter-rouge">application.properties</code> file under the classpath. The application.properties file is located in the <code class="language-plaintext highlighter-rouge">src/main/resources</code> directory. Change application.properties file to <code class="language-plaintext highlighter-rouge">application.yml</code>, then add the following content.</p>
+<p>In Spring Boot, properties are kept in the <code class="language-plaintext highlighter-rouge">application.properties</code> file under the classpath. 
+The <code class="language-plaintext highlighter-rouge">application.properties</code> file is located in the <code class="language-plaintext highlighter-rouge">src/main/resources</code> directory. 
+Change <code class="language-plaintext highlighter-rouge">application.properties</code> file to <code class="language-plaintext highlighter-rouge">application.yml</code>, then add the following content.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spring:  
   kafka:  
@@ -485,16 +491,25 @@ public class SpringBootKafkaApplication {
 
 <p>Create a class called <code class="language-plaintext highlighter-rouge">KafkaConsumer.java</code> and add a method with the @KakfaListener annotation.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Service  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
+ 
+@Service  
 public class KafkaConsumer {  
-	@KafkaListener(id = "group_test1", topics = "mytopic")  
-	public void consumeMessage(String message) {  
-		System.out.println("Consumed message: " + message);  
-	}  
+ @KafkaListener(id = "group_test1", topics = "mytopic")  
+ public void consumeMessage(String message) {  
+  System.out.println("Consumed message: " + message);  
+ }  
 }
 </code></pre></div></div>
 
-<p>How to run Spring Boot web application in Eclipse?</p>
+<p>In most typical Spring Framework applications, we have distinct layers like data access, presentation, service, business, etc.</p>
+
+<p><code class="language-plaintext highlighter-rouge">@Component</code> allows us to auto-detect implementation classes through the classpath scanning.<br />
+<code class="language-plaintext highlighter-rouge">@Service</code> annotates classes at the service layer.<br />
+<code class="language-plaintext highlighter-rouge">@Repository</code> annotates classes at the persistence layer, which will act as a database repository.</p>
+
+<p><em>How to run Spring Boot web application in Eclipse?</em></p>
 
 <p>In eclipse Project Explorer, right click the project name -&gt; select “Run As” -&gt; “Maven Build…”<br />
 In the goals, enter <code class="language-plaintext highlighter-rouge">spring-boot:run</code><br />
@@ -533,49 +548,17 @@ Consumed message: Hello
 Consumed message: World 
 </code></pre></div></div>
 
-<p>How to send and receive messages from Kafka Topic.</p>
+<p><strong>5. How to produce and consume messages from Kafka Topic using java web application?</strong></p>
 
-<p>The above <code class="language-plaintext highlighter-rouge">KafkaConsumer.java</code> receives messages that were sent to a Kafka Topic. The followng <code class="language-plaintext highlighter-rouge">KafkaProducer.java</code> send messages to a Kafka Topic.</p>
+<p>The above <code class="language-plaintext highlighter-rouge">KafkaConsumer.java</code> receives messages that were sent to a Kafka Topic (like consumer command line).<br />
+The followng <code class="language-plaintext highlighter-rouge">KafkaProducer.java</code> send messages to a Kafka Topic (like producer command line).</p>
 
-<p>Make sure to have spring-web dependency to <code class="language-plaintext highlighter-rouge">pom.xml</code>.</p>
+<p>Make sure to have spring-web dependency in <code class="language-plaintext highlighter-rouge">pom.xml</code> file.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependency&gt;  
   &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;  
   &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;  
 &lt;/dependency&gt;  
-</code></pre></div></div>
-
-<p>Add two new java classes <code class="language-plaintext highlighter-rouge">KafkaProducer.java</code> and <code class="language-plaintext highlighter-rouge">KafkaController.java</code></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Service  
-public class KafkaProducer {  
-        private static final String TOPIC = "mytopic";  
-
-        @Autowired  
-        private KafkaTemplate&lt;String, String&gt; kafkaTemplate;  
-
-        public void sendMessage(String message) {  
-                kafkaTemplate.send(TOPIC, message);  
-                System.out.println("Produced message: " + message);  
-        }  
-}   
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@RestController  
-@RequestMapping(value="/kafka")  
-public class KafkaController {  
-	private final KafkaProducer producer;  
-
-	@Autowired  
-	KafkaController(KafkaProducer producer){  
-		this.producer = producer;  
-	}  
-
-	@PostMapping(value="/publish")  
-	public void messagePrint(@RequestParam(value="message", required = false) String message) {  
-		this.producer.sendMessage(message);  
-	}  
-}  
 </code></pre></div></div>
 
 <p>Update <code class="language-plaintext highlighter-rouge">application.yml</code> file.</p>
@@ -596,9 +579,65 @@ spring:
     value-serializer: org.apache.kafka.common.serialization.StringSerializer  
 </code></pre></div></div>
 
-<p>Run Spring Boot Web application (see How to run Spring Boot Web application in Eclipse?)</p>
+<p>Add two new java classes <code class="language-plaintext highlighter-rouge">KafkaProducer.java</code> and <code class="language-plaintext highlighter-rouge">KafkaController.java</code></p>
 
-<p>Make POST request using <a href="https://www.getpostman.com">Postman</a>.</p>
+<p><code class="language-plaintext highlighter-rouge">KafkaProducer.java</code> class</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+
+@Service  
+public class KafkaProducer {  
+ private static final String TOPIC = "mytopic";  
+ @Autowired  
+ private KafkaTemplate&lt;String, String&gt; kafkaTemplate;  
+ public void sendMessage(String message) {  
+  kafkaTemplate.send(TOPIC, message);  
+  System.out.println("Produced message: " + message);  
+ }  
+}   
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">KafkaController.java</code> class</p>
+
+<p>We typically use <code class="language-plaintext highlighter-rouge">@Controller</code> in combination with a <code class="language-plaintext highlighter-rouge">@RequestMapping</code> annotation for request handling methods. <code class="language-plaintext highlighter-rouge">@RestController</code> is a specialized version of the controller. It includes the <code class="language-plaintext highlighter-rouge">@Controller</code> and <code class="language-plaintext highlighter-rouge">@ResponseBody</code> annotations, and as a result, simplifies the controller implementation.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController  
+@RequestMapping(value="/kafka")  
+public class KafkaController {  
+
+ private final KafkaProducer producer;  
+
+ @Autowired  
+ KafkaController(KafkaProducer producer){  
+  this.producer = producer;  
+ }  
+
+@PostMapping(value="/publish")  
+ public void messagePrint(@RequestParam(value="message", required = false) String message) {  
+  this.producer.sendMessage(message);  
+ }  
+}  
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">@GetMapping</code> is specialized version of <code class="language-plaintext highlighter-rouge">@RequestMapping</code> annotation that acts as a shortcut for <code class="language-plaintext highlighter-rouge">@RequestMapping(method = RequestMethod.GET)</code>.<br />
+<code class="language-plaintext highlighter-rouge">@PostMapping</code> is specialized version of <code class="language-plaintext highlighter-rouge">@RequestMapping</code> annotation that acts as a shortcut for <code class="language-plaintext highlighter-rouge">@RequestMapping(method = RequestMethod.POST)</code>.</p>
+
+<p>Behind the scenes, spring looks for a query string parameter <code class="language-plaintext highlighter-rouge">message</code> and extracts its value from the request. Then it invokes the request handler messagePrint(message) and passes the param value as an argument.</p>
+
+<p><strong>6. Run Spring Boot Web application and test the controller</strong> by executing a <code class="language-plaintext highlighter-rouge">POST</code> kafka/publish request and pass a query string parameter – message.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --request POST "http://localhost:8080/kafka/publish?message='hello'"
+</code></pre></div></div>
+
+<p>OR make <code class="language-plaintext highlighter-rouge">POST</code> request using <a href="https://www.getpostman.com">Postman</a>.</p>
 
 <p>Select <code class="language-plaintext highlighter-rouge">POST</code> and use the API <code class="language-plaintext highlighter-rouge">http://localhost:8080/kafka/publish</code><br />
 <strong>Body</strong>: form-data  <strong>KEY</strong>: message  <strong>VALUE</strong>: hello</p>
