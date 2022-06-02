@@ -2,7 +2,7 @@
 title: "Anti-inflammatory effects of recreational marijuana in virally suppressed youth with HIV-1 are reversed by use of tobacco products in combination with marijuana."
 collection: publications
 permalink: /publication/2022-retrovirology
-excerpt: 'Retrovirus'
+excerpt: 'Infectious diseases & Inflammation'
 date: 2022-05-31
 tags:
   - Anti-inflammatory
