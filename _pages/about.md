@@ -21,7 +21,8 @@ Lesch-Nyhan disease (LND) is an inherited disorder caused by pathogenic variants
 
 Dystonia is a movement disorder i.e characterized by involuntary movements & postures. Dystonia may be inherited, acquired, or idiopathic (no known cause). DYT1-dystonia is caused by autosomal dominant mutations in the TOR1A gene, most frequently a heterozygous in-frame deletion in exon 5.  
 
-![Lesch-Nyhan-Disease](/images/illustration1.png)  
+![Lesch-Nyhan-Disease](/images/illustration1.png)    
+
 {% comment %}
 * _Signatures of somatic mutations from HPV-positive head and neck squamous cell carcinomas (HNSCC)_  
 Human papilloma virus (HPV) causes a subset of HNSCC of the oropharynx. We combined DNA-Seq and RNA-Seq data to identify genetic variants and gene expression signatures respectively from patients with HNSCC including oropharyngeal squamous cell carcinomas (OPSCC).
