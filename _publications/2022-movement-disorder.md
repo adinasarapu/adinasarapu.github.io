@@ -1,19 +1,18 @@
 ---
-title: "Anti-inflammatory effects of recreational marijuana in virally suppressed youth with HIV-1 are reversed by use of tobacco products in combination with marijuana."
+title: "Uric Acid in Parkinson's Disease: What Is the Connection?"
 collection: publications
-permalink: /publication/2022-retrovirology
-excerpt: 'Infectious diseases & Inflammation'
-date: 2022-05-31
+permalink: /publication/2022-movement-disorder
+excerpt: 'Movement Disorder'
+date: 2022-09-03
 tags:
-  - Anti-inflammatory
-  - HIV-1
+  - MovementDisorder
+  - ParkinsonsDisease
   - Biomarkers
-  - Virus
-  - Transcriptomics
-  - Bioinformatics
+  - Neurology
+  - Review
   - Emory Uiversity
-venue: 'Retrovirology'
-paperurl: 'https://retrovirology.biomedcentral.com/articles/10.1186/s12977-022-00594-4'  
-citation: 'Yin L, <i style="color:DodgerBlue;">Dinasarapu AR </i>, Borkar SA, Chang KF, De Paris K, Kim-Chang JJ, Sleasman JW, Goodenow MM (2022) Anti-inflammatory effects of recreational marijuana in virally suppressed youth with HIV-1 are reversed by use of tobacco products in combination with marijuana&quot; <i>Retrovirology </i> 19, 10 (2022)'  
----
-Marijuana’s putative anti-inflammatory properties may benefit HIV-associated comorbidities. How recreational marijuana use affects gene expression in peripheral blood cells (PBC) among youth with HIV-1 (YWH) is unknown. YWH receiving ART display unique transcriptome bioprofiles based on viral replication and substance use. In the context of HIV suppression, marijuana use, alone or combined with tobacco, has opposing effects on inflammatory gene expression.  
+venue: 'Movement Disorders'
+paperurl: 'https://doi.org/10.1002/mds.29209'  
+citation: 'Seifar F, <i style="color:DodgerBlue;">Dinasarapu AR </i>, Jinnah HA (2022) Uric Acid in Parkinson&sbquo;s Disease: What Is the Connection&#58; <i>Movement Disorders </i> (2022)'  
+---  
+Numerous studies have linked Parkinson's disease (PD) with low levels of uric acid (UA). Low UA has been associated with the risk of developing PD, and its progression and severity. The biological mechanisms underlying these relationships have never been firmly established. The most frequently proposed mechanism is that UA is an antioxidant. Low UA is thought to predispose to oxidative stress, which contributes to dopamine neuron degeneration, and leads to initial appearance of symptoms of PD and its worsening over time. Several recent studies have questioned this explanation.
