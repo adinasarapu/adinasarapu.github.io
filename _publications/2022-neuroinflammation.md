@@ -12,7 +12,7 @@ tags:
   - Transcriptomics
   - Bioinformatics
   - Emory Uiversity
-venue: 'as Research Square Preprints'
+venue: 'Preprint'
 paperurl: 'https://doi.org/10.21203/rs.3.rs-1701344/v1'  
 citation: 'Hawes CE, Elizaldi SR, Beckman D, Diniz GB, Lakshmanappa YS, Ott S, Durbin-Johnson BP, <i style="color:DodgerBlue;">Dinasarapu AR </i>, Gompers AL, Morrison JH, Iyer SS (2022). Neuroinflammatory transcriptional programs induced in rhesus pre-frontal cortex white matter during acute SHIV infection (UNDER REVIEW).'  
 ---  
