@@ -19,6 +19,16 @@ Previously, at Emory Vaccine Center, I worked in [Human Immunology Project Conso
 
 Ongoing projects in this area include disease modeling using Induced pluripotent stem cells (iPSCs) of Lesch-Nyhan disease and DYT1 dystonia (<a href="http://pharmacology.emory.edu/hess-jinnah/index.html" target="_blank">HESS-JINNAH RESEARCH GROUP</a>).  
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWM39QLMPF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RWM39QLMPF');
+</script>
+
 {% comment %}
 ![Lesch-Nyhan-Disease](/images/illustration1.png)    
 
