@@ -19,10 +19,6 @@ Previously, at Emory Vaccine Center, I worked in [Human Immunology Project Conso
 
 Ongoing projects in this area include disease modeling using Induced pluripotent stem cells (iPSCs) of Lesch-Nyhan disease and DYT1 dystonia (<a href="http://pharmacology.emory.edu/hess-jinnah/index.html" target="_blank">HESS-JINNAH RESEARCH GROUP</a>).  
 
-Lesch-Nyhan disease (LND) is an inherited disorder caused by pathogenic variants in the HPRT1 gene, which encodes the purine recycling enzyme hypoxanthine-guanine phosphoribosyltransferase (HGprt).  
-
-Dystonia is a movement disorder i.e characterized by involuntary movements & postures. Dystonia may be inherited, acquired, or idiopathic (no known cause). DYT1-dystonia is caused by autosomal dominant mutations in the TOR1A gene, most frequently a heterozygous in-frame deletion in exon 5.  
-
 {% comment %}
 ![Lesch-Nyhan-Disease](/images/illustration1.png)    
 
