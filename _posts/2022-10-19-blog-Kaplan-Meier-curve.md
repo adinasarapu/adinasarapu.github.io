@@ -1,5 +1,5 @@
 ---
-title: 'Annotation of genetic variants'
+title: 'Kaplan-Meier Curve using R'
 date: 2022-10-19
 permalink: /posts/2022/10/blog-post-kaplan-meier-curve/
 tags:
