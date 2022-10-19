@@ -9,7 +9,7 @@ tags:
   - Bioinformatics 
   - Emory University
 ---
-Kaplan-Meier plot to visualize survival curve; it shows what the probability of an event (for example, survival) is at a certain time interval. Log-rank test to compare the survival curves of two or more groups. With a small subset of patients, the Kaplan-Meier estimates can be misleading and should be interpreted with caution. 
+Kaplan-Meier curve shows what the probability of an event (for example, survival) at a certain time interval. The log-rank test compares the survival curves of two or more groups. With a small subset of patients, the Kaplan-Meier estimates can be misleading and should be interpreted with caution. 
 
 **KM Analysis using R**
 The packages used for the analysis are [survival](https://cran.r-project.org/web/packages/survival/index.html) and [survminer](https://cran.r-project.org/web/packages/survminer/index.html). Use install.packages( ) to install these libraries just in case if they are not pre installed in your R workspace.
@@ -20,16 +20,13 @@ library(survival)
 library(survminer)  
 library(dplyr)
 ```  
-Base directory 
+Read the vital dataset
 ```
-base.dir = "/Users/adinasa/Documents/Nabil/survival_analysis"   
-```  
-Read the vital dataset  
-```  
+base.dir = "/Users/adinasa/Documents/Nabil/survival_analysis"    
 data = read.csv(file=paste0(base.dir,"/KM_Test_data.csv"),header=T)  
 ```  
 
-Examine the datset (Vital status: 1 - dead; 0 - alive)  
+Examine the dataset (Vital status: 1 for dead; 0 for alive)  
 ```
 head(data)  
   
