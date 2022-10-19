@@ -64,14 +64,12 @@ ggsurvplot(fit_1, pval=TRUE, risk.table=TRUE)
 dev.off()  
 ```
 
-![KM Plot](/images/KM_plot.png)
+![KM Plot](/images/KM_Plot.png)
 
 
-**KM plot**
-The lines represent survival curves of the 3 groups; HPV-status: positive [N=23], negative [N=5] and unknown [N=7]. A vertical drop in the curves indicates an event (eg. death). For HPV-positive: 5 (21.7%); HPV-negative: 4 (80%) and HPV-unknown: 5 (71.4%) events.  
+**KM plot** The lines represent survival curves of the 3 groups; HPV-status: positive [N=23], negative [N=5] and unknown [N=7]. A vertical drop in the curves indicates an event (eg. death). For HPV-positive: 5 (21.7%); HPV-negative: 4 (80%) and HPV-unknown: 5 (71.4%) events.  
  
 The lengths of the horizontal lines along the X-axis of serial times represent the survival duration for that interval. The vertical tick mark on the curves means that a patient was censored at this time; a patient has not (yet) experienced the event of interest, such as death, within the study time period. If many patients were censored in a given group(s), one must question how the study was carried out or how the type of treatment affected the patients. This stresses the importance of showing censored patients as tick marks in survival curves.  
  
-**Risk table**     
-At time zero, the survival probability is 1.0 (or 100% of the participants are alive). At time 0, all 35 are alive or at risk and after 1000 days, there are 21 participants alive or at risk; after 3000 days, 3 participants are alive or at risk. 
+**Risk table** At time zero, the survival probability is 1.0 (or 100% of the participants are alive). At time 0, all 35 are alive or at risk and after 1000 days, there are 21 participants alive or at risk; after 3000 days, 3 participants are alive or at risk. 
 
