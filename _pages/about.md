@@ -9,7 +9,7 @@ redirect_from:
 ---
 {% comment %} {% endcomment %}
 
-My research is focused on genomics and computing, with emphasis on variant and copy number analysis, gene expression, microbiome and proteomics studies. I am also interested in Big data analytics in medicine and healthcare with real-time data processing, messaging and streaming techniques.  
+My research is focused on genomics and computing, with emphasis on variant and copy number analysis, gene expression, microbiome and proteomics studies. I am also interested in Big data analytics in medicine and healthcare with real-time data processing, messaging and streaming techniques. Ongoing projects in this area include disease modeling using Induced pluripotent stem cells (iPSCs) of Lesch-Nyhan disease and DYT1 dystonia (<a href="http://pharmacology.emory.edu/hess-jinnah/index.html" target="_blank">Hess-Jinnah Research Group</a>).  
 
 <b>NEWS</b>
 
@@ -29,8 +29,6 @@ I have migrated most of my content to my new website: [https://sys4seq.com](http
 Previously, at Emory Vaccine Center, I worked in [Human Immunology Project Consortium](https://www.immuneprofiling.org/) projects with emphasis in understanding the effects of adjuvanted seasonal flu vaccination in healthy as well as in HIV-infected individuals. At University of Florida, I applied systems biology approaches to study the effects of recreational marijuana and/or tobacco use in HIV-infected young adults. At University of California San Diego, I worked for [LIPID MAPS](http://www.lipidmaps.org) and UCSD [Signaling Gateway consortium](http://www.signalinggateway.org/molecule/) projects.  
 {% endcomment %}  
 
-Ongoing projects in this area include disease modeling using Induced pluripotent stem cells (iPSCs) of Lesch-Nyhan disease and DYT1 dystonia (<a href="http://pharmacology.emory.edu/hess-jinnah/index.html" target="_blank">Hess-Jinnah Research Group</a>).  
-   
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RWM39QLMPF"></script>
 <script>
