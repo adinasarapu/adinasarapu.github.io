@@ -15,13 +15,13 @@ My research is focused on genomics and computing, with emphasis on variant and c
 
 2022  
 
-<b>Abnormalities of Neural Stem Cells in Lesch-Nyhan Disease</b> published in <i>Journal of Neurogenetics</i>.  
-<b>Uric Acid in Parkinsons Disease: What Is the Connection?</b> published in <i>Movement Disorders</i>.   
+<em>Abnormalities of Neural Stem Cells in Lesch-Nyhan Disease</em> published in Journal of Neurogenetics.  
+<em>Uric Acid in Parkinsons Disease: What Is the Connection?</em> published in Movement Disorders.   
 
 2021  
 
-<b>Induced Pluripotent Stem Cells from Subjects with Lesch-Nyhan Disease</b> published in <i>Scientific Reports</i>.    
-<b>Differential expression of striatal proteins in a mouse model of DOPA-responsive dystonia reveals shared mechanisms among dystonic disorders</b> published in <i>Molecular Genetics and Metabolism</i>.  
+<em>Induced Pluripotent Stem Cells from Subjects with Lesch-Nyhan Disease</em> published in Scientific Reports.    
+<em>Differential expression of striatal proteins in a mouse model of DOPA-responsive dystonia reveals shared mechanisms among dystonic disorders</em> published in Molecular Genetics and Metabolism.  
 
 {% comment%}
 I have migrated most of my content to my new website: [https://sys4seq.com](https://sys4seq.com).  
