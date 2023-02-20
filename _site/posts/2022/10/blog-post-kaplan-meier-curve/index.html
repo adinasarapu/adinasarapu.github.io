@@ -19,7 +19,7 @@
 
 
 
-<title>Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data - Ashok R. Dinasarapu Ph.D</title>
+<title>Kaplan-Meier Curve using R - Ashok R. Dinasarapu Ph.D</title>
 
 
 
@@ -29,15 +29,15 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
-<meta property="og:title" content="Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data">
+<meta property="og:title" content="Kaplan-Meier Curve using R">
 
 
-  <link rel="canonical" href="https://adinasarapu.github.io/posts/2019/01/blog-post-qiime2/">
-  <meta property="og:url" content="https://adinasarapu.github.io/posts/2019/01/blog-post-qiime2/">
+  <link rel="canonical" href="https://adinasarapu.github.io/posts/2022/10/blog-post-kaplan-meier-curve/">
+  <meta property="og:url" content="https://adinasarapu.github.io/posts/2022/10/blog-post-kaplan-meier-curve/">
 
 
 
-  <meta property="og:description" content="The 16S ribosomal RNA (rRNA) gene of Bacteria codes for the RNA component of the 30S subunit. Different bacterial species have one to multiple copies of the 16S rRNA gene, and each with 9 hypervariable regions, V1-V9. High-throughput sequencing of 16S rRNA gene (a “marker gene”) amplicons has become a widely used method to study bacterial phylogeny and species classification.">
+  <meta property="og:description" content="Kaplan-Meier curve shows what the probability of an event (for example, survival) at a certain time interval. The log-rank test compares the survival curves of two or more groups. With a small subset of patients, the Kaplan-Meier estimates can be misleading and should be interpreted with caution.">
 
 
 
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2019-01-01T00:00:00-05:00">
+  <meta property="article:published_time" content="2022-10-19T00:00:00-04:00">
 
 
 
@@ -264,29 +264,29 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data">
-    <meta itemprop="description" content="The 16S ribosomal RNA (rRNA) gene of Bacteria codes for the RNA component of the 30S subunit. Different bacterial species have one to multiple copies of the 16S rRNA gene, and each with 9 hypervariable regions, V1-V9. High-throughput sequencing of 16S rRNA gene (a “marker gene”) amplicons has become a widely used method to study bacterial phylogeny and species classification.">
-    <meta itemprop="datePublished" content="January 01, 2019">
+    <meta itemprop="headline" content="Kaplan-Meier Curve using R">
+    <meta itemprop="description" content="Kaplan-Meier curve shows what the probability of an event (for example, survival) at a certain time interval. The log-rank test compares the survival curves of two or more groups. With a small subset of patients, the Kaplan-Meier estimates can be misleading and should be interpreted with caution.">
+    <meta itemprop="datePublished" content="October 19, 2022">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Taxonomic and diversity profiling of the microbiome - 16S rRNA gene amplicon sequence data
+          <h1 class="page__title" itemprop="headline">Kaplan-Meier Curve using R
 </h1>
           
             <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
 
 
   
-	  1 minute read
+	  2 minute read
 	
 </p>
           
         
         
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2019-01-01T00:00:00-05:00">January 01, 2019</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2022-10-19T00:00:00-04:00">October 19, 2022</time></p>
         
         
              
@@ -296,25 +296,62 @@
       
 
       <section class="page__content" itemprop="text">
-        <p>The 16S ribosomal RNA (rRNA) gene of Bacteria codes for the RNA component of the 30S subunit. Different bacterial species have one to multiple copies of the 16S rRNA gene, and each with 9 hypervariable regions, V1-V9. High-throughput sequencing of 16S rRNA gene (a “marker gene”) amplicons has become a widely used method to study bacterial phylogeny and species classification.</p>
+        <p>Kaplan-Meier curve shows what the probability of an event (for example, survival) at a certain time interval. The log-rank test compares the survival curves of two or more groups. With a small subset of patients, the Kaplan-Meier estimates can be misleading and should be interpreted with caution.</p>
 
-<p>Quantitative Insights Into Microbial Ecology “QIIME” 2 (release 2018.11)<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> is a widely used package to identity abundance of microbes using 16s rRNA. Briefly, feature table containing counts of each unique sequence in the samples will be constructed using <code class="language-plaintext highlighter-rouge">qiime dada2 denoise-paired</code> method. A feature is essentially any unit of observation, e.g., an OTU (Operational Taxonomic Unit), a sequence variant, a gene or a metabolite. In QIIME2 (currently), most features will be OTUs or sequence variants (alternatively, for OTUs, use QIIME2 plugin <code class="language-plaintext highlighter-rouge">q2-vsearch</code>).</p>
+<p><strong>KM Analysis using R</strong>
+The packages used for the analysis are <a href="https://cran.r-project.org/web/packages/survival/index.html">survival</a> and <a href="https://cran.r-project.org/web/packages/survminer/index.html">survminer</a>. Use install.packages( ) to install these libraries just in case if they are not pre installed in your R workspace.</p>
 
-<p>Data produced by QIIME 2 exist as QIIME 2 artifacts. A QIIME 2 artifact typically has the <code class="language-plaintext highlighter-rouge">.qza</code> file extension when output data stored in a file. Visualizations are another type of data (<code class="language-plaintext highlighter-rouge">.qzv</code> file extension) generated by QIIME 2, which can be viewed using a web interface <a href="https://view.qiime2.org">https://view.qiime2.org</a> (at Firefox web browser) without requiring a QIIME installation. Since QIIME 2 works with artifacts instead of data files (e.g. FASTA files), we must create a QIIME 2 artifact by importing our <code class="language-plaintext highlighter-rouge">fastq.gz</code> data files.</p>
+<p>Load Required libraries</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(survival)  
+library(survminer)  
+library(dplyr)
+</code></pre></div></div>
+<p>Read the vital dataset</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>base.dir = "/Users/adinasa/Documents/Nabil/survival_analysis"    
+data = read.csv(file=paste0(base.dir,"/KM_Test_data.csv"),header=T)  
+</code></pre></div></div>
 
-<hr />
+<p>Examine the dataset (Vital status: 1 for dead; 0 for alive)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>head(data)  
+  
+ID      p16 		Status	Days  
+GHN-11  unknown		1  	803  
+GHN-15  unknown		1  	775  
+GHN-20  unknown		1  	150  
+GHN-21  unknown		0 	2036  
+GHN-24  unknown		1  	718  
+GHN-25	negative	1  	598  
+HN-39	positive	0	1232  
+</code></pre></div></div>
 
-<p>Scripts are available for AWS <a href="https://bitbucket.org/adinasarapu/aws_qiime2/src">Cloud</a> and HPC <a href="https://bitbucket.org/adinasarapu/cluster_qiime2/src">Cluster</a>.</p>
+<p>Create a survival object, usually used as a response variable in a model formula.</p>
 
-<hr />
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>surv_obj = survival::Surv(time=data$Days, event = data$Status)  
+</code></pre></div></div>
 
-<div class="footnotes">
-  <ol>
-    <li id="fn:1">
-      <p><a href="https://qiime2.org">https://qiime2.org</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
-    </li>
-  </ol>
-</div>
+<p>Wrapper arround the standard survfit() function to create survival curves</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fit = survminer::surv_fit(surv_obj ~ p16, data = data)
+</code></pre></div></div>
+
+<p>You can replace the above two steps with</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fit = surv_fit(Surv(Days, Status) ~ p16, data = data)  
+</code></pre></div></div>
+
+<p>Plot the KM curve. With pval = TRUE argument, it plots the p-value of a log rank test, which will help us to get an idea if the groups are significantly different or not.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>png(filename = paste(base.dir, "KM_Plot.png", sep="/"),width = 1300, height = 1300, res=200)  
+ggsurvplot(fit_1, pval=TRUE, risk.table=TRUE)  
+dev.off()  
+</code></pre></div></div>
+
+<p><img src="/images/KM_Plot.png" alt="KM Plot" /></p>
+
+<p><strong>KM plot</strong> The lines represent survival curves of the 3 groups; HPV-status: positive [N=23], negative [N=5] and unknown [N=7]. A vertical drop in the curves indicates an event (eg. death). For HPV-positive: 5 (21.7%); HPV-negative: 4 (80%) and HPV-unknown: 5 (71.4%) events.</p>
+
+<p>The lengths of the horizontal lines along the X-axis of serial times represent the survival duration for that interval. The vertical tick mark on the curves means that a patient was censored at this time; a patient has not (yet) experienced the event of interest, such as death, within the study time period. If many patients were censored in a given group(s), one must question how the study was carried out or how the type of treatment affected the patients. This stresses the importance of showing censored patients as tick marks in survival curves.</p>
+
+<p><strong>Risk table</strong> At time zero, the survival probability is 1.0 (or 100% of the participants are alive). At time 0, all 35 are alive or at risk and after 1000 days, there are 21 participants alive or at risk; after 3000 days, 3 participants are alive or at risk.</p>
+
 
         
       </section>
@@ -339,27 +376,23 @@
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#16s-rrna-amplicon" class="page__taxonomy-item" rel="tag">16s rRNA amplicon</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">Bioinformatics</a><span class="sep">, </span>
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#computing" class="page__taxonomy-item" rel="tag">computing</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#emory-university" class="page__taxonomy-item" rel="tag">Emory University</a><span class="sep">, </span>
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#dada2" class="page__taxonomy-item" rel="tag">DADA2</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#kaplan-meier-curve" class="page__taxonomy-item" rel="tag">Kaplan-Meier-curve</a><span class="sep">, </span>
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#microbiome" class="page__taxonomy-item" rel="tag">microbiome</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#survival-analysis" class="page__taxonomy-item" rel="tag">Survival analysis</a><span class="sep">, </span>
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#otu" class="page__taxonomy-item" rel="tag">OTU</a><span class="sep">, </span>
-    
-      
-      
-      <a href="https://adinasarapu.github.io/tags/#qiime2" class="page__taxonomy-item" rel="tag">qiime2</a>
+      <a href="https://adinasarapu.github.io/tags/#vital" class="page__taxonomy-item" rel="tag">Vital</a>
     
     </span>
   </p>
@@ -376,11 +409,11 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2019/01/blog-post-qiime2/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2022/10/blog-post-kaplan-meier-curve/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2019/01/blog-post-qiime2/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2022/10/blog-post-kaplan-meier-curve/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2019/01/blog-post-qiime2/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2022/10/blog-post-kaplan-meier-curve/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
@@ -388,11 +421,11 @@
 
   <nav class="pagination">
     
-      <a href="https://adinasarapu.github.io/posts/2018/07/blog-post-metagenomics/" class="pagination--pager" title="Taxonomic and functional profiling of the microbiome - whole genome shotgun metagenomics
+      <a href="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/" class="pagination--pager" title="Annotation of genetic variants
 ">Previous</a>
     
     
-      <a href="https://adinasarapu.github.io/posts/2019/01/blog-post-sc-ranseq/" class="pagination--pager" title="Single cell gene expression data analysis on Cluster (10X Genomics, Cell Ranger)
+      <a href="https://adinasarapu.github.io/posts/2023/02/blog-post-somalogic-proteomics/" class="pagination--pager" title="Quantitative proteomics: aptamer-based quantitation of proteins
 ">Next</a>
     
   </nav>
@@ -443,49 +476,6 @@
 
     
     <p class="archive__item-excerpt" itemprop="description"><p>The aptamer-based <a href="https://somalogic.com">SomaScan®</a> assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms.</p>
-
-</p>
-    
-    
-    
-
-  </article>
-</div>
-
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="https://adinasarapu.github.io/posts/2022/10/blog-post-kaplan-meier-curve/" rel="permalink">Kaplan-Meier Curve using R
-</a>
-      
-    </h2>
-    
-    
-      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
-
-
-  
-	  2 minute read
-	
-</p>
-    
-
-        
-         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2022-10-19T00:00:00-04:00">October 19, 2022</time></p>
-        
-
-    
-    <p class="archive__item-excerpt" itemprop="description"><p>Kaplan-Meier curve shows what the probability of an event (for example, survival) at a certain time interval. The log-rank test compares the survival curves of two or more groups. With a small subset of patients, the Kaplan-Meier estimates can be misleading and should be interpreted with caution.</p>
 
 </p>
     
@@ -572,6 +562,49 @@
 
     
     <p class="archive__item-excerpt" itemprop="description"><p>Quantification of proteins using isobaric labeling (tandem mass tag or TMT) starts with the reduction of disulfide bonds in proteins with Dithiothreitol (DTT).</p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://adinasarapu.github.io/posts/2018/04/blog-post-lfq/" rel="permalink">Quantitative proteomics: label-free quantitation of proteins
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  6 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2020-04-04T00:00:00-04:00">April 04, 2020</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Updated on September 13, 2021</p>
 
 </p>
     

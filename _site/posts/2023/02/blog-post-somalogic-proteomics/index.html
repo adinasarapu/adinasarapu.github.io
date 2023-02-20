@@ -19,7 +19,7 @@
 
 
 
-<title>Annotation of genetic variants - Ashok R. Dinasarapu Ph.D</title>
+<title>Quantitative proteomics: aptamer-based quantitation of proteins - Ashok R. Dinasarapu Ph.D</title>
 
 
 
@@ -29,15 +29,15 @@
 
 <meta property="og:locale" content="en-US">
 <meta property="og:site_name" content="Ashok R. Dinasarapu Ph.D">
-<meta property="og:title" content="Annotation of genetic variants">
+<meta property="og:title" content="Quantitative proteomics: aptamer-based quantitation of proteins">
 
 
-  <link rel="canonical" href="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/">
-  <meta property="og:url" content="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/">
+  <link rel="canonical" href="https://adinasarapu.github.io/posts/2023/02/blog-post-somalogic-proteomics/">
+  <meta property="og:url" content="https://adinasarapu.github.io/posts/2023/02/blog-post-somalogic-proteomics/">
 
 
 
-  <meta property="og:description" content="Tools such as ANNOVAR, Variant Effect Predictor (VEP) or SnpEff annotate genetic variants (SNPs, INDELS, CNVs etc) present in VCF file. These tools integrate the annotations within the INFO column of the original VCF file.">
+  <meta property="og:description" content="The aptamer-based SomaScan® assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms.">
 
 
 
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2021-04-13T00:00:00-04:00">
+  <meta property="article:published_time" content="2023-02-20T00:00:00-05:00">
 
 
 
@@ -264,29 +264,29 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Annotation of genetic variants">
-    <meta itemprop="description" content="Tools such as ANNOVAR, Variant Effect Predictor (VEP) or SnpEff annotate genetic variants (SNPs, INDELS, CNVs etc) present in VCF file. These tools integrate the annotations within the INFO column of the original VCF file.">
-    <meta itemprop="datePublished" content="April 13, 2021">
+    <meta itemprop="headline" content="Quantitative proteomics: aptamer-based quantitation of proteins">
+    <meta itemprop="description" content="The aptamer-based SomaScan® assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms.">
+    <meta itemprop="datePublished" content="February 20, 2023">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">Annotation of genetic variants
+          <h1 class="page__title" itemprop="headline">Quantitative proteomics: aptamer-based quantitation of proteins
 </h1>
           
             <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
 
 
   
-	  4 minute read
+	  3 minute read
 	
 </p>
           
         
         
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2021-04-13T00:00:00-04:00">April 13, 2021</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2023-02-20T00:00:00-05:00">February 20, 2023</time></p>
         
         
              
@@ -296,120 +296,254 @@
       
 
       <section class="page__content" itemprop="text">
-        <p>Tools such as ANNOVAR, Variant Effect Predictor (VEP) or SnpEff annotate genetic variants (SNPs, INDELS, CNVs etc) present in VCF file. These tools integrate the annotations within the INFO column of the original VCF file.</p>
+        <p>The aptamer-based <a href="https://somalogic.com">SomaScan®</a> assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms.</p>
 
-<p>Variant Call Format or VCF is a text file with multiple lines of meta-information, a header line, and data rows each containing information about a loci or sequence variant in the genome. Aside from the chromosomal location and observed alleles, these loci are basically anonymous. VCF is the primary (and only well-supported) format used by the GATK for variant calls. A GVCF or Genomic VCF is a kind of VCF, so the basic format specification is the same as for a regular VCF, but a Genomic VCF contains extra information.</p>
+<p>The SomaScan Assay v4.1 measures simultaneously ~6,600 unique human proteins in a single sample (see <strong>Table</strong>). Those protein targets were evaluated by ~7,300 aptamers called SOMAmers (Slow Off-rate Modified Aptamers). SOMAmers are short single-stranded DNA molecules, which are chemically modified to specifically bind to protein targets. The SOMAscan assay measures native proteins in complex matrices by transforming each individual protein concentration into a corresponding SOMAmer reagent concentration, which is then quantified using DNA microarrays. SOMAmer reagents are selected against proteins in their native folded conformations and are therefore generally found to require an intact, tertiary protein structure for binding.</p>
 
-<p>The Ensembl Variant Effect Predictor (VEP) annotates<br />
-• location of the variants on genome<br />
-• known variants based on database matching<br />
-• gene and transcript names affected by the variants<br />
-• consequence of variation on the protein sequence (stop gain/lost, missense, frameshift)</p>
+<p><strong>Table</strong>. The 7k SomaScan Assay v4.1 panel used for human plasma measured 7,596 aptamers mapping to approximately 6,414 unique human protein targets.</p>
 
-<p><strong>STEP 1</strong>: <a href="https://docs.docker.com/engine/install/">Install Docker Engine</a></p>
+<table>
+  <thead>
+    <tr>
+      <th>Organism</th>
+      <th>SOMAmers</th>
+      <th>UniProt IDs (all)</th>
+      <th>UniProt IDs (Unique)</th>
+      <th>Protein Targets</th>
+      <th>Gene IDs</th>
+      <th>Gene Symbols</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Human</td>
+      <td>7335</td>
+      <td>7301</td>
+      <td>6414</td>
+      <td>6610</td>
+      <td>6408</td>
+      <td>6398</td>
+    </tr>
+    <tr>
+      <td>Mouse</td>
+      <td>236</td>
+      <td>236</td>
+      <td>4</td>
+      <td>4</td>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>African clawed frog</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Gila monster</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Hornet</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Jellyfish</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Thermus thermophilus</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Common eastern firefly</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Bacillus stearothermophilus</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Ensifer meliloti</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>European elder</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>HIV-1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>HIV-2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Red alga</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>strain K12</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td>Total</td>
+      <td>7596</td>
+      <td>7562</td>
+      <td>6431</td>
+      <td>6628</td>
+      <td>6415</td>
+      <td>6411</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>“Docker Engine is available on a variety of Linux platforms, macOS and Windows 10 through Docker Desktop, and as a static binary installation”.</p>
+<p><strong>ADAT file</strong></p>
 
-<p><strong>STEP 2</strong>: Clone or Pull the VEP docker image</p>
+<p>ADAT is a tab-delimited text file format. The contents include SOMAmer reagent intensities, sample data, sequence data and experimental metadata. For each SOMAmer reagent sequence, the ADAT file typically contains corresponding protein name, UniProt ID, Entrez Gene ID and Entrez Gene symbol.</p>
 
-<p>Create a directory on your machine and make sure that the created directory on your machine has read and write access granted so that the docker container can write in the directory (VEP output).</p>
+<p><strong>SomaDataIO</strong></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir $HOME/vep_data
-chmod a+rwx $HOME/vep_data    
-docker pull ensemblorg/ensembl-vep   
+<p><a href="https://somalogic.github.io/SomaDataIO/index.html">SomaDataIO v5.3.1</a> is an R package for working with the SomaLogic ADAT file format.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(SomaDataIO)
+library(purrr)
+library(tidyr)
+library(dplyr)
+library(ggplot2)  
 </code></pre></div></div>
 
-<p>Pre-configure the volume <code class="language-plaintext highlighter-rouge">vep_data</code> for the container; this is required if you wish to download data (e.g. cache files) that persists across sessions. The following command  mounts the volume <code class="language-plaintext highlighter-rouge">$HOME/vep_data</code> into <code class="language-plaintext highlighter-rouge">/opt/vep/.vep</code> in the container. If you copy your data to <code class="language-plaintext highlighter-rouge">$HOME/vep_data</code> directory, you will see that data in <code class="language-plaintext highlighter-rouge">/opt/vep/.vep</code> directory of the container.</p>
+<p>The <code class="language-plaintext highlighter-rouge">read_adat()</code> function imports data from ADAT files.</p>
 
-<p><code class="language-plaintext highlighter-rouge">-t</code>: Allocate a pseudo-TTY<br />
-<code class="language-plaintext highlighter-rouge">-i</code>: Interactive / Keep STDIN open even if not attached<br />
-<code class="language-plaintext highlighter-rouge">-v</code>: Bind mount a volume<br />
-<code class="language-plaintext highlighter-rouge">docker_image</code> is ensemblorg/ensembl-vep</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep  
-
-exit  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>base.dir = "/Users/adinasa/Documents/"
+adat_file &lt;- "example.adat"
+my_adat &lt;- read_adat(paste0(base.dir,adat_file))  
 </code></pre></div></div>
 
-<p>The above command <code class="language-plaintext highlighter-rouge">docker run</code>, allows you to enter into the container using an interactive terminal. Once you are inside do: <code class="language-plaintext highlighter-rouge">ls -lsa</code> to list the files</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vep@56d4ccaf3e34:~/src/ensembl-vep$ ls -lsa
-total 188
- 4 drwxr-xr-x  1 vep  vep   4096 Apr  7 15:30 .
- 4 drwxr-xr-x  1 root root  4096 Apr  7 15:26 ..
- 4 drwxr-xr-x 45 vep  vep   4096 Apr  7 15:27 Bio
-20 -rwxr-xr-x  1 vep  vep  16698 Apr  7 15:19 convert_cache.pl
- 4 drwxr-xr-x  2 vep  vep   4096 Apr  7 15:19 examples
-20 -rwxr-xr-x  1 vep  vep  16620 Apr  7 15:19 filter_vep
- 8 -rwxr-xr-x  1 vep  vep   4880 Apr  7 15:19 haplo
-56 -rwxr-xr-x  1 vep  vep  56607 Apr  7 15:19 INSTALL.pl
-12 -rw-r--r--  1 vep  vep  11478 Apr  7 15:19 LICENSE
- 4 drwxr-xr-x  3 vep  vep   4096 Apr  7 15:19 modules
-16 -rw-r--r--  1 vep  vep  12906 Apr  7 15:19 README.md
- 4 drwxr-xr-x  2 vep  vep   4096 Apr  7 15:19 validator
- 4 -rw-r--r--  1 vep  vep    128 Apr  7 15:29 variant_effect_output.txt_warnings.txt
- 8 -rwxr-xr-x  1 vep  vep   5079 Apr  7 15:19 variant_recoder
-16 -rwxr-xr-x  1 vep  vep  14462 Apr  7 15:19 vep
- 4 drwxr-xr-x  2 vep  vep   4096 Apr  7 15:27 .version
+<p>Update the ADAT file with sample group information (adding sample group details from external file). Save the updated ADAT file (optional).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>meta_file = paste(base.dir, "MAPPING.csv", sep="/")  
+meta &lt;- read.csv(meta_file, header = T, stringsAsFactors = FALSE)  
+meta$SampleId &lt;- as.character(meta$SampleId)  
+my_adat &lt;- dplyr::left_join(my_adat,meta, by="SampleId", keep=FALSE)
+write_adat(my_adat, file = paste(base.dir, "example_updated.adat", sep="/"))  
 </code></pre></div></div>
 
-<p>Depending on Plugin, you need to download and prepare data for a plugin.<br />
-For example <code class="language-plaintext highlighter-rouge">dbNSFP</code> plugin needs the following preprocessing of downloaded file,  <br />
-Programs like <code class="language-plaintext highlighter-rouge">tabix</code>, <code class="language-plaintext highlighter-rouge">unzip</code>, <code class="language-plaintext highlighter-rouge">wget</code> and <code class="language-plaintext highlighter-rouge">zcat</code> are available in container at /opt/vep/.vep/.</p>
+<p>Utility functions.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget ftp://dbnsfp:dbnsfp@dbnsfp.softgenetics.com/dbNSFP4.1a.zip
-unzip dbNSFP4.1a.zip
-zcat dbNSFP4.1a_variant.chr1.gz | head -n1 &gt; h
-zgrep -h -v ^#chr dbNSFP4.1a_variant.chr* | sort -T /path/to/tmp_folder -k1,1 -k2,2n - | cat h - | bgzip -c &gt; dbNSFP4.1a_grch38.gz
-tabix -s 1 -b 2 -e 2 dbNSFP4.1a_grch38.gz
+<p>regex for analytes</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>is_seq &lt;- function(.x) grepl("^seq\\.[0-9]{4}", .x)  
 </code></pre></div></div>
 
-<p>In a separate terminal, run <code class="language-plaintext highlighter-rouge">docker ps</code> command to list all running containers. To see all the containers both stopped and running use <code class="language-plaintext highlighter-rouge">-a</code> flag.</p>
+<p>center/scale vector (z-scores).</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps -a
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cs &lt;- function(.x) {      out &lt;- .x - mean(.x)  
+  out / sd(out)       
+}
 </code></pre></div></div>
 
-<p><strong>STEP 3</strong>: Cache and Plugins installation</p>
+<p>Data were log2-transformed within each sample. Control and Disease are two groups (this may vary in your data).</p>
 
-<p>Use the following commands to set up the cache and corresponding FASTA for human GRCh38 genome.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep perl INSTALL.pl -a cf -s homo_sapiens -y GRCh38
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cleanData &lt;- my_adat %&gt;% 
+  filter(SampleType == "Sample") %&gt;% drop_na(Group) %&gt;% 
+  log2() %&gt;% 
+  mutate(SampleGroup = as.numeric(factor(Group, levels=c("Control", " Disease"))) - 1) %&gt;% 
+  modify_if(is_seq(names(.)), cs)
 </code></pre></div></div>
 
-<p>To install all the available plugins</p>
+<p>Human proteins with Uniprot ID and QC=PASS selected.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep perl INSTALL.pl -a cfp -s homo_sapiens -y GRCh38 -g all
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t_tests &lt;- getAnalyteInfo(cleanData2) %&gt;% 
+  filter(ColCheck == "PASS") %&gt;% 
+  filter(Organism == "Human") %&gt;%
+  filter(UniProt != "") %&gt;%
+  select(AptName, SeqId, Target = TargetFullName,Organism, EntrezGeneID, EntrezGeneSymbol, UniProt, ColCheck)
 </code></pre></div></div>
 
-<p><strong>STEP 4</strong>: Create <code class="language-plaintext highlighter-rouge">vep.sh</code> file</p>
+<p>Performed a Student’s t-test.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh
-# Example of VEP command line:
-vep --cache --offline --format vcf --vcf --force_overwrite \
-	--dir_cache /opt/vep/.vep/ \
-	--dir_plugins /opt/vep/.vep/Plugins/ \
-	--input_file /opt/vep/.vep/input/Dystonia.gatk4.vqsr_variants.g.vcf.gz \
-	--output_file /opt/vep/.vep/output/Dystonia.gatk4.vqsr_vep.g.vcf \
-	--plugin dbNSFP,/opt/vep/.vep/Plugins/dbNSFP4.1a_grch38.gz,ALL
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t_tests &lt;- t_tests %&gt;% 
+  mutate(
+    formula = map(AptName, ~ as.formula(paste(.x, "~ SampleGroup"))), 
+    t_test  = map(formula, ~ stats::t.test(.x, data = cleanData,var.equal = TRUE)),  
+    t_stat  = map_dbl(t_test, "statistic"),            
+    p.value = map_dbl(t_test, "p.value"),              
+    fdr     = p.adjust(p.value, method = "BH")         
+  ) %&gt;% arrange(p.value)
 </code></pre></div></div>
 
-<p><strong>STEP 5</strong>: Copy or transfer the input data i.e vcf file</p>
+<p>The results were used to identify proteins significantly associated with disease using a Benjamini-Hochberg false discovery rate (FDR) threshold of 1%.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p /Users/adinasa/vep_data/{input,output,script}
-cp Dystonia.gatk4.vqsr_variants.g.vcf.gz ~/vep_data/input/
-cp vep.sh /Users/adinasa/vep_data/script
-cp dbNSFP4.1a_grch38.gz /Users/adinasa/vep_data/Plugins 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t_tests [t_tests$fdr &lt;= 0.1,]
 </code></pre></div></div>
 
-<p><strong>STEP 6</strong>: Run the script</p>
-
-<p>Finally, run the script inside container.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep
-</code></pre></div></div>
-
-<p>Starts a <code class="language-plaintext highlighter-rouge">bash</code> session</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vep@88d2b95cfd6a:~/src/ensembl-vep$ cd /opt/vep/.vep/script/
-sh vep.sh
-</code></pre></div></div>
 
         
       </section>
@@ -434,7 +568,7 @@ sh vep.sh
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#bioinformatics" class="page__taxonomy-item" rel="tag">Bioinformatics</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#aptamer-based-proteomics" class="page__taxonomy-item" rel="tag">aptamer-based proteomics</a><span class="sep">, </span>
     
       
       
@@ -442,31 +576,19 @@ sh vep.sh
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#genomics" class="page__taxonomy-item" rel="tag">Genomics</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#ms-based-proteomics" class="page__taxonomy-item" rel="tag">MS-based Proteomics</a><span class="sep">, </span>
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#genotypes" class="page__taxonomy-item" rel="tag">Genotypes</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#olink-proteomics" class="page__taxonomy-item" rel="tag">Olink Proteomics</a><span class="sep">, </span>
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#ngs" class="page__taxonomy-item" rel="tag">NGS</a><span class="sep">, </span>
+      <a href="https://adinasarapu.github.io/tags/#quantitative-proteomics" class="page__taxonomy-item" rel="tag">Quantitative Proteomics</a><span class="sep">, </span>
     
       
       
-      <a href="https://adinasarapu.github.io/tags/#variant-calling" class="page__taxonomy-item" rel="tag">Variant calling</a><span class="sep">, </span>
-    
-      
-      
-      <a href="https://adinasarapu.github.io/tags/#vcf" class="page__taxonomy-item" rel="tag">VCF</a><span class="sep">, </span>
-    
-      
-      
-      <a href="https://adinasarapu.github.io/tags/#vep" class="page__taxonomy-item" rel="tag">VEP</a><span class="sep">, </span>
-    
-      
-      
-      <a href="https://adinasarapu.github.io/tags/#wgs" class="page__taxonomy-item" rel="tag">WGS</a>
+      <a href="https://adinasarapu.github.io/tags/#somalogic" class="page__taxonomy-item" rel="tag">SOMALogic</a>
     
     </span>
   </p>
@@ -483,11 +605,11 @@ sh vep.sh
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2021/04/blog-post-vep/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=https://adinasarapu.github.io/posts/2023/02/blog-post-somalogic-proteomics/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2021/04/blog-post-vep/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://adinasarapu.github.io/posts/2023/02/blog-post-somalogic-proteomics/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2021/04/blog-post-vep/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://adinasarapu.github.io/posts/2023/02/blog-post-somalogic-proteomics/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
@@ -495,12 +617,11 @@ sh vep.sh
 
   <nav class="pagination">
     
-      <a href="https://adinasarapu.github.io/posts/2020/01/blog-post-tmt/" class="pagination--pager" title="Quantitative proteomics: TMT-based quantitation of proteins
+      <a href="https://adinasarapu.github.io/posts/2022/10/blog-post-kaplan-meier-curve/" class="pagination--pager" title="Kaplan-Meier Curve using R
 ">Previous</a>
     
     
-      <a href="https://adinasarapu.github.io/posts/2022/10/blog-post-kaplan-meier-curve/" class="pagination--pager" title="Kaplan-Meier Curve using R
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -516,49 +637,6 @@ sh vep.sh
         <h4 class="page__related-title">You May Also Enjoy</h4>
       
       <div class="grid__wrapper">
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="https://adinasarapu.github.io/posts/2023/02/blog-post-somalogic-proteomics/" rel="permalink">Quantitative proteomics: aptamer-based quantitation of proteins
-</a>
-      
-    </h2>
-    
-    
-      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
-
-
-  
-	  4 minute read
-	
-</p>
-    
-
-        
-         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2023-02-20T00:00:00-05:00">February 20, 2023</time></p>
-        
-
-    
-    <p class="archive__item-excerpt" itemprop="description"><p>The aptamer-based <a href="https://somalogic.com">SomaScan®</a> assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms.</p>
-
-</p>
-    
-    
-    
-
-  </article>
-</div>
-
         
           
 
@@ -593,6 +671,49 @@ sh vep.sh
 
     
     <p class="archive__item-excerpt" itemprop="description"><p>Kaplan-Meier curve shows what the probability of an event (for example, survival) at a certain time interval. The log-rank test compares the survival curves of two or more groups. With a small subset of patients, the Kaplan-Meier estimates can be misleading and should be interpreted with caution.</p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/" rel="permalink">Annotation of genetic variants
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  4 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2021-04-13T00:00:00-04:00">April 13, 2021</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Tools such as ANNOVAR, Variant Effect Predictor (VEP) or SnpEff annotate genetic variants (SNPs, INDELS, CNVs etc) present in VCF file. These tools integrate the annotations within the INFO column of the original VCF file.</p>
 
 </p>
     

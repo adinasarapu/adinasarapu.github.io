@@ -1,0 +1,131 @@
+---
+title: 'Quantitative proteomics: aptamer-based quantitation of proteins'
+date: 2023-02-20
+permalink: /posts/2023/02/blog-post-somalogic-proteomics/
+tags:
+  - SOMALogic
+  - Quantitative Proteomics
+  - aptamer-based proteomics
+  - Emory University
+  - Olink Proteomics
+  - MS-based Proteomics
+
+---  
+The aptamer-based [SomaScan®](https://somalogic.com) assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms. 
+
+The SomaScan Assay v4.1 measures simultaneously ~6,600 unique human proteins in a single sample (see **Table**). Those protein targets were evaluated by ~7,300 aptamers called SOMAmers (Slow Off-rate Modified Aptamers). SOMAmers are short single-stranded DNA molecules, which are chemically modified to specifically bind to protein targets. The SOMAscan assay measures native proteins in complex matrices by transforming each individual protein concentration into a corresponding SOMAmer reagent concentration, which is then quantified using DNA microarrays. SOMAmer reagents are selected against proteins in their native folded conformations and are therefore generally found to require an intact, tertiary protein structure for binding.  
+
+**Table**. The 7k SomaScan Assay v4.1 panel used for human plasma measured 7,596 aptamers mapping to approximately 6,414 unique human protein targets.  
+
+|-----------------------------------------------------------------------------------------------------------------------------------|  
+| 	Organism		| SOMAmers | UniProt IDs (all) | UniProt IDs (Unique)|  Protein Targets | Gene IDs   | Gene Symbols |
+|-----------------------------------------------------------------------------------------------------------------------------------|  
+| Human 			| 7335	   | 7301  	       | 6414   	     |  6610	        | 6408       | 6398	    |  
+| Mouse				|  236	   |  236  	       |    4   	     |     4	        |    3	     |    3         |
+| African clawed frog		|    3	   |    3  	       |    1   	     |     2	        |    1	     |    1	    |
+| Gila monster			|    3	   |    3  	       |    1   	     |     1            |    0	     |    0	    |
+| Hornet			|    3	   |    3  	       |    1   	     |     1            |    0	     |    1         |
+| Jellyfish			|    3	   |    3  	       |    1   	     |     1            |    0	     |    1	    |
+| Thermus thermophilus		|    3 	   |    3  	       |    1   	     |     1            |    0	     |    1         |
+| Common eastern firefly	|    2     |    2  	       |    1   	     |     1            |    0	     |    0         |
+| Bacillus stearothermophilus	|    1     |    1  	       |    1   	     |     1            |    0	     |    1	    |
+| Ensifer meliloti		|    1     |    1  	       |    1   	     |     1            |    0	     |    1	    |
+| European elder		|    2     |    2  	       |    1   	     |     1            |    0	     |    0	    |
+| HIV-1				|    1     |    1  	       |    1   	     |     1            |    0	     |    1	    |
+| HIV-2				|    1     |    1  	       |    1   	     |     1            |    1	     |    1	    |
+| Red alga			|    1     |    1  	       |    1   	     |     1            |    1	     |    1	    |
+| strain K12			|    1     |    1  	       |    1    	     |     1            |    1	     |    1	    |
+|-----------------------------------------------------------------------------------------------------------------------------------|
+| Total				| 7596     | 7562              | 6431                |  6628	        | 6415       | 6411         |	
+|-----------------------------------------------------------------------------------------------------------------------------------|  
+
+**ADAT file**
+  
+ADAT is a tab-delimited text file format. The contents include SOMAmer reagent intensities, sample data, sequence data and experimental metadata. For each SOMAmer reagent sequence, the ADAT file typically contains corresponding protein name, UniProt ID, Entrez Gene ID and Entrez Gene symbol.  
+
+**SomaDataIO**  
+
+[SomaDataIO v5.3.1](https://somalogic.github.io/SomaDataIO/index.html) is an R package for working with the SomaLogic ADAT file format.  
+
+```  
+library(SomaDataIO)
+library(purrr)
+library(tidyr)
+library(dplyr)
+library(ggplot2)  
+```
+
+The `read_adat()` function imports data from ADAT files.  
+
+```  
+base.dir = "/Users/adinasa/Documents/"
+adat_file <- "example.adat"
+my_adat <- read_adat(paste0(base.dir,adat_file))  
+```  
+
+Update the ADAT file with sample group information (adding sample group details from external file). Save the updated ADAT file (optional).  
+
+```  
+meta_file = paste(base.dir, "MAPPING.csv", sep="/")  
+meta <- read.csv(meta_file, header = T, stringsAsFactors = FALSE)  
+meta$SampleId <- as.character(meta$SampleId)  
+my_adat <- dplyr::left_join(my_adat,meta, by="SampleId", keep=FALSE)
+write_adat(my_adat, file = paste(base.dir, "example_updated.adat", sep="/"))  
+```  
+
+Utility functions.  
+
+regex for analytes
+
+```  
+is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x)  
+```  
+
+center/scale vector (z-scores).  
+
+```  
+cs <- function(.x) {      out <- .x - mean(.x)  
+  out / sd(out)       
+}
+```  
+
+Data were log2-transformed within each sample. Control and Disease are two groups (this may vary in your data).  
+
+```  
+cleanData <- my_adat %>% 
+  filter(SampleType == "Sample") %>% drop_na(Group) %>% 
+  log2() %>% 
+  mutate(SampleGroup = as.numeric(factor(Group, levels=c("Control", " Disease"))) - 1) %>% 
+  modify_if(is_seq(names(.)), cs)
+```  
+
+Human proteins with Uniprot ID and QC=PASS selected.  
+
+```  
+t_tests <- getAnalyteInfo(cleanData2) %>% 
+  filter(ColCheck == "PASS") %>% 
+  filter(Organism == "Human") %>%
+  filter(UniProt != "") %>%
+  select(AptName, SeqId, Target = TargetFullName,Organism, EntrezGeneID, EntrezGeneSymbol, UniProt, ColCheck)
+```  
+
+Performed a Student’s t-test.  
+
+```  
+t_tests <- t_tests %>% 
+  mutate(
+    formula = map(AptName, ~ as.formula(paste(.x, "~ SampleGroup"))), 
+    t_test  = map(formula, ~ stats::t.test(.x, data = cleanData,var.equal = TRUE)),  
+    t_stat  = map_dbl(t_test, "statistic"),            
+    p.value = map_dbl(t_test, "p.value"),              
+    fdr     = p.adjust(p.value, method = "BH")         
+  ) %>% arrange(p.value)
+```  
+  
+The results were used to identify proteins significantly associated with disease using a Benjamini-Hochberg false discovery rate (FDR) threshold of 1%.  
+
+```
+t_tests [t_tests$fdr <= 0.1,]
+```
+
+

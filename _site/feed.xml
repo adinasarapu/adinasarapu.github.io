@@ -1,4 +1,304 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://adinasarapu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://adinasarapu.github.io/" rel="alternate" type="text/html" /><updated>2022-06-02T12:27:26-04:00</updated><id>https://adinasarapu.github.io/feed.xml</id><title type="html">Ashok R. Dinasarapu Ph.D</title><subtitle></subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Annotation of genetic variants</title><link href="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/" rel="alternate" type="text/html" title="Annotation of genetic variants" /><published>2021-04-13T00:00:00-04:00</published><updated>2021-04-13T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2021/04/blog-vep</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/">&lt;p&gt;Tools such as ANNOVAR, Variant Effect Predictor (VEP) or SnpEff annotate genetic variants (SNPs, INDELS, CNVs etc) present in VCF file. These tools integrate the annotations within the INFO column of the original VCF file.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://adinasarapu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://adinasarapu.github.io/" rel="alternate" type="text/html" /><updated>2023-02-20T15:04:21-05:00</updated><id>https://adinasarapu.github.io/feed.xml</id><title type="html">Ashok R. Dinasarapu Ph.D</title><subtitle></subtitle><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><entry><title type="html">Quantitative proteomics: aptamer-based quantitation of proteins</title><link href="https://adinasarapu.github.io/posts/2023/02/blog-post-somalogic-proteomics/" rel="alternate" type="text/html" title="Quantitative proteomics: aptamer-based quantitation of proteins" /><published>2023-02-20T00:00:00-05:00</published><updated>2023-02-20T00:00:00-05:00</updated><id>https://adinasarapu.github.io/posts/2023/02/blog-somalogic-proteomics</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2023/02/blog-post-somalogic-proteomics/">&lt;p&gt;The aptamer-based &lt;a href=&quot;https://somalogic.com&quot;&gt;SomaScan®&lt;/a&gt; assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms.&lt;/p&gt;
+
+&lt;p&gt;The SomaScan Assay v4.1 measures simultaneously ~6,600 unique human proteins in a single sample (see &lt;strong&gt;Table&lt;/strong&gt;). Those protein targets were evaluated by ~7,300 aptamers called SOMAmers (Slow Off-rate Modified Aptamers). SOMAmers are short single-stranded DNA molecules, which are chemically modified to specifically bind to protein targets. The SOMAscan assay measures native proteins in complex matrices by transforming each individual protein concentration into a corresponding SOMAmer reagent concentration, which is then quantified using DNA microarrays. SOMAmer reagents are selected against proteins in their native folded conformations and are therefore generally found to require an intact, tertiary protein structure for binding.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Table&lt;/strong&gt;. The 7k SomaScan Assay v4.1 panel used for human plasma measured 7,596 aptamers mapping to approximately 6,414 unique human protein targets.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Organism&lt;/th&gt;
+      &lt;th&gt;SOMAmers&lt;/th&gt;
+      &lt;th&gt;UniProt IDs (all)&lt;/th&gt;
+      &lt;th&gt;UniProt IDs (Unique)&lt;/th&gt;
+      &lt;th&gt;Protein Targets&lt;/th&gt;
+      &lt;th&gt;Gene IDs&lt;/th&gt;
+      &lt;th&gt;Gene Symbols&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Human&lt;/td&gt;
+      &lt;td&gt;7335&lt;/td&gt;
+      &lt;td&gt;7301&lt;/td&gt;
+      &lt;td&gt;6414&lt;/td&gt;
+      &lt;td&gt;6610&lt;/td&gt;
+      &lt;td&gt;6408&lt;/td&gt;
+      &lt;td&gt;6398&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mouse&lt;/td&gt;
+      &lt;td&gt;236&lt;/td&gt;
+      &lt;td&gt;236&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;African clawed frog&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Gila monster&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Hornet&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Jellyfish&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Thermus thermophilus&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Common eastern firefly&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Bacillus stearothermophilus&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Ensifer meliloti&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;European elder&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;HIV-1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;HIV-2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Red alga&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;strain K12&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Total&lt;/td&gt;
+      &lt;td&gt;7596&lt;/td&gt;
+      &lt;td&gt;7562&lt;/td&gt;
+      &lt;td&gt;6431&lt;/td&gt;
+      &lt;td&gt;6628&lt;/td&gt;
+      &lt;td&gt;6415&lt;/td&gt;
+      &lt;td&gt;6411&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;ADAT file&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;ADAT is a tab-delimited text file format. The contents include SOMAmer reagent intensities, sample data, sequence data and experimental metadata. For each SOMAmer reagent sequence, the ADAT file typically contains corresponding protein name, UniProt ID, Entrez Gene ID and Entrez Gene symbol.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;SomaDataIO&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://somalogic.github.io/SomaDataIO/index.html&quot;&gt;SomaDataIO v5.3.1&lt;/a&gt; is an R package for working with the SomaLogic ADAT file format.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;library(SomaDataIO)
+library(purrr)
+library(tidyr)
+library(dplyr)
+library(ggplot2)  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;read_adat()&lt;/code&gt; function imports data from ADAT files.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;base.dir = &quot;/Users/adinasa/Documents/&quot;
+adat_file &amp;lt;- &quot;example.adat&quot;
+my_adat &amp;lt;- read_adat(paste0(base.dir,adat_file))  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Update the ADAT file with sample group information (adding sample group details from external file). Save the updated ADAT file (optional).&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;meta_file = paste(base.dir, &quot;MAPPING.csv&quot;, sep=&quot;/&quot;)  
+meta &amp;lt;- read.csv(meta_file, header = T, stringsAsFactors = FALSE)  
+meta$SampleId &amp;lt;- as.character(meta$SampleId)  
+my_adat &amp;lt;- dplyr::left_join(my_adat,meta, by=&quot;SampleId&quot;, keep=FALSE)
+write_adat(my_adat, file = paste(base.dir, &quot;example_updated.adat&quot;, sep=&quot;/&quot;))  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Utility functions.&lt;/p&gt;
+
+&lt;p&gt;regex for analytes&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;is_seq &amp;lt;- function(.x) grepl(&quot;^seq\\.[0-9]{4}&quot;, .x)  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;center/scale vector (z-scores).&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cs &amp;lt;- function(.x) {      out &amp;lt;- .x - mean(.x)  
+  out / sd(out)       
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Data were log2-transformed within each sample. Control and Disease are two groups (this may vary in your data).&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cleanData &amp;lt;- my_adat %&amp;gt;% 
+  filter(SampleType == &quot;Sample&quot;) %&amp;gt;% drop_na(Group) %&amp;gt;% 
+  log2() %&amp;gt;% 
+  mutate(SampleGroup = as.numeric(factor(Group, levels=c(&quot;Control&quot;, &quot; Disease&quot;))) - 1) %&amp;gt;% 
+  modify_if(is_seq(names(.)), cs)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Human proteins with Uniprot ID and QC=PASS selected.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;t_tests &amp;lt;- getAnalyteInfo(cleanData2) %&amp;gt;% 
+  filter(ColCheck == &quot;PASS&quot;) %&amp;gt;% 
+  filter(Organism == &quot;Human&quot;) %&amp;gt;%
+  filter(UniProt != &quot;&quot;) %&amp;gt;%
+  select(AptName, SeqId, Target = TargetFullName,Organism, EntrezGeneID, EntrezGeneSymbol, UniProt, ColCheck)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Performed a Student’s t-test.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;t_tests &amp;lt;- t_tests %&amp;gt;% 
+  mutate(
+    formula = map(AptName, ~ as.formula(paste(.x, &quot;~ SampleGroup&quot;))), 
+    t_test  = map(formula, ~ stats::t.test(.x, data = cleanData,var.equal = TRUE)),  
+    t_stat  = map_dbl(t_test, &quot;statistic&quot;),            
+    p.value = map_dbl(t_test, &quot;p.value&quot;),              
+    fdr     = p.adjust(p.value, method = &quot;BH&quot;)         
+  ) %&amp;gt;% arrange(p.value)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The results were used to identify proteins significantly associated with disease using a Benjamini-Hochberg false discovery rate (FDR) threshold of 1%.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;t_tests [t_tests$fdr &amp;lt;= 0.1,]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="SOMALogic" /><category term="Quantitative Proteomics" /><category term="aptamer-based proteomics" /><category term="Emory University" /><category term="Olink Proteomics" /><category term="MS-based Proteomics" /><summary type="html">The aptamer-based SomaScan® assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms.</summary></entry><entry><title type="html">Kaplan-Meier Curve using R</title><link href="https://adinasarapu.github.io/posts/2022/10/blog-post-kaplan-meier-curve/" rel="alternate" type="text/html" title="Kaplan-Meier Curve using R" /><published>2022-10-19T00:00:00-04:00</published><updated>2022-10-19T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2022/10/blog-Kaplan-Meier-curve</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2022/10/blog-post-kaplan-meier-curve/">&lt;p&gt;Kaplan-Meier curve shows what the probability of an event (for example, survival) at a certain time interval. The log-rank test compares the survival curves of two or more groups. With a small subset of patients, the Kaplan-Meier estimates can be misleading and should be interpreted with caution.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;KM Analysis using R&lt;/strong&gt;
+The packages used for the analysis are &lt;a href=&quot;https://cran.r-project.org/web/packages/survival/index.html&quot;&gt;survival&lt;/a&gt; and &lt;a href=&quot;https://cran.r-project.org/web/packages/survminer/index.html&quot;&gt;survminer&lt;/a&gt;. Use install.packages( ) to install these libraries just in case if they are not pre installed in your R workspace.&lt;/p&gt;
+
+&lt;p&gt;Load Required libraries&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;library(survival)  
+library(survminer)  
+library(dplyr)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Read the vital dataset&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;base.dir = &quot;/Users/adinasa/Documents/Nabil/survival_analysis&quot;    
+data = read.csv(file=paste0(base.dir,&quot;/KM_Test_data.csv&quot;),header=T)  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Examine the dataset (Vital status: 1 for dead; 0 for alive)&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;head(data)  
+  
+ID      p16 		Status	Days  
+GHN-11  unknown		1  	803  
+GHN-15  unknown		1  	775  
+GHN-20  unknown		1  	150  
+GHN-21  unknown		0 	2036  
+GHN-24  unknown		1  	718  
+GHN-25	negative	1  	598  
+HN-39	positive	0	1232  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Create a survival object, usually used as a response variable in a model formula.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;surv_obj = survival::Surv(time=data$Days, event = data$Status)  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Wrapper arround the standard survfit() function to create survival curves&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fit = survminer::surv_fit(surv_obj ~ p16, data = data)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can replace the above two steps with&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fit = surv_fit(Surv(Days, Status) ~ p16, data = data)  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Plot the KM curve. With pval = TRUE argument, it plots the p-value of a log rank test, which will help us to get an idea if the groups are significantly different or not.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;png(filename = paste(base.dir, &quot;KM_Plot.png&quot;, sep=&quot;/&quot;),width = 1300, height = 1300, res=200)  
+ggsurvplot(fit_1, pval=TRUE, risk.table=TRUE)  
+dev.off()  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/KM_Plot.png&quot; alt=&quot;KM Plot&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;KM plot&lt;/strong&gt; The lines represent survival curves of the 3 groups; HPV-status: positive [N=23], negative [N=5] and unknown [N=7]. A vertical drop in the curves indicates an event (eg. death). For HPV-positive: 5 (21.7%); HPV-negative: 4 (80%) and HPV-unknown: 5 (71.4%) events.&lt;/p&gt;
+
+&lt;p&gt;The lengths of the horizontal lines along the X-axis of serial times represent the survival duration for that interval. The vertical tick mark on the curves means that a patient was censored at this time; a patient has not (yet) experienced the event of interest, such as death, within the study time period. If many patients were censored in a given group(s), one must question how the study was carried out or how the type of treatment affected the patients. This stresses the importance of showing censored patients as tick marks in survival curves.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Risk table&lt;/strong&gt; At time zero, the survival probability is 1.0 (or 100% of the participants are alive). At time 0, all 35 are alive or at risk and after 1000 days, there are 21 participants alive or at risk; after 3000 days, 3 participants are alive or at risk.&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="Kaplan-Meier-curve" /><category term="Survival analysis" /><category term="Vital" /><category term="Bioinformatics" /><category term="Emory University" /><summary type="html">Kaplan-Meier curve shows what the probability of an event (for example, survival) at a certain time interval. The log-rank test compares the survival curves of two or more groups. With a small subset of patients, the Kaplan-Meier estimates can be misleading and should be interpreted with caution.</summary></entry><entry><title type="html">Annotation of genetic variants</title><link href="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/" rel="alternate" type="text/html" title="Annotation of genetic variants" /><published>2021-04-13T00:00:00-04:00</published><updated>2021-04-13T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2021/04/blog-vep</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2021/04/blog-post-vep/">&lt;p&gt;Tools such as ANNOVAR, Variant Effect Predictor (VEP) or SnpEff annotate genetic variants (SNPs, INDELS, CNVs etc) present in VCF file. These tools integrate the annotations within the INFO column of the original VCF file.&lt;/p&gt;
 
 &lt;p&gt;Variant Call Format or VCF is a text file with multiple lines of meta-information, a header line, and data rows each containing information about a loci or sequence variant in the genome. Aside from the chromosomal location and observed alleles, these loci are basically anonymous. VCF is the primary (and only well-supported) format used by the GATK for variant calls. A GVCF or Genomic VCF is a kind of VCF, so the basic format specification is the same as for a regular VCF, but a Genomic VCF contains extra information.&lt;/p&gt;
 
@@ -847,26 +1147,4 @@ HUMAnN2 utilizes the MetaCyc database as well as the UniRef gene family catalog 
 
 &lt;p&gt;Scripts are available at &lt;a href=&quot;https://bitbucket.org/adinasarapu/shotgun_metagenomics/src&quot;&gt;shotgun_metagenomics&lt;/a&gt;&lt;/p&gt;
 
-&lt;hr /&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="metagenomics" /><category term="MetaPhlAn2" /><category term="HUMAnN2" /><category term="taxonomic profiling" /><category term="functional profiling" /><category term="shotgun metagenomics sequencing" /><summary type="html">This workflow consists of taxonomic and functional profiling of shotgun metagenomics sequencing (MGS) reads using MetaPhlAn2 and HUMAnN2, respectively. To perform taxonomic (phyla, genera or species level) profiling of the MGS data, the MetaPhlAn2 pipeline was run on a high performance multicore cluster computing environment.</summary></entry><entry><title type="html">RNA-Seq: raw reads to differential expression</title><link href="https://adinasarapu.github.io/posts/2018/03/blog-post-rnaseq/" rel="alternate" type="text/html" title="RNA-Seq: raw reads to differential expression" /><published>2018-03-20T00:00:00-04:00</published><updated>2018-03-20T00:00:00-04:00</updated><id>https://adinasarapu.github.io/posts/2018/03/blog-rnaseq</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2018/03/blog-post-rnaseq/">&lt;p&gt;A simple RNA-Seq differential expression analysis using High Performance Computing (HPC).&lt;/p&gt;
-
-&lt;p&gt;The goal is to analyze RNA-Seq data using HPC. The software which will be used in this session is listed below.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.bioinformatics.babraham.ac.uk/projects/fastqc/&quot;&gt;FastQC&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;STAR&lt;/li&gt;
-  &lt;li&gt;HTSeq&lt;/li&gt;
-  &lt;li&gt;EdgeR&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;This pipeline is available as &lt;a href=&quot;https://bitbucket.org/adinasarapu/ibs_class/src&quot;&gt;RNA-Seq Exercise&lt;/a&gt;&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="RNASeq" /><category term="RNA-Seq" /><category term="FastQC" /><category term="STAR" /><category term="HTSeq" /><category term="edgeR" /><summary type="html">A simple RNA-Seq differential expression analysis using High Performance Computing (HPC).</summary></entry><entry><title type="html">Genomic variants from RNA-Seq data</title><link href="https://adinasarapu.github.io/posts/2018/01/blog-post-gatk/" rel="alternate" type="text/html" title="Genomic variants from RNA-Seq data" /><published>2018-01-05T00:00:00-05:00</published><updated>2018-01-05T00:00:00-05:00</updated><id>https://adinasarapu.github.io/posts/2018/01/blog-gatk</id><content type="html" xml:base="https://adinasarapu.github.io/posts/2018/01/blog-post-gatk/">&lt;p&gt;RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.&lt;/p&gt;
-
-&lt;p&gt;Currently few workflows exist for detecting SNPs in RNA-seq data, including &lt;a href=&quot;http://bioinformaticstools.mayo.edu/research/esnv-detect/&quot;&gt;eSNV-detect&lt;/a&gt;, &lt;a href=&quot;https://github.com/rpiskol/SNPiR&quot;&gt;SNPiR&lt;/a&gt; and &lt;a href=&quot;https://github.com/pysam-developers/pysam&quot;&gt;Opossum&lt;/a&gt;. Here, I have employed &lt;a href=&quot;https://software.broadinstitute.org/gatk/documentation/article.php?id=3891&quot;&gt;GATK workflow for SNP and indel calling on RNAseq data&lt;/a&gt;, which is based on the following steps:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Reference (hg38) based read mapping using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STAR&lt;/code&gt; aligner. This is a 2-pass approach with the suggested parameters. In this STAR 2-pass approach, splice junctions detected in a first alignment run are used to guide the final alignment (reads which have been mapped across splice junctions must be split to remove intronic parts).&lt;/li&gt;
-  &lt;li&gt;Add read group information, sort, mark the duplicates and index with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;picard.jar&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;GATK’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SplitNCigarReads&lt;/code&gt; split the reads into exon segments (removing Ns but maintaining grouping information) and reassigning mapping qualities.&lt;/li&gt;
-  &lt;li&gt;Indel realignment and recalibration of Base qualities and&lt;/li&gt;
-  &lt;li&gt;Variant calling with GATK’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HaplotypeCaller&lt;/code&gt;, and finally filtering the variants with GATK’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VariantFiltration&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;My qsub-based pipeline is available at &lt;a href=&quot;https://bitbucket.org/adinasarapu/clustercomputing/src/3e9a2b3881ea0e2afbe58df325ca693ecfac4fbc/job_rnaseq_variant_caller.sh&quot;&gt;bitbucket.org&lt;/a&gt;&lt;/p&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="GATK" /><category term="RNA-Seq" /><category term="STAR" /><category term="SNP" /><category term="Indel" /><summary type="html">RNA-Seq allows the detection and quantification of known and rare RNA transcripts within a sample. In addition to differential expression and detection of novel transcripts, RNA-seq also supports the detection of genomic variation in expressed regions.</summary></entry></feed>
+&lt;hr /&gt;</content><author><name>Scientist, Bioinformatics</name><email>ashok.reddy.dinasarapu@emory.edu</email></author><category term="metagenomics" /><category term="MetaPhlAn2" /><category term="HUMAnN2" /><category term="taxonomic profiling" /><category term="functional profiling" /><category term="shotgun metagenomics sequencing" /><summary type="html">This workflow consists of taxonomic and functional profiling of shotgun metagenomics sequencing (MGS) reads using MetaPhlAn2 and HUMAnN2, respectively. To perform taxonomic (phyla, genera or species level) profiling of the MGS data, the MetaPhlAn2 pipeline was run on a high performance multicore cluster computing environment.</summary></entry></feed>
