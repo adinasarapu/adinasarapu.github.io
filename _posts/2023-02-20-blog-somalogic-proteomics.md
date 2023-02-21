@@ -13,9 +13,31 @@ tags:
 ---  
 The aptamer-based [SomaScan®](https://somalogic.com) assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms. 
 
-The SomaScan Assay v4.1 measures simultaneously ~6,600 unique human proteins in a single sample (see **Table**). Those protein targets were evaluated by ~7,300 aptamers called SOMAmers (Slow Off-rate Modified Aptamers). SOMAmers are short single-stranded DNA molecules, which are chemically modified to specifically bind to protein targets. The SOMAscan assay measures native proteins in complex matrices by transforming each individual protein concentration into a corresponding SOMAmer reagent concentration, which is then quantified using DNA microarrays. SOMAmer reagents are selected against proteins in their native folded conformations and are therefore generally found to require an intact, tertiary protein structure for binding.  
+**Table 1**. Overview of common proteomic platforms (Jiang W et al, Cancers, 2022).  
 
-**Table**. The 7k SomaScan Assay v4.1 panel used for human plasma measured 7,596 aptamers mapping to approximately 6,414 unique human protein targets.  
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|  
+| Analytical Technique			| Category 		   | Protein Sample Values 	  | Accepted Biospecimen Types 						   		       |  
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|  
+| Proximity Extension Assay (Olink)	| Antibody 		   | 1 µL			  | Plasma, tissue/cell, synovial fluid, CSF, plaque extract, and saliva	   	       |  
+| Reverse Phase Protein Arrays		| Antibody 		   | 5 µg (1.0- 1.5 mg/mL protein)| Tissue/cell, plasma, serum, biopsies, body fluids			   		       |  
+| Bio-Plex				| Antibody (bead)	   | 12.5 µL (serum/plasma) 	  | 50 µL (cell culture)	Plasma, serum, tissue/cell			   	       | 			
+| Simoa					| Antibody (bead)	   | 25 µL			  | Plasma, serum, urine, tissue/cell, CSF, saliva 			    	     	       |  
+| Aptamer Group (Optmer)		| Aptamer		   | 38 µL			  | Plasma (diagnostics and therapeutics), urine, tissue/cell, liquid matrices 		       |  
+| Base Pair Technologies		| Aptamer		   | 5–100 µL			  | Plasma, serum, tissue/cell								       |  
+| SOMAscan				| Aptamer		   | 55–100 µL			  | Plasma, serum, CSF, urine, cell/tissue, synovial fluid, exosomes 	   		       | 
+| Electrochemiluminescence Immunoassay	| ECLIA			   | 50 µL			  | Plasma, serum, tissue/cell, CSF, urine, blood spots, tears, synovial fluid, tissue extracts|	  
+| Multiplex ELISA			| ELISA			   | 25–50 µL			  | Plasma, serum, tissue/cell, urine, saliva, CSF				   	       |  
+| Singleplex ELISA			| ELISA			   | 100 µL			  | Plasma, serum, tissue/cell, urine, saliva, CSF					       |  
+| 2D-PAGE				| Gel electrophoresis	   | ~100 µg (15–50 µL)		  | Plasma, serum, tissue/cell, urine 					   		       |  
+| DDA-MS				| MS			   | 10 µL			  | Plasma, serum, tissue/cell 						   		       |  
+| SWATH-MS				| MS (DIA)		   | 5–10 µg			  | Plasma, serum tissue/cell, platelets, monocytes/neutrophils 		   	       |  
+| iTRAQ					| MS (labeling in LC–MS–MS)| 12 µg			  | Plasma, serum, tissue/cells, saliva 					   	       | 
+| SRM/MRM				| MS (LC–MS–MS) 	   | 15 µL			  | Plasma, tissue/cell, dried blood spots 				   	               |  
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|    
+
+The SomaScan Assay v4.1 measures simultaneously ~6,600 unique human proteins in a single sample (see **Table 2**). Those protein targets were evaluated by ~7,300 aptamers called SOMAmers (Slow Off-rate Modified Aptamers). SOMAmers are short single-stranded DNA molecules, which are chemically modified to specifically bind to protein targets. The SOMAscan assay measures native proteins in complex matrices by transforming each individual protein concentration into a corresponding SOMAmer reagent concentration, which is then quantified using DNA microarrays. SOMAmer reagents are selected against proteins in their native folded conformations and are therefore generally found to require an intact, tertiary protein structure for binding.  
+
+**Table 2**. The 7k SomaScan Assay v4.1 panel (7,596 aptamers mapping to 6,414 unique human protein targets).  
 
 |-----------------------------------------------------------------------------------------------------------------------------------|  
 | 	Organism		| SOMAmers | UniProt IDs (all) | UniProt IDs (Unique)|  Protein Targets | Gene IDs   | Gene Symbols |
