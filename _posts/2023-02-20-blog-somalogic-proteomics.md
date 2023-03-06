@@ -11,7 +11,7 @@ tags:
   - MS-based Proteomics
 
 ---  
-The aptamer-based [SomaScan®](https://somalogic.com) assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms. 
+The aptamer-based [SomaScan®](https://somalogic.com) assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms. In general aptamers/SOMAmers are selected against target proteins in their native conformation and in some cases against a functional protein with “known” post translational modifications (PTMs). It’s well known that novel PTMs (pathogen or disease-induced) can impact the protein structure, electrophilicity and interactions with proteins. The other main disadvantage is quantification which is based on DNA microarray chips (background noise). The main advantage are lower cost and data analysis.  
 
 **Table 1**. Overview of common proteomic platforms (Jiang W et al, Cancers, 2022).  
 
@@ -148,6 +148,8 @@ The results were used to identify proteins significantly associated with disease
 
 ```
 t_tests [t_tests$fdr <= 0.1,]
-```
+```  
 
-
+Further reading ...   
+[Tandem Mass Tag (TMT)-based quantitation of proteins](https://adinasarapu.github.io/posts/2020/01/blog-post-tmt/)  
+[Label-Free Quantitation (LFQ) of proteins](https://adinasarapu.github.io/posts/2018/04/blog-post-lfq/)  

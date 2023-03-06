@@ -20,7 +20,7 @@ Work experience
 ======
 * 10/2017-till: Scientist, Bioinformatics
   * Emory University, Atlanta
-  * Duties included: Genomic and Proteomic data analysis
+  * Duties included: Genomic, Proteomic and Lipidomic data analysis
   * Supervisors: [`Hyder A. (Buz) Jinnah, MD`](https://www.med.emory.edu/education/emorydocs/bios/hyder-jinnah.html) & Mike Zwick Ph.D
 
 * 09/2015-10/2017: Bioinformatics Analyst, Sr
@@ -40,10 +40,10 @@ Work experience
 
 Skills
 ======
-* NGS, Proteomic and Metabolomic data analysis
+* NGS, Proteomics and Lipidomics
 * Cluster and Cloud computing
 * Linux shell
-* R
+* R for Statistical Computing
 * Python
 * Java/J2EE
 
