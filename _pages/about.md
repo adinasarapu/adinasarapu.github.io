@@ -13,6 +13,10 @@ My research is focused on genomics and computing, with emphasis on variant and c
 
 <b>NEWS</b>
 
+2023  
+<ul>
+<li><em>Spiny projection neurons exhibit unique transcriptional signatures within subregions of the dorsal striatum</em>accepted in Cell Reports</li>
+</ul>  
 2022  
 <ul>
 <li><em>Abnormalities of Neural Stem Cells in Lesch-Nyhan Disease</em> published in Journal of Neurogenetics.</li>  
