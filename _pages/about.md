@@ -15,17 +15,17 @@ My research is focused on genomics and computing, with emphasis on variant and c
 
 2023  
 <ul>
-<li><em>Spiny projection neurons exhibit unique transcriptional signatures within subregions of the dorsal striatum</em>accepted in Cell Reports</li>
+<li><em>"Spiny projection neurons exhibit unique transcriptional signatures within subregions of the dorsal striatum"</em> accepted in Cell Reports.</li>
 </ul>  
 2022  
 <ul>
-<li><em>Abnormalities of Neural Stem Cells in Lesch-Nyhan Disease</em> published in Journal of Neurogenetics.</li>  
-<li><em>Uric Acid in Parkinsons Disease: What Is the Connection?</em> published in Movement Disorders.</li>   
+<li><em>"Abnormalities of Neural Stem Cells in Lesch-Nyhan Disease"</em> published in Journal of Neurogenetics.</li>  
+<li><em>"Uric Acid in Parkinsons Disease: What Is the Connection?"</em> published in Movement Disorders.</li>   
 </ul>
 2021  
 <ul>
-<li><em>Induced Pluripotent Stem Cells from Subjects with Lesch-Nyhan Disease</em> published in Scientific Reports.</li>    
-<li><em>Differential expression of striatal proteins in a mouse model of DOPA-responsive dystonia reveals shared mechanisms among dystonic disorders</em> published in Molecular Genetics and Metabolism.</li>
+<li><em>"Induced Pluripotent Stem Cells from Subjects with Lesch-Nyhan Disease"</em> published in Scientific Reports.</li>    
+<li><em>"Differential expression of striatal proteins in a mouse model of DOPA-responsive dystonia reveals shared mechanisms among dystonic disorders"</em> published in Molecular Genetics and Metabolism.</li>
 </ul>  
 
 {% comment%}
