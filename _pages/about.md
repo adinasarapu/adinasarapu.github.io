@@ -11,6 +11,8 @@ redirect_from:
 
 My research is focused on genomics and computing, with emphasis on variant and copy number analysis, gene expression, microbiome and proteomics studies. Ongoing projects include identification of genomic signatures and, protein targets for drug discovery in movement disorders like Dystonia and Parkinson's Disease. Other projects in this area include disease modeling using Induced pluripotent stem cells (iPSCs) of Lesch-Nyhan disease and DYT1 dystonia (<a href="https://med.emory.edu/departments/pharmacology-chemical-biology/labs/hess-jinnah-lab/index.html" target="_blank">Hess-Jinnah Research Group</a>). I am also interested in Big data analytics in medicine and healthcare with real-time data processing, messaging and streaming techniques.  
 
+Please browse through my website and feel free to reach out to me with any questions or comments! I look forward to hearing from you!  
+
 <b>NEWS</b>
 
 2023  
