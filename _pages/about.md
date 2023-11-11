@@ -8,10 +8,17 @@ redirect_from:
   - /about.html
 ---
 {% comment %} {% endcomment %}
+<b>Research Focus</b>:
+My research is at the intersection of genomics and computing, with a core emphasis on variant and copy number analysis, gene expression, microbiome, and proteomics studies.
 
-My research is focused on genomics and computing, with emphasis on variant and copy number analysis, gene expression, microbiome and proteomics studies. Ongoing projects include identification of genomic signatures and, protein targets for drug discovery in movement disorders like Dystonia and Parkinson's Disease. Other projects in this area include disease modeling using Induced pluripotent stem cells (iPSCs) of Lesch-Nyhan disease and DYT1 dystonia (<a href="https://med.emory.edu/departments/pharmacology-chemical-biology/labs/hess-jinnah-lab/index.html" target="_blank">Hess-Jinnah Research Group</a>). I am also interested in Big data analytics in medicine and healthcare with real-time data processing, messaging and streaming techniques.  
+<b>Ongoing Projects</b>:
+My current endeavors revolve around identifying genomic signatures and protein targets for drug discovery in movement disorders, particularly Dystonia and Parkinson’s Disease. My involvement extends to other significant initiatives, including disease modeling using Induced Pluripotent Stem Cells (iPSCs) for Lesch-Nyhan disease and DYT1 dystonia within the esteemed Hess-Jinnah Research Group.
 
-Please browse through my website and feel free to reach out to me with any questions or comments! I look forward to hearing from you!  
+<b>Additional Interests</b>:
+Beyond my primary focus, I am deeply interested in the application of Big Data analytics in medicine and healthcare. My expertise extends to real-time data processing, messaging, and streaming techniques.
+
+<b>Connect with Me</b>:
+Feel free to explore more about my ongoing projects and interests on my website. Your questions and comments are most welcome, and I eagerly anticipate the opportunity for engaging discussions and potential collaborations. Looking forward to hearing from you!
 
 <b>NEWS</b>
 
