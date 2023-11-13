@@ -16,7 +16,7 @@ Feel free to explore more about my ongoing projects and interests on my website.
 
 2023  
 <ul>
-<li><em>"Spiny projection neurons exhibit unique transcriptional signatures within subregions of the dorsal striatum"</em> accepted in Cell Reports.</li>
+<li><em>"Spiny projection neurons exhibit unique transcriptional signatures within subregions of the dorsal striatum"</em> published in Cell Reports.</li>
 </ul>  
 2022  
 <ul>
