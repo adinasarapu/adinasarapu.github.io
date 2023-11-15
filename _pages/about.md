@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Ashok R. Dinasarapu"
+title: ""
 excerpt: "About me"
 author_profile: true
 redirect_from: 
@@ -10,7 +10,7 @@ redirect_from:
 {% comment %} {% endcomment %}
 My research is at the intersection of genomics and computing, with a core emphasis on variant and copy number analysis, gene expression, microbiome, and proteomics studies. My current endeavors revolve around identifying genomic signatures and protein targets for drug discovery in movement disorders, particularly Dystonia and Parkinson’s Disease. My involvement extends to other significant initiatives, including disease modeling using Induced Pluripotent Stem Cells (iPSCs) for Lesch-Nyhan disease and DYT1 dystonia within the esteemed Hess-Jinnah Research Group. Beyond my primary focus, I am deeply interested in the application of Big Data analytics in medicine and healthcare. My expertise extends to real-time data processing, messaging, and streaming techniques.
 
-Feel free to explore more about my ongoing projects and interests on my website. Your questions and comments are most welcome, and I eagerly anticipate the opportunity for engaging discussions and potential collaborations. Looking forward to hearing from you!
+Feel free to explore more about my ongoing projects and interests on my website. Your questions and comments are most welcome, and I eagerly anticipate the opportunity for engaging discussions and potential collaborations. Looking forward to hearing from you!  
 
 <b>NEWS</b>
 
