@@ -13,7 +13,7 @@ tags:
   - Feature Barcoding
 
 ---  
-*Updated on May 03, 2021*  
+*Updated on November 28, 2023*  
 
 [Cell Ranger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) can be run in cluster mode, using job schedulers like Sun Grid Engine (or simply SGE) or Load Sharing Facility (or simply LSF) as queuing system allows highly parallelizable jobs.
 
@@ -32,12 +32,16 @@ _When doing large studies involving multiple GEM wells, first run `cellranger co
 
 Running pipelines on cluster requires the following:  
 
-**1**. Download and uncompress `cellranger-6.0.1`[^1] at your `$HOME` directory and add PATH in `~/.bashrc`.  
+**1**. Download and uncompress `cellranger-7.2.0`[^1] at your `$HOME` directory and add PATH in `~/.bashrc`.  
 
-**2**. Update job config file (`external/martian/jobmanagers/config.json`) for threads and memory. For example  
+**2**. Update job config file (`external/martian/jobmanagers/config.json`) for threads and memory.  
+
+For example  
 
 `"threads_per_job": 4,`  
 `"memGB_per_job": 32,`
+`"name":"SGE_ROOT",`
+`"description":"/opt/sge"`
 
 **3**. Update template file `sge.template` (`external/martian/jobmanagers/sge.template`).  
 
@@ -56,7 +60,7 @@ Running pipelines on cluster requires the following:
 #$ -S /bin/bash
  
 cd __MRO_JOB_WORKDIR__
-source $HOME/cellranger-6.0.1/sourceme.bash 
+source $HOME/10xgenomics/cellranger-7.2.0 
 ```
 
 For clusters whose job managers do not support memory requests, it is possible to request memory 
@@ -77,19 +81,19 @@ Output files will appear in the out/ subdirectory within this pipeline output di
 
 cd $HOME/10xgenomics/out  
 
-FASTQS="$HOME/pbmc_10k_v3_fastqs"`  
-TR="$HOME/refdata-cellranger-GRCh38-3.0.0
+FASTQS="$HOME/pbmc_10k_v3_fastqs"  
+TR="$HOME/refdata-gex-GRCh38-2020-A"
 
-cellranger count --disable-ui \`  
-  --id=10XGTX_v3 \`  
-  --transcriptome=${TR} \`  
-  --fastqs=${FASTQS} \`  
-  --sample=pbmc_10k_v3 \`  
-  --expect-cells=10000 \`  
-  --jobmode=sge \`  
-  --mempercore=8 \`  
-  --jobinterval=5000 \`  
-  --maxjobs=3`  
+cellranger count --disable-ui \  
+  --id=10XGTX_v3 \  
+  --transcriptome=${TR} \  
+  --fastqs=${FASTQS} \  
+  --sample=pbmc_10k_v3 \  
+  --expect-cells=10000 \  
+  --jobmode=sge \  
+  --mempercore=8 \  
+  --jobinterval=5000 \  
+  --maxjobs=3  
 ```
 
 Execute a command in screen and, detach and reconnect:  
@@ -98,6 +102,13 @@ Start a screen as `screen -S some_name`.
 Run the above script as `sh sge.sh`  
 To detach the screen session from the terminal use `control` + `a` followed by `d`  
 To reconnect to the screen: `screen -R some_name`  
+
+If the job is Eqw: Job waiting in error state  
+`qstat -j jobid | grep error`  
+
+If you understand the reason and can get it fixed, you can clear the error state with  
+`qmod -cj jobid`  
+
 
 **for Single Cell 5′ gene expression**
 
