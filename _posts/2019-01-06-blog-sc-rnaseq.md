@@ -60,7 +60,7 @@ For example
 #$ -S /bin/bash
  
 cd __MRO_JOB_WORKDIR__
-source $HOME/10xgenomics/cellranger-7.2.0 
+source $HOME/10xgenomics/cellranger-7.2.0/sourceme.bash 
 ```
 
 For clusters whose job managers do not support memory requests, it is possible to request memory 

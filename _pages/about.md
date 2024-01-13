@@ -14,6 +14,11 @@ Feel free to explore more about my ongoing projects and interests on my website.
 
 <b>NEWS</b>
 
+2024  
+<ul>
+<li><em>"An Exploratory, Randomized, Double-Blind Clinical Trial of Dipraglurant for Blepharospasm"</em> accepted in Movement Disorders.</li>
+</ul>  
+
 2023  
 <ul>
 <li><em>"Spiny projection neurons exhibit unique transcriptional signatures within subregions of the dorsal striatum"</em> published in Cell Reports.</li>
