@@ -16,7 +16,7 @@ Feel free to explore more about my ongoing projects and interests on my website.
 
 2024  
 <ul>
-<li><em>"An Exploratory, Randomized, Double-Blind Clinical Trial of Dipraglurant for Blepharospasm"</em> accepted in Movement Disorders.</li>
+<li><em>"An Exploratory, Randomized, Double-Blind Clinical Trial of Dipraglurant for Blepharospasm"</em> published in Movement Disorders.</li>
 </ul>  
 
 2023  
