@@ -5,8 +5,8 @@ permalink: /publication/2024-movement-disorder
 excerpt: 'Movement Disorder'
 date: 2024-02-04
 tags:
-  - MovementDisorder
-  - ParkinsonsDisease
+  - Movement Disorder
+  - Parkinson`s Disease
   - Clinical trial
   - Neurology
   - Dipraglurant

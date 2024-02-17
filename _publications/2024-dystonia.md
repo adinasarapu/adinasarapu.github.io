@@ -10,7 +10,7 @@ tags:
   - Neurology
   - Parkinsonism
   - Emory Uiversity
-venue: 'Movement Disorders'
+venue: 'Parkinsonism & Related Disorders'
 paperurl: 'https://doi.org/10.1016/j.parkreldis.2024.106036'  
 citation: 'Scorr LM, Kilic-Berkmen G, Sutcliffe DJ, <i style="color:DodgerBlue;">Dinasarapu AR </i>, McKay JL, Bagchi P, Powell MD, Boss JM, Cereb N, Little M, Gragert L, Hanfelt J, McKeon A, Tyor W, Jinnah HA (2024) Exploration of potential immune mechanisms in cervical dystonia. <i>Parkinsonism & Related Disorders </i> (2024)'  
 ---  
