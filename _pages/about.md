@@ -16,6 +16,7 @@ Feel free to explore more about my ongoing projects and interests on my website.
 
 2024  
 <ul>
+<li><em>"Chronic SIV-Induced neuroinflammation disrupts CCR7+ CD4+ T cell immunosurveillance in the rhesus macaque brain" accepted in Journal of Clinical Investigation</em></li>
 <li><em>"Exploration of potential immune mechanisms in cervical dystonia"</em> published in Parkinsonism & Related Disorders</li>
 <li><em>"An Exploratory, Randomized, Double-Blind Clinical Trial of Dipraglurant for Blepharospasm"</em> published in Movement Disorders.</li>
 </ul>  
