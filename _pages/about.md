@@ -16,24 +16,9 @@ Feel free to explore more about my ongoing projects and interests on my website.
 
 2024  
 <ul>
-<li><em>"Chronic SIV-Induced neuroinflammation disrupts CCR7+ CD4+ T cell immunosurveillance in the rhesus macaque brain" accepted in Journal of Clinical Investigation</em></li>
+<li><em>"Chronic SIV-Induced neuroinflammation disrupts CCR7+ CD4+ T cell immunosurveillance in the rhesus macaque brain"</em> accepted in Journal of Clinical Investigation</li>
 <li><em>"Exploration of potential immune mechanisms in cervical dystonia"</em> published in Parkinsonism & Related Disorders</li>
 <li><em>"An Exploratory, Randomized, Double-Blind Clinical Trial of Dipraglurant for Blepharospasm"</em> published in Movement Disorders.</li>
-</ul>  
-
-2023  
-<ul>
-<li><em>"Spiny projection neurons exhibit unique transcriptional signatures within subregions of the dorsal striatum"</em> published in Cell Reports.</li>
-</ul>  
-2022  
-<ul>
-<li><em>"Abnormalities of Neural Stem Cells in Lesch-Nyhan Disease"</em> published in Journal of Neurogenetics.</li>  
-<li><em>"Uric Acid in Parkinsons Disease: What Is the Connection?"</em> published in Movement Disorders.</li>   
-</ul>
-2021  
-<ul>
-<li><em>"Induced Pluripotent Stem Cells from Subjects with Lesch-Nyhan Disease"</em> published in Scientific Reports.</li>    
-<li><em>"Differential expression of striatal proteins in a mouse model of DOPA-responsive dystonia reveals shared mechanisms among dystonic disorders"</em> published in Molecular Genetics and Metabolism.</li>
 </ul>  
 
 {% comment%}
