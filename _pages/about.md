@@ -16,10 +16,10 @@ Feel free to explore more about my ongoing projects and interests on my website.
 
 2024  
 <ul>
-<li><em>Blood-Based Proteomics for Adult-Onset Focal Dystonias.<em> Annals of Neurology</em> (In Production)</li>
-<li>Chronic SIV-Induced neuroinflammation disrupts CCR7+ CD4+ T cell immunosurveillance in the rhesus macaque brain.<em>Journal of Clinical Investigation</em> (In Production)</li>
-<li><em>Exploration of potential immune mechanisms in cervical dystonia. <em>Parkinsonism & Related Disorders</em> (Published) </li>
-<li>An Exploratory, Randomized, Double-Blind Clinical Trial of Dipraglurant for Blepharospasm. <em>Movement Disorders</em> (Published)</li>
+<li>Blood-Based Proteomics for Adult-Onset Focal Dystonias.<em> Annals of Neurology</em> (In Production)</li>
+<li>Chronic SIV-Induced neuroinflammation disrupts CCR7+ CD4+ T cell immunosurveillance in the rhesus macaque brain.<em> Journal of Clinical Investigation</em> (In Production)</li>
+<li>Exploration of potential immune mechanisms in cervical dystonia.<em> Parkinsonism & Related Disorders</em> (Published)</li>
+<li>An Exploratory, Randomized, Double-Blind Clinical Trial of Dipraglurant for Blepharospasm.<em> Movement Disorders</em> (Published)</li>
 </ul>  
 
 {% comment%}
