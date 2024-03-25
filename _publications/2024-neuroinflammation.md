@@ -11,7 +11,7 @@ tags:
   - Transcriptomics
   - Bioinformatics
   - Emory Uiversity
-venue: 'bioRxiv'
+venue: 'Journal of Clinical Investigation'
 paperurl: 'https://pubmed.ncbi.nlm.nih.gov/38470479/'  
 citation: 'Elizaldi SR, Hawes CE, Verma A, Shaan Lakshmanappa Y, <i style="color:DodgerBlue;">Dinasarapu AR</i>, Schlegel BT, Rajasundaram D, Li J, Durbin-Johnson BP, Ma ZM, Pal PB, Beckman D, Ott S, Raeman R, Lifson J, Morrison JH, Iyer SS (2024). Chronic SIV-induced neuroinflammation disrupts CCR7+CD4+ T cell immunosurveillance in the rhesus macaque brain. <i>J Clin Invest</i>.'  
 ---  
