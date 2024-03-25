@@ -3,7 +3,7 @@ title: "Chronic SIV-induced neuroinflammation disrupts CCR7+CD4+ T cell immunosu
 collection: publications
 permalink: /publication/2024-neuroinflammation
 excerpt: 'Infectious diseases & Inflammation'
-date: 2023-08-31
+date: 2024-03-12
 tags:
   - CCR7+ CD4 T Cell
   - SIV-Induced
