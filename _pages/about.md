@@ -17,9 +17,9 @@ Feel free to explore more about my ongoing projects and interests on my website.
 <b>2024  Publications</b>
 <ul>
 <li><i style="color:DodgerBlue;">Annals of Neurology</i><br>  
-Blood-Based Proteomics for Adult-Onset Focal Dystonias.<br><em>(In Production)</em> </li>
+Blood-Based Proteomics for Adult-Onset Focal Dystonias.<br><em>(Published)</em> </li>
 <li><i style="color:DodgerBlue;">Journal of Clinical Investigation</i><br>
-Chronic SIV-Induced neuroinflammation disrupts CCR7+ CD4+ T cell immunosurveillance in the rhesus macaque brain.<br><em>(In Production)</em></li>
+Chronic SIV-Induced neuroinflammation disrupts CCR7+ CD4+ T cell immunosurveillance in the rhesus macaque brain.<br><em>(Published)</em></li>
 <li><i style="color:DodgerBlue;">Parkinsonism & Related Disorders</i><br>
 Exploration of potential immune mechanisms in cervical dystonia.<br><em>(Published)</em></li>
 <li><i style="color:DodgerBlue;">Movement Disorders</i><br>
