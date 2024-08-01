@@ -16,6 +16,8 @@ Feel free to explore more about my ongoing projects and interests on my website.
 {% endcomment %}
 <b>2024  Publications</b>
 <ul>
+<li><i style="color:DodgerBlue;">Cancer Research</i><br>  
+Live-cell invasive phenotyping uncovers the LKB1 kinase as a negative regulator of the ALK2/Hepcidin pathway in lung cancer.<br><em>(Accepted)</em> </li>
 <li><i style="color:DodgerBlue;">Annals of Neurology</i><br>  
 Blood-Based Proteomics for Adult-Onset Focal Dystonias.<br><em>(Published)</em> </li>
 <li><i style="color:DodgerBlue;">Journal of Clinical Investigation</i><br>
