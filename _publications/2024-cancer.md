@@ -1,9 +1,9 @@
 ---
 title: "Live-cell invasive phenotyping uncovers the ALK2/BMP6 iron homeostasis pathway as a therapeutic vulnerability in LKB1-mutant lung cancer."
 collection: publications
-permalink: /publication/2023-cancer
+permalink: /publication/2024-cancer
 excerpt: ''
-date: 2023-06-14
+date: 2024-07-31
 tags:
   - Cancer
   - Molecular subtypes
@@ -11,7 +11,7 @@ tags:
   - Transcriptomics
   - Bioinformatics
   - Emory Uiversity
-venue: 'bioRxiv'
+venue: 'Cancer Research'
 paperurl: 'https://www.biorxiv.org/content/10.1101/2023.06.14.544941v1'  
 citation: 'Koo J, Seong CS, Parker RE, Dwivedi B, Arthur RA, <i style="color:DodgerBlue;">Dinasarapu AR</i>, Johnston HR, Claussen H, Tucker-Burden C, Ramalingam SS, Fu H,Zhou W,  Marcus AI, Gilbert-Ross M. (2023) Live-cell invasive phenotyping uncovers the ALK2/BMP6 iron homeostasis pathway as a therapeutic vulnerability in LKB1-mutant lung cancer&quot; <i></i>'  
 ---  
