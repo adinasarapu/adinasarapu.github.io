@@ -1,5 +1,5 @@
 ---
-title: 'Quantitative proteomics: aptamer-based quantitation of proteins'
+title: 'Quantitative Proteomics: Aptamer-Based Protein Quantification'
 date: 2023-02-20
 permalink: /posts/2023/02/blog-post-somalogic-proteomics/
 tags:
@@ -11,7 +11,9 @@ tags:
   - MS-based Proteomics
 
 ---  
-The aptamer-based [SomaScan®]((https://somalogic.com)) assay is a widely used method for measuring protein abundances. However, there is limited information on how SomaScan correlates with mass spectrometry (MS)-based proteomics and Olink assays, another high-throughput antibody-based platform. Some studies have noted measurement variations between these platforms. Aptamers or SOMAmers in the SomaScan assay are typically selected to bind target proteins in their native conformation or with known post-translational modifications (PTMs). However, novel PTMs induced by pathogens or diseases can alter protein structure, electrophilicity, and interactions. A key drawback of the SomaScan assay is that its quantification relies on DNA microarray chips, which can introduce background noise. On the other hand, the advantages include lower cost and efficient data analysis.  
+Quantitative proteomics is a cutting-edge approach for measuring protein levels in complex biological samples. One innovative method in this field is aptamer-based protein quantification. Aptamers, which are short, single-stranded DNA or RNA molecules, are engineered to specifically bind to target proteins with high precision. 
+
+The [SomaScan®]((https://somalogic.com)) assay is a widely used aptamer-based method for measuring protein abundances. However, there is limited information on how SomaScan correlates with mass spectrometry (MS)-based proteomics and Olink assays, another high-throughput antibody-based platform. Some studies have noted measurement variations between these platforms. Aptamers or SOMAmers in the SomaScan assay are typically selected to bind target proteins in their native conformation or with known post-translational modifications (PTMs). However, novel PTMs induced by pathogens or diseases can alter protein structure, electrophilicity, and interactions. A key drawback of the SomaScan assay is that its quantification relies on DNA microarray chips, which can introduce background noise. On the other hand, the advantages include lower cost and efficient data analysis.  
 
 **Table 1**. Overview of common proteomic platforms (Jiang W et al, Cancers, 2022).  
  
