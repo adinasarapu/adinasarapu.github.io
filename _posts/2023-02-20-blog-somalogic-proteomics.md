@@ -11,7 +11,7 @@ tags:
   - MS-based Proteomics
 
 ---  
-The aptamer-based [SomaScan®](https://somalogic.com) assay is one of the popular methods of measuring abundances of protein targets. There is very little information on correlation between mass spectrometry (MS)-based proteomics, SOMAscan and Olink assays; Olink is another popular high throughput antibody-based platform. Some studies also reported a measurement variation between those platforms. In general aptamers/SOMAmers are selected against target proteins in their native conformation and in some cases against a functional protein with “known” post translational modifications (PTMs). It’s well known that novel PTMs (pathogen or disease-induced) can impact the protein structure, electrophilicity and interactions with proteins. The other main disadvantage is quantification which is based on DNA microarray chips (background noise). The main advantages are lower cost and data analysis.  
+The aptamer-based [SomaScan®]((https://somalogic.com)) assay is a widely used method for measuring protein abundances. However, there is limited information on how SomaScan correlates with mass spectrometry (MS)-based proteomics and Olink assays, another high-throughput antibody-based platform. Some studies have noted measurement variations between these platforms. Aptamers or SOMAmers in the SomaScan assay are typically selected to bind target proteins in their native conformation or with known post-translational modifications (PTMs). However, novel PTMs induced by pathogens or diseases can alter protein structure, electrophilicity, and interactions. A key drawback of the SomaScan assay is that its quantification relies on DNA microarray chips, which can introduce background noise. On the other hand, the advantages include lower cost and efficient data analysis.  
 
 **Table 1**. Overview of common proteomic platforms (Jiang W et al, Cancers, 2022).  
  
@@ -35,7 +35,7 @@ The aptamer-based [SomaScan®](https://somalogic.com) assay is one of the popula
 | SRM/MRM				| MS (LC–MS–MS) 	   | 15 µL			  | Plasma, tissue/cell, dried blood spots 				   	               |  
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|    
 
-The SomaScan Assay v4.1 measures simultaneously ~6,600 unique human proteins in a single sample (see **Table 2**). Those protein targets were evaluated by ~7,300 aptamers called SOMAmers (Slow Off-rate Modified Aptamers). SOMAmers are short single-stranded DNA molecules, which are chemically modified to specifically bind to protein targets. The SOMAscan assay measures native proteins in complex matrices by transforming each individual protein concentration into a corresponding SOMAmer reagent concentration, which is then quantified using DNA microarrays. SOMAmer reagents are selected against proteins in their native folded conformations and are therefore generally found to require an intact, tertiary protein structure for binding.  
+The SomaScan Assay v4.1 enables the simultaneous measurement of approximately 6,600 unique human proteins in a single sample (see **Table 2**). This is achieved using around 7,300 aptamers known as SOMAmers (Slow Off-rate Modified Aptamers). SOMAmers are short, chemically modified single-stranded DNA molecules designed to specifically bind to protein targets. The assay quantifies native proteins in complex samples by converting each protein's concentration into the corresponding SOMAmer reagent concentration, which is then measured using DNA microarrays. SOMAmers are selected to bind proteins in their native, folded states, typically requiring an intact tertiary protein structure for effective binding.  
 
 **Table 2**. The 7k SomaScan Assay v4.1 panel (7,596 aptamers mapping to 6,414 unique human protein targets).  
  
@@ -61,13 +61,9 @@ The SomaScan Assay v4.1 measures simultaneously ~6,600 unique human proteins in 
 | Total				| 7596     | 7562              | 6431                |  6628	        | 6415       | 6411         |	
 |-----------------------------------------------------------------------------------------------------------------------------------|  
 
-**ADAT file**
-  
-ADAT is a tab-delimited text file format. The contents include SOMAmer reagent intensities, sample data, sequence data and experimental metadata. For each SOMAmer reagent sequence, the ADAT file typically contains corresponding protein name, UniProt ID, Entrez Gene ID and Entrez Gene symbol.  
-
 **SomaDataIO**  
 
-[SomaDataIO v5.3.1](https://somalogic.github.io/SomaDataIO/index.html) is an R package for working with the SomaLogic ADAT file format.  
+[SomaDataIO v5.3.1](https://somalogic.github.io/SomaDataIO/index.html) is an R package for working with the SomaLogic ADAT file format. ADAT is a tab-delimited text file format that contains various data elements, including SOMAmer reagent intensities, sample data, sequence information, and experimental metadata. For each SOMAmer reagent sequence, the ADAT file usually includes the corresponding protein name, UniProt ID, Entrez Gene ID, and Entrez Gene symbol.    
 
 ```  
 library(SomaDataIO)
