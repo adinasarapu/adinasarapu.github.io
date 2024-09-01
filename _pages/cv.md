@@ -21,22 +21,22 @@ Work experience
 * 10/2017-till: Scientist, Bioinformatics
   * Emory University, Atlanta
   * Duties included: Genomic, Proteomic and Lipidomic data analysis
-  * Supervisors: [`Hyder A. (Buz) Jinnah, MD`](https://med.emory.edu/directory/profile/?u=HJINNAH) & Mike Zwick Ph.D
+  * Supervisors: Hyder A. (Buz) Jinnah, MD
 
 * 09/2015-10/2017: Bioinformatics Analyst, Sr
   * Emory University, Atlanta
   * Duties included: Genomic data analysis
-  * Supervisors: Bali Pulendran Ph.D & [`Mike Zwick`](http://genetics.emory.edu/faculty/primary/zwick-michael.html) Ph.D
+  * Supervisors: Bali Pulendran Ph.D & Mike Zwick Ph.D
 
 * 11/2013-09/2015: Postdoctoral Associate
   * University of Florida, Gainesville
   * Duties included: Microarray data analysis
-  * Supervisor: [`Maureen Goodenow`](https://www.oar.nih.gov/about/directors-corner) Ph.D
+  * Supervisor: Maureen Goodenow  Ph.D
   
 * 03/2008-11/2013: Postdoctoral Fellow
   * University of California San Diego
   * Duties included: Microarray and Lipidomic data analysis
-  * Supervisor: [`Shankar Subramaniam`](http://genome.ucsd.edu) Ph.D
+  * Supervisor: Shankar Subramaniam Ph.D
 
 Skills
 ======

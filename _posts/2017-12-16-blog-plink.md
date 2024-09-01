@@ -9,9 +9,9 @@ tags:
   - heterozygosity rate
   - runs of homozygosity
 ---
-An important step in the analysis of genome-wide association studies (GWAS) is to identify problematic subjects and markers. Quality control  (QC) in GWAS removes markers and individuals, and greatly increases the accuracy of findings.
+A crucial step in analyzing genome-wide association studies (GWAS) is identifying problematic subjects and markers. Quality control (QC) in GWAS involves removing unreliable markers and individuals, significantly enhancing the accuracy of results.  
 
-Checking for gender (individuals whose genetic sex is discordant to their phenotypic gender), genotyping rate (call rate), minor allele frequency (MAF), Hardy-Weinberg equilibrium deviation (HWE), heterozygosity rate and identical by descent (IBD) allele sharing are useful QC steps. Standard tools like plink and king are called by the scripts.
+Key QC steps include checking for gender discrepancies (where genetic sex does not match phenotypic gender), genotyping rate (call rate), minor allele frequency (MAF), Hardy-Weinberg equilibrium deviation (HWE), heterozygosity rate, and identical by descent (IBD) allele sharing. Standard tools such as PLINK and KING are often utilized for these QC processes through automated scripts.  
 
 The first step is to load VCF or BCF file into PLINK.
 ```bash
