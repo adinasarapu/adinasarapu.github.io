@@ -8,11 +8,14 @@ tags:
   - Vital
   - Bioinformatics 
   - Emory University
----
-Kaplan-Meier curve shows what the probability of an event (for example, survival) at a certain time interval. The log-rank test compares the survival curves of two or more groups. With a small subset of patients, the Kaplan-Meier estimates can be misleading and should be interpreted with caution. 
+---  
+The Kaplan-Meier curve is a powerful tool in survival analysis, commonly used to estimate the probability of an event—such as survival—at different time intervals. It provides a visual representation of the time it takes for an event to occur across a patient population. This method is especially useful in medical studies where understanding survival rates is key.
 
-**KM Analysis using R**
-The packages used for the analysis are [survival](https://cran.r-project.org/web/packages/survival/index.html) and [survminer](https://cran.r-project.org/web/packages/survminer/index.html). Use install.packages( ) to install these libraries just in case if they are not pre installed in your R workspace.
+However, when analyzing survival data, it's important to consider the limitations. For instance, if you're working with a small subset of patients, the Kaplan-Meier estimates can sometimes be misleading. Small sample sizes can lead to erratic survival curves, making it crucial to interpret the results with caution.
+
+When comparing survival outcomes across two or more groups (e.g., treatment vs. control), the log-rank test comes into play. This statistical test helps determine if there are significant differences in survival rates between the groups.
+
+In R, the [survival](https://cran.r-project.org/web/packages/survival/index.html) and [survminer](https://cran.r-project.org/web/packages/survminer/index.html) packages are essential for performing Kaplan-Meier survival analysis and generating publication-ready plots. If you don’t already have these libraries installed, you can add them to your workspace using the following command:
 
 Load Required libraries
 ```  
@@ -22,7 +25,7 @@ library(dplyr)
 ```  
 Read the vital dataset
 ```
-base.dir = "/Users/adinasa/Documents/Nabil/survival_analysis"    
+base.dir = "home/user/Documents/survival_analysis"    
 data = read.csv(file=paste0(base.dir,"/KM_Test_data.csv"),header=T)  
 ```  
 
@@ -67,9 +70,10 @@ dev.off()
 ![KM Plot](/images/KM_Plot.png)
 
 
-**KM plot** The lines represent survival curves of the 3 groups; HPV-status: positive [N=23], negative [N=5] and unknown [N=7]. A vertical drop in the curves indicates an event (eg. death). For HPV-positive: 5 (21.7%); HPV-negative: 4 (80%) and HPV-unknown: 5 (71.4%) events.  
+**KM plot** Kaplan-Meier survival curves for the three HPV-status groups: HPV-positive (N=23), HPV-negative (N=5), and HPV-unknown (N=7). Each vertical drop in the curves represents an event (e.g., death). The event rates are as follows: HPV-positive group: 5 events (21.7%), HPV-negative group: 4 events (80%), and HPV-unknown group: 5 events (71.4%).  
  
-The lengths of the horizontal lines along the X-axis of serial times represent the survival duration for that interval. The vertical tick mark on the curves means that a patient was censored at this time; a patient has not (yet) experienced the event of interest, such as death, within the study time period. If many patients were censored in a given group(s), one must question how the study was carried out or how the type of treatment affected the patients. This stresses the importance of showing censored patients as tick marks in survival curves.  
+The horizontal lines along the X-axis represent survival duration for each time interval. A vertical tick mark on the curve indicates a censored patient, meaning the patient has not experienced the event of interest (e.g., death) during the study period. When many patients are censored in a group, it raises questions about how the study was conducted or how the treatment impacted patients. This highlights the importance of displaying censored patients as tick marks in survival curves to provide a clearer interpretation of the data.  
  
-**Risk table** At time zero, the survival probability is 1.0 (or 100% of the participants are alive). At time 0, all 35 are alive or at risk and after 1000 days, there are 21 participants alive or at risk; after 3000 days, 3 participants are alive or at risk. 
+**Risk table** 
+At time zero, the survival probability is 1.0 (meaning 100% of participants are alive or at risk). Initially, all 35 participants are alive or at risk. After 1,000 days, 21 participants remain alive or at risk, and by 3,000 days, only 3 participants are still alive or at risk.  
 
