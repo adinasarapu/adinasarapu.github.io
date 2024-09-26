@@ -29,4 +29,7 @@ The **subcortical region** of the brain consists of structures that lie beneath 
 ### 6. **Nucleus Accumbens (part of the ventral striatum)**
    - Central to the brain's reward circuitry and involved in motivation, pleasure, and addiction.
 
+### 7. **Pineal Gland**
+    - The pineal gland regulates circadian rhythms by producing melatonin, which influences sleep-wake cycles.
+
 Together, these subcortical regions coordinate essential processes such as movement, emotional responses, memory, sensory integration, and autonomic regulation. Dysfunction in these areas is associated with a wide range of neurological and psychiatric disorders, including Parkinson's disease, Alzheimer's disease, depression, and schizophrenia.
