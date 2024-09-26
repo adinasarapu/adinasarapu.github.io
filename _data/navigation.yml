@@ -18,5 +18,5 @@ main:
   - title: "Résumé"
     url: /cv/
     
-#  - title: "Guide"
-#    url: /markdown/
+  - title: "Brain"
+    url: /brain/

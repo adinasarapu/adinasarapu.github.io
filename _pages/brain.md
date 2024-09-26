@@ -1,6 +1,6 @@
 ---
 layout: archive
-title: ""
+title: "Brain"
 permalink: /brain/
 author_profile: true
 redirect_from:
@@ -9,9 +9,7 @@ redirect_from:
 
 {% include base_path %}
 
-Human Brain
-==========
-  <ul>{% for post in site.publications reversed %}
+  <ul>{% for post in site.brain reversed %}
     {% include archive-single.html %}
   {% endfor %}</ul>
   
