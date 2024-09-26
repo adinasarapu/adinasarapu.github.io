@@ -11,7 +11,7 @@ redirect_from:
 
 Human Brain
 ==========
-  <ul>{% for post in site.brain reversed %}
-    {% include archive-single-cv.html %}
+  <ul>{% for post in site.teaching reversed %}
+    {% include archive-single.html %}
   {% endfor %}</ul>
   

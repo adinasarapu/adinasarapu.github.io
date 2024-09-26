@@ -249,7 +249,7 @@ defaults:
       path: ""
       type: brain
     values:
-      layout: talk
+      layout: single
       author_profile: true
       share: true
       comments: true
