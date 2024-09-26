@@ -1,9 +1,7 @@
 ---
 title: "Cerebral cortex"
 collection: Brain
-type: ""
 permalink: /brain/cerebralcortex
-date: 2024-09-26
 ---
 
 The **cerebral cortex** is the outermost layer of the brain, responsible for higher-order brain functions such as perception, cognition, and voluntary movement. It consists of several regions that are divided based on their location and function:
