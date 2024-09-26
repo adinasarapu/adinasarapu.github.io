@@ -4,7 +4,8 @@ collection: Brain
 permalink: /brain/movementdisorders  
 
 ---
-I am conducting research focused on biomarker identification for movement disorders, specifically Dystonia and Parkinson's disease.  
+
+I am conducting research focused on identifying biomarkers for movement disorders, with a specific emphasis on **Dystonia** and **Parkinson’s disease**.
 
 | **Type**                       | **Movement Disorder**           | **Description**                                                                      |
 |--------------------------------|---------------------------------|--------------------------------------------------------------------------------------|
