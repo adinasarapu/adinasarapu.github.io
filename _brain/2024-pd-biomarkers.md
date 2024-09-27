@@ -1,6 +1,6 @@
 ---
 title: "Parkinson’s disease - Biomarkers"
-collection: Brain
+collection: Markers
 permalink: /brain/pd_biomarkers
 ---
 

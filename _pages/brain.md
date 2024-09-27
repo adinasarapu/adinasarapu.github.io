@@ -9,6 +9,7 @@ To better understand my research, it’s essential to grasp the fundamentals of 
 
 {% include base_path %}
 
-{% for post in site.brain %}
+{% assign sorted_posts = site.brain | sort: 'collection' %}
+{% for post in sorted_posts %}
   {% include archive-single.html %}
-{% endfor %} 
+{% endfor %}

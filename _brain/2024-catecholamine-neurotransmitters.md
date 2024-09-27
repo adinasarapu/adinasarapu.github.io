@@ -1,6 +1,6 @@
 ---
 title: "The Catecholamine Neurotransmitters"
-collection: Brain
+collection: Markers
 permalink: /brain/catecholamine
 ---
 
