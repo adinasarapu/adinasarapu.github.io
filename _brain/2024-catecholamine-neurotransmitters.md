@@ -40,41 +40,48 @@ Here’s a table summarizing the key genes or proteins involved in the synthesis
 
 Here are the key biochemical reactions involved in the synthesis of catecholamines, along with the enzymes responsible for each step:
 
+Here's a GitHub-compatible markdown script for the catecholamine synthesis reactions, formatted for rendering on a GitHub page:
+
+```markdown
 # Catecholamine Synthesis Reactions
 
 ## Dopamine Synthesis
+
 1. **Tyrosine → L-DOPA**
    - **Enzyme**: Tyrosine Hydroxylase (TH)  
    - **Reaction**:  
-   \[
-   \text{Tyrosine} + \text{O}_2 + \text{BH}_4 \rightarrow \text{L-DOPA} + \text{H}_2\text{O} + \text{BH}_3
-   \]
+   ```
+   Tyrosine + O₂ + BH₄ → L-DOPA + H₂O + BH₃
+   ```
 
 2. **L-DOPA → Dopamine**
    - **Enzyme**: DOPA Decarboxylase (DDC)  
    - **Reaction**:  
-   \[
-   \text{L-DOPA} \rightarrow \text{Dopamine} + \text{CO}_2
-   \]
+   ```
+   L-DOPA → Dopamine + CO₂
+   ```
 
 ## Norepinephrine Synthesis
+
 1. **Dopamine → Norepinephrine**
    - **Enzyme**: Dopamine β-Hydroxylase (DBH)  
    - **Reaction**:  
-   \[
-   \text{Dopamine} + \text{O}_2 + \text{ascorbate} \rightarrow \text{Norepinephrine} + \text{H}_2\text{O}
-   \]
+   ```
+   Dopamine + O₂ + ascorbate → Norepinephrine + H₂O
+   ```
 
 ## Epinephrine Synthesis
+
 1. **Norepinephrine → Epinephrine**
    - **Enzyme**: Phenylethanolamine N-Methyltransferase (PNMT)  
    - **Reaction**:  
-   \[
-   \text{Norepinephrine} + \text{S-adenosylmethionine (SAM)} \rightarrow \text{Epinephrine} + \text{S-adenosylhomocysteine (SAH)}
-   \]
+   ```
+   Norepinephrine + S-adenosylmethionine (SAM) → Epinephrine + S-adenosylhomocysteine (SAH)
+   ```
 
 ## Summary of Transport
+
 - **VMAT2 (Vesicular Monoamine Transporter 2)**: Transports dopamine, norepinephrine, and epinephrine into synaptic vesicles for storage and release.
 - **DAT (Dopamine Transporter)**: Reuptakes dopamine from the synaptic cleft.
 - **NET (Norepinephrine Transporter)**: Reuptakes norepinephrine from the synaptic cleft.
-
+```
