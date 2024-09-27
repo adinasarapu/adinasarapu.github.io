@@ -8,10 +8,10 @@ permalink: /brain/spinyprojectionneurons
 
 Striatal/Spiny Projection Neurons (SPNs), specifically Medium Spiny Neurons (MSNs), are a predominant type of neuron found in the striatum, which is part of the basal ganglia in the brain. SPNs primarily release the neurotransmitter GABA (gamma-aminobutyric acid), which is inhibitory. This means they decrease the likelihood of the firing of their target neurons.
  
-SPNs can be classified into two main subtypes based on their projection targets and receptor expression.
+SPNs are classified into two main subtypes based on their projection targets and receptor expression. Direct Pathway SPNs (dSPNs) express D1 dopamine receptors, which respond to dopamine signals from the midbrain, while Indirect Pathway SPNs (iSPNs) express D2 dopamine receptors, which also respond to dopamine but have opposite effects on motor output compared to dSPNs.
 
-Direct Pathway SPNs (dSPNs): Express D1 dopamine receptors, which respond to dopamine from the midbrain.  
-Indirect Pathway SPNs (iSPNs): Express D2 dopamine receptors, which also respond to dopamine but have opposite effects on motor output compared to dSPNs.  
+Basal ganglia motor circuits (from Ferrini A, ..., Kurian MA. Mov Disord. 2021).  
+![brain_circuits](/images/SPN.png)
 
 The distinction between dSPNs (direct pathway spiny projection neurons) and iSPNs (indirect pathway spiny projection neurons) is critical to understanding the neural circuits involved in movement disorders like Parkinson’s disease and Dystonia. Here's a breakdown:
 

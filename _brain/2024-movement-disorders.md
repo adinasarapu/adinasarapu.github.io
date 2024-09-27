@@ -6,7 +6,7 @@ permalink: /brain/movementdisorders
 
 ---
 
-I am conducting research focused on identifying biomarkers for movement disorders, with a specific emphasis on **Dystonia** and **Parkinson’s disease**.
+This classification highlights the differences between neurodegenerative disorders, which involve progressive degeneration of neurons, and non-neurodegenerative disorders, which may result from various causes and may not lead to progressive neuronal loss.
 
 | **Type**                       | **Movement Disorder**           | **Description**                                                                      |
 |--------------------------------|---------------------------------|--------------------------------------------------------------------------------------|
@@ -20,7 +20,6 @@ I am conducting research focused on identifying biomarkers for movement disorder
 |                                | Restless Legs Syndrome (RLS)    | A condition characterized by an uncontrollable urge to move the legs, often accompanied by uncomfortable sensations.          |
 |                                | Cerebral Palsy                 | A group of disorders that affect movement and muscle tone, often caused by brain damage during early development.             |
 
-This classification highlights the differences between neurodegenerative disorders, which involve progressive degeneration of neurons, and non-neurodegenerative disorders, which may result from various causes and may not lead to progressive neuronal loss.  
 
 Here’s a table summarizing the molecular differences between Dystonia and Parkinson's disease:
 
@@ -36,4 +35,3 @@ Here’s a table summarizing the molecular differences between Dystonia and Park
 |                               | - Role of oxidative stress is less characterized compared to Parkinson's.                      | - Elevated pro-inflammatory cytokines and microglia activation observed.                         |
 | **Metabolic and Mitochondrial Dysfunction** | - Some forms show mitochondrial dysfunction and altered energy metabolism.                    | - Central feature involves mitochondrial dysfunction leading to decreased ATP production and increased oxidative stress. |
 
-This table provides a clear comparison of the molecular differences between Dystonia and Parkinson's disease across several key aspects.
