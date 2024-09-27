@@ -1,6 +1,6 @@
 ---
 title: "Movement Disorders"
-collection: Disorder
+collection: "Disorder"
 permalink: /brain/movementdisorders  
 
 ---
