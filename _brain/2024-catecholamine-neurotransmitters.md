@@ -42,7 +42,6 @@ Here are the key biochemical reactions involved in the synthesis of catecholamin
 
 Here's a GitHub-compatible markdown script for the catecholamine synthesis reactions, formatted for rendering on a GitHub page:
 
-```markdown
 # Catecholamine Synthesis Reactions
 
 ## Dopamine Synthesis
@@ -83,5 +82,5 @@ Here's a GitHub-compatible markdown script for the catecholamine synthesis react
 
 - **VMAT2 (Vesicular Monoamine Transporter 2)**: Transports dopamine, norepinephrine, and epinephrine into synaptic vesicles for storage and release.
 - **DAT (Dopamine Transporter)**: Reuptakes dopamine from the synaptic cleft.
-- **NET (Norepinephrine Transporter)**: Reuptakes norepinephrine from the synaptic cleft.
-```
+- **NET (Norepinephrine Transporter)**: Reuptakes norepinephrine from the synaptic cleft.  
+
