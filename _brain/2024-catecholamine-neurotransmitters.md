@@ -40,8 +40,6 @@ Here’s a table summarizing the key genes or proteins involved in the synthesis
 
 Here are the key biochemical reactions involved in the synthesis of catecholamines, along with the enzymes responsible for each step:
 
-Here's a GitHub-compatible markdown script for the catecholamine synthesis reactions, formatted for rendering on a GitHub page:
-
 # Catecholamine Synthesis Reactions
 
 ## Dopamine Synthesis
