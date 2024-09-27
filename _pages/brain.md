@@ -9,6 +9,6 @@ To better understand my research, it’s essential to grasp the fundamentals of 
 
 {% include base_path %}
 
-{% for post in site.brain reversed %}
+{% for post in site.brain %}
   {% include archive-single.html %}
 {% endfor %} 
