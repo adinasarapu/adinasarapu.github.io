@@ -1,6 +1,7 @@
 ---
 title: "Spiny Projection Neurons (SPN)"
-collection: "Brain"
+collection: Brain
+order: 4
 permalink: /brain/spinyprojectionneurons  
 
 ---

@@ -1,6 +1,7 @@
 ---
 title: "Substantia nigra"
-collection: "Brain"
+collection: Brain
+order: 5
 permalink: /brain/substantianigra
 ---
 
