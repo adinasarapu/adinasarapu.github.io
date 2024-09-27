@@ -1,5 +1,5 @@
 ---
-title: "Protein biomarkers in Parkinson’s disease"
+title: "Parkinson’s disease - Biomarkers"
 collection: Brain
 permalink: /brain/pd_biomarkers
 ---
@@ -21,8 +21,6 @@ Protein biomarkers in Parkinson’s disease (PD) are critical for understanding 
 7. **Glial Fibrillary Acidic Protein (GFAP)**: GFAP is a marker of astroglial activation. Elevated levels in biofluids suggest gliosis, which is associated with neurodegenerative diseases, including PD.
 
 Identifying and validating these and other protein biomarkers is ongoing, with many studies focusing on combinations of markers for more accurate diagnosis and monitoring disease progression.
-
-Here is the updated table with the **"Proposed pathogenesis"** column added back in:
 
 ---
 
