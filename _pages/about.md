@@ -26,7 +26,10 @@ Chronic SIV-Induced neuroinflammation disrupts CCR7+ CD4+ T cell immunosurveilla
 Exploration of potential immune mechanisms in cervical dystonia.<br></li>
 <li><i style="color:DodgerBlue;">Movement Disorders</i><br>
 An Exploratory, Randomized, Double-Blind Clinical Trial of Dipraglurant for Blepharospasm.<br></li>
-</ul>  
+</ul>
+  
+</br>
+[Curriculum Vitae](/cv/)
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RWM39QLMPF"></script>
