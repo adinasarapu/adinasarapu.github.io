@@ -28,7 +28,7 @@ Exploration of potential immune mechanisms in cervical dystonia.<br></li>
 An Exploratory, Randomized, Double-Blind Clinical Trial of Dipraglurant for Blepharospasm.<br></li>
 </ul>
   
-</br>
+<br>
 [Curriculum Vitae](/cv/)
 
 <!-- Google tag (gtag.js) -->
