@@ -1,7 +1,7 @@
 ---
 title: "Cerebral cortex"
 collection: Brain
-order: 7
+order: 4
 permalink: /brain/cerebralcortex
 ---
 
