@@ -1,5 +1,5 @@
 ---
-title: "The Catecholamine Neurotransmitters"
+title: "Neurotransmitters (Catecholamine)"
 collection: Markers
 order: 2
 permalink: /brain/catecholamine
