@@ -7,6 +7,8 @@ permalink: /brain/substantianigra
 
 The **substantia nigra** is considered part of both the **basal ganglia** and the **midbrain** due to its anatomical location and its functional role within these brain systems. Here’s a breakdown of why it belongs to both:
 
+![SN](/images/SN.png)  
+
 ### 1. **Anatomical Location**
 - **Midbrain**: The substantia nigra is located in the **mesencephalon**, which is the midbrain region of the brainstem. It lies just below the cerebral cortex and above the pons and medulla oblongata.
 - **Basal Ganglia**: The substantia nigra is one of the key structures that make up the basal ganglia, a group of nuclei that work together to regulate voluntary motor control, procedural learning, routine behaviors, and emotion.
