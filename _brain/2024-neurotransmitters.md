@@ -8,8 +8,8 @@ permalink: /brain/aminoacidneurotransmitters
 
 GABA is synthesized from glutamate by the enzyme glutamic acid decarboxylase (GAD), which is the rate-limiting step in this pathway. Neurons can transition from an excitatory to an inhibitory role by adjusting their neurotransmitter synthesis. When glutamate levels increase, some neurons enhance GAD expression, resulting in greater GABA production. This adaptation enables neurons to respond to changing physiological conditions, providing necessary inhibitory signals to balance excitatory activity and maintain homeostasis within neural circuits. 
 
-The main solute carrier transporters involved in glutamate/GABA-glutamine cycle.  
-[GABA](/images/GABA.png)  
+The main solute carrier transporters involved in glutamate/GABA-glutamine cycle (Image taken from: Hu C, ..., Chen L. Asian J Pharm Sci. 2020).  
+![GABA](/images/GABA.png)  
 
 | **Neurotransmitter** | **Releasing Neurons**          | **Receptors**                              | **Specific Parts of CNS**        |
 |-----------------------|-------------------------------|-------------------------------------------|-----------------------------------|
