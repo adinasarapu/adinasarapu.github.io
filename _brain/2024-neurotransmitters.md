@@ -21,8 +21,13 @@ The main solute carrier transporters involved in glutamate/GABA-glutamine cycle 
 
 **Metabotropic** receptors, on the other hand, are slower and act through signaling cascades involving second messengers, modulating cellular functions over a longer duration. This distinction is crucial for understanding how neurotransmitters influence neuronal communication and overall brain function.
 
+Table summarizing the **composition** and **functions** of NMDA, AMPA, and Kainate receptors:
 
-
+| **Receptor Type**     | **Composition**                                                                                                                                                         | **Functions**                                                                                                                                                                                                 |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **NMDA Receptors**     | - Obligatory heteromers drawn from GluN1, GluN2A-D, GluN3A-B subunits<br> - GluN1 has 8 isoforms (alternative splicing)<br> - Di-heteromeric (GluN1 + GluN2) or tri-heteromeric (GluN1 + multiple GluN2/3) | - Requires both glutamate and glycine for activation<br> - Permeable to Ca²⁺, Na⁺, and K⁺<br> - Blocked by Mg²⁺ at resting potential<br> - Key in synaptic plasticity, memory, and learning                     |
+| **AMPA Receptors**     | - Homomers or heteromers from GluA1, GluA2, GluA3, GluA4<br> - Regulated by TARPs (γ2, γ3, γ4, γ8)                                                                       | - Mediates fast excitatory synaptic transmission<br> - Na⁺ and K⁺ permeable; Ca²⁺ permeability depends on GluA2 subunit editing<br> - Involved in long-term potentiation (LTP) and synaptic plasticity        |
+| **Kainate Receptors**  | - Homomers or heteromers from GluK1, GluK2, GluK3<br> - GluK4, GluK5 form high-affinity binding sites but are non-functional alone<br> - Regulated by Neto proteins       | - Modulates excitatory synaptic transmission<br> - Requires extracellular Na⁺ and Cl⁻ for activation<br> - Has both ionotropic and metabotropic functions<br> - Permeable to Na⁺, K⁺, and sometimes Ca²⁺     |
 
 For more detailed information, you can visit the original source [here](https://openbooks.lib.msu.edu/introneuroscience1/chapter/neurotransmitter-synthesis-storage-and-receptors-amino-acid-neurotransmitters-glutamate-gaba-glycine/).
 
