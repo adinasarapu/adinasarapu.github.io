@@ -5,6 +5,8 @@ order: 2
 permalink: /brain/neurotransmitters
 ---
 
+The human brain consists of approximately 86 billion neurons that communicate through neurotransmission, where chemical messages called neurotransmitters are passed across the synapse, the gap between cells. These endogenous molecules are released from synaptic vesicles when a neuron is activated and interact with specific receptors on neighboring cells, influencing the strength of the signal transmitted in neural circuits.  
+
 | **Neurotransmitter**          | **Type**                | **Neurons**                            | **Receptors**                                           | **Brain Parts/Nuclei**                                   |
 |-------------------------------|-------------------------|----------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
 | **Acetylcholine (ACh)**        | Small-molecule           | Cholinergic neurons                    | Nicotinic, Muscarinic                                     | Basal forebrain, brainstem nuclei                         |
