@@ -1,7 +1,7 @@
 ---
 title: "Subcortical region"
 collection: Brain
-order: 5
+order: 10
 permalink: /brain/subcortical
 ---
 The **subcortical region** of the brain consists of structures that lie beneath the cerebral cortex and play essential roles in regulating various functions, including movement, emotions, memory, and autonomic processes. Key subcortical structures include:

@@ -1,7 +1,7 @@
 ---
 title: "Amyloid-β in Parkinson's disease and Alzheimer's disease"
 collection: Markers
-order: 6
+order: 7
 permalink: /brain/amyloidbeta
 ---
 Amyloid-β (Aβ) plays a significant role in both Alzheimer's disease (AD) and Parkinson's disease (PD), though its involvement differs between these neurodegenerative disorders.
