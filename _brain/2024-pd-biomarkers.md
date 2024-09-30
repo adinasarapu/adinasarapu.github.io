@@ -37,6 +37,7 @@ Identifying and validating these and other protein biomarkers is ongoing, with m
 | **Immune activation and neuroinflammation** | Aggregated α-synuclein, mitochondrial antigens, and gut bacterial endotoxins promote immune responses and neuroinflammation | Association between HLA variants and Parkinson’s disease; LRRK2, PRKN, and PINK1 are involved in inflammatory pathways | Measurement of C-reactive protein, interleukins, and PET imaging of activated microglia |
 | **Cell-to-cell spread**               | Toxic forms of α-synuclein spread between contiguous cells or via extracellular vesicles                      | NA                                                                                    | rt-QUIC assays for aggregation based on CSF, skin biopsies, olfactory mucosal biopsies, and saliva |
 
+## Dementia  
 
 Dementia is defined as the loss of intellectual functions (such as thinking, remembering, and reasoning) severe enough to interfere with a person’s daily functioning. It is not a disease in itself but a group of symptoms that may accompany certain diseases or physical conditions.
 
