@@ -12,6 +12,8 @@ Dementia is defined as the loss of intellectual functions (such as thinking, rem
 - **Huntington’s Disease**: A genetic disorder that causes the progressive breakdown of nerve cells in the brain, leading to cognitive decline.
 
 
+Genetic biomarkers for neurodegenerative diseases (from Ehrenberg AJ, ..., Paterson RW. Alzheimers Res Ther. 2020).  
+
 | **Gene**         | **Protein**                        | **Associated Syndrome(s)**                           | **Reference**                                      |
 |------------------|------------------------------------|------------------------------------------------------|----------------------------------------------------|
 | APP              | Amyloid precursor protein           | Early-onset **Alzheimer’s disease** (EOAD) (familial)   | Tanzi et al., *Science*, 1987                     |
