@@ -62,7 +62,11 @@ Genetic biomarkers for neurodegenerative diseases (from Ehrenberg AJ, ..., Pater
 | SNCA             | α-synuclein                         | **Parkinson’s disease** (PD), Dementia with Lewy bodies (DLB) | Kruger et al., *Nat Genet*, 1998                  |
 
 
+ - APOE4 is associated with earlier AD onset, higher Aβ and tau toxicity, and increased microglial inflammation.  
+
  - TREM2 is a transmembrane receptor found on microglial cells that is involved in a wide array of physiological processes. One of its key functions is the phagocytosis of amyloid-beta (Aβ), which is crucial for the progression of Alzheimer's disease (AD). The R47H mutant variant of TREM2 has been shown to elevate the risk of AD by disrupting the binding between TREM2 and Aβ.
+
+ - Notably, APOE is a ligand of microglial TREM2, and the R47H risk variant impairs APOE binding, potentially contributing to its disease risk.  
 
  - The GBA gene primarily encodes the lysosomal enzyme glucocerebrosidase (GCase), which catalyzes the hydrolysis of glucosylceramide (GlcCer) into glucose and ceramide. Mutations in the GBA gene are now identified as the most significant and prevalent risk factors for the development of Parkinson's disease (Sidransky and Lopez, 2012).
 
