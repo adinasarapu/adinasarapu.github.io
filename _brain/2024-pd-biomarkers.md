@@ -4,8 +4,9 @@ collection: Markers
 order: 6
 permalink: /brain/pd_biomarkers
 ---
-Parkinson’s Disease (PD) is the second most common neurodegenerative disorder, characterized by the loss of dopaminergic neurons and the accumulation of aggregated α-synuclein, mainly in the substantia nigra pars compacta (SNpc) of the midbrain. Protein biomarkers in Parkinson’s disease (PD) are critical for understanding disease mechanisms, early diagnosis, and developing therapeutic strategies. Several key biomarkers have been identified and investigated in PD research:
+Parkinson’s Disease (PD) is the second most common neurodegenerative disorder, characterized by the loss of dopaminergic neurons and the accumulation of aggregated α-synuclein, mainly in the substantia nigra pars compacta (SNpc) of the midbrain. Protein biomarkers in Parkinson’s disease (PD) are critical for understanding disease mechanisms, early diagnosis, and developing therapeutic strategies. Several key biomarkers have been identified and investigated in PD research:  
 
+Hypothetical model of α-syn toxicity and spread of pathology in PD (Image taken from: Irwin DJ, ..., Trojanowski JQ. Nat Rev Neurosci. 2013)
 ![PD](/images/SYN.png)  
 
 1. **Alpha-synuclein (α-synuclein)**: The most prominent protein associated with PD. Aggregation of α-synuclein into Lewy bodies is a hallmark of the disease. Detecting abnormal forms of α-synuclein in cerebrospinal fluid (CSF), blood, and even saliva is a major focus of biomarker research.
