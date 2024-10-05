@@ -12,6 +12,9 @@ Welcome to my research page!
 
 My research lies at the crossroads of genomics and computational biology, focusing on variant analysis, copy number variations, gene expression, microbiome profiling, and proteomics. Currently, I am dedicated to identifying genomic signatures and protein targets that could advance drug discovery for movement disorders such as Dystonia and Parkinson’s Disease. Additionally, I am actively involved in disease modeling using Induced Pluripotent Stem Cells (iPSCs) to study Lesch-Nyhan disease and DYT1 dystonia as part of the Hess-Jinnah Research Group.
 
+Seeking Faculty Opportunities  
+Currently seeking faculty positions in bioinformatics and computational biology. With expertise in iPSCs, movement disorders, and multi-omics data analysis, I am excited about opportunities that involve research, teaching, and grant writing. Open to collaborations and discussions.    
+
 {% comment %}
 {% endcomment %}
 <b>2024  Publications</b>
