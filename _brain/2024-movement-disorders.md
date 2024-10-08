@@ -20,18 +20,6 @@ This classification highlights the differences between neurodegenerative disorde
 |                                | Restless Legs Syndrome (RLS)    | A condition characterized by an uncontrollable urge to move the legs, often accompanied by uncomfortable sensations.          |
 |                                | Cerebral Palsy                 | A group of disorders that affect movement and muscle tone, often caused by brain damage during early development.             |
 
-
-Here’s a table summarizing the molecular differences between Dystonia and Parkinson's disease:
-
-| **Aspect**                    | **Dystonia**                                                                                     | **Parkinson's Disease**                                                                          |
-|-------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| **Genetic Factors**           | - Associated with mutations in genes like DYT1 (TOR1A), DYT5 (THAP1), DYT6 (GCH1).            | - Involves mutations in genes such as SNCA (alpha-synuclein), LRRK2, PARK7 (DJ-1), PINK1, and PRKN (parkin). |
-|                               | - Inherited in autosomal dominant or recessive manner, affecting basal ganglia circuitry.      | - Genetic mutations lead to dopaminergic neuron dysfunction and synaptic issues.                |
-| **Neurotransmitter Systems**  | - Alterations in GABAergic and glutamatergic signaling affecting basal ganglia circuits.       | - Significant loss of dopaminergic neurons in the substantia nigra; decreased dopamine levels.   |
-|                               | - Imbalance of neurotransmitters leads to abnormal muscle contractions and postures.           | - Other systems like acetylcholine and serotonin may also be disrupted.                          |
-| **Protein Aggregation**       | - Less prominent than in Parkinson's; some studies suggest alterations in stress response proteins. | - Characterized by alpha-synuclein aggregation into Lewy bodies, a hallmark of the disease.     |
-|                               | - Mutations in TOR1A affect protein homeostasis and cellular function.                         | - Involves aggregation of other proteins like tau and ubiquitin.                                 |
-| **Inflammation and Oxidative Stress** | - Evidence of neuroinflammation with increased cytokines; oxidative stress may contribute to dysfunction. | - Significant neuroinflammation and oxidative stress contribute to dopaminergic neuron degeneration. |
-|                               | - Role of oxidative stress is less characterized compared to Parkinson's.                      | - Elevated pro-inflammatory cytokines and microglia activation observed.                         |
-| **Metabolic and Mitochondrial Dysfunction** | - Some forms show mitochondrial dysfunction and altered energy metabolism.                    | - Central feature involves mitochondrial dysfunction leading to decreased ATP production and increased oxidative stress. |
-
+Monogenic forms of Dystonia (this figure is adapted from Thomsen M, et al. Annu Rev Pathol. 2024).    
+![](/images/Dystinia-monogenic.png)
+Overview of confirmed monogenic forms of dystonia based on the most recent update of the Task Force for the Nomenclature of Genetic Movement Disorders (Lange LM et al, 2022 Mov. Disord. 37(5):905–35). Abbreviations: ATX, ataxia; CHOR, chorea; DYT, dystonia; HSP, hereditary spastic paraplegia; NBIA, neurodegeneration with brain iron accumulation; PARK, Parkinson’s disease.
