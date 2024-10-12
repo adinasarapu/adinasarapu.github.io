@@ -37,7 +37,7 @@ These nuclei can be broadly categorized into two types:
   
 **Cortical nuclei:** Found in the cerebral cortex, the brain’s outer layer. These include sensory nuclei (which process input from the senses), motor nuclei (which control movement), and association nuclei (which integrate different types of information).
 
-The **Basal Ganglia** is a group of interconnected nuclei in the brain involved in motor control, cognition, and emotion. Here's a breakdown of its major components:
+The **basal ganglia** is a network of subcortical brain structures distributed across the telencephalon, diencephalon, and mesencephalon (midbrain). By forming circuits with the cerebral cortex and thalamus, the basal ganglia help regulate voluntary movements, learning, decision-making, and motivation. Key components include  
 
 - **Striatum**: 
   - **Caudate nucleus** 
@@ -55,14 +55,12 @@ The **Basal Ganglia** is a group of interconnected nuclei in the brain involved 
   - **Pars compacta (SNc)**: Produces dopamine, essential for motor control.
   - **Pars reticulata (SNr)**: Sends inhibitory signals, mainly to the thalamus.
 
-**Afferent projections** refer to nerve fibers that bring signals *to* a specific brain region from other areas. **Efferent projections** refer to nerve fibers that carry signals *away* from a specific brain region to other parts of the brain or body.
-
-   - The striatum receives input (afferent projections) from several regions of the brain. The primary inputs come from:
+The striatum receives input (afferent projections) from several regions of the brain. The primary inputs come from:
      - **Cerebral cortex**: This is the cortico-striatal pathway, where sensory and motor information is sent to the striatum for processing.
      - **Thalamus**: Sends modulatory signals to the striatum, influencing motor and cognitive functions.
      - **Substantia nigra pars compacta (SNc)**: Dopaminergic projections from the SNc play a key role in modulating striatal activity, especially in reward processing and motor control.
 
-   - Once the striatum processes the input signals, it sends outputs (efferent projections) to other brain areas to regulate movement and behavior. The primary efferent projections go to:
+Once the striatum processes the input signals, it sends outputs (efferent projections) to other brain areas to regulate movement and behavior. The primary efferent projections go to:
      - **Globus pallidus (GP)**: The striatum projects to both the internal and external segments of the globus pallidus, which is a critical part of the motor output pathway.
      - **Substantia nigra pars reticulata (SNr)**: The striatum also sends inhibitory signals to the SNr, which in turn influences motor functions by projecting to the thalamus.
 
