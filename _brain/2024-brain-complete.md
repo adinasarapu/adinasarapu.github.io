@@ -55,12 +55,12 @@ The **basal ganglia** is a network of subcortical brain structures distributed a
   - **Pars compacta (SNc)**: Produces dopamine, essential for motor control.
   - **Pars reticulata (SNr)**: Sends inhibitory signals, mainly to the thalamus.
 
-The striatum receives input (afferent projections) from several regions of the brain. The primary inputs come from:
+The striatum receives input (afferent projections) from several regions of the brain. The primary inputs come from:  
      - **Cerebral cortex**: This is the cortico-striatal pathway, where sensory and motor information is sent to the striatum for processing.
      - **Thalamus**: Sends modulatory signals to the striatum, influencing motor and cognitive functions.
      - **Substantia nigra pars compacta (SNc)**: Dopaminergic projections from the SNc play a key role in modulating striatal activity, especially in reward processing and motor control.
 
-Once the striatum processes the input signals, it sends outputs (efferent projections) to other brain areas to regulate movement and behavior. The primary efferent projections go to:
+Once the striatum processes the input signals, it sends outputs (efferent projections) to other brain areas to regulate movement and behavior. The primary efferent projections go to:  
      - **Globus pallidus (GP)**: The striatum projects to both the internal and external segments of the globus pallidus, which is a critical part of the motor output pathway.
      - **Substantia nigra pars reticulata (SNr)**: The striatum also sends inhibitory signals to the SNr, which in turn influences motor functions by projecting to the thalamus.
 
