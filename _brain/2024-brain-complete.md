@@ -68,7 +68,7 @@ The **striatum** is the largest component of the basal ganglia and acts as the p
 
 These interconnected pathways allow the striatum to act as a central relay station for regulating movement, behavior, and cognitive processes. It processes information from various brain regions and sends feedback to ensure smooth and coordinated motor functions.
 
-Basal ganglia pathways (Image taken from Macpherson and Hikida. Psychiatry Clin Neurosci. 2019 and Audi A et al., Case Rep Neurol Med. 2023).
+Basal ganglia pathways (Image taken from Macpherson and Hikida. Psychiatry Clin Neurosci. 2019 and Audi A et al., Case Rep Neurol Med. 2023; Chakravarthy and Balasubramani. Encyclopedia of Computational Neuroscience. Springer, New York, NY, 2022).
 
 ![Basal ganglia](/images/Basalganglia.png) 
 
