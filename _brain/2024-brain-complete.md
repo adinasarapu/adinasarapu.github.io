@@ -57,18 +57,19 @@ The **basal ganglia** is a network of subcortical brain structures distributed a
 
 The **striatum** is the largest component of the basal ganglia and acts as the primary hub for receiving inputs (afferent projections) from multiple regions of the brain. It is closely connected with the **cerebral cortex**, **limbic system**, and **thalamus**, making it essential for regulating motor control, cognition, and emotional behaviors.
 
-## Key Afferent Inputs to the Striatum:
-- **Cerebral Cortex**: The **cortico-striatal pathway** sends sensory and motor information from the cortex to the striatum, where it is processed to initiate and coordinate voluntary movements.
-- **Thalamus**: The **thalamostriatal pathway** delivers modulatory signals to the striatum, impacting cognitive functions and motor coordination.
-- **Substantia Nigra Pars Compacta (SNc)**: Dopaminergic neurons from the SNc project to the striatum. This **nigrostriatal pathway** modulates the striatum’s activity, particularly affecting reward processing and fine-tuning motor control.
+- Key Afferent Inputs to the Striatum:
+    - **Cerebral Cortex**: The **cortico-striatal pathway** sends sensory and motor information from the cortex to the striatum, where it is processed to initiate and coordinate voluntary movements.
+    - **Thalamus**: The **thalamostriatal pathway** delivers modulatory signals to the striatum, impacting cognitive functions and motor coordination.
+    - **Substantia Nigra Pars Compacta (SNc)**: Dopaminergic neurons from the SNc project to the striatum. This **nigrostriatal pathway** modulates the striatum’s activity, particularly affecting reward processing and fine-tuning motor control.
 
-## Primary Efferent Outputs from the Striatum:
-- **Globus Pallidus (GP)**: The striatum sends output signals to both the **internal** and **external segments** of the globus pallidus, which are critical for controlling the motor output pathway.
-- **Substantia Nigra Pars Reticulata (SNr)**: The striatum also projects inhibitory signals to the SNr, which helps regulate motor function by influencing the **thalamus**.
+- Primary Efferent Outputs from the Striatum:
+    - **Globus Pallidus (GP)**: The striatum sends output signals to both the **internal** and **external segments** of the globus pallidus, which are critical for controlling the motor output pathway.
+    - **Substantia Nigra Pars Reticulata (SNr)**: The striatum also projects inhibitory signals to the SNr, which helps regulate motor function by influencing the **thalamus**.
 
 These interconnected pathways allow the striatum to act as a central relay station for regulating movement, behavior, and cognitive processes. It processes information from various brain regions and sends feedback to ensure smooth and coordinated motor functions.
 
-Basal ganglia nuclei (Image taken from Macpherson and Hikida. Psychiatry Clin Neurosci. 2019).
+Basal ganglia pathways (Image taken from Macpherson and Hikida. Psychiatry Clin Neurosci. 2019).
+
 ![Basal ganglia](/images/Basalganglia.png) 
 
 Projections from the cerebral cortex are directed to medium spiny neurons (MSNs) in the striatum, which express either dopamine D1 or D2 receptors. These neurons integrate cortical input with dopamine signals originating from the substantia nigra pars compacta (SNc) and the ventral tegmental area (VTA) in the dorsal and ventral striatum, respectively. 
