@@ -69,4 +69,9 @@ The **striatum** is the largest component of the basal ganglia and acts as the p
 These interconnected pathways allow the striatum to act as a central relay station for regulating movement, behavior, and cognitive processes. It processes information from various brain regions and sends feedback to ensure smooth and coordinated motor functions.
 
 Basal ganglia nuclei (Image taken from Macpherson and Hikida. Psychiatry Clin Neurosci. 2019).
-![Basal ganglia](/images/Basalganglia.png)  
+![Basal ganglia](/images/Basalganglia.png) 
+
+Projections from the cerebral cortex are directed to medium spiny neurons (MSNs) in the striatum, which express either dopamine D1 or D2 receptors. These neurons integrate cortical input with dopamine signals originating from the substantia nigra pars compacta (SNc) and the ventral tegmental area (VTA) in the dorsal and ventral striatum, respectively. 
+
+The D1 and D2 MSNs establish different pathways. D1-MSNs project directly to the substantia nigra pars reticulata (SNr), while D2-MSNs project indirectly via the globus pallidus (GP) and the subthalamic nucleus (STN) to influence the SNr. This connectivity is crucial because it leads to either inhibition or disinhibition of the SNr, which subsequently modulates thalamic activity. This process ultimately promotes or suppresses various behaviors.
+
