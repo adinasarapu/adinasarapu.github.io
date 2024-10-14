@@ -4,7 +4,7 @@ collection: Brain
 order: 0
 permalink: /brain/braincomplete
 ---
-The embryonic brain develops through the enlargement of neural tube vesicles, first forming three primary vesicles and later five secondary vesicles.
+The embryonic brain develops through the enlargement of neural tube vesicles, first forming three primary vesicles and later five secondary vesicles [Understanding the Embryonic Brain Development](https://pressbooks.cuny.edu/psy320/chapter/embryonic-stage/).
 
 ![Brain](/images/Brain_1.png)  
 
@@ -15,6 +15,7 @@ In general, the adult brain can be categorized into four main parts: the **cereb
 - The **brainstem** consists of the **midbrain**, **pons**, and **medulla oblongata**.
 - The **diencephalon** gives rise to important structures such as the **thalamus**, **hypothalamus**, and **epithalamus**.
 
+Functional areas of cerebral cortex (Images taken from Budday S et al., Sci Rep, 2014).  
 ![Brain](/images/Brain_2.png)  
 
 - The **cerebrum** consists of two **cerebral hemispheres** separated by the **longitudinal fissure**.
