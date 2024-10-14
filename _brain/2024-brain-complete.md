@@ -68,15 +68,17 @@ The **striatum** is the largest component of the basal ganglia and acts as the p
 
 These interconnected pathways allow the striatum to act as a central relay station for regulating movement, behavior, and cognitive processes. It processes information from various brain regions and sends feedback to ensure smooth and coordinated motor functions.
 
-Basal ganglia pathways (Images taken from Rocha GS et al., Front Syst Neurosci. 2023;  Audi A et al., Case Rep Neurol Med. 2023; Chakravarthy and Balasubramani. Encyclopedia of Computational Neuroscience. Springer, New York, NY, 2022).
+**Basal ganglia: Direct and indirect pathways of movement**  
 
+(Images taken from Rocha GS et al., Front Syst Neurosci. 2023;  Audi A et al., Case Rep Neurol Med. 2023).
 ![Basal ganglia](/images/Basalganglia.png) 
+(SN, substantia nigra; GPe, globus pallidus externus; GPi, globus pallidus internus; STN, subthalamic nucleus)  
 
-**Direct Pathway:**  
-The direct pathway begins in the cortex, where excitatory signals are sent to the striatum (caudate and putamen). These structures then send inhibitory signals to the globus pallidus internus (GPi), which inhibits the thalamus. Since the thalamus is responsible for movement, inhibiting an inhibitor results in overall stimulation of movement. Dopamine from the substantia nigra acts on this pathway via D1 receptors, further promoting movement.
+- **Direct Pathway**: 
+  - The direct pathway begins in the cortex, where excitatory signals are sent to the striatum (caudate and putamen). These structures then send inhibitory signals to the globus pallidus internus (GPi), which inhibits the thalamus. Since the thalamus is responsible for movement, inhibiting an inhibitor results in overall stimulation of movement. Dopamine from the substantia nigra acts on this pathway via D1 receptors, further promoting movement.
 
-**Indirect Pathway:**  
-The indirect pathway also starts with excitatory signals from the cortex to the caudate and putamen. In response, the caudate and putamen send inhibitory signals to the globus pallidus externus (GPe), which normally inhibits the subthalamic nucleus (STN). When the GPe is inhibited, the STN becomes more active and stimulates the globus pallidus internus (GPi). This leads to the GPi inhibiting the thalamus, resulting in suppression of movement. Dopamine from the substantia nigra influences this pathway through D2 receptors, reducing its inhibitory effects on movement. 
+- **Indirect Pathway**: 
+  - The indirect pathway also starts with excitatory signals from the cortex to the caudate and putamen. In response, the caudate and putamen send inhibitory signals to the globus pallidus externus (GPe), which normally inhibits the subthalamic nucleus (STN). When the GPe is inhibited, the STN becomes more active and stimulates the globus pallidus internus (GPi). This leads to the GPi inhibiting the thalamus, resulting in suppression of movement. Dopamine from the substantia nigra influences this pathway through D2 receptors, reducing its inhibitory effects on movement. 
 
 (SN, substantia nigra; GPe, globus pallidus externus; GPi, globus pallidus internus; STN, subthalamic nucleus).
 
