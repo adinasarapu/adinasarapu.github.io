@@ -1,5 +1,5 @@
 ---
-title: "Brain"
+title: "Brain & Pathways of Movement"
 collection: Brain
 order: 0
 permalink: /brain/braincomplete
