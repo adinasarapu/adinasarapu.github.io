@@ -5,6 +5,7 @@ order: 0
 permalink: /brain/braincomplete
 ---
 The embryonic brain develops through the enlargement of neural tube vesicles, first forming three primary vesicles and later five secondary vesicles.  
+
 For further details, you can visit [this link](https://pressbooks.cuny.edu/psy320/chapter/embryonic-stage/).
 
 ![Brain](/images/Brain_1.png)  
