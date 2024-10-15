@@ -39,44 +39,14 @@ Here’s a table summarizing the key genes or proteins involved in the synthesis
 
 
 
-Here are the key biochemical reactions involved in the synthesis of catecholamines, along with the enzymes responsible for each step:
-
-
-## Dopamine Synthesis
-
-1. **Tyrosine → L-DOPA**
-   - **Enzyme**: Tyrosine Hydroxylase (TH)  
-   - **Reaction**:  
-   ```
-   Tyrosine + O₂ + BH₄ → L-DOPA + H₂O + BH₃
-   ```
-
-2. **L-DOPA → Dopamine**
-   - **Enzyme**: DOPA Decarboxylase (DDC)  
-   - **Reaction**:  
-   ```
-   L-DOPA → Dopamine + CO₂
-   ```
-
-## Norepinephrine Synthesis
-
-1. **Dopamine → Norepinephrine**
-   - **Enzyme**: Dopamine β-Hydroxylase (DBH)  
-   - **Reaction**:  
-   ```
-   Dopamine + O₂ + ascorbate → Norepinephrine + H₂O
-   ```
-
-## Epinephrine Synthesis
-
-1. **Norepinephrine → Epinephrine**
-   - **Enzyme**: Phenylethanolamine N-Methyltransferase (PNMT)  
-   - **Reaction**:  
-   ```
-   Norepinephrine + S-adenosylmethionine (SAM) → Epinephrine + S-adenosylhomocysteine (SAH)
-   ```
-
-## Summary of Transport
+The canonical catecholaminergic neuron is one that generates dopamine, noradrenaline or adrenaline (Image published in: Sharples SA et al. 2014).
+![Dopamine](/images/Dopamine.png)
+- Dopamine synthesis begins with the hydroxylation of tyrosine by TH to produce L-DOPA, which is then converted to dopamine by AADC. 
+- DBH hydroxylates dopamine to form norepinephrine, which is further converted to epinephrine by PNMT.
+- Dopamine is mainly broken down by two enzymes, COMT and MAO. 
+  - COMT converts dopamine to 3-methoxytyramine, which MAO then converts to 3-methoxy-4-hydroxyacetaldehyde. 
+  - Alternatively, MAO breaks dopamine down into 3,4-dihydroxyphenylacetaldehyde, which ALDH converts to DOPAC. 
+- Finally, ALDH and COMT process 3-methoxy-4-hydroxyacetaldehyde and DOPAC into HVA.
 
 - **VMAT2 (Vesicular Monoamine Transporter 2)**: Transports dopamine, norepinephrine, and epinephrine into synaptic vesicles for storage and release.
 - **DAT (Dopamine Transporter)**: Reuptakes dopamine from the synaptic cleft.
