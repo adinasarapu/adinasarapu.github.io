@@ -20,6 +20,3 @@ This classification highlights the differences between neurodegenerative disorde
 |                                | Restless Legs Syndrome (RLS)    | A condition characterized by an uncontrollable urge to move the legs, often accompanied by uncomfortable sensations.          |
 |                                | Cerebral Palsy                 | A group of disorders that affect movement and muscle tone, often caused by brain damage during early development.             |
 
-Monogenic forms of Dystonia (this figure is adapted from Thomsen M, et al. Annu Rev Pathol. 2024).    
-![](/images/Dystinia-monogenic.png)
-Overview of confirmed monogenic forms of dystonia based on the most recent update of the Task Force for the Nomenclature of Genetic Movement Disorders (Lange LM et al, 2022 Mov. Disord. 37(5):905–35). Abbreviations: ATX, ataxia; CHOR, chorea; DYT, dystonia; HSP, hereditary spastic paraplegia; NBIA, neurodegeneration with brain iron accumulation; PARK, Parkinson’s disease.
