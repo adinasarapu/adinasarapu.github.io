@@ -77,8 +77,6 @@ These interconnected pathways allow the striatum to act as a central relay stati
 ![Basal ganglia](/images/Basalganglia.png) 
 (SNc = substantia nigra pars compacta; SNr = subtantia nigra pars reticulata; GPe = globus pallidus externus; GPi = globus pallidus internus; STN, subthalamic nucleus)  
 
-Note: The SNr and GPi are both key output nuclei in the basal ganglia, but the GPi is often highlighted for body (limbs and trunk) movement control, while the SNr focuses more on eye movements and head posture, which is why the SNr is sometimes left out of certain movement models.  
-
 - **Direct Pathway**: The direct pathway begins in the cortex, where excitatory signals are sent to the striatum (caudate and putamen). These structures then send inhibitory signals to the globus pallidus internus (GPi), which inhibits the thalamus. Since the thalamus is responsible for movement, inhibiting an inhibitor results in overall stimulation of movement. Dopamine from the substantia nigra acts on this pathway via D1 receptors, further promoting movement.
 
 - **Indirect Pathway**: The indirect pathway also starts with excitatory signals from the cortex to the caudate and putamen. In response, the caudate and putamen send inhibitory signals to the globus pallidus externus (GPe), which normally inhibits the subthalamic nucleus (STN). When the GPe is inhibited, the STN becomes more active and stimulates the globus pallidus internus (GPi). This leads to the GPi inhibiting the thalamus, resulting in suppression of movement. Dopamine from the substantia nigra influences this pathway through D2 receptors, reducing its inhibitory effects on movement. 
