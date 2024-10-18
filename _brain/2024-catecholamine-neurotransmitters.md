@@ -36,6 +36,7 @@ Here’s a table summarizing the key genes or proteins involved in the synthesis
 |                   | **PNMT (Phenylethanolamine N-Methyltransferase)** | Converts norepinephrine to epinephrine.        |
 |                   | **VMAT2 (Vesicular Monoamine Transporter 2)** | Transports epinephrine into synaptic vesicles. |
 |                   | **NET (Norepinephrine Transporter)**| Reuptakes norepinephrine and indirectly affects epinephrine levels. |
+
 Note: The DDC gene provides instructions for making the aromatic l-amino acid decarboxylase (AADC) enzyme.
 
 Dopamine synthesis and metabolism and, uptake of levodopa-derived dopamine.  
