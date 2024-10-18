@@ -43,12 +43,13 @@ Dopamine synthesis and metabolism and, uptake of levodopa-derived dopamine.
 ![Dopamine](/images/Dopamine.png)
 - Dopamine synthesis begins with the hydroxylation of tyrosine by TH to produce L-DOPA, which is then converted to dopamine by AADC. 
 - DBH hydroxylates dopamine to form norepinephrine, which is further converted to epinephrine by PNMT.
-- Dopamine is mainly broken down by two enzymes, COMT and MAO. 
+- Dopamine is mainly broken down by two enzymes, Catechol-O-Methyltransferase(COMT) and Monoamine Oxidase(MAO). 
   - COMT converts dopamine to 3-methoxytyramine, which MAO then converts to 3-methoxy-4-hydroxyacetaldehyde. 
   - Alternatively, MAO breaks dopamine down into 3,4-dihydroxyphenylacetaldehyde, which ALDH converts to DOPAC. 
-- Finally, ALDH and COMT process 3-methoxy-4-hydroxyacetaldehyde and DOPAC into HVA.
+- Finally, ALDH and COMT process 3-methoxy-4-hydroxyacetaldehyde and DOPAC into Homovanillic Acid (HVA).
 
-- **VMAT2 (Vesicular Monoamine Transporter 2)**: Transports dopamine, norepinephrine, and epinephrine into synaptic vesicles for storage and release.
-- **DAT (Dopamine Transporter)**: Reuptakes dopamine from the synaptic cleft.
-- **NET (Norepinephrine Transporter)**: Reuptakes norepinephrine from the synaptic cleft.  
-
+- **VMAT2 (Vesicular Monoamine Transporter 2; SLC18A2)**: Transports dopamine, norepinephrine, and epinephrine into synaptic vesicles for storage and release.
+- **DAT (Dopamine Transporter; SLC6A3)**: Reuptakes dopamine from the synaptic cleft.
+- **NET (Norepinephrine Transporter; SLC6A2)**: Reuptakes norepinephrine from the synaptic cleft.  
+- **OCT-3 (Organic Cation Transporter 3; SLC22A3)**: SLC22A3 is known to transport compounds such as dopamine, serotonin, norepinephrine, and various medications including metformin and certain antidepressants.
+- **MAO-A** primarily degrades serotonin, norepinephrine, and dopamine, while **MAO-B** specifically metabolizes phenylethylamine and dopamine.  
