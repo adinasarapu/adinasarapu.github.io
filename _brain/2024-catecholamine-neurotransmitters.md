@@ -36,10 +36,9 @@ Here’s a table summarizing the key genes or proteins involved in the synthesis
 |                   | **PNMT (Phenylethanolamine N-Methyltransferase)** | Converts norepinephrine to epinephrine.        |
 |                   | **VMAT2 (Vesicular Monoamine Transporter 2)** | Transports epinephrine into synaptic vesicles. |
 |                   | **NET (Norepinephrine Transporter)**| Reuptakes norepinephrine and indirectly affects epinephrine levels. |
+Note: The DDC gene provides instructions for making the aromatic l-amino acid decarboxylase (AADC) enzyme.
 
-
-
-The canonical catecholaminergic neuron is one that generates dopamine, noradrenaline or adrenaline (Image published in: Sharples SA et al. 2014; Channer B et al., Pharmacological Reviews, 2023).
+Dopamine synthesis and metabolism and, uptake of levodopa-derived dopamine.  
 ![Dopamine](/images/Dopamine.png)
 - Dopamine synthesis begins with the hydroxylation of tyrosine by TH to produce L-DOPA, which is then converted to dopamine by AADC. 
 - DBH hydroxylates dopamine to form norepinephrine, which is further converted to epinephrine by PNMT.
