@@ -39,7 +39,7 @@ Here’s a table summarizing the key genes or proteins involved in the synthesis
 
 
 
-The canonical catecholaminergic neuron is one that generates dopamine, noradrenaline or adrenaline (Image published in: Sharples SA et al. 2014).
+The canonical catecholaminergic neuron is one that generates dopamine, noradrenaline or adrenaline (Image published in: Sharples SA et al. 2014; Channer B et al., Pharmacological Reviews, 2023).
 ![Dopamine](/images/Dopamine.png)
 - Dopamine synthesis begins with the hydroxylation of tyrosine by TH to produce L-DOPA, which is then converted to dopamine by AADC. 
 - DBH hydroxylates dopamine to form norepinephrine, which is further converted to epinephrine by PNMT.

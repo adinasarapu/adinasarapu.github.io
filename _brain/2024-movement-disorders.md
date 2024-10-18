@@ -1,22 +1,21 @@
 ---
-title: "Movement Disorders"
+title: "Basal Ganglia Circuit Disorders"
 collection: Disorder
 order: 1
 permalink: /brain/movementdisorders  
 
 ---
+This table provides an overview of various disorders linked to problems in the basal ganglia, a key brain region that plays a significant role in movement and coordination. It highlights whether each disorder causes movement-related symptoms and if it’s considered neurodegenerative.
 
-This classification highlights the differences between neurodegenerative disorders, which involve progressive degeneration of neurons, and non-neurodegenerative disorders, which may result from various causes and may not lead to progressive neuronal loss.
+For instance, **Parkinson's Disease** and **Huntington's Disease** showcase how basal ganglia dysfunction can lead to severe motor and cognitive challenges. Meanwhile, conditions like **Tourette Syndrome** and **Dystonia** highlight the diverse range of movement disorders that can occur due to these brain circuit issues. This summary helps illustrate the complex connections between these disorders and their effects on our movement and overall brain function.
 
-| **Type**                       | **Movement Disorder**           | **Description**                                                                      |
-|--------------------------------|---------------------------------|--------------------------------------------------------------------------------------|
-| **Neurodegenerative**          | Parkinson's Disease             | A progressive neurodegenerative disorder characterized by the degeneration of dopaminergic neurons in the substantia nigra. |
-|                                | Huntington's Disease            | A genetic neurodegenerative disorder that leads to the progressive breakdown of nerve cells in the brain.                    |
-| **Non-Neurodegenerative**      | Essential Tremor                | A common movement disorder that causes rhythmic shaking, primarily in the hands but can also affect the head, voice, and other parts of the body. |
-|                                | Dystonia                        | A movement disorder characterized by sustained muscle contractions, abnormal postures, or twisting movements.                  |
-|                                | Tourette Syndrome               | A neurological disorder characterized by repetitive, involuntary movements and vocalizations called tics.                     |
-|                                | Ataxia                         | A group of disorders that affect coordination and balance, often resulting from damage to the cerebellum.                     |
-|                                | Myoclonus                      | A sudden, brief, and involuntary muscle jerk or spasm.                              |
-|                                | Restless Legs Syndrome (RLS)    | A condition characterized by an uncontrollable urge to move the legs, often accompanied by uncomfortable sensations.          |
-|                                | Cerebral Palsy                 | A group of disorders that affect movement and muscle tone, often caused by brain damage during early development.             |
-
+| **Disorder**                          | **What It Is**                                                                                      | **Movement Disorder?** | **Neurodegenerative Disorder?** |
+|---------------------------------------|------------------------------------------------------------------------------------------------------|------------------------|----------------------------------|
+| **Parkinson's Disease**               | A condition caused by the loss of dopamine-producing neurons in the brain, leading to tremors, stiffness, and slowed movement. | Yes                    | Yes                              |
+| **Huntington's Disease**              | A genetic disorder that causes the breakdown of nerve cells in the brain, resulting in uncontrolled movements and cognitive decline. | Yes                    | Yes                              |
+| **Chorea**                            | Characterized by irregular, involuntary movements that can happen in various conditions, including Huntington's Disease. | Yes                    | Yes (if related to HD)          |
+| **Progressive Supranuclear Palsy (PSP)** | A neurodegenerative disorder that leads to issues with balance, rigidity, and problems with eye movements. | Yes                    | Yes                              |
+| **Dystonia**                          | A movement disorder that causes sustained muscle contractions and abnormal postures, often stemming from basal ganglia issues. | Yes                    | No                               |
+| **Tourette Syndrome**                 | A condition marked by repetitive tics, both motor and vocal, linked to dysfunction in the basal ganglia. | Yes                    | No                               |
+| **Wilson's Disease**                  | A genetic disorder that causes copper accumulation in the body, leading to various movement issues and cognitive problems. | Yes                    | No                               |
+| **Essential Tremor**                  | A common movement disorder that results in rhythmic shaking, primarily in the hands, potentially linked to basal ganglia circuitry. | Yes                    | No                               |

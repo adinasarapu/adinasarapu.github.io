@@ -1,5 +1,5 @@
 ---
-title: "Brain & Pathways of Movement"
+title: "Brain & Basal Ganglia Circuits"
 collection: Brain
 order: 0
 permalink: /brain/braincomplete
@@ -79,8 +79,8 @@ These interconnected pathways allow the striatum to act as a central relay stati
 
 - **Direct Pathway**: The direct pathway begins in the cortex, where excitatory signals are sent to the striatum (caudate and putamen). These structures then send inhibitory signals to the globus pallidus internus (GPi), which inhibits the thalamus. Since the thalamus is responsible for movement, inhibiting an inhibitor results in overall stimulation of movement. Dopamine from the substantia nigra acts on this pathway via D1 receptors, further promoting movement.
 
-- **Indirect Pathway**: The indirect pathway also starts with excitatory signals from the cortex to the caudate and putamen. In response, the caudate and putamen send inhibitory signals to the globus pallidus externus (GPe), which normally inhibits the subthalamic nucleus (STN). When the GPe is inhibited, the STN becomes more active and stimulates the globus pallidus internus (GPi). This leads to the GPi inhibiting the thalamus, resulting in suppression of movement. Dopamine from the substantia nigra influences this pathway through D2 receptors, reducing its inhibitory effects on movement. 
+- **Indirect Pathway**: The indirect pathway also starts with excitatory signals from the cortex to the striatum (caudate and putamen). In response, the striatum send inhibitory signals to the globus pallidus externus (GPe), which normally inhibits the subthalamic nucleus (STN). When the GPe is inhibited, the STN becomes more active and stimulates the globus pallidus internus (GPi). This leads to the GPi inhibiting the thalamus, resulting in suppression of movement. Dopamine from the substantia nigra influences this pathway through D2 receptors, reducing its inhibitory effects on movement. 
 
 Dopamine receptor D1- and D2-expressing medium spiny neurons (D1-MSNs and D2-MSNs) make up 90% of the neurons in the striatum. Both types receive dopamine signals from the SNc, but they have opposite effects on movement. D1-MSNs, which connect to the GPi and the SNr, are part of the direct pathway and help facilitate movement. On the other hand, D2-MSNs, which project to the GPe, are involved in the indirect pathway and work to inhibit movement.  
 
-**Note**: The SNr and GPi are both key output nuclei in the basal ganglia, but the GPi is often highlighted for body (limbs and trunk) movement control, while the SNr focuses more on eye movements and head posture, which is why the SNr is sometimes left out of certain movement models.    
+**Note**: The SNr (substantia nigra pars reticulata) and GPi (globus pallidus internus) are both crucial output centers in the basal ganglia. However, the GPi is typically emphasized for controlling movements of the body, such as the limbs and trunk, while the SNr plays a bigger role in eye movements and head posture. This distinction is why the SNr is sometimes left out of certain models focused on general body movement.
