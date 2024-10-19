@@ -17,20 +17,13 @@ The main solute carrier transporters involved in glutamate/GABA-glutamine cycle 
 | **GABA**              | GABAergic neurons             | Ionotropic (GABA<sub>A</sub>) and Metabotropic (GABA<sub>B</sub>) | Widespread, especially in cortex and cerebellum |
 | **Glycine**           | Glycinergic neurons           | Ionotropic (Glycine receptors)           | Spinal cord, brain stem           |
 
-AMPA (α-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid)
-NMDA (N-methyl-D-aspartate) receptor
+AMPA: α-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid
+NMDA: N-methyl-D-aspartate
 mGluRs: Metabotropic Glutamate Receptors  
 
 **Ionotropic** receptors are fast-acting receptors that form ion channels; when activated by a neurotransmitter, they allow ions to flow directly across the membrane, leading to rapid changes in neuronal excitability.  
 
-**Metabotropic** receptors, on the other hand, are slower and act through signaling cascades involving second messengers, modulating cellular functions over a longer duration. This distinction is crucial for understanding how neurotransmitters influence neuronal communication and overall brain function.
-
-| **Receptor Type**    | **Composition**                               | **Functions**                                                                                         |
-|----------------------|-----------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| **GABA<sub>A</sub>**  | Pentameric complex: α (1-6), β (1-3), γ (1-3), δ, ε, θ, π, ρ subunits | **Ionotropic**; mediates fast synaptic inhibition by increasing Cl⁻ conductance                         |
-| **GABA<sub>B</sub>**  | Heterodimer: GABA<sub>B1</sub> and GABA<sub>B2</sub> subunits | **Metabotropic**; inhibits adenylyl cyclase, decreases Ca²⁺ and K⁺ conductance                           |
-| **GABA<sub>C</sub>**  | Homomeric or heteromeric assemblies of ρ subunits | **Ionotropic**; Cl⁻ channel with slower kinetics than GABA<sub>A</sub>                                  |
-Here’s the table with the **Type** column moved to the second position:
+**Metabotropic** receptors, on the other hand, are slower and act through signaling cascades involving second messengers, modulating cellular functions over a longer duration. This distinction is crucial for understanding how neurotransmitters influence neuronal communication and overall brain function.  
 
 | **Receptor Type**     | **Type**          | **Composition**                                                                                                                                                         | **Functions**                                                                                                                                                                                                 |
 |-----------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -40,5 +33,7 @@ Here’s the table with the **Type** column moved to the second position:
 | **GABA<sub>A</sub>**  | GABAergic         | Pentameric complex: α (1-6), β (1-3), γ (1-3), δ, ε, θ, π, ρ subunits | **Ionotropic**; mediates fast synaptic inhibition by increasing Cl⁻ conductance                         |
 | **GABA<sub>B</sub>**  | GABAergic         | Heterodimer: GABA<sub>B1</sub> and GABA<sub>B2</sub> subunits | **Metabotropic**; inhibits adenylyl cyclase, decreases Ca²⁺ and K⁺ conductance                           |
 | **GABA<sub>C</sub>**  | GABAergic         | Homomeric or heteromeric assemblies of ρ subunits | **Ionotropic**; Cl⁻ channel with slower kinetics than GABA<sub>A</sub>                               |
+
+TARPs: Transmembrane AMPAR regulatory proteins  
 
 For more detailed information, you can visit the original source [here](https://openbooks.lib.msu.edu/introneuroscience1/chapter/neurotransmitter-synthesis-storage-and-receptors-amino-acid-neurotransmitters-glutamate-gaba-glycine/) and [here](https://doi.org/10.5772/intechopen.68762).
