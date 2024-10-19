@@ -5,7 +5,7 @@ order: 1
 permalink: /brain/movementdisorders  
 
 ---
-This table provides an overview of various disorders linked to problems in the basal ganglia, a key brain region that plays a significant role in movement and coordination. It highlights whether each disorder causes movement-related symptoms and if it’s considered neurodegenerative.
+This overview highlights various disorders linked to dysfunctions in the basal ganglia, a crucial brain region involved in regulating movement and coordination. It explores each disorder's connection to movement-related symptoms and whether the condition is classified as neurodegenerative.  
 
 For instance, **Parkinson's Disease** and **Huntington's Disease** showcase how basal ganglia dysfunction can lead to severe motor and cognitive challenges. Meanwhile, conditions like **Tourette Syndrome** and **Dystonia** highlight the diverse range of movement disorders that can occur due to these brain circuit issues. This summary helps illustrate the complex connections between these disorders and their effects on our movement and overall brain function.
 

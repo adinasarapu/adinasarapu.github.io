@@ -14,8 +14,10 @@ The main solute carrier transporters involved in glutamate/GABA-glutamine cycle 
 | **Neurotransmitter** | **Releasing Neurons**          | **Receptors**                              | **Specific Parts of CNS**        |
 |-----------------------|-------------------------------|-------------------------------------------|-----------------------------------|
 | **Glutamate**         | Glutamatergic neurons         | Ionotropic (AMPA, NMDA, Kainate) and Metabotropic (mGluRs) | Cortex, hippocampus, cerebellum   |
-| **GABA**              | GABAergic neurons             | Ionotropic (GABA\(_A\)) and Metabotropic (GABA\(_B\)) | Widespread, especially in cortex and cerebellum |
+| **GABA**              | GABAergic neurons             | Ionotropic (GABA<sub>A</sub>) and Metabotropic (GABA<sub>B</sub>) | Widespread, especially in cortex and cerebellum |
 | **Glycine**           | Glycinergic neurons           | Ionotropic (Glycine receptors)           | Spinal cord, brain stem           |
+
+AMPA (α-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid) & NMDA (N-methyl-D-aspartate) receptor  
 
 **Ionotropic** receptors are fast-acting receptors that form ion channels; when activated by a neurotransmitter, they allow ions to flow directly across the membrane, leading to rapid changes in neuronal excitability.  
 
