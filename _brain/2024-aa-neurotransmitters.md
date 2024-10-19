@@ -17,8 +17,8 @@ The main solute carrier transporters involved in glutamate/GABA-glutamine cycle 
 | **GABA**              | GABAergic neurons             | Ionotropic (GABA<sub>A</sub>) and Metabotropic (GABA<sub>B</sub>) | Widespread, especially in cortex and cerebellum |
 | **Glycine**           | Glycinergic neurons           | Ionotropic (Glycine receptors)           | Spinal cord, brain stem           |
 
-AMPA: α-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid
-NMDA: N-methyl-D-aspartate
+AMPA: α-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid  
+NMDA: N-methyl-D-aspartate  
 mGluRs: Metabotropic Glutamate Receptors  
 
 **Ionotropic** receptors are fast-acting receptors that form ion channels; when activated by a neurotransmitter, they allow ions to flow directly across the membrane, leading to rapid changes in neuronal excitability.  
