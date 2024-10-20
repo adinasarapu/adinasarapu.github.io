@@ -40,7 +40,13 @@ These nuclei can be broadly categorized into two types:
   
 **Cortical nuclei:** Found in the cerebral cortex, the brain’s outer layer. These include sensory nuclei (which process input from the senses), motor nuclei (which control movement), and association nuclei (which integrate different types of information).
 
-The **basal ganglia** is a network of subcortical brain structures distributed across the telencephalon, diencephalon, and mesencephalon (midbrain). By forming circuits with the cerebral cortex and thalamus, the basal ganglia help regulate voluntary movements, learning, decision-making, and motivation. Key components include  
+The **basal ganglia** is a network of subcortical brain structures distributed across the telencephalon, diencephalon, and mesencephalon (midbrain). The basal ganglia were once believed to be involved only in motor control, but we now know that dysfunction in its various regions and circuits contributes to a range of clinical issues beyond just movement disorders.  
+
+**Basal ganglia circuits can be broadly divided into three functional loops: the motor/sensorimotor, associative/cognitive, and limbic neurocircuits**
+![Circuits](/images/BasalGangliaCircuits.png)
+**DLS**, dorsolateral striatum; **DMS**, dorsomedial striatum; **GPi**, globus pallidus internal section; **MD**, medial dorsal thalamus; **NAc**, nucleus accumbens; **SNc**, substantia nigra pars compacta; **SNr**, substantia nigra pars reticulata; **VA**, ventral anterior thalamus; **VL**, ventrolateral thalamus; **VP**, ventral validum; **VTA**, ventral tegmental area.  
+
+By forming circuits with the cerebral cortex and thalamus, the basal ganglia help regulate voluntary movements, learning, decision-making, and motivation. Key components include  
 
 - **Striatum**: 
   - **Caudate nucleus** 
@@ -71,7 +77,7 @@ The **striatum** is the largest component of the basal ganglia and acts as the p
 
 These interconnected pathways allow the striatum to act as a central relay station for regulating movement, behavior, and cognitive processes. It processes information from various brain regions and sends feedback to ensure smooth and coordinated motor functions.
 
-**Basal ganglia: Direct and indirect pathways of movement**  
+**Basal ganglia: Direct and indirect pathways (motor circut)**  
 
 (Images taken from Rocha GS et al., Front Syst Neurosci. 2023;  Audi A et al., Case Rep Neurol Med. 2023).
 ![Basal ganglia](/images/Basalganglia.png) 
