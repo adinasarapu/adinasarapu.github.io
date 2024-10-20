@@ -89,4 +89,9 @@ These interconnected pathways allow the striatum to act as a central relay stati
 
 Dopamine receptor D1- and D2-expressing medium spiny neurons (D1-MSNs and D2-MSNs) make up 90% of the neurons in the striatum. Both types receive dopamine signals from the SNc, but they have opposite effects on movement. D1-MSNs, which connect to the GPi and the SNr, are part of the direct pathway and help facilitate movement. On the other hand, D2-MSNs, which project to the GPe, are involved in the indirect pathway and work to inhibit movement.  
 
-**Note**: The SNr (substantia nigra pars reticulata) and GPi (globus pallidus internus) are both crucial output centers in the basal ganglia. However, the GPi is typically emphasized for controlling movements of the body, such as the limbs and trunk, while the SNr plays a bigger role in eye movements and head posture. This distinction is why the SNr is sometimes left out of certain models focused on general body movement.
+**Note**: The SNr (substantia nigra pars reticulata) and GPi (globus pallidus internus) are both crucial output centers in the basal ganglia. However, the GPi is typically emphasized for controlling movements of the body, such as the limbs and trunk, while the SNr plays a bigger role in eye movements and head posture. This distinction is why the SNr is sometimes left out of certain models focused on general body movement.  
+
+**Further Reading**:
+1.[Basal Ganglia Motor Circuit](https://doi.org/10.3389/fnsys.2023.1242929)
+2.[Basal Ganglia Circuitry in Psychiatric Disorders](https://doi.org/10.1111/pcn.12830)
+3.[Basal Ganglia Disorders](https://doi.org/10.1016/S0140-6736(13)62418-6)   
