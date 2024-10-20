@@ -81,7 +81,7 @@ These interconnected pathways allow the striatum to act as a central relay stati
 
 (Images taken from Rocha GS et al., Front Syst Neurosci. 2023;  Audi A et al., Case Rep Neurol Med. 2023).
 ![Basal ganglia](/images/Basalganglia.png) 
-(SNc = substantia nigra pars compacta; SNr = subtantia nigra pars reticulata; GPe = globus pallidus externus; GPi = globus pallidus internus; STN, subthalamic nucleus)  
+<sub>**SNc**, substantia nigra pars compacta; **SNr**, subtantia nigra pars reticulata; **GPe**, globus pallidus externus; **GPi**, globus pallidus internus; **STN**, subthalamic nucleus</sub>  
 
 - **Direct Pathway**: The direct pathway begins in the cortex, where excitatory signals are sent to the striatum (caudate and putamen). These structures then send inhibitory signals to the globus pallidus internus (GPi), which inhibits the thalamus. Since the thalamus is responsible for movement, inhibiting an inhibitor results in overall stimulation of movement. Dopamine from the substantia nigra acts on this pathway via D1 receptors, further promoting movement.
 
