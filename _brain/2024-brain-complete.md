@@ -42,9 +42,9 @@ These nuclei can be broadly categorized into two types:
 
 The **basal ganglia** is a network of subcortical brain structures distributed across the telencephalon, diencephalon, and mesencephalon (midbrain). The basal ganglia were once believed to be involved only in motor control, but we now know that dysfunction in its various regions and circuits contributes to a range of clinical issues beyond just movement disorders.  
 
-**Basal ganglia circuits can be broadly divided into three functional loops: the motor/sensorimotor, associative/cognitive, and limbic neurocircuits**
+**Basal ganglia circuits** can be broadly divided into three functional loops: the **motor/sensorimotor**, **associative/cognitive**, and **limbic** circuits.
 ![Circuits](/images/BasalGangliaCircuits.png)
-**DLS**, dorsolateral striatum; **DMS**, dorsomedial striatum; **GPi**, globus pallidus internal section; **MD**, medial dorsal thalamus; **NAc**, nucleus accumbens; **SNc**, substantia nigra pars compacta; **SNr**, substantia nigra pars reticulata; **VA**, ventral anterior thalamus; **VL**, ventrolateral thalamus; **VP**, ventral validum; **VTA**, ventral tegmental area.  
+<sub>**DLS**, dorsolateral striatum; **DMS**, dorsomedial striatum; **GPi**, globus pallidus internal section; **MD**, medial dorsal thalamus; **NAc**, nucleus accumbens; **SNc**, substantia nigra pars compacta; **SNr**, substantia nigra pars reticulata; **VA**, ventral anterior thalamus; **VL**, ventrolateral thalamus; **VP**, ventral palidum; **VTA**, ventral tegmental area,</sub>  
 
 By forming circuits with the cerebral cortex and thalamus, the basal ganglia help regulate voluntary movements, learning, decision-making, and motivation. Key components include  
 
