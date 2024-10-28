@@ -1,7 +1,7 @@
 ---
 title: "Parkinson’s disease - Biomarkers"
 collection: Markers
-order: 6
+order: 11
 permalink: /brain/pd_biomarkers
 ---
 Parkinson’s Disease (PD) is the second most common neurodegenerative disorder, characterized by the loss of dopaminergic neurons and the accumulation of aggregated α-synuclein, mainly in the substantia nigra pars compacta (SNpc) of the midbrain. The hallmark motor symptoms include tremor, bradykinesia, postural instability, and rigidity, often accompanied by non-motor issues such as dementia, depression, and psychosis. Protein biomarkers in Parkinson’s disease (PD) are critical for understanding disease mechanisms, early diagnosis, and developing therapeutic strategies.  

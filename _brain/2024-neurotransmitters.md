@@ -1,7 +1,7 @@
 ---
 title: "Neurotransmitters"
 collection: Markers
-order: 2
+order: 7
 permalink: /brain/neurotransmitters
 ---
 

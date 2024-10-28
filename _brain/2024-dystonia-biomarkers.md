@@ -1,7 +1,7 @@
 ---
 title: "Dystonia - Biomarkers"
 collection: Markers
-order: 6
+order: 12
 permalink: /brain/dystonia_biomarkers
 ---
 There is currently no biomarker of dystonia and no gold-standard test for its diagnosis.  

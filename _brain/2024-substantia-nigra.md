@@ -1,7 +1,7 @@
 ---
 title: "Substantia nigra"
 collection: Brain
-order: 11
+order: 5
 permalink: /brain/substantianigra
 ---
 

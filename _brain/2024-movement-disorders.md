@@ -1,7 +1,7 @@
 ---
 title: "Basal Ganglia Circuit Disorders"
 collection: Disorder
-order: 1
+order: 0
 permalink: /brain/movementdisorders  
 
 ---

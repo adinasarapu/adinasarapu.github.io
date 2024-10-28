@@ -1,7 +1,7 @@
 ---
 title: "Neurotransmitters (Amino Acid)"
 collection: Markers
-order: 3
+order: 8
 permalink: /brain/aminoacidneurotransmitters
 ---
 **Glutamatergic** neurons are a type of neuron that primarily release glutamate, the main **excitatory** neurotransmitter in the brain. **GABAergic** neurons are a type of **inhibitory** neuron in the central nervous system (CNS) that primarily use gamma-aminobutyric acid (GABA) as their neurotransmitter.
@@ -17,9 +17,7 @@ The main solute carrier transporters involved in glutamate/GABA-glutamine cycle 
 | **GABA**              | GABAergic neurons             | Ionotropic (GABA<sub>A</sub>) and Metabotropic (GABA<sub>B</sub>) | Widespread, especially in cortex and cerebellum |
 | **Glycine**           | Glycinergic neurons           | Ionotropic (Glycine receptors)           | Spinal cord, brain stem           |
 
-AMPA: α-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid  
-NMDA: N-methyl-D-aspartate  
-mGluRs: Metabotropic Glutamate Receptors  
+<sub>AMPA: α-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid; NMDA: N-methyl-D-aspartate; mGluRs: Metabotropic Glutamate Receptors</sub>  
 
 **Ionotropic** receptors are fast-acting receptors that form ion channels; when activated by a neurotransmitter, they allow ions to flow directly across the membrane, leading to rapid changes in neuronal excitability.  
 

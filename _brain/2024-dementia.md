@@ -1,7 +1,7 @@
 ---
 title: "Dementia"
 collection: Markers
-order: 7
+order: 10
 permalink: /brain/dementia
 ---
 
