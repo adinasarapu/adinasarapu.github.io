@@ -64,7 +64,7 @@ By forming circuits with the cerebral cortex and thalamus, the basal ganglia hel
   - **Pars compacta (SNc)**: Produces dopamine, essential for motor control.
   - **Pars reticulata (SNr)**: Sends inhibitory signals, mainly to the thalamus.
 
-The **striatum** is the largest component of the basal ganglia and acts as the primary hub for receiving inputs (afferent projections) from multiple regions of the brain including from cortex, thalamus, midbrain, hippocampus, and brainstem.
+The **striatum** is the largest component of the basal ganglia and acts as the primary hub for receiving inputs (afferent projections) from multiple regions of the brain including from cortex, thalamus, hippocampus, and brainstem. The striatum has two main compartments: **striosomes** (or patches) and the **matrix**. Striosomes are small clusters rich in dopamine D2 receptors, substance P, and enkephalin, linking them to the limbic system and roles in emotion and reward. In contrast, the matrix, which surrounds the striosomes, contains high levels of calbindin, somatostatin, and acetylcholinesterase, connecting it more to the sensory-motor system and movement coordination. Together, these compartments allow the striatum to integrate emotional and motor functions.  
 
 - Key Afferent Inputs to the Striatum:
     - **Cerebral Cortex**: The **cortico-striatal pathway** sends sensory and motor information from the cortex to the striatum, where it is processed to initiate and coordinate voluntary movements.
