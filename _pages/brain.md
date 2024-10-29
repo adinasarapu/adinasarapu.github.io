@@ -5,7 +5,9 @@ permalink: /brain/
 author_profile: true
 
 ---  
-Neurological disorders caused by dysfunctions in the basal ganglia, leading to impaired movement and coordination, often with neurodegenerative features.  
+Movement disorders encompass a variety of neurological conditions that lead to unusual or involuntary movements. These are often categorized as either hyperkinetic (excessive movement) or hypokinetic (reduced movement). Typically, these disorders arise when specific brain regions that control movement—such as the primary motor cortex, basal ganglia, cerebellum, and thalamus—are damaged or not functioning correctly. 
+
+To learn more about the causes, types, and treatments of movement disorders, explore further in this [Cleveland Clinic resource](https://my.clevelandclinic.org/health/diseases/24847-movement-disorders).  
 
 For instance, **Parkinson's Disease** and **Huntington's Disease** showcase how basal ganglia dysfunction can lead to severe motor and cognitive challenges. Meanwhile, conditions like **Tourette Syndrome** and **Dystonia** highlight the diverse range of movement disorders that can occur due to these brain circuit issues. This summary helps illustrate the complex connections between these disorders and their effects on our movement and overall brain function.
 
