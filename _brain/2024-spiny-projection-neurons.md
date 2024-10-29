@@ -6,7 +6,9 @@ permalink: /brain/spinyprojectionneurons
 
 ---
 
-Striatal/Spiny Projection Neurons (SPNs), specifically Medium Spiny Neurons (MSNs), are a predominant type of neuron found in the striatum, which is part of the basal ganglia in the brain. SPNs primarily release the neurotransmitter GABA (gamma-aminobutyric acid), which is inhibitory. This means they decrease the likelihood of the firing of their target neurons.  
+Spiny Projection Neurons (SPNs), specifically Medium Spiny Neurons (MSNs), are a predominant type of neuron found in the striatum, which is part of the basal ganglia in the brain.  
+
+SPNs primarily release the neurotransmitter GABA (gamma-aminobutyric acid), which is inhibitory. This means they decrease the likelihood of the firing of their target neurons.  
 
 Basal ganglia (Image taken from: https://selfhacked.com)  
 ![Basal Ganglia](/images/basal_ganglia.png)

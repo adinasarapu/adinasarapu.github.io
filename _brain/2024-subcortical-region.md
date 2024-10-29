@@ -4,7 +4,9 @@ collection: Brain
 order: 2
 permalink: /brain/subcortical
 ---
-The **subcortical region** of the brain consists of structures that lie beneath the cerebral cortex and play essential roles in regulating various functions, including movement, emotions, memory, and autonomic processes. Key subcortical structures include:
+The **subcortical region** of the brain consists of structures that lie beneath the cerebral cortex and play essential roles in regulating various functions, including movement, emotions, memory, and autonomic processes.  
+
+Key subcortical structures include:
 
 ### 1. **Basal Ganglia**
    - **Striatum (Caudate Nucleus and Putamen)**: Involved in motor control, habit formation, and reward processing.

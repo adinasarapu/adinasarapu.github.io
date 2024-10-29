@@ -5,7 +5,9 @@ order: 5
 permalink: /brain/substantianigra
 ---
 
-The **substantia nigra** is considered part of both the **basal ganglia** and the **midbrain** due to its anatomical location and its functional role within these brain systems. Here’s a breakdown of why it belongs to both:
+The **substantia nigra** is considered part of both the **basal ganglia** and the **midbrain** due to its anatomical location and its functional role within these brain systems.  
+
+Here’s a breakdown of why it belongs to both:
 
 ![SN](/images/SN.png)  
 
