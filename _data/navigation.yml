@@ -15,5 +15,5 @@ main:
   - title: "NGS | Proteomics"
     url: /year-archive/
     
-  - title: "Brain | Disorders"
-    url: /brain/
+#  - title: "Brain | Disorders"
+#    url: /brain/
