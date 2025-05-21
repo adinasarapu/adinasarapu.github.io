@@ -16,6 +16,11 @@ Passionate about research, teaching, and securing grants, I am eager to contribu
 
 {% comment %}
 {% endcomment %}
+<b>2025 Publications</b>
+<ul>
+<li><i style="color:DodgerBlue;">Neurobiology of Disease</i><br>
+Striatal cell-type–specific molecular signatures reveal therapeutic targets in a model of dystonia.<br></li>
+</ul>
 <b>2024  Publications</b>
 <ul>
 <li><i style="color:DodgerBlue;">Cancer Research</i><br>  
