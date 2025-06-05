@@ -19,7 +19,7 @@ Passionate about research, teaching, and securing grants, I am eager to contribu
 <b>2025 Publications</b>
 <ul>
 <li><i style="color:DodgerBlue;">STEM CELLS Translational Medicine</i><br>
-Modeling rare genetic disease with patient-derived induced pluripotent stem cells: reassessment of the minimum numbers of lines needed.<br></li>
+Modeling rare genetic disease with patient-derived induced pluripotent stem cells: reassessment of the minimum numbers of lines needed (accepted).<br></li>
 <li><i style="color:DodgerBlue;">Neurobiology of Disease</i><br>
 Striatal cell-type–specific molecular signatures reveal therapeutic targets in a model of dystonia.<br></li>
 </ul>
