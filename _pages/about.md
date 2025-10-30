@@ -19,11 +19,13 @@ Passionate about research, teaching, and securing grants, I am eager to contribu
 <b>2025 Publications</b>
 <ul>
 <li><i style="color:DodgerBlue;">STEM CELLS Translational Medicine</i><br>
-Modeling rare genetic disease with patient-derived induced pluripotent stem cells: reassessment of the minimum numbers of lines needed<br></li>  
+Modeling rare genetic disease with patient-derived induced pluripotent stem cells: reassessment of the minimum numbers of lines needed (published)<br></li>  
+<li><i style="color:DodgerBlue;">STEM CELLS Translational Medicine</i><br>
+Modeling Rare Genetic Disease with Gene-Edited Induced Pluripotent Stem Cells: Relevance of the Starting Stock Line (accepted) <br></li> 
 <li><i style="color:DodgerBlue;">Frontiers in Analytical Science</i><br>
-Comprehensive measurement of purines in biological samples  <br></li>
+Comprehensive measurement of purines in biological samples (published)<br></li>
 <li><i style="color:DodgerBlue;">Neurobiology of Disease</i><br>
-Striatal cell-type–specific molecular signatures reveal therapeutic targets in a model of dystonia<br></li>
+Striatal cell-type–specific molecular signatures reveal therapeutic targets in a model of dystonia (published)<br></li>
 </ul>
 
 <!-- Google tag (gtag.js) -->
