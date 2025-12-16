@@ -21,7 +21,7 @@ Passionate about research, teaching, and securing grants, I am eager to contribu
 <li><i style="color:DodgerBlue;">Movement Disorders Clinical Practice</i><br>
 Treatment of blepharospasm with methylphenidate: <b>A telemedicine study</b> (accepted) <br></li>  
 <li><i style="color:DodgerBlue;">STEM CELLS Translational Medicine</i><br>
-Modeling rare genetic disease with gene-edited induced pluripotent stem cells: <b>relevance of the starting stock line</b> (accepted) <br></li>  
+Modeling rare genetic disease with gene-edited induced pluripotent stem cells: <b>relevance of the starting stock line</b> (published) <br></li>  
 <li><i style="color:DodgerBlue;">STEM CELLS Translational Medicine</i><br>
 Modeling rare genetic disease with patient-derived induced pluripotent stem cells: <b>reassessment of the minimum numbers of lines needed</b> (published)<br></li>  
 <li><i style="color:DodgerBlue;">Frontiers in Analytical Science</i><br>
